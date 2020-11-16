@@ -1,9 +1,13 @@
 <template>
 <div id="app">
     <el-container>
-        <el-aside width="260px" style="background-color:#235676">Aside</el-aside>
+        <el-aside width="260px" style="min-height:100vh;background-color:#00B0F0">
+            <Aside />
+        </el-aside>
         <el-container>
-            <el-header>Header</el-header>
+            <el-header height="100px">
+                <Header/>
+            </el-header>
             <el-main>
                 <router-view />
             </el-main>
@@ -13,8 +17,14 @@
 </template>
 
 <script>
+import Aside from '@/components/Aside'
+import Header from '@/components/Header'
 export default {
     name: "App",
+    components: {
+        Aside,
+        Header
+    }
 };
 </script>
 

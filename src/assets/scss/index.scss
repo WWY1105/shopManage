@@ -1,0 +1,35 @@
+// reset
+body{
+    margin: 0;
+}
+
+
+
+//  flex 
+.flexEnd{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  .flexSpace {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .flexStart {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  
+  .flexCenter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .flexColumn {
+    flex-direction: column;
+  }
+  

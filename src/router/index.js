@@ -2,14 +2,21 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Index from '@/pages/Index'
 
-Vue.use(Router)
 
-export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'Index',
-      component: Index
-    }
-  ]
-})
+// 订单
+import Order from '@/pages/Order'
+
+
+Vue.use(Router)
+let routes=[
+  {
+    path: '/',
+    name: 'Index',
+    component: Index
+  },{
+    path: '/order',
+    name: 'Order',
+    component: Order
+  }
+]
+export default routes;
