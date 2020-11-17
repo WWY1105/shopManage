@@ -4,9 +4,9 @@ import Index from '@/pages/Index'
 
 
 // 订单
-import Order from '@/pages/Order'
+import Order from '@/pages/Order/index'
 
-
+console.log(Order)
 Vue.use(Router)
 let routes=[
   {

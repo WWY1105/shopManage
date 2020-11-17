@@ -18,7 +18,7 @@ import Routes from '@/router/index.js';
 
 const router = new VueRouter({
   routes: Routes,
-  mode: "history"
+  mode: "hash"
 })
 new Vue({
   el: '#app',
