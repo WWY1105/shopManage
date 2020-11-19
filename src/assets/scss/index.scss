@@ -2,8 +2,12 @@
 body,p{
     margin: 0;
 }
-
-
+* {
+  line-height: 1;
+}
+.bgf{
+  background-color: #fff;
+}
 
 //  flex 
 .flexEnd{
@@ -35,19 +39,52 @@ body,p{
   .alignEnd{
     align-items: flex-end;
 }
-
+.flexWrap{
+  flex-wrap: wrap;
+}
 
 // element
+.el-button{
+  line-height: 1;
+  min-width: 120px;
+}
 .el-button.transBtn{
   color:#00B0F0;
   font-size:18px;
-  padding:13px 16px;
   border: 1px solid #00B0F0;
   border-radius: 21px;
 }
 .el-button.searchBtn{
-  width: 138px;
-  height: 42px;
+  padding:13px 16px;
   background: #00B0F0;
   border-radius: 21px;
+  color: #fff;
 }
+
+// el-switch
+.el-switch{
+  height: 42px!important;
+  line-height: 42px!important;
+  .el-switch__core{
+    height: 42px!important;
+    border-radius: 21px!important;
+    width: 105px!important;
+    &:after{
+      top: 8px!important;
+      left: 8px!important;
+      right: auto!important;
+      border-radius: 50%!important;
+      width: 26px!important;
+      height: 26px!important;
+    }
+  }
+  &.is-checked {
+    .el-switch__core::after{
+      right: 8px!important;
+      margin: 0;
+      left: auto!important;
+    }
+  }
+}
+
+
