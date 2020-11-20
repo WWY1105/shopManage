@@ -4,65 +4,109 @@
     <div class="searchBox bgf">
         <el-form :inline="true" :model="formInline" class="demo-form-inline">
             <div class="flexSpace">
-                <el-form-item label="显示">
-                    <el-select v-model="formInline.region" placeholder="">
-                        <el-option label="区域一" value="shanghai"></el-option>
-                        <el-option label="区域二" value="beijing"></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item>
-                    <el-button class="searchBtn">新增</el-button>
-                </el-form-item>
+                <el-row :gutter="20">
+                    <el-col :span="3">
+                        <div class="grid-content bg-purple">
+                            <el-form-item label="显示">
+                                <el-select v-model="formInline.region" placeholder="">
+                                    <el-option label="区域一" value="shanghai"></el-option>
+                                    <el-option label="区域二" value="beijing"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </div>
+                    </el-col>
+                    <el-col :span="3" :offset="15">
+                        <div class="grid-content bg-purple">
+                            <el-form-item>
+                                <el-button class="searchBtn">新增</el-button>
+                            </el-form-item>
+                        </div>
+                    </el-col>
+                </el-row>
             </div>
         </el-form>
 
         <el-form label-position="top" :model="formInline1">
             <div class="flexSpace flexWrap">
-                <el-form-item label="ID">
-                    <el-input v-model="formInline1.user" placeholder="ID"></el-input>
-                </el-form-item>
-                <el-form-item label="名称">
-                    <el-input v-model="formInline1.user" placeholder="名称"></el-input>
-                </el-form-item>
-                <el-form-item label="是否上架">
-                    <el-select v-model="formInline1.region" placeholder="是否上架">
-                        <el-option label="区域一" value="shanghai"></el-option>
-                        <el-option label="区域二" value="beijing"></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="是否有库存">
-                    <el-select v-model="formInline1.region" placeholder="是否有库存">
-                        <el-option label="区域一" value="shanghai"></el-option>
-                        <el-option label="区域二" value="beijing"></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="一级分类">
-                    <el-select v-model="formInline1.region" placeholder="一级分类">
-                        <el-option label="区域一" value="shanghai"></el-option>
-                        <el-option label="区域二" value="beijing"></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="二级分类">
-                    <el-select v-model="formInline1.region" placeholder="二级分类">
-                        <el-option label="区域一" value="shanghai"></el-option>
-                        <el-option label="区域二" value="beijing"></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="营销">
-                    <el-select v-model="formInline1.region" placeholder="营销">
-                        <el-option label="区域一" value="shanghai"></el-option>
-                        <el-option label="区域二" value="beijing"></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="primary" @click="onSubmit">查询</el-button>
-                </el-form-item>
+                <el-row :gutter="20">
+                    <el-col :span="3">
+                        <div class="grid-content bg-purple">
+                            <el-form-item label="ID">
+                                <el-input v-model="formInline1.user" placeholder="ID"></el-input>
+                            </el-form-item>
+                        </div>
+                    </el-col>
+                    <el-col :span="3">
+                        <div class="grid-content bg-purple">
+                            <el-form-item label="名称">
+                                <el-input v-model="formInline1.user" placeholder="名称"></el-input>
+                            </el-form-item>
+                        </div>
+                    </el-col>
+                    <el-col :span="3">
+                        <div class="grid-content bg-purple">
+                            <el-form-item label="是否上架">
+                                <el-select v-model="formInline1.region" placeholder="是否上架">
+                                    <el-option label="区域一" value="shanghai"></el-option>
+                                    <el-option label="区域二" value="beijing"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </div>
+                    </el-col>
+                    <el-col :span="3">
+                        <div class="grid-content bg-purple">
+                            <el-form-item label="是否有库存">
+                                <el-select v-model="formInline1.region" placeholder="是否有库存">
+                                    <el-option label="区域一" value="shanghai"></el-option>
+                                    <el-option label="区域二" value="beijing"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </div>
+                    </el-col>
+                    <el-col :span="3">
+                        <div class="grid-content bg-purple">
+                            <el-form-item label="一级分类">
+                                <el-select v-model="formInline1.region" placeholder="一级分类">
+                                    <el-option label="区域一" value="shanghai"></el-option>
+                                    <el-option label="区域二" value="beijing"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </div>
+                    </el-col>
+                    <el-col :span="3">
+                        <div class="grid-content bg-purple">
+                            <el-form-item label="二级分类">
+                                <el-select v-model="formInline1.region" placeholder="二级分类">
+                                    <el-option label="区域一" value="shanghai"></el-option>
+                                    <el-option label="区域二" value="beijing"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </div>
+                    </el-col>
+                    <el-col :span="3">
+                        <div class="grid-content bg-purple">
+                            <el-form-item label="营销">
+                                <el-select v-model="formInline1.region" placeholder="营销">
+                                    <el-option label="区域一" value="shanghai"></el-option>
+                                    <el-option label="区域二" value="beijing"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </div>
+                    </el-col>
+                    <el-col :span="3">
+                        <div class="grid-content bg-purple">
+                            <el-form-item>
+                                <el-button type="primary" @click="onSubmit">查询</el-button>
+                            </el-form-item>
+                        </div>
+                    </el-col>
+                </el-row>
             </div>
         </el-form>
     </div>
 
     <div class="tableBox bgf">
-  <el-table stripe :data="tableData" border style="width: 100%">
+        <el-table stripe :data="tableData" border style="width: 100%">
             <el-table-column prop="date" label="ID" width="180">
             </el-table-column>
             <el-table-column prop="name" label="主图" width="180">
@@ -101,7 +145,7 @@ export default {
         return {
             formInline: {},
             formInline1: {},
-            tableData:[]
+            tableData: []
         };
     },
     computed: {},
@@ -130,7 +174,8 @@ export default {
     padding: 28px 33px;
 
 }
-.tableBox{
-padding: 0 33px 30px;
+
+.tableBox {
+    padding: 0 33px 30px;
 }
 </style>
