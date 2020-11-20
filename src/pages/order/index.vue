@@ -10,7 +10,6 @@
             </div>
         </div>
     </div>
-
     <div class="tableBox">
         <el-form label-position="top" :inline="true" :model="formInline" class="demo-form-inline">
             <div class="flexSpace alignEnd">
@@ -78,27 +77,27 @@
             </el-table-column>
             <el-table-column prop="address" label="规格">
             </el-table-column>
-             <el-table-column prop="address" label="数量">
+            <el-table-column prop="address" label="数量">
             </el-table-column>
-             <el-table-column prop="address" label="订单类型">
+            <el-table-column prop="address" label="订单类型">
             </el-table-column>
-             <el-table-column prop="address" label="订单状态">
+            <el-table-column prop="address" label="订单状态">
             </el-table-column>
-             <el-table-column prop="address" label="订单金额">
+            <el-table-column prop="address" label="订单金额">
             </el-table-column>
-             <el-table-column prop="address" label="实收金额">
+            <el-table-column prop="address" label="实收金额">
             </el-table-column>
-             <el-table-column prop="address" label="收件地址">
+            <el-table-column prop="address" label="收件地址">
             </el-table-column>
-             <el-table-column prop="address" label="物流">
+            <el-table-column prop="address" label="物流">
             </el-table-column>
-             <el-table-column prop="address" label="备注">
+            <el-table-column prop="address" label="备注">
             </el-table-column>
-             <el-table-column prop="address" label="下单时间">
+            <el-table-column prop="address" label="下单时间">
             </el-table-column>
-             <el-table-column prop="address" label="售后信息">
+            <el-table-column prop="address" label="售后信息">
             </el-table-column>
-             <el-table-column prop="address" label="售后">
+            <el-table-column prop="address" label="售后">
             </el-table-column>
         </el-table>
     </div>
@@ -110,7 +109,7 @@ export default {
     components: {},
     data() {
         return {
-            tableData:[],
+            tableData: [],
             formInline: {},
             formLabelAlign: {},
             panelDatas: [{
