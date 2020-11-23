@@ -21,6 +21,14 @@ import Customs from '@/pages/Customs/index'
 // 直播
 import Live from '@/pages/Live/index'
 
+
+// 营销
+import Sales from '@/pages/Sales/index'
+
+// 评价
+import Comment from '@/pages/Comment/index'
+
+
 Vue.use(Router)
 let routes=[
   {
@@ -47,6 +55,14 @@ let routes=[
     path: '/live',
     name: 'Live',
     component: Live
+  },{
+    path: '/sales',
+    name: 'Sales',
+    component: Sales
+  },{
+    path: '/comment',
+    name: 'Comment',
+    component: Comment
   }
 ]
 export default routes;
