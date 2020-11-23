@@ -2,9 +2,8 @@
 <template>
 <div class='goods'>
     <div class="searchBox bgf">
-        <el-form :inline="true" :model="formInline" class="demo-form-inline">
-            <div class="flexSpace">
-                <el-row :gutter="20">
+        <el-form label-position="top" :inline="true" :model="formInline" class="demo-form-inline">
+                <el-row :gutter="20" type="flex"  justify="space-between" align="bottom">
                     <el-col :span="3">
                         <div class="grid-content bg-purple">
                             <el-form-item label="显示">
@@ -15,7 +14,7 @@
                             </el-form-item>
                         </div>
                     </el-col>
-                    <el-col :span="3" :offset="15">
+                    <el-col :span="3" :offset="18">
                         <div class="grid-content bg-purple">
                             <el-form-item>
                                 <el-button class="searchBtn">新增</el-button>
@@ -23,12 +22,11 @@
                         </div>
                     </el-col>
                 </el-row>
-            </div>
         </el-form>
 
         <el-form label-position="top" :model="formInline1">
-            <div class="flexSpace flexWrap">
-                <el-row :gutter="20">
+            <div class="flexSpace">
+                <el-row :gutter="20" type="flex"  justify="space-between" align="bottom">
                     <el-col :span="3">
                         <div class="grid-content bg-purple">
                             <el-form-item label="ID">

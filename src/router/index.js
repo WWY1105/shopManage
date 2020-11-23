@@ -14,6 +14,13 @@ import Shops from '@/pages/Shops/index'
 // 商品
 import Goods from '@/pages/Goods/index'
 
+
+// 客户
+import Customs from '@/pages/Customs/index'
+
+// 直播
+import Live from '@/pages/Live/index'
+
 Vue.use(Router)
 let routes=[
   {
@@ -32,6 +39,14 @@ let routes=[
     path: '/goods',
     name: 'Goods',
     component: Goods
+  },{
+    path: '/customs',
+    name: 'Customs',
+    component: Customs
+  },{
+    path: '/live',
+    name: 'Live',
+    component: Live
   }
 ]
 export default routes;
