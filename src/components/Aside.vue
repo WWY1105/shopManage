@@ -50,9 +50,11 @@ export default {
                 title: '评价管理',
                 path: '/comment'
             }, {
-                title: '极星联盟'
+                title: '极星联盟',
+                path:'/union'
             }, {
-                title: '数据统计'
+                title: '数据统计',
+                path:'/statistics'
             }, {
                 title: '客户建议'
             }, {
@@ -79,6 +81,7 @@ export default {
         align-items: center;
         justify-content: center;
         height: 90px;
+        font-size: 18px;
         &.is-active {
             background-color: #00B0F0 !important;
             color: #fff;

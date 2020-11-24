@@ -1,6 +1,8 @@
 <!--  -->
 <template>
-<router-view></router-view>
+<div class='union'>
+    
+</div>
 </template>
 
 <script>

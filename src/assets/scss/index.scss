@@ -5,8 +5,25 @@ body,p{
 * {
   line-height: 1;
 }
+a{
+  text-decoration: none;
+  color: unset;
+}
 .bgf{
   background-color: #fff;
+}
+.mainText{
+  color: #00B0F0;
+  font-size: 14px;
+}
+.mb20{
+margin-bottom: 20px;
+}
+.pb20{
+  padding-bottom: 20px;
+}
+.mr24{
+  margin-right: 24px;
 }
 
 //  flex 
@@ -39,9 +56,13 @@ body,p{
   .alignEnd{
     align-items: flex-end;
 }
+.alignStart{
+  align-items: flex-start;
+}
 .flexWrap{
   flex-wrap: wrap;
 }
+
 
 // element
 .el-button{
@@ -49,10 +70,11 @@ body,p{
   min-width: 120px;
 }
 .el-button.transBtn{
-  color:#00B0F0;
+  color:#00B0F0!important;
   font-size:18px;
   border: 1px solid #00B0F0;
   border-radius: 21px;
+  text-decoration: none!important;
 }
 .el-button.searchBtn{
   padding:13px 16px;
