@@ -89,7 +89,20 @@ let routes=[
   },{
     path:'/union',
     name:'Union',
-    component:()=>import('@/pages/Union/index')
+    component:()=>import('@/pages/Union/index'),
+    children:[{
+      name: '联盟介绍',
+      path:'introduce',
+      component:()=>import('@/pages/Union/introduce'),
+  },{
+      name: '星秒订单',
+      path:'order',
+      component:()=>import('@/pages/Union/order'),
+  },{
+      name: '星秒商品',
+      path:'goods',
+      component:()=>import('@/pages/Union/goods'),
+  }]
   }
 ]
 export default routes;

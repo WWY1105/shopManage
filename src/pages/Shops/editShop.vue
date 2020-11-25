@@ -64,6 +64,7 @@ export default {
 <style lang="scss" scoped>
 //@import url(); 引入公共css类
 .editShop {
+     //min-height: 100%;
     /deep/ .el-form-item__label {
         line-height: 60px;
         color: #545454;

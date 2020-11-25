@@ -168,6 +168,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.goods{
+     //min-height: 100%;
+}
 .searchBox {
     padding: 28px 33px;
 

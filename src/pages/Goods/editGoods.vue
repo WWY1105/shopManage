@@ -161,7 +161,7 @@ export default {
 .editGoods {
     padding: 0 30px;
     padding-bottom: 100px;
-
+ //min-height: 100%;
     .part {
         padding-top: 20px;
         border-bottom: 1px solid #E2E2E2;

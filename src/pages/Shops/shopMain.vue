@@ -1,6 +1,6 @@
 <!--  -->
 <template>
-<div class='Shops '>
+<div class='shops'>
     <div class="mainShopInfo flexCenter bgf">
         <img src="../../assets/images/header/user.png" class="logo" alt="">
         <p class="shopName">芭莎丽人[徐汇店]</p>
@@ -111,7 +111,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.Shops {
+.shops {
+     //min-height: 100%;
     .mainShopInfo {
         flex-direction: column;
         padding: 42px 0 88px 0;

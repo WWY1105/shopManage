@@ -206,6 +206,7 @@ export default {
 <style lang="scss" scoped>
 //@import url(); 引入公共css类
 .sale {
+     //min-height: 100%;
     .part {
         margin-bottom: 20px;
         padding: 34px 150px 50px;

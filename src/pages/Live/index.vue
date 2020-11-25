@@ -1,6 +1,6 @@
 <!--  -->
 <template>
-<div class='goods'>
+<div class='live'>
     <div class="searchBox bgf">
         <el-form label-position="top" :inline="true" :model="formInline" class="demo-form-inline">
             <el-row :gutter="20" type="flex" justify="space-between" align="bottom">
@@ -91,6 +91,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.live{
+     //min-height: 100%;
+}
 .searchBox {
     padding: 28px 33px;
 

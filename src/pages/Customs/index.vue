@@ -1,6 +1,6 @@
 <!--  -->
 <template>
-  <div class="goods">
+  <div class="customs">
     <div class="searchBox bgf">
       <el-form
         label-position="top"
@@ -138,6 +138,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.customs{
+   //min-height: 100%;
+}
 .searchBox {
   padding: 28px 33px;
 }

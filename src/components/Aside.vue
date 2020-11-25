@@ -5,14 +5,14 @@
     </div>
     <el-menu router default-active="1" text-color="#ffffff" background-color="#235676" class="el-menu-vertical-demo">
         <template v-for="(item,index) in list">
-            <el-menu-item :index="item.path+''" v-if="!item.subs">
+            <el-menu-item :index="item.path+''">
                 <template slot="title">
                     <i class="el-icon-location"></i>
                     <span slot="title">{{item.title}}</span>
                 </template>
             </el-menu-item>
             <el-submenu v-if="item.subs&&item.subs.length>0">
-                <el-menu-item v-for="(i,idx) in item.subs" :index="item.path+''" :key='idx'>选项1</el-menu-item>
+                <el-menu-item v-for="(i,idx) in item.subs" :index="i.path+''" :key='idx'>{{i.title}}</el-menu-item>
             </el-submenu>
         </template>
     </el-menu>
@@ -51,7 +51,17 @@ export default {
                 path: '/comment'
             }, {
                 title: '极星联盟',
-                path:'/union'
+                path:'/union',
+                subs:[{
+                    title: '联盟介绍',
+                    path:'/union/introduce',
+                },{
+                    title: '星秒订单',
+                    path:'/union/order',
+                },{
+                    title: '星秒商品',
+                    path:'/union/goods',
+                }]
             }, {
                 title: '数据统计',
                 path:'/statistics'

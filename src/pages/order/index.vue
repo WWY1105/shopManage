@@ -161,6 +161,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.order{
+     //min-height: 100%;
+}
 .totalPanel {
     padding: 23px 36px;
     background-color: #fff;

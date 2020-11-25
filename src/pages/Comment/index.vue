@@ -91,6 +91,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.comment{
+    //min-height: 100%;
+}
 .searchBox {
     padding: 28px 33px;
 
