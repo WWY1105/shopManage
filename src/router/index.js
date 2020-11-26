@@ -1,10 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Index from '@/pages/Index'
-
-
-// 订单
-import Order from '@/pages/Order/index'
 
 
 // 商铺
@@ -30,79 +25,105 @@ import Comment from '@/pages/Comment/index'
 // 极星联盟
 
 Vue.use(Router)
-let routes=[
+let routes = [
   {
     path: '/',
     name: 'Index',
-    component: Index
-  },{
-    path: '/order',
-    name: 'Order',
-    component: Order
-  },{
-    path: '/shops',
-    name: 'Shops',
-    component: Shops,
-    children:[
+    component: ()=>import ('@/pages/Index'),
+    redirect:{
+      name:'Center'
+    },
+    children: [
       {
-        path:'/',
-        name:'shopMain',
-        component:()=>import('@/pages/Shops/shopMain.vue')
-      },
-      {
-        path:'editShop',
-        name:'editShop',
-        component:()=>import('@/pages/Shops/editShop.vue')
-      }
-    ]
-  },{
-    path: '/goods',
-    name: 'Goods',
-    component: Goods,
-    children:[
-      {
-        path:'/',
-        name:'goodsList',
-        component:()=>import('@/pages/Goods/goodsList.vue')
+        path: '/center',
+        name: 'Center',
+        component: ()=>import ('@/pages/center')
       },{
-        path:'editGoods',
-        name:'editGoods',
-        component:()=>import('@/pages/Goods/editGoods.vue')
-      }
-    ]
-  },{
-    path: '/customs',
-    name: 'Customs',
-    component: Customs
-  },{
-    path: '/live',
-    name: 'Live',
-    component: Live
-  },{
-    path: '/sales',
-    name: 'Sales',
-    component: Sales
-  },{
-    path: '/comment',
-    name: 'Comment',
-    component: Comment
-  },{
-    path:'/union',
-    name:'Union',
-    component:()=>import('@/pages/Union/index'),
-    children:[{
-      name: '联盟介绍',
-      path:'introduce',
-      component:()=>import('@/pages/Union/introduce'),
-  },{
-      name: '星秒订单',
-      path:'order',
-      component:()=>import('@/pages/Union/order'),
-  },{
-      name: '星秒商品',
-      path:'goods',
-      component:()=>import('@/pages/Union/goods'),
-  }]
+        path: 'order',
+        name: 'Order',
+        component: ()=>import ('@/pages/Order/index')
+      }, {
+        path: 'shops',
+        name: 'Shops',
+        component: Shops,
+        children: [
+          {
+            path: '/',
+            name: 'shopMain',
+            component: () => import('@/pages/Shops/shopMain.vue')
+          },
+          {
+            path: 'editShop',
+            name: 'editShop',
+            component: () => import('@/pages/Shops/editShop.vue')
+          }
+        ]
+      }, {
+        path: '/goods',
+        name: 'Goods',
+        component: Goods,
+        children: [
+          {
+            path: '/',
+            name: 'goodsList',
+            component: () => import('@/pages/Goods/goodsList.vue')
+          }, {
+            path: 'editGoods',
+            name: 'editGoods',
+            component: () => import('@/pages/Goods/editGoods.vue')
+          }
+        ]
+      }, {
+        path: '/customs',
+        name: 'Customs',
+        component: Customs
+      }, {
+        path: '/live',
+        name: 'Live',
+        component: Live
+      }, {
+        path: '/sales',
+        name: 'Sales',
+        component: Sales
+      }, {
+        path: '/comment',
+        name: 'Comment',
+        component: Comment
+      }, {
+        path: '/feedback',
+        name: 'Feedback',
+        component: () => import('@/pages/Feedback/index.vue'),
+      }, {
+        path: '/setting',
+        name: 'Setting',
+        component: () => import('@/pages/Setting/index.vue'),
+      }, {
+        path: '/union',
+        name: 'Union',
+        component: () => import('@/pages/Union/index.vue'),
+        children: [{
+          name: '星秒联盟',
+          path: '/',
+          component: () => import('@/pages/Union/main.vue'),
+        }, {
+          name: '联盟介绍',
+          path: 'introduce',
+          component: () => import('@/pages/Union/introduce.vue'),
+        }, {
+          name: '星秒订单',
+          path: 'order',
+          component: () => import('@/pages/Union/order.vue'),
+        }, {
+          name: '星秒商品',
+          path: 'goods',
+          component: () => import('@/pages/Union/goods.vue'),
+        }
+        ]
+      }]
+  }, {
+    path: '/login',
+    name: 'Login',
+    component: () => import('@/pages/login.vue')
   }
 ]
 export default routes;

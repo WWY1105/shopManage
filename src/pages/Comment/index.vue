@@ -1,35 +1,66 @@
 <!--  -->
 <template>
-<div class='comment'>
+<div class="customs">
     <div class="searchBox bgf">
-        <el-form label-position="top" :inline="true" :model="formInline" class="demo-form-inline">
-            <el-row :gutter="20" type="flex" justify="space-between" align="bottom">
-                <el-col :span="16">
-                    <div class="grid-content bg-purple">
-                        <el-form-item label="直播模块开关">
-                            <el-switch size="large" v-model="value" active-color="#00B0F0" inactive-color="#aaaaaa">
-                            </el-switch>
-                        </el-form-item>
+        <el-form label-position="top" :model="formInline1">
+            <div class="flexSpace">
+                <el-row :gutter="20" type="flex" justify="space-between" align="bottom">
+                    <el-col :span="21">
+                        <el-row :gutter="20" type="flex" justify="space-between" align="bottom">
+                            <el-col :span="4">
+                                <div class="grid-content bg-purple">
+                                    <el-form-item label="小程序的意见反馈模块开关">
+                                        <el-switch></el-switch>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="4">
+                                <div class="grid-content bg-purple">
+                                    <el-form-item label="提交时间">
+                                        <el-input v-model="formInline1.user" placeholder="用户ID"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="4">
+                                <div class="grid-content bg-purple">
+                                    <el-form-item label="有无备注">
+                                        <el-input v-model="formInline1.user" placeholder="有无备注"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="4">
+                                <div class="grid-content bg-purple">
+                                    <el-form-item label="用户名称">
+                                        <el-input v-model="formInline1.user" placeholder="用户名称"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="4">
+                                <div class="grid-content bg-purple">
+                                    <el-form-item label="留言称呼">
+                                        <el-input v-model="formInline1.user" placeholder="留言称呼"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="4">
+                                <div class="grid-content bg-purple">
+                                    <el-form-item label="联系方式">
+                                        <el-input v-model="formInline1.user" placeholder="联系方式"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                        </el-row>
+                    </el-col>
+                    <el-col :span="3">
+                        <div class="grid-content bg-purple flexEnd">
+                            <el-form-item>
+                                <el-button type="primary" @click="onSubmit">查询</el-button>
+                            </el-form-item>
+                        </div>
+                    </el-col>
 
-                        <el-form-item label="筛选时间段">
-                            <el-select v-model="formInline.region" placeholder="">
-                                <el-option label="区域一" value="shanghai"></el-option>
-                                <el-option label="区域二" value="beijing"></el-option>
-                            </el-select>
-                        </el-form-item>
-                    </div>
-                </el-col>
-                <el-col :span="8">
-                    <div class="grid-content bg-purple">
-                        <el-form-item>
-                            <div class="flexCenter">
-                                <el-button class="searchBtn">查询</el-button>
-                                <el-button class="searchBtn">预约直播</el-button>
-                            </div>
-                        </el-form-item>
-                    </div>
-                </el-col>
-            </el-row>
+                </el-row>
+            </div>
         </el-form>
     </div>
 
@@ -37,22 +68,16 @@
         <el-table stripe :data="tableData" border style="width: 100%">
             <el-table-column prop="date" label="ID" width="180">
             </el-table-column>
-            <el-table-column prop="name" label="时间段" width="180">
+            <el-table-column prop="name" label="提交用户" width="180">
             </el-table-column>
-            <el-table-column prop="address" label="关联商品、规格">
-            </el-table-column>
-            <el-table-column prop="address" label="关联优惠券">
-            </el-table-column>
-            <el-table-column prop="address" label="观看人数">
-            </el-table-column>
-            <el-table-column prop="address" label="订单量">
-            </el-table-column>
-            <el-table-column prop="address" label="订单金额">
-            </el-table-column>
-            <el-table-column prop="address" label="直播流量">
-            </el-table-column>
-            <el-table-column prop="address" label="费用成本">
-            </el-table-column>
+            <el-table-column prop="address" label="用户ID"> </el-table-column>
+            <el-table-column prop="address" label="留言称呼"> </el-table-column>
+            <el-table-column prop="address" label="联系方式"> </el-table-column>
+            <el-table-column prop="address" label="提交时间"> </el-table-column>
+            <el-table-column prop="address" label="留言内容"> </el-table-column>
+            <el-table-column prop="address" label="图片"> </el-table-column>
+            <el-table-column prop="address" label="备注"> </el-table-column>
+            <el-table-column prop="address" label="操作"> </el-table-column>
         </el-table>
     </div>
 </div>
@@ -63,23 +88,18 @@ export default {
     components: {},
     data() {
         return {
-            value: true,
             formInline: {},
             formInline1: {},
-            tableData: []
+            tableData: [],
         };
     },
     computed: {},
     watch: {},
     methods: {
-        onSubmit() {}
+        onSubmit() {},
     },
-    created() {
-
-    },
-    mounted() {
-
-    },
+    created() {},
+    mounted() {},
     beforeCreate() {}, //生命周期 - 创建之前
     beforeMount() {}, //生命周期 - 挂载之前
     beforeUpdate() {}, //生命周期 - 更新之前
@@ -87,16 +107,16 @@ export default {
     beforeDestroy() {}, //生命周期 - 销毁之前
     destroyed() {}, //生命周期 - 销毁完成
     activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
-}
+};
 </script>
 
 <style lang="scss" scoped>
-.comment{
+.customs {
     //min-height: 100%;
 }
+
 .searchBox {
     padding: 28px 33px;
-
 }
 
 .tableBox {

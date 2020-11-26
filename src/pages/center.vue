@@ -1,8 +1,6 @@
 <!--  -->
 <template>
-<div class='union bgf'>
-   <router-view></router-view>
-</div>
+<div class='center bgf'>center</div>
 </template>
 
 <script>
@@ -35,5 +33,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+//@import url(); 引入公共css类
 </style>

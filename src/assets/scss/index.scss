@@ -2,6 +2,9 @@
 body,p{
     margin: 0;
 }
+body,html,#app{
+  height: 100%;
+}
 * {
   line-height: 1;
 }
@@ -81,6 +84,15 @@ margin-bottom: 20px;
   background: #00B0F0;
   border-radius: 21px;
   color: #fff;
+}
+.el-input__inner {
+  height: 34px;
+  background-color: #FAFAFA!important;
+  border-color: #d5d5d5!important;
+}
+.el-textarea__inner{
+  background-color: #FAFAFA!important;
+  border-color: #d5d5d5!important;
 }
 
 // el-switch

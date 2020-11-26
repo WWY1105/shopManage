@@ -33,12 +33,15 @@
                     <i class="el-icon-arrow-down el-icon--right"></i>
                 </div>
             </span>
-            <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item>设置</el-dropdown-item>
-            </el-dropdown-menu>
-            <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item>退出登陆</el-dropdown-item>
-            </el-dropdown-menu>
+            <div class="userBox">
+                <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item>分店分店</el-dropdown-item>
+                    <el-dropdown-item>分店分店</el-dropdown-item>
+                    <el-dropdown-item>
+                        <p class="logoutText">退出登陆</p>
+                    </el-dropdown-item>
+                </el-dropdown-menu>
+            </div>
         </el-dropdown>
     </div>
 </div>
@@ -110,8 +113,39 @@ export default {
             margin-right: 10px;
         }
     }
-    .userName{
-        color:#00B0F0;
+
+    .userName {
+        color: #00B0F0;
+    }
+
+}
+
+ /deep/ .userBox {
+    /deep/ .el-dropdown-menu {
+        width: 304px;
+        text-align: center;
+        top: 100px;
+        right: 0 !important;
+        left: unset !important;
+        padding: 0 24px;
+        box-sizing: border-box;
+
+        /deep/ .el-dropdown-menu__item {
+            height: 60px;
+            border-bottom: 1px solid #E6E6E6;
+            line-height: 60px;
+            color: #3C3C3C;
+            font-size: 14px;
+
+            &:hover {
+                background-color: #fff;
+            }
+
+            .logoutText {
+                color: #FF1A1A;
+                line-height: 60px;
+            }
+        }
     }
 }
 </style>

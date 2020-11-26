@@ -4,14 +4,18 @@
         <img src="../assets/images/logo.png" alt="">
     </div>
     <el-menu router default-active="1" text-color="#ffffff" background-color="#235676" class="el-menu-vertical-demo">
-        <template v-for="(item,index) in list">
-            <el-menu-item :index="item.path+''">
+        <template v-for="(item,index) in list" >
+            <el-menu-item :index="item.path+''" v-if="!item.subs">
                 <template slot="title">
                     <i class="el-icon-location"></i>
                     <span slot="title">{{item.title}}</span>
                 </template>
             </el-menu-item>
-            <el-submenu v-if="item.subs&&item.subs.length>0">
+            <el-submenu v-if="item.subs&&item.subs.length>0" :index="item.path+''">
+                <template slot="title">
+                    <i class="el-icon-location"></i>
+                    <span slot="title">{{item.title}}</span>
+                </template>
                 <el-menu-item v-for="(i,idx) in item.subs" :index="i.path+''" :key='idx'>{{i.title}}</el-menu-item>
             </el-submenu>
         </template>
@@ -51,26 +55,29 @@ export default {
                 path: '/comment'
             }, {
                 title: '极星联盟',
-                path:'/union',
-                subs:[{
+                path: '/union',
+                subs: [{
                     title: '联盟介绍',
-                    path:'/union/introduce',
-                },{
+                    path: '/union/introduce',
+                }, {
                     title: '星秒订单',
-                    path:'/union/order',
-                },{
+                    path: '/union/order',
+                }, {
                     title: '星秒商品',
-                    path:'/union/goods',
+                    path: '/union/goods',
                 }]
             }, {
                 title: '数据统计',
-                path:'/statistics'
+                path: '/statistics'
             }, {
-                title: '客户建议'
+                title: '客户建议',
+                path:'/customs'
             }, {
-                title: '我要反馈'
+                title: '我要反馈',
+                path:'/feedback'
             }, {
-                title: '安全设置'
+                title: '安全设置',
+                path:'/setting'
             }]
         }
     }
@@ -80,11 +87,26 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style lang="scss" scoped>
+.el-submenu {
+    /deep/ .el-menu {
+        background-color: #0C2332 !important;
+    }
+
+    /deep/ .el-menu-item {
+        background-color: #0C2332 !important;
+
+        &:hover {
+            background-color: #00B0F0 !important;
+        }
+    }
+}
+
 .el-menu {
-    padding: 0 26px;
+
     border: none;
 
     .el-menu-item {
+        padding: 0 26px;
         padding: 0 !important;
         border-bottom: 1px solid #1A3F56;
         display: flex;
@@ -92,6 +114,26 @@ export default {
         justify-content: center;
         height: 90px;
         font-size: 18px;
+
+        &:hover {
+            background-color: #00B0F0 !important;
+        }
+
+        &.is-active {
+            background-color: #00B0F0 !important;
+            color: #fff;
+        }
+    }
+
+    /deep/ .el-submenu__title {
+        padding: 0 !important;
+        border-bottom: 1px solid #1A3F56;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 90px;
+        font-size: 18px;
+
         &.is-active {
             background-color: #00B0F0 !important;
             color: #fff;
