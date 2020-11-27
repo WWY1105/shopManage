@@ -21,10 +21,10 @@
             <img class="headerIcon kefu" src="../assets/images/header/kefu.png" />
             <span class="iconText">联系客服</span>
         </div>
-        <div class="infos flexCenter">
+        <router-link class="infos flexCenter" :to="{path: '/sysMsg'}">
             <img class="headerIcon info" src="../assets/images/header/info.png" />
             <span class="iconText">未读消息</span>
-        </div>
+        </router-link>
         <el-dropdown>
             <span class="el-dropdown-link">
                 <div class="content flexCenter">
@@ -77,9 +77,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+
 .header {
     height: 100px;
-    box-shadow: 0px 6px 15px 0px rgba(0, 0, 0, 0.11);
+
     padding: 0 28px;
 
     h1 {
@@ -100,10 +102,12 @@ export default {
 
     .contact {
         margin: 0 74px;
+        cursor: pointer;
     }
 
     .infos {
         margin-right: 100px;
+        cursor: pointer;
     }
 
     img {
@@ -120,7 +124,7 @@ export default {
 
 }
 
- /deep/ .userBox {
+/deep/ .userBox {
     /deep/ .el-dropdown-menu {
         width: 304px;
         text-align: center;
@@ -148,4 +152,5 @@ export default {
         }
     }
 }
+
 </style>

@@ -179,7 +179,7 @@ export default {
     components: {},
     data() {
         return {
-
+            value: ''
         };
     },
     computed: {},
@@ -206,7 +206,8 @@ export default {
 <style lang="scss" scoped>
 //@import url(); 引入公共css类
 .sale {
-     //min-height: 100%;
+
+    //min-height: 100%;
     .part {
         margin-bottom: 20px;
         padding: 34px 150px 50px;
@@ -223,16 +224,18 @@ export default {
             font-weight: 400;
             color: #0091C6;
         }
-        .content{
+
+        .content {
             width: 100%;
-            
-            img{
+
+            img {
                 width: 100px;
                 height: 100px;
                 margin-bottom: 26px;
                 margin-top: 60px;
             }
-            p{
+
+            p {
                 font-size: 18px;
                 color: #000;
                 margin-bottom: 40px;

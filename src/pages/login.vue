@@ -20,15 +20,7 @@
             </div>
         </el-form>
     </div>
-    <div class="footer flexSpace">
-        <p>©2020 京ICP证00000000号 京公网安备00000000000000号</p>
-        <div class="footBox flexCenter">
-            <img src="../assets/images/login/footLogo.png" class="footLogo" alt="">
-            <span class="line"></span>
-            <img src="../assets/images/login/footErcode.png" class="footErcode" alt="">
-        </div>
 
-    </div>
 </div>
 </template>
 
@@ -102,36 +94,6 @@ export default {
         }
     }
 
-    .footer {
-        min-height: 116px;
-        width: 100%;
-        background-color: #000;
-        position: fixed;
-        left: 0;
-        bottom: 0;
-        font-size: 14px;
-        color: #909090;
-        line-height: 16px;
-        box-sizing: border-box;
-        padding:0 48px;
-        .footLogo {
-            width: 232px;
-            height: 56px;
-        }
-
-        .line {
-            width: 1px;
-            height: 56px;
-            background-color: #848484;
-            display: inline-block;
-            margin: 0 30px;
-        }
-        .footErcode{
-            width: 59px;
-            height: 59px;
-            margin-right: 48px;
-        }
-    }
-
+ 
 }
 </style>

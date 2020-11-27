@@ -34,6 +34,11 @@ let routes = [
       name:'Center'
     },
     children: [
+       {
+        path: '/sysMsg',
+        name: 'SysMsg',
+        component: () => import('@/pages/SysMsg/sysMsg.vue')
+      },
       {
         path: '/center',
         name: 'Center',
@@ -120,6 +125,10 @@ let routes = [
         }
         ]
       }]
+  }, {
+    path: '/reset',
+    name: 'reset',
+    component: () => import('@/pages/reset.vue')
   }, {
     path: '/login',
     name: 'Login',
