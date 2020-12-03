@@ -6,7 +6,7 @@
         <p class="enTitle">我们会尽快给您回复</p>
         <div class="content flexStart">
             <div class="eachMsg flexCenter flexColumn">
-                <P class="flexStart">
+                <P class="flexStart alignStart">
                     <img src="" alt="" class="userImg">
                     <span class="userName">天极星：</span>
                     <span class="sysContent">尊敬的商户用户您好，平台将于2020年12月12日凌晨2:00至4:00进行服务器升级，届时平台服务会暂停服
@@ -98,6 +98,7 @@ export default {
 
                 .userName {
                     color: #00B0F0;
+                    word-break: keep-all;
                 }
 
                 .date {

@@ -1,6 +1,6 @@
 <!--  -->
 <template>
-<div class='header flexSpace'>
+<div class='header flexSpace bgf'>
     <h1 class="flagName">商户管理控制台</h1>
     <div class="userInfo flexEnd">
         <el-dropdown>
@@ -38,7 +38,7 @@
             <span class="el-dropdown-link">
                 <div class="content flexCenter">
                     <img class="user" src="../assets/images/header/user.png" />
-                    <span class="userName">上海施德劳通风设备有限公司</span>
+                    <span class="userName">{{state.name||'未登录'}}</span>
                     <i class="el-icon-arrow-down el-icon--right"></i>
                 </div>
             </span>
@@ -61,7 +61,7 @@ export default {
     components: {},
     data() {
         return {
-
+            state: {}
         };
     },
     computed: {},
@@ -73,7 +73,9 @@ export default {
 
     },
     mounted() {
-
+        this.state = {
+            ...this.$store.state.user
+        };
     },
     beforeCreate() {}, //生命周期 - 创建之前
     beforeMount() {}, //生命周期 - 挂载之前
@@ -137,8 +139,9 @@ export default {
     font-weight: 400;
     color: #3C3C3C;
     line-height: 28px;
-    p{
-      line-height: 28px;
+
+    p {
+        line-height: 28px;
     }
 }
 

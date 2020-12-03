@@ -3,12 +3,12 @@
 <div class='shops'>
     <div class="mainShopInfo flexCenter bgf">
         <img src="../../assets/images/header/user.png" class="logo" alt="">
-        <p class="shopName">芭莎丽人[徐汇店]</p>
+        <p class="shopName">{{shopInfo.name}}</p>
         <div class="otherText">
-            <p>公司名称：上海芭莎丽人美容有限公司</p>
-            <p>公司地址：上海市嘉定区明航路2130号19楼</p>
-            <p>联系电话：02198712412</p>
-            <p>发票类型：不开票</p>
+            <p>公司名称：{{shopInfo.name}}</p>
+            <p>公司地址：{{shopInfo.address}}</p>
+            <p>联系电话：{{shopInfo.tel}}</p>
+            <p>发票类型：{{shopInfo.invoice==1?'不开发票':shopInfo.invoice==2?'普票':shopInfo.invoice==3?'专票与普票':''}}</p>
         </div>
         <el-button class="transBtn flexCenter">
             <router-link :to="{name:'editShop'}">
@@ -22,7 +22,7 @@
         <div class="eachInfo flexCenter ">
             <img src="../../assets/images/shops/haohua.png" class="icon" alt="">
             <p class="title">天极星 豪华版</p>
-            <p class="desc">已激活 有效期至2022年09月01日</p>
+            <p class="desc">已激活 有效期至{{shopInfo.expireTime}}</p>
             <div class="buttons flexCenter">
                 <el-button class="searchBtn">续费</el-button>
                 <el-button class="transBtn">账户设置</el-button>
@@ -31,7 +31,7 @@
         <div class="eachInfo flexCenter">
             <img src="../../assets/images/shops/duanxin.png" class="icon" alt="">
             <p class="title">短信条数</p>
-            <p class="desc">剩余3102条</p>
+            <p class="desc">剩余{{shopInfo.smsCount}}条</p>
             <div class="buttons flexCenter">
                 <el-button class="searchBtn">充值 </el-button>
             </div>
@@ -61,8 +61,8 @@
             <div class="logoBox flexCenter">
                 <img src="../../assets/images/header/user.png" class="logo" alt="">
                 <div class="switchBox">
-                     <el-switch size="large" v-model="value" active-color="#00B0F0" inactive-color="#aaaaaa">
-                     </el-switch>
+                    <el-switch size="large" v-model="value" active-color="#00B0F0" inactive-color="#aaaaaa">
+                    </el-switch>
                 </div>
             </div>
             <p class="shopName">芭莎丽人[徐汇店]</p>
@@ -86,21 +86,29 @@ export default {
     components: {},
     data() {
         return {
-            value:true
+            shopInfo:{},
+            value: true
         };
     },
     computed: {},
     watch: {},
     methods: {
-
+        getShopInfo() {
+            this.$store.dispatch('GetInfo').then((res) => {
+                 const data = res.data;
+                 this.shopInfo=data;
+            })
+        },
     },
     created() {
-
+this.getShopInfo()
     },
     mounted() {
 
     },
-    beforeCreate() {}, //生命周期 - 创建之前
+    beforeCreate() {
+        
+    }, //生命周期 - 创建之前
     beforeMount() {}, //生命周期 - 挂载之前
     beforeUpdate() {}, //生命周期 - 更新之前
     updated() {}, //生命周期 - 更新之后
@@ -112,7 +120,8 @@ export default {
 
 <style lang="scss" scoped>
 .shops {
-     //min-height: 100%;
+
+    //min-height: 100%;
     .mainShopInfo {
         flex-direction: column;
         padding: 42px 0 88px 0;
@@ -203,40 +212,46 @@ export default {
         .eachSetting {
             background: #F4F4F4;
             border-radius: 10px;
-            flex:1;
+            flex: 1;
             margin: 0 36px;
             flex-direction: column;
             max-width: 33%;
             padding: 26px 36px 46px;
-            .logoBox{
+
+            .logoBox {
                 width: 100%;
                 position: relative;
-                .switchBox{
+
+                .switchBox {
                     position: absolute;
-                    top:10px;
-                    right:0
+                    top: 10px;
+                    right: 0
                 }
-                .logo{
+
+                .logo {
                     width: 60px;
                     height: 60px;
                 }
             }
-            .shopName{
+
+            .shopName {
                 margin-top: 40px;
                 font-size: 24px;
                 font-family: Microsoft YaHei;
                 font-weight: bold;
                 color: #00B0F0;
             }
-            .otherText{
-                 margin-top: 20px;
+
+            .otherText {
+                margin-top: 20px;
                 font-size: 14px;
                 font-family: Microsoft YaHei;
                 font-weight: 400;
                 color: #525252;
                 text-align: center;
                 margin-bottom: 50px;
-                p{
+
+                p {
                     margin-bottom: 10px;
                 }
             }

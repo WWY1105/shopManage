@@ -6,19 +6,22 @@
             <img src="../../assets/images/header/user.png" class="logoImg" alt="">
             <p class="editText">修改头像</p>
         </div>
-        <div class="formBox flexColumn flexCenter">
-            <el-form label-position="right" label-width="120px" :model="formLabelAlign">
+        <div class="formBox ">
+            <el-form label-position="left" label-width="120px" :model="formLabelAlign">
                 <el-form-item label="公司名称">
                     <el-input v-model="formLabelAlign.name"></el-input>
                 </el-form-item>
                 <el-form-item label="公司地址">
-                    <el-input v-model="formLabelAlign.region"></el-input>
+                    <el-input v-model="formLabelAlign.address"></el-input>
                 </el-form-item>
                 <el-form-item label="联系电话">
-                    <el-input v-model="formLabelAlign.type"></el-input>
+                    <el-input v-model="formLabelAlign.tel"></el-input>
                 </el-form-item>
                 <el-form-item label="发票类型">
-                    <el-input v-model="formLabelAlign.type"></el-input>
+                    <el-select v-model="formLabelAlign.invoice" >
+                        <el-option v-for="item in invoices" :key="item.code" :label="item.text" :value="item.code">
+                        </el-option>
+                    </el-select>
                 </el-form-item>
             </el-form>
             <div class="btnBox flexCenter">
@@ -37,6 +40,11 @@ export default {
     components: {},
     data() {
         return {
+            invoices:[
+                {code:1,text:'不开发票'},
+                {code:2,text:'普票'},
+                {code:3,text:'专票与普票'}
+            ],
             formLabelAlign: {}
         };
     },
@@ -64,7 +72,8 @@ export default {
 <style lang="scss" scoped>
 //@import url(); 引入公共css类
 .editShop {
-     //min-height: 100%;
+
+    //min-height: 100%;
     /deep/ .el-form-item__label {
         line-height: 60px;
         color: #545454;
@@ -72,7 +81,8 @@ export default {
         padding-right: 23px;
     }
 
-    .el-input {
+    .el-input,
+    .el-select {
         width: 375px;
         height: 60px;
         background: #F4F4F4;
@@ -88,14 +98,18 @@ export default {
         text-align: center;
         color: #000;
         font-size: 16px;
+        height: 60px;
 
     }
 
     padding: 56px 0 153px;
 
+    .formBox {
+        margin-left: -100px;
+    }
+
     .logoBox {
         width: 378px;
-        padding-left: 100px;
 
         .logoImg {
             width: 100px;

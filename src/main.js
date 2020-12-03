@@ -5,11 +5,6 @@ import App from './App.vue';
 import VueRouter from 'vue-router';
 
 
-import global from '@/global/global'
-// 全局参数配置
-Vue.prototype.globalParams = global;
-
-console.log(global)
 
 
 Vue.use(ElementUI);

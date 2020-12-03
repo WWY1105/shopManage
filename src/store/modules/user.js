@@ -31,19 +31,18 @@ const user = {
     Login({ commit }, query) {
       return new Promise((resolve, reject) => {
         login(query).then(response => {
-          if (response.success) {
-            setToken(response.data)
-            commit('SET_TOKEN', response.data.access_token);
-            
+          if (response&&response.access_token) {
+            setToken(response.access_token)
+            commit('SET_TOKEN', response.access_token);
           } else {
             Message({
               showClose: true,
-              message: response.msg,
+              message: '登录失败',
               duration: 3 * 1000,
               type: 'error'
             })
           }
-          resolve()
+          resolve(response)
         }).catch(error => {
           reject(error)
         })
@@ -54,14 +53,12 @@ const user = {
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
         getInfo().then(response => {
+          
           const data = response.data
-          if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
-            commit('SET_ROLES', data.roles)
-          } else {
-            reject('getInfo: roles must be a non-null array !')
-          }
           commit('SET_NAME', data.name)
+          console.log(data.name)
           commit('SET_AVATAR', data.avatar)
+
           resolve(response)
         }).catch(error => {
           reject(error)
