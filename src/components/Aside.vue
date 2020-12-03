@@ -71,7 +71,7 @@ export default {
                 path: '/statistics'
             }, {
                 title: '客户建议',
-                path:'/customs'
+                path:'/advice'
             }, {
                 title: '我要反馈',
                 path:'/feedback'

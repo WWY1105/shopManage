@@ -85,14 +85,21 @@ margin-bottom: 20px;
   border-radius: 21px;
   color: #fff;
 }
+.el-button.cancelBtn{
+  padding:13px 16px;
+  background: #fff;
+  border-radius: 21px;
+  color: #666666;
+  border-color: #666666;
+}
 .el-input__inner {
   height: 34px;
   background-color: #FAFAFA!important;
   border-color: #d5d5d5!important;
 }
 .el-textarea__inner{
-  background-color: #FAFAFA!important;
-  border-color: #d5d5d5!important;
+  background-color: #FAFAFA;
+  border-color: #d5d5d5;
 }
 
 // el-switch

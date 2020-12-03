@@ -7,20 +7,29 @@
             <span class="el-dropdown-link">
                 <div class="content flexCenter">
                     <img class="headerIcon shuoming" src="../assets/images/header/shuoming.png" />
-                    <span class="iconText"> 操作说明</span>
+                    <span class="iconText">操作说明</span>
                     <i class="el-icon-arrow-down el-icon--right"></i>
                 </div>
             </span>
             <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item>
-                    <span class="iconText"> 操作说明</span>
+                    <div class="instructions">
+                        <p>
+                            在本页您可以设置管理店铺信息、为软件或分店续费，以及管理分店信息；
+                        </p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            Quis ipsum suspendisse ultrices gravida.
+                            Risus commodo viverra maecenas accumsan lacus vel facilisis. </p>
+
+                    </div>
                 </el-dropdown-item>
             </el-dropdown-menu>
         </el-dropdown>
-        <div class="contact flexCenter">
+        <router-link class="contact flexCenter" :to="{path: '/contact'}">
             <img class="headerIcon kefu" src="../assets/images/header/kefu.png" />
             <span class="iconText">联系客服</span>
-        </div>
+        </router-link>
         <router-link class="infos flexCenter" :to="{path: '/sysMsg'}">
             <img class="headerIcon info" src="../assets/images/header/info.png" />
             <span class="iconText">未读消息</span>
@@ -77,8 +86,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-
 .header {
     height: 100px;
 
@@ -124,6 +131,17 @@ export default {
 
 }
 
+.instructions {
+    max-width: 300px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #3C3C3C;
+    line-height: 28px;
+    p{
+      line-height: 28px;
+    }
+}
+
 /deep/ .userBox {
     /deep/ .el-dropdown-menu {
         width: 304px;
@@ -152,5 +170,4 @@ export default {
         }
     }
 }
-
 </style>

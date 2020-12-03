@@ -34,10 +34,18 @@ let routes = [
       name:'Center'
     },
     children: [
-       {
+      {
         path: '/sysMsg',
         name: 'SysMsg',
         component: () => import('@/pages/SysMsg/sysMsg.vue')
+      },{
+        path: '/advice',
+        name: 'Advice',
+        component: () => import('@/pages/Advice/advice.vue')
+      },{
+        path: '/contact',
+        name: 'contact',
+        component: () => import('@/pages/Contact/contact.vue')
       },
       {
         path: '/center',
@@ -89,7 +97,18 @@ let routes = [
       }, {
         path: '/sales',
         name: 'Sales',
-        component: Sales
+        component: Sales,
+        children:[
+          {
+            path:'/',
+            name: 'saleMain',
+            component: () => import('@/pages/Sales/main.vue'),
+          },{
+            path:'preSale',
+            name: 'PreSale',
+            component: () => import('@/pages/Sales/preSale.vue'),
+          },
+        ]
       }, {
         path: '/comment',
         name: 'Comment',

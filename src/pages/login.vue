@@ -6,16 +6,16 @@
         <el-form>
             <div class="flexStart flexColumn">
                 <el-form-item>
-                    <el-input placeholder="账户"></el-input>
+                    <el-input placeholder="账户" v-model="username"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-input placeholder="密码"></el-input>
+                    <el-input placeholder="密码" v-model="password"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button class="searchBtn loginBtn">登陆</el-button>
+                    <el-button class="searchBtn loginBtn" @click="onSubmit">登陆</el-button>
                 </el-form-item>
                 <el-form-item>
-                    <p class="forgetPass">忘记密码 </p>
+                    <router-link class="forgetPass" :to="{path:'/reset'}">忘记密码 </router-link>
                 </el-form-item>
             </div>
         </el-form>
@@ -25,17 +25,34 @@
 </template>
 
 <script>
+import {
+    login
+} from '@/api/login'
+
 export default {
     components: {},
     data() {
         return {
-
+            username: '',
+            password: ''
         };
     },
     computed: {},
     watch: {},
     methods: {
+        onSubmit() {
+            this.$store.dispatch('Login', {
+                client_id: 'test2',
+                client_secret: '1234',
+                auth_type: 'business',
+                grant_type: 'password',
+                username: this.username,
+                password: this.password
+            }).then((res) => {
+                console.log(res)
+            })
 
+        }
     },
     created() {
 
@@ -94,6 +111,5 @@ export default {
         }
     }
 
- 
 }
 </style>

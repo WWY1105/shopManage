@@ -1,6 +1,6 @@
 <!--  -->
 <template>
-<div class="customs">
+<div class='preSale bgf'>
     <div class="searchBox bgf">
         <el-form label-position="top" :model="formInline1">
             <el-row :gutter="20" type="flex" justify="start" align="bottom">
@@ -94,18 +94,21 @@ export default {
     components: {},
     data() {
         return {
-            formInline: {},
-            formInline1: {},
-            tableData: [],
+formInline1:{},
+tableData:[]
         };
     },
     computed: {},
     watch: {},
     methods: {
-        onSubmit() {},
+onSubmit(){}
     },
-    created() {},
-    mounted() {},
+    created() {
+
+    },
+    mounted() {
+
+    },
     beforeCreate() {}, //生命周期 - 创建之前
     beforeMount() {}, //生命周期 - 挂载之前
     beforeUpdate() {}, //生命周期 - 更新之前
@@ -113,19 +116,12 @@ export default {
     beforeDestroy() {}, //生命周期 - 销毁之前
     destroyed() {}, //生命周期 - 销毁完成
     activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
-};
+}
 </script>
 
 <style lang="scss" scoped>
-.customs {
-    //min-height: 100%;
-}
-
-.searchBox {
-    padding: 28px 33px;
-}
-
-.tableBox {
-    padding: 0 33px 30px;
+//@import url(); 引入公共css类
+.preSale{
+    padding: 23px 32px;
 }
 </style>
