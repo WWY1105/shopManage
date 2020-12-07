@@ -12,7 +12,7 @@ export function login(json){
 
 export function getInfo() {
     return request({
-      url: '/api/business',
+      url: '',
       method: 'get'
     })
   }

@@ -5,24 +5,25 @@
         <el-header height="100px">
             <Header />
         </el-header>
-        <el-main style="background:#fff">
+        <el-main style="background:#fff;margin:20px;">
             <div class="center flexCenter">
-                <h2 class="title">您正在重设 富贵水果店【徐汇店】 的商户管理台登录密码</h2>
-                <el-form label-position="left" label-width="100px" ref="form">
-                    <el-form-item label="输入旧密码">
-                        <el-input placeholder="输入旧密码"></el-input>
+                <!-- 富贵水果店【徐汇店】 的 -->
+                <h2 class="title">您正在重设商户管理台登录密码</h2>
+                <el-form label-position="left" :model="form" label-width="110px" ref="form" :rules="rules">
+                    <el-form-item label="输入旧密码" prop="oldPassword">
+                        <el-input placeholder="输入旧密码" v-model="form.oldPassword"></el-input>
                     </el-form-item>
-                    <el-form-item label="输入新密码">
-                        <el-input placeholder="输入新密码"></el-input>
+                    <el-form-item label="输入新密码" prop="password">
+                        <el-input placeholder="输入新密码" v-model="form.password"></el-input>
                     </el-form-item>
-                    <el-form-item label="确认新密码">
-                        <el-input placeholder="确认新密码" v-model="textarea">
+                    <el-form-item label="确认新密码" prop="confirmPass">
+                        <el-input placeholder="确认新密码" v-model="form.confirmPass">
                         </el-input>
                     </el-form-item>
                 </el-form>
                 <div class="btnBox flexSpace">
                     <el-button class="cancelBtn" @click="back">取消</el-button>
-                    <el-button class="searchBtn">确认重设密码</el-button>
+                    <el-button class="searchBtn" @click="onSubmit">确认重设密码</el-button>
                 </div>
             </div>
         </el-main>
@@ -31,14 +32,39 @@
 </template>
 
 <script>
+import { Message } from 'element-ui'
 import Header from '@/components/Header'
+import {
+    reset
+} from '../api/reset'
 export default {
     components: {
         Header
     },
     data() {
         return {
-
+            form: {
+                password: '',
+                oldPassword: '',
+                confirmPass: ''
+            },
+            rules: {
+                password: [{
+                    required: true,
+                    message: '请输入密码',
+                    trigger: 'blur'
+                }],
+                oldPassword: [{
+                    required: true,
+                    message: '请输入旧密码',
+                    trigger: 'blur'
+                }],
+                confirmPass: [{
+                    required: true,
+                    message: '请输入确认密码',
+                    trigger: 'blur'
+                }],
+            }
         };
     },
     computed: {},
@@ -48,7 +74,44 @@ export default {
             this.$router.push({
                 path: "/login"
             })
+        },
+        onSubmit() {
+            let that = this;
+            this.$refs.form.validate((rules) => {
+
+                if (rules) {
+                    if (that.form.password != that.form.confirmPass) {
+                        Message({
+                            showClose: true,
+                            message: '确认密码与新密码不一致，请重试',
+                            duration: 3 * 1000,
+                            type: 'error'
+                        })
+                        return;
+                    }
+                    reset({
+                        password: that.form.password,
+                        oldPassword: that.form.oldPassword
+                    }).then((res) => {
+                        Message({
+                            showClose: true,
+                            message: '重置成功',
+                            duration: 3 * 1000,
+                            type: 'success',
+                            onClose:()=>{
+                                that.back()
+                            }
+                        })
+                    })
+                } else {
+                    console.log('error submit!!');
+                    return false;
+                }
+            });
+            console.log('执行')
+            // 
         }
+
     },
     created() {
 
