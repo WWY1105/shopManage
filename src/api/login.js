@@ -12,7 +12,7 @@ export function login(json){
 
 export function getInfo() {
     return request({
-      url: '',
+      url: '/info',
       method: 'get'
     })
   }

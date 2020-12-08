@@ -66,8 +66,39 @@ margin-bottom: 20px;
   flex-wrap: wrap;
 }
 
+// btns
+.editBtn{
+  color: #007EFF;
+  font-size: 14px;
+  text-decoration: underline;
+  margin: 0 15px;
+  word-break: keep-all;
+}
+.deleteBtn{
+  color: #FF4141;
+  font-size: 14px;
+  text-decoration: underline;
+  margin: 0 15px;
+  word-break: keep-all;
+}
+.pagination{
+  margin:20px ;
+}
 
 // element
+//在入口文件加入下面样式body  
+.el-table .cell *{
+  height: fit-content;
+  line-height: normal;
+
+}
+.el-table th.gutter {    
+  display: table-cell !important;
+}
+
+body .el-table colgroup.gutter {
+  display: table-cell !important;
+}
 .el-button{
   line-height: 1;
   min-width: 120px;
