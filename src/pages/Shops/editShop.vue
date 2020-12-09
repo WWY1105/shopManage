@@ -7,7 +7,7 @@
             <p class="editText">修改头像</p>
         </div>
         <div class="formBox ">
-            <el-form label-position="left" label-width="120px" :model="formLabelAlign">
+            <el-form label-position="left" label-width="120px" :model="formLabelAlign" >
                 <el-form-item label="公司名称">
                     <el-input v-model="formLabelAlign.name"></el-input>
                 </el-form-item>
@@ -18,11 +18,17 @@
                     <el-input v-model="formLabelAlign.tel"></el-input>
                 </el-form-item>
                 <el-form-item label="发票类型">
-                    <el-select v-model="formLabelAlign.invoice" >
+                    <el-select v-model="formLabelAlign.invoice">
                         <el-option v-for="item in invoices" :key="item.code" :label="item.text" :value="item.code">
                         </el-option>
                     </el-select>
                 </el-form-item>
+                <!-- <el-form-item label="营业行业">
+                    <el-select v-model="formLabelAlign.invoice">
+                        <el-option v-for="item in invoices" :key="item.code" :label="item.text" :value="item.code">
+                        </el-option>
+                    </el-select>
+                </el-form-item> -->
             </el-form>
             <div class="btnBox flexCenter">
                 <el-button class="searchBtn">确定</el-button>
@@ -40,10 +46,18 @@ export default {
     components: {},
     data() {
         return {
-            invoices:[
-                {code:1,text:'不开发票'},
-                {code:2,text:'普票'},
-                {code:3,text:'专票与普票'}
+            invoices: [{
+                    code: 1,
+                    text: '不开发票'
+                },
+                {
+                    code: 2,
+                    text: '普票'
+                },
+                {
+                    code: 3,
+                    text: '专票与普票'
+                }
             ],
             formLabelAlign: {}
         };
@@ -120,7 +134,7 @@ export default {
         .editText {
             color: #00B0F0;
             font-size: 16px;
-            margin-bottom: 94px;
+            margin-bottom: 30px;
         }
     }
 

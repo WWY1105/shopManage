@@ -84,6 +84,10 @@ let routes = [
             path: 'editGoods',
             name: 'editGoods',
             component: () => import('@/pages/Goods/editGoods.vue')
+          }, {
+            path: 'addGoods',
+            name: 'addGoods',
+            component: () => import('@/pages/Goods/addGoods.vue')
           }
         ]
       }, {

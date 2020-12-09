@@ -14,12 +14,17 @@
                         </el-form-item>
                     </div>
                 </el-col>
-                <el-col :span="3" :offset="18">
-                    <div class="grid-content bg-purple">
+                <el-col :span="3" :offset="15">
+                    <el-form-item>
+                        <el-button class="searchBtn">分类管理</el-button>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="3">
+                    <router-link :to="{name:'addGoods'}" class="grid-content bg-purple">
                         <el-form-item>
                             <el-button class="searchBtn">新增</el-button>
                         </el-form-item>
-                    </div>
+                    </router-link>
                 </el-col>
             </el-row>
         </el-form>
@@ -55,8 +60,8 @@
                         <div class="grid-content bg-purple">
                             <el-form-item label="是否有库存">
                                 <el-select v-model="formInline1.region" placeholder="是否有库存">
-                                     <el-option label="是" value="true"></el-option>
-                                     <el-option label="否" value="false"></el-option>
+                                    <el-option label="是" value="true"></el-option>
+                                    <el-option label="否" value="false"></el-option>
                                 </el-select>
                             </el-form-item>
                         </div>
@@ -108,8 +113,8 @@
             <el-table-column align="center" prop="id" label="ID">
             </el-table-column>
             <el-table-column align="center" prop="name" label="主图" width="100">
-                <template>
-                    <img :src="imgurl" alt="">
+                <template slot-scope="scope">
+                    <img :src="scope.row.imgurl" alt="">
                 </template>
             </el-table-column>
             <el-table-column align="center" prop="title" label="商品名称">
@@ -137,9 +142,11 @@
             <el-table-column align="center" prop="address" label="排序">
             </el-table-column>
             <el-table-column align="center" prop="address" label="其它" width="150">
-                <template>
+                <template slot-scope="scope">
                     <div class="controlBox flexCenter">
-                        <div class="editBtn">编辑</div>
+                        <router-link class="editBtn" :to="{path:'/editGoods',query:{id:scope.row.id}}">
+                            编辑
+                        </router-link>
                         <div class="deleteBtn">删除</div>
                     </div>
                 </template>
@@ -150,17 +157,68 @@
             </el-pagination>
         </div>
     </div>
+
+    <!-- 分类管理 -->
+    <el-dialog title="分类管理" center :visible.sync="categoryVisible" class="categoryDialog">
+        <div class="dialogContent">
+            <div class="categoryBox">
+                <div class="firstCategory" v-for="(item,index) in categoryList" :key="index">
+                    <div class="firstCategoryName flexStart">
+                        <span class="categoryLabel">分类</span>
+                        <div class="tags">
+                            <el-tag effect="dark" color="#00aef1" closable @close="deleteCategory(item.id)">
+                                {{item.name}}
+                            </el-tag>
+                        </div>
+                    </div>
+                    <div class="firstCategoryChildren flexStart">
+                        <span class="categoryLabel">子分类</span>
+                        <div class="eachChildren flexStart flexWrap">
+                            <el-tag @close="deleteCategory(tag.id)" v-for="tag in item.categories" :key="tag.name" closable :type="tag.type">
+                                {{tag.name}}
+                            </el-tag>
+                            <el-input :value="childrenVal" @input="getChilInput" @change="(val) => addCategoryChildren(val,item.id)" placeholder="+添加子分类" class="addCategory" clearable>
+                            </el-input>
+                        </div>
+                    </div>
+                </div>
+                <!-- 添加父类 -->
+                <div class="firstCategory">
+                    <div class="firstCategoryName flexStart">
+                        <span class="categoryLabel">分类</span>
+                        <div class="tags">
+                            <el-input :value="childrenVal" @input="getChilInput" @change="(val) => addCategoryChildren(val,0)" placeholder="+添加一个分类" class="addCategory m0" clearable>
+                            </el-input>
+                        </div>
+                    </div>
+                    <div class="firstCategoryChildren ">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div slot="footer" class="dialog-footer">
+             <el-button type="primary" @click="saveCategory">保存</el-button>
+            <el-button @click="outerVisible = false">取 消</el-button>
+        </div>
+    </el-dialog>
 </div>
 </template>
 
 <script>
 import {
-    list
+    list,
+    getCategory,
+    addCategory,
+    deleteCate 
 } from '../../api/goods/index'
 export default {
     components: {},
     data() {
         return {
+            childrenVal: '',
+            categoryVisible: true,
+            categoryList: [],
             pageData: 0,
             page: {
                 pageNum: 0,
@@ -175,6 +233,7 @@ export default {
     computed: {},
     watch: {},
     methods: {
+        // 表格列表
         getList() {
             list(this.page).then((res) => {
                 console.log(res)
@@ -184,10 +243,68 @@ export default {
                 }
             })
         },
-        onSubmit() {}
+        // 获取分类
+        getCategory() {
+            getCategory().then(res => {
+                if (res.code == '00') {
+                    this.categoryList = res.data;
+                }
+            })
+        },
+        // 监听输入
+        getChilInput(val) {
+            console.log(val)
+            this.childrenVal = val;
+        },
+        // 添加子类回车
+        addCategoryChildren(val, pid) {
+            let that = this;
+            if (!this.childrenVal) {
+                that.$message({
+                    showClose: true,
+                    message: '请输入分类名字',
+                    duration: 3 * 1000,
+                    type: 'error'
+                })
+            } else {
+                addCategory({
+                    name: this.childrenVal,
+                    pid
+                }).then(res => {
+                    if (res.code == '00') {
+                        this.childrenVal = '';
+                        that.$message({
+                            showClose: true,
+                            message: '添加成功',
+                            duration: 3 * 1000,
+                            type: 'success'
+                        })
+                        that.getCategory()
+                    }
+                })
+            }
+        },
+        // 删除
+        deleteCategory(id) {
+            let that=this;
+            deleteCate(id).then(res => {
+                if (res.code == '00') {
+                    this.childrenVal = '';
+                    that.$message({
+                        showClose: true,
+                        message: '删除成功',
+                        duration: 3 * 1000,
+                        type: 'success'
+                    })
+                    that.getCategory()
+                }
+            })
+        },
+        onsubmit(){}
     },
     created() {
-        this.getList()
+        this.getList();
+        this.getCategory()
     },
     mounted() {
 
@@ -203,6 +320,37 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+/deep/.categoryDialog .el-dialog {
+    width: 75% !important;
+}
+
+.categoryDialog .el-dialog {
+    width: 75% !important;
+}
+
+.el-input__inner::-webkit-input-placeholder {
+    color: #00AEF1;
+    font-size: 14px;
+}
+
+.el-input__inner::-moz-placeholder {
+    /* Mozilla Firefox 19+ */
+    color: #00AEF1;
+    font-size: 14px;
+}
+
+.el-input__inner:-moz-placeholder {
+    /* Mozilla Firefox 4 to 18 */
+    color: #00AEF1;
+    font-size: 14px;
+}
+
+input:-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: #00AEF1;
+    font-size: 14px;
+}
+
 .goods {
     //min-height: 100%;
 }
@@ -214,5 +362,70 @@ export default {
 
 .tableBox {
     padding: 0 33px 30px;
+}
+
+.dialogContent {
+    .categoryLabel {
+        color: #000;
+        min-width: 102px;
+        width: 102px;
+        text-align: left;
+    }
+
+    .firstCategoryName {
+        margin-bottom: 33px;
+    }
+
+    .firstCategoryChildren {
+        margin-bottom: 38px;
+        border-bottom: 1px solid #C9C9C9;
+        align-items: flex-start;
+
+        .eachChildren {
+            .el-tag {
+                margin-right: 30px;
+                margin-bottom: 33px;
+            }
+        }
+    }
+}
+
+.el-tag {
+    height: 34px;
+    width: 170px;
+    box-sizing: border-box;
+    border-radius: 17px;
+    position: relative;
+    line-height: 34px;
+    font-size: 14px;
+
+}
+
+.addCategory {
+    height: 34px;
+    width: 170px;
+    box-sizing: border-box;
+    border-radius: 17px;
+    margin-right: 30px;
+    margin-bottom: 33px;
+
+    /deep/ .el-input__inner {
+        text-align: center;
+        height: 34px;
+        width: 170px;
+        border-radius: 17px;
+        line-height: 34px;
+        background-color: #fff !important;
+        border-color: #00AEF1 !important;
+        color: #00AEF1 !important;
+    }
+}
+
+/deep/ .el-icon-close {
+    font-size: 16px;
+    position: absolute;
+    right: 13px;
+    top: 50%;
+    margin-top: -8px;
 }
 </style>

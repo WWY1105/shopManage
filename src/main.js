@@ -5,7 +5,8 @@ import App from './App.vue';
 import VueRouter from 'vue-router';
 
 
-
+import { Message } from 'element-ui'
+Vue.prototype.$message=Message;
 
 Vue.use(ElementUI);
 

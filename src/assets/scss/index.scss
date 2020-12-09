@@ -19,6 +19,9 @@ a{
   color: #00B0F0;
   font-size: 14px;
 }
+.m0{
+  margin:0!important;
+}
 .mb20{
 margin-bottom: 20px;
 }
@@ -160,3 +163,17 @@ body .el-table colgroup.gutter {
 }
 
 
+
+
+
+// dialog
+.el-dialog__title{
+  color: #017EFF;
+  font-size: 18px;
+}
+.el-dialog__body{
+  padding-left:42px!important;
+  padding-right: 42px!important;
+  font-size: 18px;
+
+}

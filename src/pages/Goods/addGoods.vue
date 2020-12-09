@@ -128,7 +128,6 @@
 </template>
 
 <script>
-import {getGoodDetail} from '../../api/goods/editGoods'
 export default {
     components: {},
     data() {
@@ -139,18 +138,10 @@ export default {
     computed: {},
     watch: {},
     methods: {
-        getGoodDetail(){
-            let json={};
-            if(this.$route.query.id){
-               json.id=this.$router.query.id
-            }
-            getGoodDetail(json).then(res=>{
 
-            })
-        }
     },
     created() {
-        this.getGoodDetail()
+
     },
     mounted() {
 
