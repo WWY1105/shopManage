@@ -99,7 +99,7 @@
                     <el-col :span="3">
                         <div class="grid-content bg-purple">
                             <el-form-item>
-                                <el-button type="primary" @click="onSubmit">查询</el-button>
+                                <el-button type="primary">查询</el-button>
                             </el-form-item>
                         </div>
                     </el-col>
@@ -177,7 +177,7 @@
                             <el-tag @close="deleteCategory(tag.id)" v-for="tag in item.categories" :key="tag.name" closable :type="tag.type">
                                 {{tag.name}}
                             </el-tag>
-                            <el-input :value="childrenVal" @input="getChilInput" @change="(val) => addCategoryChildren(val,item.id)" placeholder="+添加子分类" class="addCategory" clearable>
+                            <el-input :value="childrenVal" @input="getChilInput" @change="(val) => addCategoryChildren(val,item.id,index)" placeholder="+添加子分类" class="addCategory" clearable>
                             </el-input>
                         </div>
                     </div>
@@ -187,7 +187,7 @@
                     <div class="firstCategoryName flexStart">
                         <span class="categoryLabel">分类</span>
                         <div class="tags">
-                            <el-input :value="childrenVal" @input="getChilInput" @change="(val) => addCategoryChildren(val,0)" placeholder="+添加一个分类" class="addCategory m0" clearable>
+                            <el-input :value="parentVal" @input="getParentInput" @change="(val) => addCategoryChildren(val,0)" placeholder="+添加一个分类" class="addCategory m0" clearable>
                             </el-input>
                         </div>
                     </div>
@@ -198,8 +198,8 @@
             </div>
         </div>
         <div slot="footer" class="dialog-footer">
-             <el-button type="primary" @click="saveCategory">保存</el-button>
-            <el-button @click="outerVisible = false">取 消</el-button>
+            <el-button type="primary" @click="saveCategory">保存</el-button>
+            <el-button @click="categoryVisible = false">取 消</el-button>
         </div>
     </el-dialog>
 </div>
@@ -210,13 +210,15 @@ import {
     list,
     getCategory,
     addCategory,
-    deleteCate 
+    deleteCate,
+    save
 } from '../../api/goods/index'
 export default {
     components: {},
     data() {
         return {
             childrenVal: '',
+            parentVal: '',
             categoryVisible: true,
             categoryList: [],
             pageData: 0,
@@ -251,42 +253,54 @@ export default {
                 }
             })
         },
-        // 监听输入
+        // 监听子类输入
         getChilInput(val) {
-            console.log(val)
             this.childrenVal = val;
         },
+        getParentInput(val) {
+            this.parentVal = val;
+        },
         // 添加子类回车
-        addCategoryChildren(val, pid) {
+        addCategoryChildren(val, pid, index) {
             let that = this;
-            if (!this.childrenVal) {
-                that.$message({
-                    showClose: true,
-                    message: '请输入分类名字',
-                    duration: 3 * 1000,
-                    type: 'error'
-                })
+            if (pid == 0) {
+                // 添加父类
+                if (!this.parentVal) {
+                    that.$message({
+                        showClose: true,
+                        message: '请输入分类名字',
+                        duration: 3 * 1000,
+                        type: 'error'
+                    })
+                } else {
+                    this.categoryList.push({
+                        name: val,
+                        categories: []
+                    })
+                    this.parentVal = ''
+                }
             } else {
-                addCategory({
-                    name: this.childrenVal,
-                    pid
-                }).then(res => {
-                    if (res.code == '00') {
-                        this.childrenVal = '';
-                        that.$message({
-                            showClose: true,
-                            message: '添加成功',
-                            duration: 3 * 1000,
-                            type: 'success'
-                        })
-                        that.getCategory()
-                    }
-                })
+                // 添加子类
+                if (!this.childrenVal) {
+                    that.$message({
+                        showClose: true,
+                        message: '请输入分类名字',
+                        duration: 3 * 1000,
+                        type: 'error'
+                    })
+                } else {
+                    this.categoryList[index].categories.push({
+                        name: val
+                    })
+                    this.childrenVal = ''
+                }
+
             }
+
         },
         // 删除
         deleteCategory(id) {
-            let that=this;
+            let that = this;
             deleteCate(id).then(res => {
                 if (res.code == '00') {
                     this.childrenVal = '';
@@ -300,7 +314,47 @@ export default {
                 }
             })
         },
-        onsubmit(){}
+        // 查询
+        onSubmit() {
+
+        },
+        // 保存分类
+        saveCategory() {
+            console.log(this.categoryList)
+
+            let that = this;
+            let params = [];
+            this.categoryList.map(i => {
+                let json = {};
+                json.name = i.name;
+                if (i.categories) {
+                    i.categories.map(j => {
+                        json.items = [];
+                        json.items.push(j.name)
+                    })
+                }else{
+                    json.items = []
+                }
+                params.push(json)
+            })
+            console.log(params)
+            // return;
+            save(params).then(res => {
+                if (res.code == '00') {
+                    this.childrenVal = '';
+                    that.$message({
+                        showClose: true,
+                        message: '添加成功',
+                        duration: 3 * 1000,
+                        type: 'success',
+                        onClose: () => {
+                            that.categoryVisible = false
+                        }
+                    })
+
+                }
+            })
+        },
     },
     created() {
         this.getList();

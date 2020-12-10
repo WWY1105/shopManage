@@ -19,7 +19,6 @@ export function getCategory(json){
     })
 }
 // 添加分类
-
 export function addCategory(json){
     return request({
         url:"/product-category",
@@ -34,4 +33,14 @@ export function deleteCate(id){
         method:'delete',
         params:{}
     })
+}
+
+// 批量保存
+export function save(json){
+    // return request({
+    //     url:"/product-category/batch",
+    //     method:'post',
+    //     body:json
+    // })
+    return request.post("/product-category/batch",json)
 }
