@@ -37,10 +37,6 @@ export function deleteCate(id){
 
 // 批量保存
 export function save(json){
-    // return request({
-    //     url:"/product-category/batch",
-    //     method:'post',
-    //     body:json
-    // })
+ 
     return request.post("/product-category/batch",json)
 }
