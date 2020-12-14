@@ -38,16 +38,16 @@
             <span class="el-dropdown-link">
                 <div class="content flexCenter">
                     <img class="user" src="../assets/images/header/user.png" />
-                    <span class="userName">{{state.name||'未登录'}}</span>
+                    <span class="userName">{{loginUser&&loginUser.name?loginUser.name:'未登录'}}</span>
                     <i class="el-icon-arrow-down el-icon--right"></i>
                 </div>
             </span>
             <div class="userBox">
                 <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item>分店分店</el-dropdown-item>
-                    <el-dropdown-item>分店分店</el-dropdown-item>
+                    <el-dropdown-item v-for="(i,j) in user.branch" :key="j">分店分店</el-dropdown-item>
+                    <!-- <el-dropdown-item>分店分店</el-dropdown-item> -->
                     <el-dropdown-item>
-                        <p class="logoutText">退出登陆</p>
+                        <p class="logoutText" @click="LogOut">退出登陆</p>
                     </el-dropdown-item>
                 </el-dropdown-menu>
             </div>
@@ -61,21 +61,43 @@ export default {
     components: {},
     data() {
         return {
-            state: {}
+            user: false
         };
     },
     computed: {},
     watch: {},
     methods: {
-
+        LogOut() {
+            let that = this;
+            this.$store.dispatch('LogOut', {}).then(res => {
+                that.$router.push({
+                    path: '/login'
+                })
+            })
+        }
     },
     created() {
 
     },
+    computed: {
+        loginUser() {
+
+            return this.user;
+        }
+    },
     mounted() {
-        this.state = {
-            ...this.$store.state.user
+        let state = {
+            ...this.$store.state
         };
+        this.user = state.user ? state.user : {};
+        console.log(this.user)
+
+        if (!this.user.name) {
+            this.$store.dispatch('GetInfo').then((res) => {})
+        }
+        if (!this.user.branch || this.user.branch.length <= 0) {
+            this.$store.dispatch('Branch').then((res) => {})
+        }
     },
     beforeCreate() {}, //生命周期 - 创建之前
     beforeMount() {}, //生命周期 - 挂载之前

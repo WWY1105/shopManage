@@ -48,10 +48,10 @@ export default {
                     client_secret: '1234',
                     auth_type: 'business',
                     grant_type: 'password',
-                    // username: this.username,
-                    // password: this.password
-                    username: 'test2',
-                    password: '1234'
+                    username: this.username,
+                    password: this.password
+                    // username: 'test2',
+                    // password: '1234'
                 }).then(function (response) {
                     console.log(response);
                     if (response && response.access_token) {
@@ -67,8 +67,10 @@ export default {
         // 获取用户信息
         getUserInfo() {
             this.$store.dispatch('GetInfo').then((res) => {
-                this.$router.push({
-                    path: '/'
+                this.$store.dispatch('Branch').then((res) => {
+                    this.$router.push({
+                        path: '/'
+                    })
                 })
             })
         }

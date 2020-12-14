@@ -17,3 +17,9 @@ export function getInfo() {
     })
   }
   
+  export function branch() {
+    return request({
+      url: '/branch',
+      method: 'get'
+    })
+  }

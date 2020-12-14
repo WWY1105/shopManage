@@ -1,4 +1,4 @@
-import { login, getInfo } from '@/api/login'
+import { login, getInfo,branch } from '@/api/login'
 
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { Message } from 'element-ui'
@@ -8,7 +8,7 @@ const user = {
     token: getToken(),
     name: '',
     avatar: '',
-    roles: []
+    branch: []
   },
 
   mutations: {
@@ -21,17 +21,26 @@ const user = {
     SET_AVATAR: (state, avatar) => {
       state.avatar = avatar
     },
-    SET_ROLES: (state, roles) => {
-      state.roles = roles
+    SET_BRANCH: (state, branch) => {
+      state.branch = branch
     }
   },
 
   actions: {
+     // 分店
+     Branch({ commit }) {
+      return new Promise((resolve, reject) => {
+        branch({}).then(response => {
+          console.log(response)
+        })
+        commit('SET_BRANCH', '')
+      })
+    },
     // 登录
     Login({ commit }, query) {
       return new Promise((resolve, reject) => {
         login(query).then(response => {
-          if (response&&response.access_token) {
+          if (response && response.access_token) {
             setToken(response.access_token)
             commit('SET_TOKEN', response.access_token);
           } else {
@@ -53,10 +62,9 @@ const user = {
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
         getInfo().then(response => {
-          
+
           const data = response.data
           commit('SET_NAME', data.name)
-          console.log(data.name)
           commit('SET_AVATAR', data.avatar)
 
           resolve(response)
@@ -70,20 +78,12 @@ const user = {
     LogOut({ commit, state }) {
       return new Promise((resolve, reject) => {
         commit('SET_TOKEN', '')
-        commit('SET_ROLES', [])
         removeToken()
         resolve()
       })
     },
 
-    // 前端 登出
-    FedLogOut({ commit }) {
-      return new Promise(resolve => {
-        commit('SET_TOKEN', '')
-        removeToken()
-        resolve()
-      })
-    }
+   
   }
 }
 
