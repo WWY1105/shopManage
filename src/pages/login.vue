@@ -66,9 +66,11 @@ export default {
         },
         // 获取用户信息
         getUserInfo() {
-            this.$store.dispatch('GetInfo').then((res) => {
-                this.$store.dispatch('Branch').then((res) => {
-                    this.$router.push({
+            let that=this;
+            that.$store.dispatch('GetInfo').then((res) => {
+                that.$store.dispatch('Branch').then((res) => {
+                    console.log('执行')
+                    that.$router.push({
                         path: '/'
                     })
                 })

@@ -25,7 +25,7 @@
             <p class="desc">已激活 有效期至{{shopInfo.expireTime}}</p>
             <div class="buttons flexCenter">
                 <el-button class="searchBtn">续费</el-button>
-                <el-button class="transBtn">账户设置</el-button>
+                <el-button class="transBtn" @click="toSetting">账户设置</el-button>
             </div>
         </div>
         <div class="eachInfo flexCenter">
@@ -99,6 +99,12 @@ export default {
                  this.shopInfo=data;
             })
         },
+        // 账户设置
+        toSetting(){
+            this.$router.push({
+                path:'/acountSetting'
+            })
+        }
     },
     created() {
 this.getShopInfo()

@@ -111,7 +111,11 @@ let routes = [
             path:'preSale',
             name: 'PreSale',
             component: () => import('@/pages/Sales/preSale.vue'),
-          },
+          },{
+            path:'coupon',
+            name: 'Coupon',
+            component: () => import('@/pages/Sales/coupon/index.vue'),
+          }
         ]
       }, {
         path: '/comment',

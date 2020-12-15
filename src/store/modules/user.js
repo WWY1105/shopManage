@@ -32,8 +32,10 @@ const user = {
       return new Promise((resolve, reject) => {
         branch({}).then(response => {
           console.log(response)
+          commit('SET_BRANCH', '');
+          resolve(response)
         })
-        commit('SET_BRANCH', '')
+      
       })
     },
     // 登录

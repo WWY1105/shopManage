@@ -84,7 +84,7 @@
                     </router-link>
                 </el-col>
                 <el-col :span="6">
-                    <router-link :to="{path:'/preSale'}"  tag="div" class="flexCenter flexColumn">
+                    <router-link :to="{path:'/sales/coupon'}"  tag="div" class="flexCenter flexColumn">
                         <img src="../../assets/images/sales/youhuiquan.png" alt="">
                         <p>优惠券</p>
                         <el-switch size="large" v-model="value" active-color="#00B0F0" inactive-color="#aaaaaa">
