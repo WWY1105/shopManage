@@ -115,6 +115,14 @@ let routes = [
             path:'coupon',
             name: 'Coupon',
             component: () => import('@/pages/Sales/coupon/index.vue'),
+          },{
+            path:'store',
+            name: 'Store',
+            component: () => import('@/pages/Sales/store/index.vue'),
+          },{
+            path:'distribution',
+            name: 'Distribution',
+            component: () => import('@/pages/Sales/distribution/index.vue'),
           }
         ]
       }, {

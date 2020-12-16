@@ -48,11 +48,28 @@ export function submitRule(json){
     })
 }
 
+//添加优惠券 
 export function submitCoupone(json){
     return request({
         url:"/coupon",
         method:'post',
         params:json
+    })
+}
+// 修改优惠券
+export function editCoupone(json,id){
+    return request({
+        url:"/coupon/"+id,
+        method:'put',
+        params:json
+    })
+}
+// 删除优惠券
+export function deleteCoupon(id){
+    return request({
+        url:"/coupon/"+id,
+        method:'delete',
+        params:{}
     })
 }
 

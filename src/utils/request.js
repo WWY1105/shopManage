@@ -1,5 +1,4 @@
 import axios from 'axios'
-
 import { Message } from 'element-ui'
 import store from '../store'
 import { getToken } from '@/utils/auth';
@@ -23,6 +22,8 @@ service.interceptors.request.use(config => {
         config.url = prefix + config.url;
         if (store.getters.token) {
             config.headers['Authorization'] = 'Bearer ' + getToken()
+        }else{
+            alert('没有token')
         }
     }
 

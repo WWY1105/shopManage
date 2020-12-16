@@ -115,9 +115,9 @@
             <el-table-column label="其他" width="150px">
                 <template slot-scope="scope">
                     <div class="flexSpace otherCtr">
-                        <p class="edit " @click="value=>editCoupon(scope.row.id,value)">修改</p>
+                        <p class="edit " @click="value=>editCouponFn(scope.$index,value)">修改</p>
                         <p class="give" @click="value=>giveCoupon(scope.row.id,value)">赠送</p>
-                        <p class="delete" @click="value=>deleteCoupon(scope.row.id,value)">删除</p>
+                        <p class="delete" @click="value=>deleteCouponFn(scope.row.id,value)">删除</p>
                     </div>
                 </template>
             </el-table-column>
@@ -216,6 +216,15 @@
             <el-button @click="addCouponVisible = false">取 消</el-button>
         </span>
     </el-dialog>
+
+    <!-- 删除的提示框 -->
+    <el-dialog title="提示" center :visible.sync="deleteCouponVisible" width="30%">
+        <span class="flexCenter">是否删除优惠券</span>
+        <span slot="footer" class="dialog-footer">
+            <el-button @click="deleteCouponVisible = false">取 消</el-button>
+            <el-button type="primary" @click="confirmDelete">确 定</el-button>
+        </span>
+    </el-dialog>
 </div>
 </template>
 
@@ -227,12 +236,16 @@ import {
     list,
     submitRule,
     goodCategory,
-    submitCoupone
+    submitCoupone,
+    deleteCoupon,
+    editCoupone
 } from '../../../api/sales/coupon'
 export default {
     components: {},
     data() {
         return {
+            deleteCouponVisible: false,
+            deleteCouponId: '',
             labelPosition: 'left',
             newCoupon: {},
             value: false,
@@ -350,18 +363,38 @@ export default {
         addCoupon() {
             console.log(this.newCoupon)
             let that = this;
-            submitCoupone(this.newCoupon).then(res => {
-                if (res.code == '00') {
-                    that.$message({
-                        showClose: true,
-                        message: '添加成功',
-                        duration: 3 * 1000,
-                        type: 'success'
-                    })
+            if (this.newCoupon.id) {
+                let id = this.newCoupon.id;
+                delete this.newCoupon.id;
+                delete this.newCoupon.businessId;
+                editCoupone(this.newCoupon,id).then(res => {
+                    if (res.code == '00') {
+                        that.$message({
+                            showClose: true,
+                            message: '修改成功',
+                            duration: 3 * 1000,
+                            type: 'success'
+                        })
 
-                    this.addCouponVisible = false
-                }
-            })
+                    
+                    }
+                })
+            } else {
+                submitCoupone(this.newCoupon).then(res => {
+                    if (res.code == '00') {
+                        that.$message({
+                            showClose: true,
+                            message: '添加成功',
+                            duration: 3 * 1000,
+                            type: 'success'
+                        })
+                    }
+                })
+            }
+            this.addCouponVisible = false;
+            this.getList();
+            this.newCoupon={}
+
         },
         // 一级分类改变获取二级分类
         categoriesChange(e) {
@@ -374,11 +407,34 @@ export default {
                 }
             })
         },
-        editCoupon() {},
-        giveCoupon() {},
-        deleteCoupon(id) {
-            console.log(id)
+        editCouponFn(index) {
+            this.addCouponVisible = true;
+            this.newCoupon = this.tableData[index];
+
         },
+        giveCoupon() {},
+        deleteCouponFn(id) {
+            let that = this;
+            this.deleteCouponVisible = true;
+            this.deleteCouponId = id;
+        },
+        confirmDelete() {
+            if (this.deleteCouponId) {
+                deleteCoupon(this.deleteCouponId).then(res => {
+                    if (res.code == '00') {
+                        that.$message({
+                            showClose: true,
+                            message: '删除成功',
+                            duration: 3 * 1000,
+                            type: 'success'
+                        })
+
+                        this.getList()
+                    }
+                })
+            }
+        }
+
     },
     created() {
         this.getList();
@@ -448,12 +504,15 @@ export default {
     }
 }
 
-.dialog-footer {
-    .el-button {
-        margin-left: 0;
-        margin-bottom: 35px;
-        width: 263px;
-        border-radius: 21px;
+.ruleDialog,
+.couponDialog {
+    .dialog-footer {
+        .el-button {
+            margin-left: 0;
+            margin-bottom: 35px;
+            width: 263px;
+            border-radius: 21px;
+        }
     }
 }
 
@@ -478,11 +537,13 @@ export default {
 .otherCtr {
     font-size: 14px;
     cursor: pointer;
-    
-    .edit,.give{
+
+    .edit,
+    .give {
         color: #007EFF;
         text-decoration: underline;
     }
+
     .delete {
         color: #FF4141;
         text-decoration: underline;
