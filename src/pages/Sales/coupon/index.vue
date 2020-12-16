@@ -38,7 +38,7 @@
                     <el-row :gutter="20" type="flex" justify="end" align="bottom">
                         <div class="grid-content bg-purple">
                             <el-form-item>
-                                <el-button class="searchBtn" @click="addCouponVisible=true">+新增</el-button>
+                                <el-button class="searchBtn" @click="showAddCoupon">+新增</el-button>
                             </el-form-item>
                         </div>
                     </el-row>
@@ -112,11 +112,13 @@
                     <p>{{scope.row.self?'可以':'不可以'}}</p>
                 </template>
             </el-table-column>
-            <el-table-column label="其他">
-                <template>
-                    <p class="tioDetail">修改</p>
-                    <p class="tioDetail">赠送</p>
-                    <p class="tioDetail">删除</p>
+            <el-table-column label="其他" width="150px">
+                <template slot-scope="scope">
+                    <div class="flexSpace otherCtr">
+                        <p class="edit " @click="value=>editCoupon(scope.row.id,value)">修改</p>
+                        <p class="give" @click="value=>giveCoupon(scope.row.id,value)">赠送</p>
+                        <p class="delete" @click="value=>deleteCoupon(scope.row.id,value)">删除</p>
+                    </div>
                 </template>
             </el-table-column>
         </el-table>
@@ -149,35 +151,63 @@
     <!-- 创建优惠券： -->
     <el-dialog title="创建优惠券：" center :visible.sync="addCouponVisible" class="couponDialog">
         <div class="dialogContent">
-            <el-form :label-position="labelPosition" label-width="140px" :model="newCoupon">
+            <el-form :inline="true" :label-position="labelPosition" label-width="140px" :model="newCoupon">
                 <el-form-item label="优惠券名称：">
                     <el-input v-model="newCoupon.name"></el-input>
                 </el-form-item>
                 <el-form-item label="优惠券面额：">
-                    <el-input v-model="newCoupon.region"></el-input>
+                    <el-input v-model="newCoupon.price"></el-input>
                 </el-form-item>
                 <el-form-item label="满足使用金额：">
-                    <el-input v-model="newCoupon.type"></el-input>
+                    <el-input v-model="newCoupon.fullPrice"></el-input>
                 </el-form-item>
-                <el-form-item >
+                <el-form-item>
                     <div slot="label">
                         <p>类型限制：</p>
-                        <p>不设置分类代表全场通用</p>
+                        <p class="labelTips">不设置分类代表全场通用</p>
                     </div>
-                    <div class="flexCenter flexColumn">
-                            <el-select v-model="newCoupon.type" placeholder="一级分类"></el-select>
-                    <el-select v-model="newCoupon.type" placeholder="二级分类"></el-select>
+                    <div class=" flexColumn flexStart alignStart">
+                        <div class="categorySelect categorySelect1">
+                            <el-select @change="categoriesChange" v-model="newCoupon.categoryId1" placeholder="一级分类">
+                                <el-option v-for="(i,j) in categories" :value="i.id" :key="j" :label="i.name"></el-option>
+                            </el-select>
+                        </div>
+                        <div class="categorySelect">
+                            <el-select v-model="newCoupon.categoryId2" placeholder="二级分类">
+                                <el-option v-for="(i,j) in categories2" :value="i.id" :key="j" :label="i.name"></el-option>
+                            </el-select>
+                        </div>
                     </div>
-                
                 </el-form-item>
-                <el-form-item label="总数量：">
-                    <el-input v-model="newCoupon.type"></el-input>
+                <el-form-item>
+                    <div slot="label">
+                        <p>总数量：</p>
+                        <p class="labelTips">输入0代表无限</p>
+                    </div>
+                    <el-input v-model="newCoupon.totalCount"></el-input>
                 </el-form-item>
-                <el-form-item label="有效期：">
-                    <el-select v-model="newCoupon.type"></el-select>
+                <el-form-item>
+                    <div slot="label">
+                        <p>有效期：</p>
+                        <p class="labelTips">
+                            不设置代表无限
+                        </p>
+                    </div>
+                    <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss" v-model="newCoupon.expireDate" type="datetime" placeholder="有效期">
+                    </el-date-picker>
                 </el-form-item>
-                <el-form-item label="能否领取：">
-                    <el-input v-model="newCoupon.type"></el-input>
+                <el-form-item>
+                    <div slot="label">
+                        <p>能否领取：</p>
+                        <p class="labelTips">
+                            能否在商品优惠
+                            中领取使用
+                        </p>
+                    </div>
+                    <el-select v-model="newCoupon.shelf" placeholder="能否领取">
+                        <el-option label="是" value="true"></el-option>
+                        <el-option label="否" value="false"></el-option>
+                    </el-select>
                 </el-form-item>
             </el-form>
         </div>
@@ -195,13 +225,15 @@ import {
     total,
     rule,
     list,
-    submitRule
+    submitRule,
+    goodCategory,
+    submitCoupone
 } from '../../../api/sales/coupon'
 export default {
     components: {},
     data() {
         return {
-            labelPosition:'left',
+            labelPosition: 'left',
             newCoupon: {},
             value: false,
             addCouponVisible: false,
@@ -223,6 +255,8 @@ export default {
             formInline1: {},
             tableData: [],
             couponList: [],
+            categories: [],
+            categories2: [], //子类型
             json: {
                 pageNum: 0,
                 pageSize: 30
@@ -238,6 +272,7 @@ export default {
     computed: {},
     watch: {},
     methods: {
+
         // 获取列表
         getList() {
             let that = this;
@@ -303,8 +338,47 @@ export default {
                 }
             })
         },
+        showAddCoupon() {
+            this.addCouponVisible = true;
+            goodCategory({}).then(res => {
+                if (res.code == '00') {
+                    this.categories = res.data;
+                }
+            })
+        },
         // 添加券
-        addCoupon(){}
+        addCoupon() {
+            console.log(this.newCoupon)
+            let that = this;
+            submitCoupone(this.newCoupon).then(res => {
+                if (res.code == '00') {
+                    that.$message({
+                        showClose: true,
+                        message: '添加成功',
+                        duration: 3 * 1000,
+                        type: 'success'
+                    })
+
+                    this.addCouponVisible = false
+                }
+            })
+        },
+        // 一级分类改变获取二级分类
+        categoriesChange(e) {
+            console.log('改变');
+            console.log(e)
+            let id = e;
+            this.categories.map(i => {
+                if (i.id == id) {
+                    this.categories2 = i.categories;
+                }
+            })
+        },
+        editCoupon() {},
+        giveCoupon() {},
+        deleteCoupon(id) {
+            console.log(id)
+        },
     },
     created() {
         this.getList();
@@ -330,8 +404,6 @@ export default {
 .searchBox {
     padding: 28px 33px;
 }
-
-
 
 .tableBox {
     padding: 0 33px 30px;
@@ -369,7 +441,9 @@ export default {
     .eachRule {
         margin-bottom: 43px;
     }
-    .el-input{
+
+    .el-input,
+    .el-select {
         max-width: 220px;
     }
 }
@@ -383,5 +457,35 @@ export default {
     }
 }
 
+.labelTips {
+    color: #FF2727;
+    font-size: 12px;
+    line-height: 18px;
+}
 
+/deep/.el-form-item__label {
+    line-height: 42px;
+}
+
+.categorySelect1 {
+    margin-bottom: 35px;
+}
+
+.couponDialog .el-dialog {
+    width: 40% !important;
+}
+
+.otherCtr {
+    font-size: 14px;
+    cursor: pointer;
+    
+    .edit,.give{
+        color: #007EFF;
+        text-decoration: underline;
+    }
+    .delete {
+        color: #FF4141;
+        text-decoration: underline;
+    }
+}
 </style>

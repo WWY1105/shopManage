@@ -22,6 +22,7 @@ export function total(json){
         params:json
     })
 }
+// 赠送规则获取
 export function rule(json){
     return request({
         url:"/coupon/auto",
@@ -29,7 +30,16 @@ export function rule(json){
         params:json
     })
 }
+// 商品分类
+export function goodCategory(json){
+    return request({
+        url:"/product-category",
+        method:'get',
+        params:json
+    })
+}
 
+// 提交赠送规则
 export function submitRule(json){
     return request({
         url:"/coupon/auto",
@@ -38,5 +48,11 @@ export function submitRule(json){
     })
 }
 
-
+export function submitCoupone(json){
+    return request({
+        url:"/coupon",
+        method:'post',
+        params:json
+    })
+}
 
