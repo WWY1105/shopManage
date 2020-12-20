@@ -6,5 +6,6 @@ const config = require('./api')
 module.exports =  {
   NODE_ENV: '"development"',
   BASE_API : config.apiUrl,
-  BASE_TOKEN:config.baseToken
+  BASE_TOKEN:config.baseToken,
+  IMG_URL:config.imgUrl
 }

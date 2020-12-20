@@ -16,7 +16,7 @@
                 </el-col>
                 <el-col :span="3" :offset="15">
                     <el-form-item>
-                        <el-button class="searchBtn">分类管理</el-button>
+                        <el-button class="searchBtn" @click="categoryVisible=true">分类管理</el-button>
                     </el-form-item>
                 </el-col>
                 <el-col :span="3">
@@ -29,27 +29,27 @@
             </el-row>
         </el-form>
 
-        <el-form label-position="top" :model="formInline1">
+        <el-form label-position="top" :model="json">
             <div class="flexSpace">
                 <el-row :gutter="20" type="flex" justify="space-between" align="bottom">
                     <el-col :span="3">
                         <div class="grid-content bg-purple">
                             <el-form-item label="ID">
-                                <el-input v-model="formInline1.id" placeholder="ID"></el-input>
+                                <el-input v-model="json.id" placeholder="ID"></el-input>
                             </el-form-item>
                         </div>
                     </el-col>
                     <el-col :span="3">
                         <div class="grid-content bg-purple">
                             <el-form-item label="名称">
-                                <el-input v-model="formInline1.title" placeholder="名称"></el-input>
+                                <el-input v-model="json.title" placeholder="名称"></el-input>
                             </el-form-item>
                         </div>
                     </el-col>
                     <el-col :span="3">
                         <div class="grid-content bg-purple">
                             <el-form-item label="是否上架">
-                                <el-select v-model="formInline1.shelf" placeholder="是否上架">
+                                <el-select v-model="json.shelf" placeholder="是否上架">
                                     <el-option label="是" value="true"></el-option>
                                     <el-option label="否" value="false"></el-option>
                                 </el-select>
@@ -59,7 +59,7 @@
                     <el-col :span="3">
                         <div class="grid-content bg-purple">
                             <el-form-item label="是否有库存">
-                                <el-select v-model="formInline1.region" placeholder="是否有库存">
+                                <el-select v-model="json.hasStock" placeholder="是否有库存">
                                     <el-option label="是" value="true"></el-option>
                                     <el-option label="否" value="false"></el-option>
                                 </el-select>
@@ -69,9 +69,8 @@
                     <el-col :span="3">
                         <div class="grid-content bg-purple">
                             <el-form-item label="一级分类">
-                                <el-select v-model="formInline1.region" placeholder="一级分类">
-                                    <el-option label="区域一" value="shanghai"></el-option>
-                                    <el-option label="区域二" value="beijing"></el-option>
+                                <el-select v-model="json.categoryId" placeholder="一级分类">
+                                    <el-option :label="item.name" :value="item.id" v-for="(item,index) in categoryList" :key="index"></el-option>
                                 </el-select>
                             </el-form-item>
                         </div>
@@ -79,9 +78,8 @@
                     <el-col :span="3">
                         <div class="grid-content bg-purple">
                             <el-form-item label="二级分类">
-                                <el-select v-model="formInline1.region" placeholder="二级分类">
-                                    <el-option label="区域一" value="shanghai"></el-option>
-                                    <el-option label="区域二" value="beijing"></el-option>
+                                <el-select v-model="json.categoryId2" placeholder="二级分类">
+                                    <el-option v-for="(i,j) in categories2" :value="i.id" :key="j" :label="i.name"></el-option>
                                 </el-select>
                             </el-form-item>
                         </div>
@@ -89,9 +87,14 @@
                     <el-col :span="3">
                         <div class="grid-content bg-purple">
                             <el-form-item label="营销">
-                                <el-select v-model="formInline1.region" placeholder="营销">
-                                    <el-option label="区域一" value="shanghai"></el-option>
-                                    <el-option label="区域二" value="beijing"></el-option>
+                                <el-select v-model="json.sellType" placeholder="营销">
+                                     <el-option label="全部" value=""></el-option>
+                                    <el-option label="预售" value="ys"></el-option>
+                                    <el-option label="拼团" value="pt"></el-option>
+                                    <el-option label="秒杀" value="ms"></el-option>
+                                    <el-option label="砍价" value="kj"></el-option>
+                                    <el-option label="免费拿" value="mfn"></el-option>
+                                    <el-option label="星秒" value="xm"></el-option>
                                 </el-select>
                             </el-form-item>
                         </div>
@@ -99,7 +102,7 @@
                     <el-col :span="3">
                         <div class="grid-content bg-purple">
                             <el-form-item>
-                                <el-button type="primary">查询</el-button>
+                                <el-button type="primary" @click="getList">查询</el-button>
                             </el-form-item>
                         </div>
                     </el-col>
@@ -162,7 +165,7 @@
     <el-dialog title="分类管理" center :visible.sync="categoryVisible" class="categoryDialog">
         <div class="dialogContent">
             <div class="categoryBox">
-                <div class="firstCategory" v-for="(item,index) in categoryList" :key="index">
+                <div class="firstCategory"  v-for="(item,index) in categoryList" :key="index">
                     <div class="firstCategoryName flexStart">
                         <span class="categoryLabel">分类</span>
                         <div class="tags">
@@ -174,11 +177,23 @@
                     <div class="firstCategoryChildren flexStart">
                         <span class="categoryLabel">子分类</span>
                         <div class="eachChildren flexStart flexWrap">
-                            <el-tag @close="deleteCategory(tag.id)" v-for="tag in item.categories" :key="tag.name" closable :type="tag.type">
-                                {{tag.name}}
-                            </el-tag>
-                            <el-input :value="childrenVal" @input="getChilInput" @change="(val) => addCategoryChildren(val,item.id,index)" placeholder="+添加子分类" class="addCategory" clearable>
+                            <el-input 
+                            autofocus
+                            v-for="(tag,tagIndex) in item.categories" :key="tag.name" closable :type="tag.type"
+                            :value="tag.name" 
+                            @input="val=>getChilInput(val,index,tagIndex)" 
+                            class="addCategory" 
+                            clearable>
                             </el-input>
+                            <el-input 
+                            autofocus
+                            :value="childrenVal+tagIndex" 
+                            @input="val=>getChilInput(val,index,tagIndex)" 
+                            placeholder="+添加子分类" 
+                            class="addCategory" 
+                            clearable>
+                            </el-input>
+
                         </div>
                     </div>
                 </div>
@@ -187,7 +202,7 @@
                     <div class="firstCategoryName flexStart">
                         <span class="categoryLabel">分类</span>
                         <div class="tags">
-                            <el-input :value="parentVal" @input="getParentInput" @change="(val) => addCategoryChildren(val,0)" placeholder="+添加一个分类" class="addCategory m0" clearable>
+                            <el-input  autofocus :value="parentVal" @input="getParentInput" @change="(val) => addParent(val,0)" placeholder="+添加一个分类" class="addCategory m0" clearable>
                             </el-input>
                         </div>
                     </div>
@@ -219,11 +234,12 @@ export default {
         return {
             childrenVal: '',
             parentVal: '',
-            categoryVisible: true,
+            categoryVisible: true, //新增分类的弹窗
             categoryList: [],
+            categories2: [],
             pageData: 0,
-            page: {
-                pageNum: 0,
+            json: {
+                pageNum: 1,
                 pageSize: 30
             },
 
@@ -235,9 +251,20 @@ export default {
     computed: {},
     watch: {},
     methods: {
+        // 一级分类改变获取二级分类
+        categoriesChange(e) {
+            console.log('改变');
+            console.log(e)
+            let id = e;
+            this.categories.map(i => {
+                if (i.id == id) {
+                    this.categories2 = i.categories;
+                }
+            })
+        },
         // 表格列表
         getList() {
-            list(this.page).then((res) => {
+            list(this.json).then((res) => {
                 console.log(res)
                 if (res.code == '00') {
                     this.tableData = res.data;
@@ -249,53 +276,68 @@ export default {
         getCategory() {
             getCategory().then(res => {
                 if (res.code == '00') {
+                    res.data.map(i=>{
+                        if(!i.categories||i.categories.length==0){
+                            i.categories=[{name:''}]
+                        }else if(i.categories.length>0){
+                            i.categories.push({name:''})
+                        }
+                    })
                     this.categoryList = res.data;
+                    console.log(res.data)
                 }
             })
         },
         // 监听子类输入
-        getChilInput(val) {
-            this.childrenVal = val;
+        getChilInput(val, index,chilIndex) {
+            // index 是父类的index
+             console.log('val='+val)
+            console.log('index='+index)
+            this[childrenVal+index]=val;
+            console.log(this[childrenVal+index])
+            //  this.categoryList[index].categories[chilIndex].name= val;
+            //   console.log(this.categoryList)
         },
         getParentInput(val) {
             this.parentVal = val;
         },
-        // 添加子类回车
-        addCategoryChildren(val, pid, index) {
-            let that = this;
-            if (pid == 0) {
-                // 添加父类
-                if (!this.parentVal) {
-                    that.$message({
-                        showClose: true,
-                        message: '请输入分类名字',
-                        duration: 3 * 1000,
-                        type: 'error'
-                    })
-                } else {
-                    this.categoryList.push({
-                        name: val,
-                        categories: []
-                    })
-                    this.parentVal = ''
-                }
+        // 添加父类
+        addParent(val) {
+            // 添加父类
+            if (!this.parentVal) {
+                that.$message({
+                    showClose: true,
+                    message: '请输入分类名字',
+                    duration: 3 * 1000,
+                    type: 'error'
+                })
             } else {
-                // 添加子类
-                if (!this.childrenVal) {
-                    that.$message({
-                        showClose: true,
-                        message: '请输入分类名字',
-                        duration: 3 * 1000,
-                        type: 'error'
-                    })
-                } else {
-                    this.categoryList[index].categories.push({
-                        name: val
-                    })
-                    this.childrenVal = ''
-                }
-
+                this.categoryList.push({
+                    name: val,
+                    categories: []
+                })
+                this.parentVal = ''
             }
+        },
+        // 添加子类回车
+        addCategoryChildren(val, pid, index,chilIndex) {
+            let that = this;
+              console.log('pid='+pid)
+               console.log('val='+val)
+              console.log('index='+index)
+            // if (!this.childrenVal) {
+            //     that.$message({
+            //         showClose: true,
+            //         message: '请输入分类名字',
+            //         duration: 3 * 1000,
+            //         type: 'error'
+            //     })
+            // } else {
+            //     this.categoryList[index].categories.push({
+            //         name: val
+            //     })
+            //     this.childrenVal = ''
+            // }
 
         },
         // 删除
@@ -332,7 +374,7 @@ export default {
                         json.items = [];
                         json.items.push(j.name)
                     })
-                }else{
+                } else {
                     json.items = []
                 }
                 params.push(json)

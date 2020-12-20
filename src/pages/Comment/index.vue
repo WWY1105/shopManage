@@ -2,7 +2,7 @@
 <template>
 <div class="customs">
     <div class="searchBox bgf">
-        <el-form label-position="top" :model="formInline1">
+        <el-form label-position="top">
             <el-row :gutter="20" type="flex" justify="start" align="bottom">
                 <el-col :span="21">
                     <el-row :gutter="20" type="flex" justify="space-between" align="bottom">
@@ -16,7 +16,8 @@
                         <el-col :span="6" :pull="12">
                             <div class="grid-content bg-purple">
                                 <el-form-item label="筛选时间段">
-                                    <el-input v-model="formInline1.user" placeholder="筛选时间段"></el-input>
+                                    <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss" v-model="json.time" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+                                    </el-date-picker>
                                 </el-form-item>
                             </div>
                         </el-col>
@@ -30,28 +31,28 @@
                         <el-col :span="6">
                             <div class="grid-content bg-purple">
                                 <el-form-item label="用户昵称">
-                                    <el-input v-model="formInline1.user" placeholder="用户昵称"></el-input>
+                                    <el-input v-model="json.nickname" placeholder="用户昵称"></el-input>
                                 </el-form-item>
                             </div>
                         </el-col>
                         <el-col :span="6">
                             <div class="grid-content bg-purple">
                                 <el-form-item label="用户ID">
-                                    <el-input v-model="formInline1.user" placeholder="用户ID"></el-input>
+                                    <el-input v-model="json.uid" placeholder="用户ID"></el-input>
                                 </el-form-item>
                             </div>
                         </el-col>
                         <el-col :span="6">
                             <div class="grid-content bg-purple">
                                 <el-form-item label="商品名称">
-                                    <el-input v-model="formInline1.user" placeholder="商品名称"></el-input>
+                                    <el-input v-model="json.title" placeholder="商品名称"></el-input>
                                 </el-form-item>
                             </div>
                         </el-col>
                         <el-col :span="6">
                             <div class="grid-content bg-purple">
                                 <el-form-item label="商品ID">
-                                    <el-input v-model="formInline1.user" placeholder="商品ID"></el-input>
+                                    <el-input v-model="json.pid" placeholder="商品ID"></el-input>
                                 </el-form-item>
                             </div>
                         </el-col>
@@ -60,7 +61,7 @@
                 <el-col :span="4">
                     <div class="grid-content bg-purple flexEnd">
                         <el-form-item>
-                            <el-button type="primary" @click="onSubmit">查询</el-button>
+                            <el-button type="primary" @click="getDataFn">查询</el-button>
                         </el-form-item>
                     </div>
                 </el-col>
@@ -70,41 +71,77 @@
 
     <div class="tableBox bgf">
         <el-table stripe :data="tableData" border style="width: 100%">
-            <el-table-column prop="date" label="ID" width="180">
+            <el-table-column prop="id" label="ID" width="80">
             </el-table-column>
-            <el-table-column prop="name" label="评价商品" width="180">
+            <el-table-column prop="title" label="评价商品" width="180">
             </el-table-column>
-            <el-table-column prop="address" label="规格"> </el-table-column>
-            <el-table-column prop="address" label="订单号"> </el-table-column>
-            <el-table-column prop="address" label="订单类型"> </el-table-column>
-            <el-table-column prop="address" label="评价用户"> </el-table-column>
-            <el-table-column prop="address" label="用户ID"> </el-table-column>
-            <el-table-column prop="address" label="评价内容"> </el-table-column>
-            <el-table-column prop="address" label="评价图片"> </el-table-column>
-            <el-table-column prop="address" label="评价时间"> </el-table-column>
-            <el-table-column prop="address" label="回复"> </el-table-column>
-            <el-table-column prop="address" label="操作"> </el-table-column>
+            <el-table-column prop="itemsStr" label="规格"> </el-table-column>
+            <el-table-column prop="ordernum" label="订单号"> </el-table-column>
+            <el-table-column prop="orderType" label="订单类型"> </el-table-column>
+            <el-table-column prop="nickname" label="评价用户"> </el-table-column>
+            <el-table-column prop="uid" label="用户ID"> </el-table-column>
+            <el-table-column prop="content" label="评价内容"> </el-table-column>
+            <el-table-column prop="imgurls" label="评价图片"> </el-table-column>
+            <el-table-column prop="createTime" label="评价时间"> </el-table-column>
+            <el-table-column prop="replyContent" label="回复">
+                <template slot-scope="scope">
+                    <a href="#" @click="seeMore(scope.row.id)">查看</a>
+                </template>
+            </el-table-column>
+            <el-table-column label="操作">
+                <template slot-scope="scope">
+                    <p class="replay" @click="replayFn(scope.row.id)"></p>
+                    <p class="delete" @click="deleteDataFn(scope.row.id)"></p>
+                </template>
+            </el-table-column>
         </el-table>
     </div>
 </div>
 </template>
 
 <script>
+import {
+    getData,
+    saveData,
+    deleteData
+} from '../../api/comment/index'
 export default {
     components: {},
     data() {
         return {
             formInline: {},
-            formInline1: {},
             tableData: [],
+            json: {
+                pageNum: 1,
+                pageSize: 30
+            }
         };
     },
     computed: {},
     watch: {},
     methods: {
-        onSubmit() {},
+        getDataFn() {
+            let that = this;
+            if (that.json.time && that.json.time.length > 0) {
+                that.json.beginTime = that.json.time[0]
+                that.json.endTime = that.json.time[1]
+            }
+            delete that.json.time;
+            
+            getData(this.json).then(res => {
+                if (res.code == '00') {
+                    this.tableData = res.data;
+                }
+            })
+        },
+        saveDataFn() {},
+        deleteDataFn() {},
+        seeMore() {},
+        replayFn() {},
     },
-    created() {},
+    created() {
+        this.getDataFn()
+    },
     mounted() {},
     beforeCreate() {}, //生命周期 - 创建之前
     beforeMount() {}, //生命周期 - 挂载之前

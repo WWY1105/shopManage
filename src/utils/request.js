@@ -2,6 +2,7 @@ import axios from 'axios'
 import { Message } from 'element-ui'
 import store from '../store'
 import { getToken } from '@/utils/auth';
+import Vue from 'vue'
 
 
 const service = axios.create({

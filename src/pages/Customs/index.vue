@@ -149,7 +149,7 @@ export default {
             formInline1: {},
             tableData: [],
             json: {
-                pageNum: 0,
+                pageNum: 1,
                 pageSize: 30
             },
         };

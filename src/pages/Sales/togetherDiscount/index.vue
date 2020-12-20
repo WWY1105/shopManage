@@ -1,16 +1,6 @@
 <!--  -->
 <template>
 <div class="coupon">
-    <div class="totalPanel">
-        <p class="title flexStart"><span>数据汇总：</span>
-        </p>
-        <div class="panelBox flexStart">
-            <div class="eachTotalBox" v-for="(i,j) in panelDatas" :key="j">
-                <p class="partTitle">{{i.name}}</p>
-                <p class="num">{{i.num}}</p>
-            </div>
-        </div>
-    </div>
     <div class="searchBox bgf">
         <el-form label-position="top" :inline="true" :model="formInline" class="demo-form-inline">
             <el-row :gutter="20" type="flex" justify="space-between" align="bottom">
@@ -18,16 +8,16 @@
                     <el-row :gutter="20" type="flex" justify="start" align="bottom">
                         <el-col :span="6">
                             <div class="grid-content bg-purple">
-                                <el-form-item label="优惠券模块开关">
+                                <el-form-item label="同行优惠模块开关">
                                     <el-switch size="large" v-model="value" active-color="#00B0F0" inactive-color="#aaaaaa">
                                     </el-switch>
                                 </el-form-item>
                             </div>
                         </el-col>
                         <el-col :span="18">
-                            <el-form-item label="自动赠送规则：">
-                                <el-button class="searchBtn" @click="getRule">
-                                    点击输入自动赠送规则
+                            <el-form-item label="同行优惠规则：">
+                                <el-button class="searchBtn" @click="ruleVisible=true">
+                                   {{rule&&rule.personCount?rule.personCount+'人同行'+rule.freeCount+'免单':'点击输入同行优惠规则'}} 
                                     <i class="el-icon-edit-outline"></i>
                                 </el-button>
                             </el-form-item>
@@ -48,38 +38,59 @@
 
         <el-form label-position="top">
             <el-row :gutter="20" type="flex" justify="space-between" align="bottom">
-                <el-col :span="5">
+                <el-col :span="3">
                     <div class="grid-content bg-purple">
-                        <el-form-item label="id">
-                            <el-input v-model="json.id" placeholder="id"></el-input>
-                        </el-form-item>
-                    </div>
-                </el-col>
-                <el-col :span="5">
-                    <div class="grid-content bg-purple">
-                        <el-form-item label="优惠券名称">
-                            <el-input v-model="json.name" placeholder="优惠券名称"></el-input>
-                        </el-form-item>
-                    </div>
-                </el-col>
-                <el-col :span="5">
-                    <div class="grid-content bg-purple">
-                        <el-form-item label="优惠券面额">
-                            <el-input v-model="json.price" placeholder="优惠券面额"></el-input>
-                        </el-form-item>
-                    </div>
-                </el-col>
-                <el-col :span="5">
-                    <div class="grid-content bg-purple">
-                        <el-form-item label="能否领取">
-                            <el-select v-model="json.shelf" placeholder="能否领取">
+                        <el-form-item label="显示">
+                            <el-select v-model="json.shelf" placeholder="显示">
                                 <el-option label="是" value="true"></el-option>
                                 <el-option label="否" value="false"></el-option>
                             </el-select>
                         </el-form-item>
                     </div>
                 </el-col>
+                <el-col :span="3">
+                    <div class="grid-content bg-purple">
+                        <el-form-item label="id">
+                            <el-input v-model="json.id" placeholder="ID"></el-input>
+                        </el-form-item>
+                    </div>
+                </el-col>
+                <el-col :span="3">
+                    <div class="grid-content bg-purple">
+                        <el-form-item label="商品名称">
+                            <el-input v-model="json.name" placeholder="商品名称"></el-input>
+                        </el-form-item>
+                    </div>
+                </el-col>
 
+                <el-col :span="3">
+                    <div class="grid-content bg-purple">
+                        <el-form-item label="是否上架">
+                            <el-select v-model="json.shelf" placeholder="是否上架">
+                                <el-option label="是" value="true"></el-option>
+                                <el-option label="否" value="false"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </div>
+                </el-col>
+                <el-col :span="3">
+                    <div class="grid-content bg-purple">
+                        <el-form-item label="一级分类">
+                            <el-select @change="categoriesChange" v-model="json.categoryId" placeholder="一级分类">
+                                <el-option :label="item.name" :value="item.id" v-for="(item,index) in categories" :key="index"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </div>
+                </el-col>
+                <el-col :span="3">
+                    <div class="grid-content bg-purple">
+                        <el-form-item label="二级分类">
+                            <el-select v-model="json.categoryId2" placeholder="二级分类">
+                                <el-option v-for="(i,j) in categories2" :value="i.id" :key="j" :label="i.name"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </div>
+                </el-col>
                 <el-col :span="4">
                     <div class="grid-content bg-purple flexEnd">
                         <el-form-item>
@@ -96,22 +107,21 @@
         <el-table stripe :data="tableData" border style="width: 100%">
             <el-table-column prop="id" label="id">
             </el-table-column>
-            <el-table-column prop="name" label="优惠券名称">
+            <el-table-column prop="name" label="主图">
             </el-table-column>
-            <el-table-column prop="price" label="优惠券面额"></el-table-column>
-            <el-table-column prop="fullPrice" label="满足使用金额"></el-table-column>
-            <el-table-column prop="？？？" label="类型限制"> </el-table-column>
-            <el-table-column prop="expireDate" label="有效期致"> </el-table-column>
-            <el-table-column prop="totalCount" label="总数量"> </el-table-column>
-            <el-table-column prop="getCount" label="领取数量"> </el-table-column>
-            <el-table-column prop="？？？" label="剩余可领 "> </el-table-column>
-            <el-table-column prop="usedCount" label="使用数量"> </el-table-column>
-            <el-table-column prop="createTime" label="创建时间"> </el-table-column>
-            <el-table-column prop="type" label="能否领取">
+            <el-table-column prop="price" label="商品名称"></el-table-column>
+            <el-table-column prop="fullPrice" label="规格"></el-table-column>
+            <el-table-column prop="？？？" label="分类"> </el-table-column>
+            <el-table-column prop="expireDate" label="原价"> </el-table-column>
+            <el-table-column prop="totalCount" label="总库存"> </el-table-column>
+            <el-table-column prop="getCount" label="单位"> </el-table-column>
+            <el-table-column prop="？？？" label="运费 "> </el-table-column>
+            <el-table-column prop="usedCount" label="上下架">
                 <template slot-scope="scope">
                     <p>{{scope.row.self?'可以':'不可以'}}</p>
                 </template>
             </el-table-column>
+            <el-table-column prop="createTime" label="排序"> </el-table-column>
             <el-table-column label="其他" width="150px">
                 <template slot-scope="scope">
                     <div class="flexSpace otherCtr">
@@ -124,42 +134,30 @@
         </el-table>
     </div>
 
-    <el-dialog title="自动赠送规则：" center :visible.sync="ruleVisible" class="ruleDialog">
+    <el-dialog title="同行优惠规则：" center :visible.sync="ruleVisible" class="ruleDialog">
         <div class="dialogContent">
-            <div class="eachRule flexSpace">
-                <label for="">会员生日赠送：</label>
-                <el-select v-model="rule.birthdayCouponId">
-                    <el-option v-for="(i,j) in couponList" :value="i.id" :key="j" :label="i.name"></el-option>
-                </el-select>
-                <el-switch v-model="rule.birthdayUsed"></el-switch>
+            <div class="eachRule flexCenter">
+                <el-input v-model="rule.personCount"></el-input>人同行<el-input v-model="rule.freeCount"></el-input>免单
             </div>
-            <div class="eachRule flexSpace">
-                <label for="">新人登录赠送：</label>
-                <el-select v-model="rule.newUserCouponId">
-                    <el-option v-for="(i,j) in couponList" :value="i.id" :key="j" :label="i.name"></el-option>
-                </el-select>
-                <el-switch v-model="rule.newUserUsed"></el-switch>
-            </div>
-
         </div>
         <span slot="footer" class="dialog-footer flexCenter flexColumn">
-            <el-button type="primary" @click="submitRule">确 定</el-button>
+            <el-button type="primary" @click="submitRuleFn">确 定</el-button>
             <el-button @click="ruleVisible = false">取 消</el-button>
         </span>
     </el-dialog>
 
     <!-- 创建优惠券： -->
-    <el-dialog title="创建优惠券：" center :visible.sync="addCouponVisible" class="couponDialog">
+    <el-dialog title="创建优惠券：" center :visible.sync="addRuleVisible" class="couponDialog">
         <div class="dialogContent">
-            <el-form :inline="true" :label-position="labelPosition" label-width="140px" :model="newCoupon">
+            <el-form :inline="true" :label-position="labelPosition" label-width="140px" :model="newDiscount">
                 <el-form-item label="优惠券名称：">
-                    <el-input v-model="newCoupon.name"></el-input>
+                    <el-input v-model="newDiscount.name"></el-input>
                 </el-form-item>
                 <el-form-item label="优惠券面额：">
-                    <el-input v-model="newCoupon.price"></el-input>
+                    <el-input v-model="newDiscount.price"></el-input>
                 </el-form-item>
                 <el-form-item label="满足使用金额：">
-                    <el-input v-model="newCoupon.fullPrice"></el-input>
+                    <el-input v-model="newDiscount.fullPrice"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <div slot="label">
@@ -168,12 +166,12 @@
                     </div>
                     <div class=" flexColumn flexStart alignStart">
                         <div class="categorySelect categorySelect1">
-                            <el-select @change="categoriesChange" v-model="newCoupon.categoryId1" placeholder="一级分类">
+                            <el-select @change="categoriesChange" v-model="newDiscount.categoryId1" placeholder="一级分类">
                                 <el-option v-for="(i,j) in categories" :value="i.id" :key="j" :label="i.name"></el-option>
                             </el-select>
                         </div>
                         <div class="categorySelect">
-                            <el-select v-model="newCoupon.categoryId2" placeholder="二级分类">
+                            <el-select v-model="newDiscount.categoryId2" placeholder="二级分类">
                                 <el-option v-for="(i,j) in categories2" :value="i.id" :key="j" :label="i.name"></el-option>
                             </el-select>
                         </div>
@@ -184,7 +182,7 @@
                         <p>总数量：</p>
                         <p class="labelTips">输入0代表无限</p>
                     </div>
-                    <el-input v-model="newCoupon.totalCount"></el-input>
+                    <el-input v-model="newDiscount.totalCount"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <div slot="label">
@@ -193,7 +191,7 @@
                             不设置代表无限
                         </p>
                     </div>
-                    <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss" v-model="newCoupon.expireDate" type="datetime" placeholder="有效期">
+                    <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss" v-model="newDiscount.expireDate" type="datetime" placeholder="有效期">
                     </el-date-picker>
                 </el-form-item>
                 <el-form-item>
@@ -204,7 +202,7 @@
                             中领取使用
                         </p>
                     </div>
-                    <el-select v-model="newCoupon.shelf" placeholder="能否领取">
+                    <el-select v-model="newDiscount.shelf" placeholder="能否领取">
                         <el-option label="是" value="true"></el-option>
                         <el-option label="否" value="false"></el-option>
                     </el-select>
@@ -213,15 +211,15 @@
         </div>
         <span slot="footer" class="dialog-footer flexCenter flexColumn">
             <el-button type="primary" @click="addCoupon">确 定</el-button>
-            <el-button @click="addCouponVisible = false">取 消</el-button>
+            <el-button @click="addRuleVisible = false">取 消</el-button>
         </span>
     </el-dialog>
 
     <!-- 删除的提示框 -->
-    <el-dialog title="提示" center :visible.sync="deleteCouponVisible" width="30%">
+    <el-dialog title="提示" center :visible.sync="deleteDiscountVisible" width="30%">
         <span class="flexCenter">是否删除优惠券</span>
         <span slot="footer" class="dialog-footer">
-            <el-button @click="deleteCouponVisible = false">取 消</el-button>
+            <el-button @click="deleteDiscountVisible = false">取 消</el-button>
             <el-button type="primary" @click="confirmDelete">确 定</el-button>
         </span>
     </el-dialog>
@@ -231,25 +229,20 @@
 <script>
 import {
     listPage,
-    total,
-    rule,
-    list,
+    getRule,
     submitRule,
-    goodCategory,
-    submitCoupone,
-    deleteCoupon,
-    editCoupone
-} from '../../../api/sales/coupon'
+    goodCategory
+} from '../../../api/sales/togetherDiscount'
 export default {
     components: {},
     data() {
         return {
-            deleteCouponVisible: false,
-            deleteCouponId: '',
+            deleteDiscountVisible: false,
+            deleteDiscountId: '',
             labelPosition: 'left',
-            newCoupon: {},
+            newDiscount: {},
             value: false,
-            addCouponVisible: false,
+            addRuleVisible: false,
             ruleVisible: false,
             panelDatas: [{
                 name: '赠送张数',
@@ -274,12 +267,7 @@ export default {
                 pageNum: 1,
                 pageSize: 30
             },
-            rule: {
-                birthdayCouponId: '',
-                birthdayUsed: false,
-                newUserCouponId: '',
-                newUserUsed: false
-            }
+            rule: false
         };
     },
     computed: {},
@@ -295,47 +283,18 @@ export default {
                 }
             })
         },
-        // 数据总汇
-        getTotal() {
-            let that = this;
-            total().then(res => {
-                if (res.code == '00') {
-                    this.panelDatas = [{
-                        name: '赠送张数',
-                        num: res.data.getCount
-                    }, {
-                        name: '使用张数',
-                        num: res.data.usedCount
-                    }, {
-                        name: '赠送金额',
-                        num: '￥' + res.data.price
-                    }, {
-                        name: '使用金额',
-                        num: '￥' + res.data.usedPrice
-                    }]
 
-                }
-            })
-        },
-        // 自动赠送规则
-        getRule() {
+        // 同行优惠规则
+        getRuleFn() {
             let that = this;
-            this.ruleVisible = true;
-            rule({}).then(res => {
+            getRule({}).then(res => {
                 if (res.code == '00') {
                     that.rule = res.data;
                 }
             })
-            list({}).then(res => {
-                if (res.code == '00') {
-                    console.log('uuu')
-                    console.log(res.data)
-                    that.couponList = res.data;
-                }
-            })
         },
         // 提交赠送规则
-        submitRule() {
+        submitRuleFn() {
             let that = this;
             delete this.rule.businessId;
             submitRule(this.rule).then(res => {
@@ -352,7 +311,7 @@ export default {
             })
         },
         showAddCoupon() {
-            this.addCouponVisible = true;
+            this.addRuleVisible = true;
             goodCategory({}).then(res => {
                 if (res.code == '00') {
                     this.categories = res.data;
@@ -361,13 +320,13 @@ export default {
         },
         // 添加券
         addCoupon() {
-            console.log(this.newCoupon)
+            console.log(this.newDiscount)
             let that = this;
-            if (this.newCoupon.id) {
-                let id = this.newCoupon.id;
-                delete this.newCoupon.id;
-                delete this.newCoupon.businessId;
-                editCoupone(this.newCoupon,id).then(res => {
+            if (this.newDiscount.id) {
+                let id = this.newDiscount.id;
+                delete this.newDiscount.id;
+                delete this.newDiscount.businessId;
+                editCoupone(this.newDiscount, id).then(res => {
                     if (res.code == '00') {
                         that.$message({
                             showClose: true,
@@ -376,11 +335,10 @@ export default {
                             type: 'success'
                         })
 
-                    
                     }
                 })
             } else {
-                submitCoupone(this.newCoupon).then(res => {
+                submitCoupone(this.newDiscount).then(res => {
                     if (res.code == '00') {
                         that.$message({
                             showClose: true,
@@ -391,9 +349,9 @@ export default {
                     }
                 })
             }
-            this.addCouponVisible = false;
+            this.addRuleVisible = false;
             this.getList();
-            this.newCoupon={}
+            this.newDiscount = {}
 
         },
         // 一级分类改变获取二级分类
@@ -408,8 +366,8 @@ export default {
             })
         },
         editCouponFn(index) {
-            this.addCouponVisible = true;
-            this.newCoupon = this.tableData[index];
+            this.addRuleVisible = true;
+            this.newDiscount = this.tableData[index];
 
         },
         giveCoupon() {},
@@ -437,8 +395,8 @@ export default {
 
     },
     created() {
-        this.getList();
-        this.getTotal()
+        // this.getList();
+        this.getRuleFn()
     },
     mounted() {},
     beforeCreate() {}, //生命周期 - 创建之前
@@ -465,34 +423,6 @@ export default {
     padding: 0 33px 30px;
 }
 
-.totalPanel {
-    padding: 23px 36px;
-    background-color: #fff;
-    color: #2A3F54;
-    margin-bottom: 20px;
-
-    .eachTotalBox {
-        margin-right: 120px;
-    }
-
-    .title {
-        font-size: 22px;
-        margin-bottom: 30px;
-    }
-
-    .eachTotalBox {
-        .partTitle {
-            font-size: 16px;
-            margin-bottom: 16px;
-        }
-
-        .num {
-            font-size: 22px;
-            font-weight: bold;
-        }
-    }
-}
-
 .dialogContent {
     .eachRule {
         margin-bottom: 43px;
@@ -500,7 +430,9 @@ export default {
 
     .el-input,
     .el-select {
-        max-width: 220px;
+        max-width: 100px;
+        margin-right: 15px;
+        margin-left: 45px;
     }
 }
 

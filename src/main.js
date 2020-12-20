@@ -12,6 +12,8 @@ Vue.use(ElementUI);
 
 Vue.use(VueRouter)
 
+import echarts from "echarts";
+Vue.prototype.$echarts = echarts;
 
 // 样式--start
 import '@/assets/scss/index.scss'
@@ -20,6 +22,11 @@ import '@/theme/index.css'
 // 样式--end
 
 import Routes from '@/router/index.js';
+
+
+// 图片前缀
+Vue.prototype.$imgurl=process.env.IMG_URL;
+console.log(process.env.IMG_URL);
 
 const router = new VueRouter({
   routes: Routes,

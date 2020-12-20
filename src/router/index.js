@@ -123,7 +123,19 @@ let routes = [
             path:'distribution',
             name: 'Distribution',
             component: () => import('@/pages/Sales/distribution/index.vue'),
+          },{
+            path:'togetherDiscount',
+            name: 'TogetherDiscount',
+            component: () => import('@/pages/Sales/togetherDiscount/index.vue'),
+          },{
+            path:'lottery',
+            name: 'Lottery',
+            component: () => import('@/pages/Sales/lottery/index.vue'),
           }
+
+
+
+        
         ]
       }, {
         path: '/comment',
