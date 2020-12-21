@@ -69,7 +69,15 @@ let routes = [
             path: 'editShop',
             name: 'editShop',
             component: () => import('@/pages/Shops/editShop.vue')
+          },
+          {
+            path: 'acountSetting',
+            name: 'acountSetting',
+            component: () => import('@/pages/Shops/acountSetting.vue')
           }
+
+
+          
         ]
       }, {
         path: '/goods',
@@ -131,11 +139,19 @@ let routes = [
             path:'lottery',
             name: 'Lottery',
             component: () => import('@/pages/Sales/lottery/index.vue'),
+          },{
+            path:'member',
+            name: 'member',
+            component: () => import('@/pages/Sales/member/index.vue'),
+          },{
+            path:'messagePush',
+            name: 'messagePush',
+            component: () => import('@/pages/Sales/messagePush/index.vue'),
+          },{
+            path:'fullReductionDiscount',
+            name: 'fullReductionDiscount',
+            component: () => import('@/pages/Sales/fullReductionDiscount/index.vue'),
           }
-
-
-
-        
         ]
       }, {
         path: '/comment',

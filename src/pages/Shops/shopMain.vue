@@ -102,7 +102,7 @@ export default {
         // 账户设置
         toSetting(){
             this.$router.push({
-                path:'/acountSetting'
+                path:'/shops/acountSetting'
             })
         }
     },

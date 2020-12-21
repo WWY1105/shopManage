@@ -23,15 +23,15 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <!-- <el-form-item label="营业行业">
-                    <el-select v-model="formLabelAlign.invoice">
-                        <el-option v-for="item in invoices" :key="item.code" :label="item.text" :value="item.code">
+                <el-form-item label="营业行业">
+                    <el-select v-model="formLabelAlign.typeId">
+                        <el-option v-for="item in typeList" :key="item.id" :label="item.name" :value="item.id">
                         </el-option>
                     </el-select>
-                </el-form-item> -->
+                </el-form-item>
             </el-form>
             <div class="btnBox flexCenter">
-                <el-button class="searchBtn">确定</el-button>
+                <el-button class="searchBtn" @click="saveDataFn">确定</el-button>
             </div>
 
         </div>
@@ -42,10 +42,12 @@
 </template>
 
 <script>
+import {getType,putInfo,getData} from '../../api/shops/index'
 export default {
     components: {},
     data() {
         return {
+            typeList:[],//营业行业列表
             invoices: [{
                     code: 1,
                     text: '不开发票'
@@ -65,10 +67,59 @@ export default {
     computed: {},
     watch: {},
     methods: {
+        getTypeFn(){
+            let that=this;
+            getType({}).then(res=>{
+                if(res.code=='00'){
+                    that.typeList=res.data;
+                }
+            })
+        },
+        saveDataFn(){
+             let that=this;
+             let json={};
+             if(this.formLabelAlign.name){
+                  json.name=this.formLabelAlign.name;
+             }
+             if(this.formLabelAlign.address){
+                  json.address=this.formLabelAlign.address;
+             }
+              if(this.formLabelAlign.tel){
+                  json.tel=this.formLabelAlign.tel;
+             }
+             if(this.formLabelAlign.invoice){
+                  json.invoice=this.formLabelAlign.invoice;
+             }
+             if(this.formLabelAlign.typeId){
+                  json.typeId=this.formLabelAlign.typeId;
+             }
+
+            putInfo(json).then(res=>{
+                if(res.code=='00'){
+                    that.$message({
+                        showClose: true,
+                        message: '保存成功',
+                        duration: 3 * 1000,
+                        type: 'success'
+                    })
+                    that.getDataFn()
+                }
+            })
+        },
+        getDataFn(){
+             let that=this;
+            getData({}).then(res=>{
+                if(res.code=='00'){
+                    that.formLabelAlign=res.data;
+                }
+            })
+        }
+
 
     },
     created() {
-
+        this.getTypeFn();
+        this.getDataFn()
     },
     mounted() {
 

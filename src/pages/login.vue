@@ -6,10 +6,10 @@
         <el-form>
             <div class="flexStart flexColumn">
                 <el-form-item>
-                    <el-input placeholder="账户" v-model="username"></el-input>
+                    <el-input placeholder="账户" v-model="username" @change="onSubmit"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-input placeholder="密码" v-model="password"></el-input>
+                    <el-input placeholder="密码" v-model="password" @change="onSubmit"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-button class="searchBtn loginBtn" @click="onSubmit">登陆</el-button>
