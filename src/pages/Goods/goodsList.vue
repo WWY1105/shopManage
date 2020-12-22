@@ -88,7 +88,7 @@
                         <div class="grid-content bg-purple">
                             <el-form-item label="营销">
                                 <el-select v-model="json.sellType" placeholder="营销">
-                                     <el-option label="全部" value=""></el-option>
+                                    <el-option label="全部" value=""></el-option>
                                     <el-option label="预售" value="ys"></el-option>
                                     <el-option label="拼团" value="pt"></el-option>
                                     <el-option label="秒杀" value="ms"></el-option>
@@ -165,7 +165,7 @@
     <el-dialog title="分类管理" center :visible.sync="categoryVisible" class="categoryDialog">
         <div class="dialogContent">
             <div class="categoryBox">
-                <div class="firstCategory"  v-for="(item,index) in categoryList" :key="index">
+                <div class="firstCategory" v-for="(item,index) in categoryList" :key="index">
                     <div class="firstCategoryName flexStart">
                         <span class="categoryLabel">分类</span>
                         <div class="tags">
@@ -177,22 +177,21 @@
                     <div class="firstCategoryChildren flexStart">
                         <span class="categoryLabel">子分类</span>
                         <div class="eachChildren flexStart flexWrap">
-                            <el-input 
-                            autofocus
-                            v-for="(tag,tagIndex) in item.categories" :key="tag.name" closable :type="tag.type"
-                            :value="tag.name" 
-                            @input="val=>getChilInput(val,index,tagIndex)" 
-                            class="addCategory" 
-                            clearable>
-                            </el-input>
-                            <el-input 
+                            <el-tag v-for="(tag,tagIndex) in item.categories" :key="tagIndex" closable :type="tag.type" closable>
+                                <!-- 原有分类 -->
+                                <el-input autofocus v-model="tag.name" placeholder="+添加子分类" class="addCategory" @change="val=>childCategoryChange(val,index,tagIndex)" clearable>
+                                </el-input>
+                            </el-tag>
+
+                            <!-- 新增的分类 -->
+                            <!-- <el-input 
                             autofocus
                             :value="childrenVal+tagIndex" 
                             @input="val=>getChilInput(val,index,tagIndex)" 
                             placeholder="+添加子分类" 
                             class="addCategory" 
                             clearable>
-                            </el-input>
+                            </el-input> -->
 
                         </div>
                     </div>
@@ -202,7 +201,7 @@
                     <div class="firstCategoryName flexStart">
                         <span class="categoryLabel">分类</span>
                         <div class="tags">
-                            <el-input  autofocus :value="parentVal" @input="getParentInput" @change="(val) => addParent(val,0)" placeholder="+添加一个分类" class="addCategory m0" clearable>
+                            <el-input autofocus :value="parentVal" @input="getParentInput" @change="(val) => addParent(val,0)" placeholder="+添加一个分类" class="addCategory m0" clearable>
                             </el-input>
                         </div>
                     </div>
@@ -276,11 +275,15 @@ export default {
         getCategory() {
             getCategory().then(res => {
                 if (res.code == '00') {
-                    res.data.map(i=>{
-                        if(!i.categories||i.categories.length==0){
-                            i.categories=[{name:''}]
-                        }else if(i.categories.length>0){
-                            i.categories.push({name:''})
+                    res.data.map(i => {
+                        if (!i.categories || i.categories.length == 0) {
+                            i.categories = [{
+                                name: ''
+                            }]
+                        } else if (i.categories.length > 0) {
+                            i.categories.push({
+                                name: ''
+                            })
                         }
                     })
                     this.categoryList = res.data;
@@ -289,12 +292,16 @@ export default {
             })
         },
         // 监听子类输入
-        getChilInput(val, index,chilIndex) {
+        childCategoryChange(val, index, chilIndex) {
             // index 是父类的index
-             console.log('val='+val)
-            console.log('index='+index)
-            this[childrenVal+index]=val;
-            console.log(this[childrenVal+index])
+            console.log('当前val=' + val)
+            console.log('父级index=' + index)
+            console.log('子类index=' + chilIndex)
+            if (val.trim() != '') {
+
+            }
+            this[childrenVal + index] = val;
+            console.log(this[childrenVal + index])
             //  this.categoryList[index].categories[chilIndex].name= val;
             //   console.log(this.categoryList)
         },
@@ -320,11 +327,11 @@ export default {
             }
         },
         // 添加子类回车
-        addCategoryChildren(val, pid, index,chilIndex) {
+        addCategoryChildren(val, pid, index, chilIndex) {
             let that = this;
-              console.log('pid='+pid)
-               console.log('val='+val)
-              console.log('index='+index)
+            console.log('pid=' + pid)
+            console.log('val=' + val)
+            console.log('index=' + index)
             // if (!this.childrenVal) {
             //     that.$message({
             //         showClose: true,
@@ -363,7 +370,7 @@ export default {
         // 保存分类
         saveCategory() {
             console.log(this.categoryList)
-
+            return;
             let that = this;
             let params = [];
             this.categoryList.map(i => {

@@ -69,11 +69,14 @@ let routes = [
             path: 'editShop',
             name: 'editShop',
             component: () => import('@/pages/Shops/editShop.vue')
-          },
-          {
+          }, {
             path: 'acountSetting',
             name: 'acountSetting',
             component: () => import('@/pages/Shops/acountSetting.vue')
+          }, {
+            path: 'setStyle',
+            name: 'setStyle',
+            component: () => import('@/pages/Shops/setStyle.vue')
           }
 
 
@@ -164,7 +167,19 @@ let routes = [
       }, {
         path: '/setting',
         name: 'Setting',
-        component: () => import('@/pages/Setting/index.vue'),
+        component: () => import('@/pages/Setting/main.vue'),
+        children:[
+          {
+            path:'/',
+            name: 'saleMain',
+            component: () => import('@/pages/Setting/index.vue'),
+          },
+          {
+            path:'setPhone',
+            name: 'setPhone',
+            component: () => import('@/pages/Setting/setPhone.vue'),
+          }
+        ]
       }, {
         path: '/union',
         name: 'Union',
@@ -196,6 +211,10 @@ let routes = [
     path: '/login',
     name: 'Login',
     component: () => import('@/pages/login.vue')
+  }, {
+    path: '/bindPhone',
+    name: 'BindPhone',
+    component: () => import('@/pages/bindPhone.vue')
   }
 ]
 export default routes;

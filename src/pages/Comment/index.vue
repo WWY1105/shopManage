@@ -4,7 +4,7 @@
     <div class="searchBox bgf">
         <el-form label-position="top">
             <el-row :gutter="20" type="flex" justify="start" align="bottom">
-                <el-col :span="21">
+                <el-col :span="20">
                     <el-row :gutter="20" type="flex" justify="space-between" align="bottom">
                         <el-col :span="6">
                             <div class="grid-content bg-purple">

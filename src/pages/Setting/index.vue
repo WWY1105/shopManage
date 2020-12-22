@@ -6,6 +6,10 @@
         <p class="chTitle">安全设置</p>
         <p class="enTitle">security setting</p>
         <div class="content flexCenter">
+             <router-link :to="{path:'/setting/setPhone'}" class="settingPart flexCenter flexColumn editPhone">
+                <img src="../../assets/images/setting/phone.png" alt="">
+                <p>绑定手机号</p>
+            </router-link>
             <div class="settingPart flexCenter flexColumn editPas">
                 <img src="../../assets/images/setting/editPass.png" alt="">
                 <p>修改登录密码</p>
@@ -77,7 +81,7 @@ export default {
 
             .settingPart {
                 margin: 0 15px;
-                background: #F4F4F4;
+                // background: #F4F4F4;
                 height: 376px;
                 border-radius: 10px;
                 font-size: 22px;

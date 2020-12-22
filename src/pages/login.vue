@@ -6,10 +6,10 @@
         <el-form>
             <div class="flexStart flexColumn">
                 <el-form-item>
-                    <el-input placeholder="账户" v-model="username" @change="onSubmit"></el-input>
+                    <el-input placeholder="账户" v-model="username"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-input placeholder="密码" v-model="password" @change="onSubmit"></el-input>
+                    <el-input placeholder="密码" show-password v-model="password" @change="onSubmit"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-button class="searchBtn loginBtn" @click="onSubmit">登陆</el-button>
@@ -50,8 +50,7 @@ export default {
                     grant_type: 'password',
                     username: this.username,
                     password: this.password
-                    // username: 'test2',
-                    // password: '1234'
+                 
                 }).then(function (response) {
                     console.log(response);
                     if (response && response.access_token) {
@@ -66,14 +65,23 @@ export default {
         },
         // 获取用户信息
         getUserInfo() {
-            let that=this;
+            let that = this;
             that.$store.dispatch('GetInfo').then((res) => {
-                that.$store.dispatch('Branch').then((res) => {
-                    console.log('执行')
-                    that.$router.push({
-                        path: '/'
+                if (res.code == '00') {
+                    that.$store.dispatch('Branch').then((res) => {
+                        if (!res.data.mobile) {
+                            that.$router.push({
+                                path: '/bindPhone'
+                            })
+                        } else {
+                            that.$router.push({
+                                path: '/'
+                            })
+                        }
                     })
-                })
+
+                }
+
             })
         }
     },

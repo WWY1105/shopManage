@@ -34,7 +34,9 @@
                     <span> 主题色：</span>
                     <span class="color"></span>
                 </p>
-                <el-button class="searchBtn setStyleBtn">修改</el-button>
+                <router-link :to="{path:'/shops/setStyle'}">
+                    <el-button class="searchBtn setStyleBtn">修改</el-button>
+                </router-link>
             </div>
         </div>
     </div>

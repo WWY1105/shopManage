@@ -34,7 +34,9 @@
                 <el-col :span="5">
                     <div class="grid-content bg-purple">
                         <el-form-item label="客户组">
-                            <el-input v-model="json.usergroup" placeholder="客户组"></el-input>
+                            <el-select v-model="json.usergroup" placeholder="客户组">
+                                <el-option  v-for="(i,j) in groupList" :value="i.value" :label="i.text" :key="j"></el-option>
+                            </el-select>
                         </el-form-item>
                     </div>
                 </el-col>
@@ -120,6 +122,21 @@ export default {
     components: {},
     data() {
         return {
+              groupList: [{
+                    text: '全部',
+                    value: 'all'
+                },
+                {
+                    text: '普通用户',
+                    value: 'pt'
+                }, {
+                    text: '会员',
+                    value: 'hy'
+                }, {
+                    text: '星卡通',
+                    value: 'xkt'
+                }
+            ],
             panelDatas: [{
                 name: '用户量',
                 num: 0

@@ -11,13 +11,13 @@
                 <h2 class="title">您正在重设商户管理台登录密码</h2>
                 <el-form label-position="left" :model="form" label-width="110px" ref="form" :rules="rules">
                     <el-form-item label="输入旧密码" prop="oldPassword">
-                        <el-input placeholder="输入旧密码" v-model="form.oldPassword"></el-input>
+                        <el-input placeholder="输入旧密码" show-password v-model="form.oldPassword"></el-input>
                     </el-form-item>
                     <el-form-item label="输入新密码" prop="password">
-                        <el-input placeholder="输入新密码" v-model="form.password"></el-input>
+                        <el-input placeholder="输入新密码" show-password v-model="form.password"></el-input>
                     </el-form-item>
                     <el-form-item label="确认新密码" prop="confirmPass">
-                        <el-input placeholder="确认新密码" v-model="form.confirmPass">
+                        <el-input placeholder="确认新密码" show-password v-model="form.confirmPass">
                         </el-input>
                     </el-form-item>
                 </el-form>

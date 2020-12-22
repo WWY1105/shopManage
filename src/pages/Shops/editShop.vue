@@ -3,23 +3,29 @@
 <div class='editShop bgf'>
     <div class="content flexCenter flexColumn">
         <div class="logoBox flexCenter flexColumn">
-            <img src="../../assets/images/header/user.png" class="logoImg" alt="">
-            <p class="editText">修改头像</p>
+            <img :src="formLabelAlign.imgurl?$imgurl+formLabelAlign.imgurl:'../../assets/images/header/user.png'" class="logoImg" alt="">
+            <el-upload class="upload-demo" :action="$uploadApi" :on-success="handleAvatarSuccess" :show-file-list="false">
+                <p class="editText flexCenter"><i class="el-icon-edit-outline"></i> 修改头像</p>
+            </el-upload>
+
         </div>
         <div class="formBox ">
-            <el-form label-position="left" label-width="120px" :model="formLabelAlign" >
+            <el-form label-position="left" label-width="120px" :model="formLabelAlign">
                 <el-form-item label="公司名称">
                     <el-input v-model="formLabelAlign.name"></el-input>
                 </el-form-item>
                 <el-form-item label="公司地址">
-                    <el-input v-model="formLabelAlign.address"></el-input>
+                    <div class="flexStart">
+                          <el-input v-model="formLabelAlign.address"></el-input>
+                          <img src="../../assets/images/shops/locateIcon.png" alt="" class="locateIocn">
+                    </div>
                 </el-form-item>
                 <el-form-item label="联系电话">
                     <el-input v-model="formLabelAlign.tel"></el-input>
                 </el-form-item>
                 <el-form-item label="发票类型">
                     <el-select v-model="formLabelAlign.invoice">
-                        <el-option v-for="item in invoices" :key="item.code" :label="item.text" :value="item.code">
+                        <el-option v-for="item in invoices"  :key="item.id" :label="item.name" :value="item.id">
                         </el-option>
                     </el-select>
                 </el-form-item>
@@ -42,23 +48,27 @@
 </template>
 
 <script>
-import {getType,putInfo,getData} from '../../api/shops/index'
+import {
+    getType,
+    putInfo,
+    getData
+} from '../../api/shops/index'
 export default {
     components: {},
     data() {
         return {
-            typeList:[],//营业行业列表
+            typeList: [], //营业行业列表
             invoices: [{
-                    code: 1,
-                    text: '不开发票'
+                    id: '1',
+                    name: '不开发票'
                 },
                 {
-                    code: 2,
-                    text: '普票'
+                    id:' 2',
+                    name: '普票'
                 },
                 {
-                    code: 3,
-                    text: '专票与普票'
+                    id: '3',
+                    name: '专票与普票'
                 }
             ],
             formLabelAlign: {}
@@ -67,35 +77,45 @@ export default {
     computed: {},
     watch: {},
     methods: {
-        getTypeFn(){
-            let that=this;
-            getType({}).then(res=>{
-                if(res.code=='00'){
-                    that.typeList=res.data;
+        getTypeFn() {
+            let that = this;
+            getType({}).then(res => {
+                if (res.code == '00') {
+                    that.typeList = res.data;
                 }
             })
         },
-        saveDataFn(){
-             let that=this;
-             let json={};
-             if(this.formLabelAlign.name){
-                  json.name=this.formLabelAlign.name;
-             }
-             if(this.formLabelAlign.address){
-                  json.address=this.formLabelAlign.address;
-             }
-              if(this.formLabelAlign.tel){
-                  json.tel=this.formLabelAlign.tel;
-             }
-             if(this.formLabelAlign.invoice){
-                  json.invoice=this.formLabelAlign.invoice;
-             }
-             if(this.formLabelAlign.typeId){
-                  json.typeId=this.formLabelAlign.typeId;
-             }
+        handleAvatarSuccess(res, file) {
+            if(res.code=='00'){
+                this.formLabelAlign.imgurl = res.data;
+                this.saveDataFn()
+            }
+          
+        },
+        saveDataFn() {
+            let that = this;
+            let json = {};
+            if (this.formLabelAlign.imgurl) {
+                json.imgurl = this.formLabelAlign.imgurl;
+            }
+            if (this.formLabelAlign.name) {
+                json.name = this.formLabelAlign.name;
+            }
+            if (this.formLabelAlign.address) {
+                json.address = this.formLabelAlign.address;
+            }
+            if (this.formLabelAlign.tel) {
+                json.tel = this.formLabelAlign.tel;
+            }
+            if (this.formLabelAlign.invoice) {
+                json.invoice = this.formLabelAlign.invoice;
+            }
+            if (this.formLabelAlign.typeId) {
+                json.typeId = this.formLabelAlign.typeId;
+            }
 
-            putInfo(json).then(res=>{
-                if(res.code=='00'){
+            putInfo(json).then(res => {
+                if (res.code == '00') {
                     that.$message({
                         showClose: true,
                         message: '保存成功',
@@ -106,15 +126,14 @@ export default {
                 }
             })
         },
-        getDataFn(){
-             let that=this;
-            getData({}).then(res=>{
-                if(res.code=='00'){
-                    that.formLabelAlign=res.data;
+        getDataFn() {
+            let that = this;
+            getData({}).then(res => {
+                if (res.code == '00') {
+                    that.formLabelAlign = res.data;
                 }
             })
         }
-
 
     },
     created() {
@@ -156,6 +175,9 @@ export default {
         line-height: 60px;
 
     }
+    /deep/  .el-input__suffix{
+        right:100px;
+    }
 
     /deep/ .el-input__inner {
         background-color: transparent !important;
@@ -164,6 +186,7 @@ export default {
         color: #000;
         font-size: 16px;
         height: 60px;
+        padding-right: 30px;
 
     }
 
@@ -180,12 +203,18 @@ export default {
             width: 100px;
             height: 100px;
             margin-bottom: 34px;
+            border-radius: 50%;
         }
 
         .editText {
             color: #00B0F0;
             font-size: 16px;
             margin-bottom: 30px;
+            cursor: pointer;
+
+            i {
+                margin-right: 8px;
+            }
         }
     }
 
@@ -201,5 +230,8 @@ export default {
         border-radius: 30px;
         font-size: 22px;
     }
+}
+.locateIocn{
+    margin-left: 30px;
 }
 </style>

@@ -9,12 +9,12 @@
                 </span>
             </div>
         </div>
-         <div class="totalData flexSpace">
-                <div class="eachData" v-for="(i,j) in totalData" :key="j">
-                    <p class="num"> {{i.value}} </p>
-                    <p> {{i.text}} </p>
-                </div>
+        <div class="totalData flexSpace">
+            <div class="eachData" v-for="(i,j) in totalData" :key="j">
+                <p class="num"> {{i.value}} </p>
+                <p> {{i.text}} </p>
             </div>
+        </div>
     </div>
     <div class="dataBox">
         <el-row :gutter="20">
@@ -67,7 +67,8 @@ export default {
                     text: '总用户量',
                     value: 0
                 }
-            ]
+            ],
+            user: {}
         };
     },
     computed: {},
@@ -76,7 +77,15 @@ export default {
 
     },
     created() {
-
+        let state = {
+            ...this.$store.state
+        };
+        this.user = state.user ? state.user : {};
+        if (!this.user.mobild) {
+            // this.$router.push({
+            //     path: '/bindPhone'
+            // })
+        }
     },
     mounted() {
 
@@ -110,24 +119,27 @@ export default {
 
     .totalData {
         width: 100%;
+
         .eachData {
             text-align: center;
             border-right: 1px solid #B9B9B9;
             font-size: 16px;
             font-weight: 400;
             color: #000000;
-            width:16.6% ;
+            width: 16.6%;
+
             &:last-child {
                 border: none;
             }
-            &.active{
+
+            &.active {
                 color: #00B0F0;
             }
 
             .num {
                 font-size: 28px;
                 font-weight: bold;
-                
+
                 margin-bottom: 25px;
             }
         }
