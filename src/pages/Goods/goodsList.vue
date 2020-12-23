@@ -69,8 +69,8 @@
                     <el-col :span="3">
                         <div class="grid-content bg-purple">
                             <el-form-item label="一级分类">
-                                <el-select v-model="json.categoryId" placeholder="一级分类">
-                                    <el-option :label="item.name" :value="item.id" v-for="(item,index) in categoryList" :key="index"></el-option>
+                                <el-select v-model="json.categoryId" placeholder="一级分类"  @change="categoriesChange">
+                                    <el-option :label="item.name" :value="item.id" v-for="(item,index) in searchCategoryList" :key="index"></el-option>
                                 </el-select>
                             </el-form-item>
                         </div>
@@ -169,44 +169,21 @@
                     <div class="firstCategoryName flexStart">
                         <span class="categoryLabel">分类</span>
                         <div class="tags">
-                            <el-tag effect="dark" color="#00aef1" closable @close="deleteCategory(item.id)">
-                                {{item.name}}
+                            <el-tag :color="item.name?'#00aef1':''" closable @close="deleteCategoryParent(item.id,index)">
+                                <el-input autofocus v-model="item.name" placeholder="+添加一个分类" class="addCategory" @change="val=>parentCategoryChange(val,index)">
+                                </el-input>
                             </el-tag>
                         </div>
                     </div>
                     <div class="firstCategoryChildren flexStart">
                         <span class="categoryLabel">子分类</span>
                         <div class="eachChildren flexStart flexWrap">
-                            <el-tag v-for="(tag,tagIndex) in item.categories" :key="tagIndex" closable :type="tag.type" closable>
+                            <el-tag :color="tag.name?'#00aef1':''" v-for="(tag,tagIndex) in item.categories" :key="tagIndex" closable :type="tag.type" @close="deleteCategoryChild(tag.id,item.id,tagIndex,index)">
                                 <!-- 原有分类 -->
-                                <el-input autofocus v-model="tag.name" placeholder="+添加子分类" class="addCategory" @change="val=>childCategoryChange(val,index,tagIndex)" clearable>
+                                <el-input autofocus v-model="tag.name" placeholder="+添加子分类" class="addCategory" @change="val=>childCategoryChange(val,index,tagIndex)" @keyup.enter.native="val=>childEnter(val,index,tagIndex)">
                                 </el-input>
                             </el-tag>
-
-                            <!-- 新增的分类 -->
-                            <!-- <el-input 
-                            autofocus
-                            :value="childrenVal+tagIndex" 
-                            @input="val=>getChilInput(val,index,tagIndex)" 
-                            placeholder="+添加子分类" 
-                            class="addCategory" 
-                            clearable>
-                            </el-input> -->
-
                         </div>
-                    </div>
-                </div>
-                <!-- 添加父类 -->
-                <div class="firstCategory">
-                    <div class="firstCategoryName flexStart">
-                        <span class="categoryLabel">分类</span>
-                        <div class="tags">
-                            <el-input autofocus :value="parentVal" @input="getParentInput" @change="(val) => addParent(val,0)" placeholder="+添加一个分类" class="addCategory m0" clearable>
-                            </el-input>
-                        </div>
-                    </div>
-                    <div class="firstCategoryChildren ">
-
                     </div>
                 </div>
             </div>
@@ -233,7 +210,7 @@ export default {
         return {
             childrenVal: '',
             parentVal: '',
-            categoryVisible: true, //新增分类的弹窗
+            categoryVisible: false, //新增分类的弹窗
             categoryList: [],
             categories2: [],
             pageData: 0,
@@ -252,10 +229,8 @@ export default {
     methods: {
         // 一级分类改变获取二级分类
         categoriesChange(e) {
-            console.log('改变');
-            console.log(e)
             let id = e;
-            this.categories.map(i => {
+            this.searchCategoryList.map(i => {
                 if (i.id == id) {
                     this.categories2 = i.categories;
                 }
@@ -275,6 +250,7 @@ export default {
         getCategory() {
             getCategory().then(res => {
                 if (res.code == '00') {
+                    this.searchCategoryList=res.data;
                     res.data.map(i => {
                         if (!i.categories || i.categories.length == 0) {
                             i.categories = [{
@@ -286,24 +262,50 @@ export default {
                             })
                         }
                     })
+                    res.data.push({
+                        name: '',
+                        categories: [{
+                            name: ''
+                        }]
+                    })
+
                     this.categoryList = res.data;
                     console.log(res.data)
                 }
             })
         },
+        // 子分类回车
+        childEnter(val, index, chilIndex) {
+            let last = this.categoryList[index].categories.length - 1;
+            if (this.categoryList[index].categories[last].name.trim() != '') {
+                this.categoryList[index].categories.push({
+                    name: ''
+                })
+            }
+
+        },
+        // 监听父类的改变
+        parentCategoryChange(val, index) {
+            // console.log('父类回车')
+            // console.log(val, index)
+            let last = this.categoryList.length - 1;
+            if (this.categoryList[last].name.trim() != '') {
+                if (val.trim() != '') {
+                    this.categoryList[index].name = val;
+                    
+                    this.categoryList.push({
+                        name: '',
+                        categories:[{name:''}]
+                    })
+                }
+            }
+        },
         // 监听子类输入
         childCategoryChange(val, index, chilIndex) {
-            // index 是父类的index
-            console.log('当前val=' + val)
-            console.log('父级index=' + index)
-            console.log('子类index=' + chilIndex)
             if (val.trim() != '') {
-
+                this.categoryList[index].categories[chilIndex].name = val;
             }
-            this[childrenVal + index] = val;
-            console.log(this[childrenVal + index])
-            //  this.categoryList[index].categories[chilIndex].name= val;
-            //   console.log(this.categoryList)
+            console.log(this.categoryList)
         },
         getParentInput(val) {
             this.parentVal = val;
@@ -326,75 +328,83 @@ export default {
                 this.parentVal = ''
             }
         },
-        // 添加子类回车
-        addCategoryChildren(val, pid, index, chilIndex) {
+        // 删除父类
+        deleteCategoryParent(id, index) {
             let that = this;
-            console.log('pid=' + pid)
-            console.log('val=' + val)
-            console.log('index=' + index)
-            // if (!this.childrenVal) {
-            //     that.$message({
-            //         showClose: true,
-            //         message: '请输入分类名字',
-            //         duration: 3 * 1000,
-            //         type: 'error'
-            //     })
-            // } else {
-            //     this.categoryList[index].categories.push({
-            //         name: val
-            //     })
-            //     this.childrenVal = ''
-            // }
+            if (id) {
+                deleteCate(id).then(res => {
+                    if (res.code == '00') {
+                        this.childrenVal = '';
+                        that.$message({
+                            showClose: true,
+                            message: '删除成功',
+                            duration: 3 * 1000,
+                            type: 'success'
+                        })
+                        that.getCategory()
+                    }
+                })
+            } else {
+                that.categoryList.splice(index, 1)
+            }
 
         },
-        // 删除
-        deleteCategory(id) {
+        // 删除子类
+        deleteCategoryChild(childid, pid, childIndex, pIndex) {
             let that = this;
-            deleteCate(id).then(res => {
-                if (res.code == '00') {
-                    this.childrenVal = '';
-                    that.$message({
-                        showClose: true,
-                        message: '删除成功',
-                        duration: 3 * 1000,
-                        type: 'success'
-                    })
-                    that.getCategory()
-                }
-            })
-        },
-        // 查询
-        onSubmit() {
+            console.log(childid)
+            if (childid) {
+                deleteCate(childid).then(res => {
+                    if (res.code == '00') {
+                        this.childrenVal = '';
+                        that.$message({
+                            showClose: true,
+                            message: '删除成功',
+                            duration:2000,
+                            type: 'success'
+                        })
+                        that.getCategory()
+                    }
+                })
+            } else {
+                that.categoryList[pIndex].categories.splice(childIndex, 1)
+            }
 
         },
+
         // 保存分类
         saveCategory() {
-            console.log(this.categoryList)
-            return;
             let that = this;
             let params = [];
+            // console.log(this.categoryList)
             this.categoryList.map(i => {
-                let json = {};
-                json.name = i.name;
-                if (i.categories) {
-                    i.categories.map(j => {
-                        json.items = [];
-                        json.items.push(j.name)
-                    })
-                } else {
-                    json.items = []
+                console.log(i)
+                if (i.name) {
+                    let json = {};
+                    json.name = i.name;
+                    json.items = [];
+                    if (i.categories && i.categories.length > 0) {
+                        i.categories.map(j => {
+                            if (j.name) {
+                                json.items.push(j.name)
+                            }
+                        })
+                    } else {
+                        json.items = []
+                    }
+                    params.push(json)
                 }
-                params.push(json)
+
             })
             console.log(params)
-            // return;
+
             save(params).then(res => {
                 if (res.code == '00') {
                     this.childrenVal = '';
                     that.$message({
                         showClose: true,
-                        message: '添加成功',
-                        duration: 3 * 1000,
+                        message: '保存成功',
+                        duration: 1 * 1000,
                         type: 'success',
                         onClose: () => {
                             that.categoryVisible = false
@@ -475,22 +485,26 @@ input:-ms-input-placeholder {
         text-align: left;
     }
 
-    .firstCategoryName {
+    .firstCategory {
         margin-bottom: 33px;
     }
 
+    .firstCategoryName {
+        margin-bottom: 33px;
+        align-items: flex-start;
+    }
+
     .firstCategoryChildren {
-        margin-bottom: 38px;
+        padding-bottom: 38px;
         border-bottom: 1px solid #C9C9C9;
         align-items: flex-start;
 
-        .eachChildren {
-            .el-tag {
-                margin-right: 30px;
-                margin-bottom: 33px;
-            }
-        }
     }
+}
+
+.tags {
+    // margin-bottom: 33px;
+
 }
 
 .el-tag {
@@ -501,7 +515,9 @@ input:-ms-input-placeholder {
     position: relative;
     line-height: 34px;
     font-size: 14px;
-
+    margin-right: 30px;
+    padding: 0;
+    border: none;
 }
 
 .addCategory {
@@ -510,7 +526,6 @@ input:-ms-input-placeholder {
     box-sizing: border-box;
     border-radius: 17px;
     margin-right: 30px;
-    margin-bottom: 33px;
 
     /deep/ .el-input__inner {
         text-align: center;

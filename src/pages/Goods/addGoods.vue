@@ -6,7 +6,7 @@
             <el-row :gutter="33">
                 <el-col :span="16">
                     <el-form-item label="商品">
-                        <el-input></el-input>
+                        <el-input v-model="form.title"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="5">
@@ -14,9 +14,9 @@
                         <el-input></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="3">
+                <el-col :span="3" v-if="form.id">
                     <el-form-item label="商品ID：">
-
+                        <el-input v-model="form.id"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -26,12 +26,16 @@
             <el-row :gutter="33">
                 <el-col :span="6">
                     <el-form-item label="一级分类">
-                        <el-select></el-select>
+                        <el-select v-model="form.categoryId" placeholder="一级分类" @change="categoriesChange">
+                            <el-option :label="item.name" :value="item.id" v-for="(item,index) in categoryList" :key="index"></el-option>
+                        </el-select>
                     </el-form-item>
                 </el-col>
                 <el-col :span="6">
                     <el-form-item label="二级分类">
-                        <el-select></el-select>
+                        <el-select v-model="form.categoryId2" placeholder="二级分类">
+                            <el-option v-for="(i,j) in categories2" :value="i.id" :key="j" :label="i.name"></el-option>
+                        </el-select>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -40,7 +44,7 @@
             <div class="flexStart alignStart">
                 <div class="partTitle mainText mr24">上传主图</div>
                 <div class="content">
-                    <el-upload action="#" list-type="picture-card" :auto-upload="false">
+                    <el-upload :file-list="fileList" :action="$uploadApi" :on-success="handleAvatarSuccess"  list-type="picture-card" :auto-upload="false">
                         <i slot="default" class="el-icon-plus"></i>
                         <div slot="file" slot-scope="{file}">
                             <img class="el-upload-list__item-thumbnail" :src="file.url" alt="">
@@ -48,18 +52,15 @@
                                 <span class="el-upload-list__item-preview" @click="handlePictureCardPreview(file)">
                                     <i class="el-icon-zoom-in"></i>
                                 </span>
-                                <span v-if="!disabled" class="el-upload-list__item-delete" @click="handleDownload(file)">
+                                <span  class="el-upload-list__item-delete" @click="handleDownload(file)">
                                     <i class="el-icon-download"></i>
                                 </span>
-                                <span v-if="!disabled" class="el-upload-list__item-delete" @click="handleRemove(file)">
+                                <span  class="el-upload-list__item-delete" @click="handleRemove(file)">
                                     <i class="el-icon-delete"></i>
                                 </span>
                             </span>
                         </div>
                     </el-upload>
-                    <el-dialog :visible.sync="dialogVisible">
-                        <img width="100%" :src="dialogImageUrl" alt="">
-                    </el-dialog>
                 </div>
             </div>
             <p class="tips">
@@ -71,7 +72,7 @@
             <div class="flexStart alignStart">
                 <div class="partTitle mainText mr24">商品详情</div>
                 <div class="content">
-                    <el-upload action="#" list-type="picture-card" :auto-upload="false">
+                    <el-upload  list-type="picture-card" :auto-upload="false">
                         <i slot="default" class="el-icon-plus"></i>
                         <div slot="file" slot-scope="{file}">
                             <img class="el-upload-list__item-thumbnail" :src="file.url" alt="">
@@ -88,9 +89,9 @@
                             </span>
                         </div>
                     </el-upload>
-                    <el-dialog :visible.sync="dialogVisible">
+                    <!-- <el-dialog :visible.sync="dialogVisible">
                         <img width="100%" :src="dialogImageUrl" alt="">
-                    </el-dialog>
+                    </el-dialog> -->
                 </div>
             </div>
             <p class="tips">
@@ -101,18 +102,17 @@
         <div class="part">
             <div class="partTitle mainText mb20">配送与物流</div>
             <el-row :gutter="33">
-                <el-col :span="6">
+                <el-col :span="7">
                     <el-form-item label="配送方式">
                         <el-select></el-select>
                     </el-form-item>
                 </el-col>
-                <el-col :span="6">
+                <el-col :span="7">
                     <el-form-item label="物流费用￥">
                         <div class="flexCenter">
                             <el-select></el-select>
                             <span>/件商品</span>
                         </div>
-
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -128,20 +128,45 @@
 </template>
 
 <script>
+import {
+    getCategory
+} from '../../api/goods/index'
 export default {
     components: {},
     data() {
         return {
-
+           fileList:[],
+            form: {},
+            categoryList: [],
+            categories2: [],
         };
     },
     computed: {},
     watch: {},
     methods: {
-
+        // 一级分类改变获取二级分类
+        categoriesChange(e) {
+            let id = e;
+            this.categoryList.map(i => {
+                if (i.id == id) {
+                    this.categories2 = i.categories;
+                }
+            })
+        },
+        getCategoryFn() {
+            getCategory().then(res => {
+                if (res.code == '00') {
+                    this.categoryList = res.data;
+                }
+            })
+        },
+        // 上传成功
+        handleAvatarSuccess(){
+            console.log(this.fileList)
+        }
     },
     created() {
-
+        this.getCategoryFn()
     },
     mounted() {
 
@@ -161,7 +186,8 @@ export default {
 .editGoods {
     padding: 0 30px;
     padding-bottom: 100px;
- //min-height: 100%;
+
+    //min-height: 100%;
     .part {
         padding-top: 20px;
         border-bottom: 1px solid #E2E2E2;
