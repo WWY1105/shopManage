@@ -44,9 +44,9 @@
             <div class="flexStart alignStart">
                 <div class="partTitle mainText mr24">上传主图</div>
                 <div class="content">
-                    <el-upload :file-list="fileList" :action="$uploadApi" :on-success="handleAvatarSuccess"  list-type="picture-card" :auto-upload="false">
+                    <el-upload :file-list="fileList" :action="$uploadApi" :on-success="handleAvatarSuccess" list-type="picture-card">
                         <i slot="default" class="el-icon-plus"></i>
-                        <div slot="file" slot-scope="{file}">
+                        <!-- <div slot="file" slot-scope="{file}">
                             <img class="el-upload-list__item-thumbnail" :src="file.url" alt="">
                             <span class="el-upload-list__item-actions">
                                 <span class="el-upload-list__item-preview" @click="handlePictureCardPreview(file)">
@@ -59,7 +59,7 @@
                                     <i class="el-icon-delete"></i>
                                 </span>
                             </span>
-                        </div>
+                        </div> -->
                     </el-upload>
                 </div>
             </div>
@@ -72,7 +72,7 @@
             <div class="flexStart alignStart">
                 <div class="partTitle mainText mr24">商品详情</div>
                 <div class="content">
-                    <el-upload  list-type="picture-card" :auto-upload="false">
+                    <el-upload :file-list="fileList" :action="$uploadApi" :on-success="handleAvatarSuccess" list-type="picture-card">
                         <i slot="default" class="el-icon-plus"></i>
                         <div slot="file" slot-scope="{file}">
                             <img class="el-upload-list__item-thumbnail" :src="file.url" alt="">
@@ -104,13 +104,16 @@
             <el-row :gutter="33">
                 <el-col :span="7">
                     <el-form-item label="配送方式">
-                        <el-select></el-select>
+                        <el-select v-model="form.expType ">
+                            <el-option value="1" label="免运费"></el-option>
+                            <el-option value="2" label="收费"></el-option>
+                        </el-select>
                     </el-form-item>
                 </el-col>
                 <el-col :span="7">
                     <el-form-item label="物流费用￥">
                         <div class="flexCenter">
-                            <el-select></el-select>
+                            <el-input type="number" v-model="form.expPrice " suffix="/件商品"></el-input>
                             <span>/件商品</span>
                         </div>
                     </el-form-item>
@@ -119,6 +122,15 @@
         </div>
         <div class="part">
             <div class="partTitle mainText">规格设定</div>
+            <div class="content">
+                <el-form label-position="left" :model="form" label-width="110px" ref="form">
+                    <el-form-item :label="'规格'+index+1+'名称'" v-for="(item,index) in form.specs" :key="index">
+                        <div class="flexStart">
+                            <el-input type="text" v-model="item.name"></el-input>
+                        </div>
+                    </el-form-item>
+                </el-form>
+            </div>
         </div>
         <div class="part">
             <div class="partTitle mainText">价格与库存</div>
@@ -135,10 +147,16 @@ export default {
     components: {},
     data() {
         return {
-           fileList:[],
-            form: {},
+            fileList: [],
+            form: {
+                categoryId: '',
+                categoryId2: '',
+                spac: [{
+                    name: ''
+                }]
+            },
             categoryList: [],
-            categories2: [],
+            categories2: []
         };
     },
     computed: {},
@@ -161,7 +179,7 @@ export default {
             })
         },
         // 上传成功
-        handleAvatarSuccess(){
+        handleAvatarSuccess() {
             console.log(this.fileList)
         }
     },

@@ -56,25 +56,25 @@ let routes = [
         name: 'Order',
         component: ()=>import ('@/pages/Order/index')
       }, {
-        path: 'shops',
+        path: '/',
         name: 'Shops',
         component: Shops,
         children: [
           {
-            path: '/',
+            path: '/shops',
             name: 'shopMain',
             component: () => import('@/pages/Shops/shopMain.vue')
           },
           {
-            path: 'editShop',
+            path: '/shops/editShop',
             name: 'editShop',
             component: () => import('@/pages/Shops/editShop.vue')
           }, {
-            path: 'acountSetting',
+            path: '/shops/acountSetting',
             name: 'acountSetting',
             component: () => import('@/pages/Shops/acountSetting.vue')
           }, {
-            path: 'setStyle',
+            path: '/shops/setStyle',
             name: 'setStyle',
             component: () => import('@/pages/Shops/setStyle.vue')
           }
@@ -83,20 +83,20 @@ let routes = [
           
         ]
       }, {
-        path: '/goods',
+        path: '/',
         name: 'Goods',
         component: Goods,
         children: [
           {
-            path: '/',
+            path: '/goods',
             name: 'goodsList',
             component: () => import('@/pages/Goods/goodsList.vue')
           }, {
-            path: 'editGoods',
+            path: '/goods/editGoods',
             name: 'editGoods',
             component: () => import('@/pages/Goods/editGoods.vue')
           }, {
-            path: 'addGoods',
+            path: '/goods/addGoods',
             name: 'addGoods',
             component: () => import('@/pages/Goods/addGoods.vue')
           }
@@ -110,48 +110,48 @@ let routes = [
         name: 'Live',
         component: Live
       }, {
-        path: '/sales',
+        path: '/',
         name: 'Sales',
         component: Sales,
         children:[
           {
-            path:'/',
+            path:'/sales',
             name: 'saleMain',
             component: () => import('@/pages/Sales/main.vue'),
           },{
-            path:'preSale',
+            path:'/sales/preSale',
             name: 'PreSale',
             component: () => import('@/pages/Sales/preSale.vue'),
           },{
-            path:'coupon',
+            path:'/sales/coupon',
             name: 'Coupon',
             component: () => import('@/pages/Sales/coupon/index.vue'),
           },{
-            path:'store',
+            path:'/sales/store',
             name: 'Store',
             component: () => import('@/pages/Sales/store/index.vue'),
           },{
-            path:'distribution',
+            path:'/sales/distribution',
             name: 'Distribution',
             component: () => import('@/pages/Sales/distribution/index.vue'),
           },{
-            path:'togetherDiscount',
+            path:'/sales/togetherDiscount',
             name: 'TogetherDiscount',
             component: () => import('@/pages/Sales/togetherDiscount/index.vue'),
           },{
-            path:'lottery',
+            path:'/sales/lottery',
             name: 'Lottery',
             component: () => import('@/pages/Sales/lottery/index.vue'),
           },{
-            path:'member',
+            path:'/sales/member',
             name: 'member',
             component: () => import('@/pages/Sales/member/index.vue'),
           },{
-            path:'messagePush',
+            path:'/sales/messagePush',
             name: 'messagePush',
             component: () => import('@/pages/Sales/messagePush/index.vue'),
           },{
-            path:'fullReductionDiscount',
+            path:'/sales/fullReductionDiscount',
             name: 'fullReductionDiscount',
             component: () => import('@/pages/Sales/fullReductionDiscount/index.vue'),
           }
@@ -165,40 +165,53 @@ let routes = [
         name: 'Feedback',
         component: () => import('@/pages/Feedback/index.vue'),
       }, {
-        path: '/setting',
+        path: '/',
         name: 'Setting',
         component: () => import('@/pages/Setting/main.vue'),
         children:[
           {
-            path:'/',
-            name: 'saleMain',
+            path:'/setting',
+            name: 'settingMain',
             component: () => import('@/pages/Setting/index.vue'),
           },
           {
-            path:'setPhone',
+            path:'/setting/setPhone',
             name: 'setPhone',
             component: () => import('@/pages/Setting/setPhone.vue'),
           }
         ]
+      },{
+        path:'/',
+        name:'statistics',
+        component: () => import('@/pages/Statistics/index.vue'),
+        children: [{
+          name: '',
+          path: '/statistics',
+          component: () => import('@/pages/Statistics/index.vue'),
+        },{
+          name: '订单统计',
+          path: '/statistics/order',
+          component: () => import('@/pages/Statistics/order.vue'),
+        }]
       }, {
-        path: '/union',
+        path: '/',
         name: 'Union',
         component: () => import('@/pages/Union/index.vue'),
         children: [{
           name: '星秒联盟',
-          path: '/',
+          path: '/union',
           component: () => import('@/pages/Union/main.vue'),
         }, {
           name: '联盟介绍',
-          path: 'introduce',
+          path: '/union/introduce',
           component: () => import('@/pages/Union/introduce.vue'),
         }, {
           name: '星秒订单',
-          path: 'order',
+          path: '/union/order',
           component: () => import('@/pages/Union/order.vue'),
         }, {
           name: '星秒商品',
-          path: 'goods',
+          path: '/union/goods',
           component: () => import('@/pages/Union/goods.vue'),
         }
         ]

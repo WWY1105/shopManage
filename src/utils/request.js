@@ -39,7 +39,7 @@ service.interceptors.request.use(config => {
 // respone拦截器
 service.interceptors.response.use(
     response => {
-        console.log(response)
+        // console.log(response)
         const res = response.data;
         if (requestUrl != "/oauth/token") {
             if (res.code != '00') {
