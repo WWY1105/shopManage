@@ -1,56 +1,42 @@
 <!--  -->
 <template>
-<div class='distribution'>
+<div class='rebate'>
     <div class="bgf part1 flexSpace">
-        <div class="left flexSpace">
+        <div class="left flexStart">
             <div class="flexStart">
-                <img src="../../../assets/images/sales/fenxiao.png" class="icon" alt="">
+                <img src="../../../assets/images/sales/fanli.png" class="icon" alt="">
                 <div class="textBox">
-                    <h2>分销管理设置</h2>
-                    <p>本模块可设置邀请奖励与分享佣金的明细设置</p>
+                    <h2>返利模块设置</h2>
+                    <p>本模块可以设置返积分、返优惠券的比例、金额</p>
+                    <p class="worningTips">使用返利模块需打开积分或优惠券的模块开关</p>
                 </div>
             </div>
             <div class="switchBox flexEnd">
                 <el-form label-position="top" :inline="true" class="demo-form-inline">
-                    <el-form-item label="分销模块开关">
+                    <el-form-item label="返利模块总开关">
                         <el-switch size="large" active-color="#00B0F0" inactive-color="#aaaaaa">
                         </el-switch>
                     </el-form-item>
                 </el-form>
             </div>
         </div>
-        <div class="right flexStart">
-            <div class="databox">
-                <p class="title">数据汇总： </p>
-                <div class="flexStart">
-                    <div class="eachData1">
-                        <p class="dataTitle">邀请奖励支出</p>
-                        <p class="num">￥{{distributionData.inviteTotal}}</p>
-                    </div>
-                    <div class="eachData">
-                        <p class="dataTitle">分享佣金支出</p>
-                        <p class="num">￥{{distributionData.shareTotal}}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
 
     </div>
-    <p class="partTitle">邀请奖励</p>
+    <p class="partTitle">返积分设置（需打开积分模块开关）</p>
     <div class="content bgf">
-        <p class="rule">规则说明：您店铺的用户，邀请新的用户登录您的小程序并绑定账号，那么被邀请新用户今后在您的店铺消费金额的一定比例金额，将作为奖励金发放给邀请人</p>
+        <!-- <p class="rule">规则说明：您店铺的用户，邀请新的用户登录您的小程序并绑定账号，那么被邀请新用户今后在您的店铺消费金额的一定比例金额，将作为奖励金发放给邀请人</p> -->
         <el-form label-position="top" :inline="true" class="demo-form-inline">
             <el-row :gutter="40" type="flex" justify="space-between" align="bottom">
                 <el-col :span="5">
-                    <el-form-item label="邀请奖励开关">
-                        <el-switch @change="saveDataFn" active-text="已开启" size="large" v-model="distributionData['inviteUsed']" active-color="#00B0F0" inactive-color="#aaaaaa">
+                    <el-form-item label="返积分开关">
+                        <el-switch @change="saveDataFn" active-text="已开启" size="large" v-model="rebateData['scoreUsed']" active-color="#00B0F0" inactive-color="#aaaaaa">
                         </el-switch>
                     </el-form-item>
                 </el-col>
                 <el-col :span="5" :pull="14">
-                    <el-form-item label="奖励比例">
+                    <el-form-item label="返积分比例">
                         <el-button class="searchBtn" @click="ruleVisible1=true">
-                            {{distributionData.invitePer?'被邀请好友消费金额的'+distributionData.invitePer+'%':'点击输入奖励比例'}}
+                            {{rebateData.fullPrice?'每消费1元返'+rebateData.rmbToScore+'积分':'点击输入奖励比例'}}
                             <i class="el-icon-edit-outline"></i>
                         </el-button>
                     </el-form-item>
@@ -59,22 +45,20 @@
         </el-form>
 
     </div>
-    <p class="partTitle">分享佣金</p>
+    <p class="partTitle">返优惠券设置（需打开积分模块开关）</p>
     <div class="content bgf">
-        <p class="rule">规则说明：每件商品可以独立设置是否参与分享佣金奖励，用户分享您的商品链接到微信好友、朋友圈或朋友的话题板块，其他用户通过他的链接购买的商品，将拿出指定比例金额作为佣金奖励给用户</p>
-
         <el-form label-position="top" :inline="true" class="demo-form-inline">
             <el-row :gutter="40" type="flex" justify="space-between" align="bottom">
                 <el-col :span="5">
-                    <el-form-item label="分享佣金开关">
-                        <el-switch @change="saveDataFn"  active-text="已开启" size="large" v-model="distributionData['shareUsed']" active-color="#00B0F0" inactive-color="#aaaaaa">
+                    <el-form-item label="返优惠券开关">
+                        <el-switch @change="saveDataFn" active-text="已开启" size="large" v-model="rebateData['coupon']" active-color="#00B0F0" inactive-color="#aaaaaa">
                         </el-switch>
                     </el-form-item>
                 </el-col>
                 <el-col :span="5" :pull="14">
-                    <el-form-item label="奖励比例">
+                    <el-form-item label="返优惠券比例">
                         <el-button class="searchBtn" @click="ruleVisible2=true">
-                            {{distributionData.sharePer?'商品金额的'+distributionData.sharePer+'%':'点击输入奖励比例'}}
+                            {{rebateData.minPrice?'每消费'+rebateData.minPrice+'元返'+rebateData.couponPrice+'元优惠券':'点击输入奖励比例'}}
                             <i class="el-icon-edit-outline"></i>
                         </el-button>
                     </el-form-item>
@@ -85,11 +69,13 @@
     </div>
 
     <!--  -->
-    <el-dialog title="设置邀请奖励的奖励比利" center :visible.sync="ruleVisible1" width="660px">
+    <el-dialog title="设置返积分比利" center :visible.sync="ruleVisible1" width="660px">
         <div class="dialogContent">
-            <p class="tips">被邀请客户所有消费的实付金额，原邀请人可获得</p>
+            <!-- <p class="tips">被邀请客户所有消费的实付金额，原邀请人可获得</p> -->
             <div class="flexCenter inputBox">
-                <el-input v-model="distributionData.sharePer"></el-input> <span>%</span>
+                <span>每消费1元，返</span>
+                <el-input v-model="rebateData.rmbToScore"></el-input>
+                <span>积分</span>
             </div>
             <p class="tips">现金返现奖励</p>
             <div class="btnBox flexCenter flexColumn">
@@ -98,13 +84,19 @@
             </div>
         </div>
     </el-dialog>
-    <el-dialog title="设置分享佣金的奖励比利" center :visible.sync="ruleVisible2" width="660px">
+    <el-dialog title="返优惠券规则：" center :visible.sync="ruleVisible2" width="660px">
         <div class="dialogContent">
-            <p class="tips">客户打开分享的商品链接后下单，原分享人可获得商品金额的</p>
-            <div class="flexCenter inputBox">
-                <el-input v-model="distributionData.sharePer"></el-input> <span>%</span>
+            <!-- <p class="tips">客户打开分享的商品链接后下单，原分享人可获得商品金额的</p> -->
+            <div class="inputBox">
+                <span>每消费达￥</span>
+                <el-input v-model="rebateData.fullPrice"></el-input> 
+                <span>返&nbsp;&nbsp;&nbsp;￥</span>
+                 <el-input v-model="rebateData.rmbToScore"></el-input> 
             </div>
-            <p class="tips">现金返现佣金</p>
+            <div>
+                <span>优惠券使用需订单金额满￥</span>
+                  <el-input v-model="rebateData.minPrice"></el-input> 
+            </div>
             <div class="btnBox flexCenter flexColumn">
                 <el-button class="searchBtn" @click="saveDataFn">保存</el-button>
                 <el-button class="transBtn" @click="ruleVisible2=false">取消</el-button>
@@ -118,7 +110,8 @@
 import {
     getData,
     saveData
-} from '../../../api/sales/distribution'
+} from '../../../api/sales/rebate'
+
 export default {
     //import引入的组件需要注入到对象中才能使用
     components: {},
@@ -127,13 +120,14 @@ export default {
         return {
             ruleVisible1: false,
             ruleVisible2: false,
-            distributionData: {
-                inviteUsed: false, //邀请奖励是否开启
-                invitePer: '', //邀请百分比
-                shareUsed: false, //分享开关
-                sharePer: '', //分享百分比
+            rebateData: {
+                coupon: false,//是否开启优惠券
+                couponPrice: 0,//赠送优惠券面值
+                fullPrice: 0,//满足金额
+                minPrice: 0,//订单金额
+                rmbToScore: 0,//每消费1元抵换积分数
+                scoreUsed: false,//	是否开启积分
             },
-
         };
     },
     //监听属性 类似于data概念
@@ -145,14 +139,14 @@ export default {
         getDetail() {
             getData({}).then(res => {
                 if (res.code == '00') {
-                    this.distributionData = res.data;
+                    this.rebateData = res.data;
                 }
             })
         },
         saveDataFn() {
             let that = this;
             console.log('改变')
-            saveData(this.distributionData).then(res => {
+            saveData(this.rebateData).then(res => {
                 if (res.code == '00') {
                     that.$message({
                         showClose: true,
@@ -160,9 +154,9 @@ export default {
                         duration: 3 * 1000,
                         type: 'success',
                         onClose: () => {
-                              that.ruleVisible1=false,
-                              that.ruleVisible2=false,
-                            that.getDetail()
+                            that.ruleVisible1 = false,
+                                that.ruleVisible2 = false,
+                                that.getDetail()
                         }
                     })
                 }
@@ -195,12 +189,15 @@ export default {
     border: 1px solid #C7C7C7;
 
     .left {
-        width: 50%;
-        border-right: 1px solid #C3C3C3;
         padding-right: 5%;
+        flex: 1;
+        // width: 50%;
 
         .el-form-item {
             margin: 0;
+        }
+        .switchBox {
+            margin-left: 180px;
         }
     }
 
@@ -247,6 +244,11 @@ export default {
         p {
             color: #7E7E7E;
             font-size: 14px;
+
+            &.worningTips {
+                color: #FF2E2E;
+                margin-top: 16px;
+            }
         }
     }
 }
@@ -271,13 +273,6 @@ export default {
 }
 
 .dialogContent {
-    padding: 50px 0;
-
-    .tips {
-        font-size: 14px;
-        color: #666666;
-        text-align: center;
-    }
 
     .inputBox {
         margin: 40px 0;

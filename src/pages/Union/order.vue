@@ -4,7 +4,7 @@
     <div class="totalPanel">
         <p class="title">数据汇总：</p>
         <div class="panelBox flexSpace">
-            <div class="eachTotalBox" v-for="(i,j) in panelDatas">
+            <div class="eachTotalBox" v-for="(i,j) in panelDatas" :key="j">
                 <p class="partTitle">{{i.name}}</p>
                 <p class="num">{{i.num}}</p>
             </div>

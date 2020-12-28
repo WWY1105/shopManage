@@ -119,7 +119,7 @@ export default {
 
     .menuContent {
         border-bottom: 1px solid #1A3F56;
-        height: 100%;
+        // height: 100%;
         line-height: 90px;
         width: 100%;
         text-align: center;

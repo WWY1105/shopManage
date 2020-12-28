@@ -150,7 +150,8 @@ export default {
 <style lang="scss" scoped>
 //@import url(); 引入公共css类
 .setPhone {
-    height: 100vh;
+    height: 1000px;
+    background: #fff;
 
     .center {
         flex-direction: column;

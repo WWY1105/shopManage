@@ -43,11 +43,18 @@ export default {
         // 点击登录
         onSubmit() {
             let that = this;
+            // oauth/token?
+
+            // client_id=business
+            // client_secret=1234
+            // grant_type=business
+            // username=test2
+            // password=1234 
             this.$store.dispatch('Login', {
-                    client_id: 'test2',
+                    client_id: 'business',
                     client_secret: '1234',
-                    auth_type: 'business',
-                    grant_type: 'password',
+                    // auth_type: 'business',
+                    grant_type: 'business',
                     username: this.username,
                     password: this.password
                  

@@ -15,6 +15,9 @@ Vue.use(VueRouter)
 import echarts from "echarts";
 Vue.prototype.$echarts = echarts;
 Vue.prototype.$uploadApi=process.env.BASE_API+'/api/business/tencent/oss?access_token=' + getToken();
+Vue.prototype.$downloadFileApi=process.env.BASE_API+'/api/business';
+
+
 // 样式--start
 import '@/assets/scss/index.scss'
 import '@/theme/index.css'

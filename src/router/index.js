@@ -154,6 +154,10 @@ let routes = [
             path:'/sales/fullReductionDiscount',
             name: 'fullReductionDiscount',
             component: () => import('@/pages/Sales/fullReductionDiscount/index.vue'),
+          },{
+            path:'/sales/rebate',
+            name: 'rebate',
+            component: () => import('@/pages/Sales/rebate/index.vue'),
           }
         ]
       }, {
@@ -192,6 +196,10 @@ let routes = [
           name: '订单统计',
           path: '/statistics/order',
           component: () => import('@/pages/Statistics/order.vue'),
+        },{
+          name: '商品统计',
+          path: '/statistics/goods',
+          component: () => import('@/pages/Statistics/goods.vue'),
         }]
       }, {
         path: '/',
