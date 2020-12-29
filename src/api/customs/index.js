@@ -15,5 +15,12 @@ export function total(json){
         params:json
     })
 }
+export function getDetail(id){
+    return request({
+        url:"/member/"+id,
+        method:'get',
+        params:{}
+    })
+}
 
 

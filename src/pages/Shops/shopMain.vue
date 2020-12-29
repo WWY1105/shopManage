@@ -72,10 +72,20 @@
                 <p>联系电话：02198712412</p>
                 <p>发票类型：不开票</p>
             </div>
-            <el-button class="transBtn flexCenter">
-                <img src="../../assets/images/shops/editIcon.png" class="editIcon" alt="">
-                <span> 修改</span>
-            </el-button>
+            <div class="btnBox flexSpace">
+                <el-button class="transBtn flexCenter">
+                    <img src="../../assets/images/shops/editIcon.png" class="editIcon" alt="">
+                    <span> 修改</span>
+                </el-button>
+                <el-button class="transBtn deleteBtn flexCenter">
+                    <i class="el-icon-delete"></i>
+                    <span> 删除</span>
+                </el-button>
+            </div>
+
+        </div>
+        <div class="addShop flexCenter flexColumn">
+            <i class="el-icon-plus"></i>
         </div>
     </div>
 </div>
@@ -86,7 +96,7 @@ export default {
     components: {},
     data() {
         return {
-            shopInfo:{},
+            shopInfo: {},
             value: true
         };
     },
@@ -95,25 +105,25 @@ export default {
     methods: {
         getShopInfo() {
             this.$store.dispatch('GetInfo').then((res) => {
-                 const data = res.data;
-                 this.shopInfo=data;
+                const data = res.data;
+                this.shopInfo = data;
             })
         },
         // 账户设置
-        toSetting(){
+        toSetting() {
             this.$router.push({
-                path:'/shops/acountSetting'
+                path: '/shops/acountSetting'
             })
         }
     },
     created() {
-this.getShopInfo()
+        this.getShopInfo()
     },
     mounted() {
 
     },
     beforeCreate() {
-        
+
     }, //生命周期 - 创建之前
     beforeMount() {}, //生命周期 - 挂载之前
     beforeUpdate() {}, //生命周期 - 更新之前
@@ -215,7 +225,16 @@ this.getShopInfo()
     .branchShopBox {
         padding: 50px 30px;
 
+        .addShop {
+            background: #F4F4F4;
+            width: 33%;
+            height: 406px;
+            font-size: 70px;
+            color: #333;
+        }
+
         .eachSetting {
+            box-sizing: border-box;
             background: #F4F4F4;
             border-radius: 10px;
             flex: 1;
@@ -261,6 +280,18 @@ this.getShopInfo()
                     margin-bottom: 10px;
                 }
             }
+            .btnBox{
+                width: 100%;
+                 .transBtn{
+                background-color: transparent;
+                &.deleteBtn{
+                color: #FF2B2B!important;
+                border-color:#FF2B2B;
+            }
+            }
+            
+            }
+           
         }
     }
 }

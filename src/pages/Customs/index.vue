@@ -18,7 +18,7 @@
                 <el-col :span="5">
                     <div class="grid-content bg-purple">
                         <el-form-item label="注册时间段">
-                            <el-date-picker value-format="yyyy-MM-dd HH:mm:ss"  format="yyyy-MM-dd HH:mm:ss" v-model="json.registerTime" type="datetime" placeholder="注册时间段">
+                            <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss" v-model="json.registerTime" type="datetime" placeholder="注册时间段">
                             </el-date-picker>
                         </el-form-item>
                     </div>
@@ -35,7 +35,7 @@
                     <div class="grid-content bg-purple">
                         <el-form-item label="客户组">
                             <el-select v-model="json.usergroup" placeholder="客户组">
-                                <el-option  v-for="(i,j) in groupList" :value="i.value" :label="i.text" :key="j"></el-option>
+                                <el-option v-for="(i,j) in groupList" :value="i.value" :label="i.text" :key="j"></el-option>
                             </el-select>
                         </el-form-item>
                     </div>
@@ -77,7 +77,7 @@
                 <el-col :span="4">
                     <div class="grid-content bg-purple flexEnd">
                         <el-form-item>
-                            <el-button type="primary" @click="getList">查询</el-button>
+                            <el-button class="searchBtn" type="primary" @click="getList">查询</el-button>
                         </el-form-item>
                     </div>
                 </el-col>
@@ -104,39 +104,37 @@
             <el-table-column prop="type" label="客户类型"> </el-table-column>
             <el-table-column prop="address" label="备注"> </el-table-column>
             <el-table-column label="其他">
-                <template>
-                    <p class="tioDetail">详情</p>
+                <template slot-scope="scope">
+                    <p class="toDetail" @click="val=>getDetailFn(val,scope.row.id)">详情</p>
                 </template>
             </el-table-column>
         </el-table>
+        <div class="pagination flexEnd">
+            <el-pagination background layout="prev, pager, next" :total="pageData.totalSize">
+            </el-pagination>
+        </div>
     </div>
+    <!-- 客户信息 -->
+
+    <!-- 客户消费记录 -->
 </div>
 </template>
 
 <script>
 import {
     list,
-    total
+    total,
+    getDetail
 } from '../../api/customs/index'
+import {
+    customType
+} from '../../utils/jsons'
 export default {
     components: {},
     data() {
         return {
-              groupList: [{
-                    text: '全部',
-                    value: 'all'
-                },
-                {
-                    text: '普通用户',
-                    value: 'pt'
-                }, {
-                    text: '会员',
-                    value: 'hy'
-                }, {
-                    text: '星卡通',
-                    value: 'xkt'
-                }
-            ],
+            pageData: {},
+            groupList: customType,
             panelDatas: [{
                 name: '用户量',
                 num: 0
@@ -180,6 +178,7 @@ export default {
             list(that.json).then(res => {
                 if (res.code == '00') {
                     this.tableData = res.data;
+                    this.pageData = res.page;
                 }
             })
         },
@@ -215,6 +214,14 @@ export default {
 
                 }
             })
+        },
+        // 查看详情
+        getDetailFn(val, id) {
+            getDetail(id).then(res => {
+                if (res.code == '00') {
+                    this.targetObj = res.data;
+                }
+            })
         }
     },
     created() {
@@ -244,6 +251,12 @@ export default {
 
 .tableBox {
     padding: 0 33px 30px;
+}
+
+.toDetail {
+    cursor: pointer;
+    color: #2481FF;
+    font-size: 14px;
 }
 
 .totalPanel {

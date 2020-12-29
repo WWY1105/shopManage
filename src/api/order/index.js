@@ -8,6 +8,23 @@ export function getData(json){
         params:json
     })
 }
+// 优惠明细
+export function getDiscount(json){
+    return request({
+        url:"/order/preferential",
+        method:'get',
+        params:json
+    })
+}
+
+// 统计
+export function getStatistics(json){
+    return request({
+        url:"/order/statistics",
+        method:'get',
+        params:json
+    })
+}
 
 
 export function saveData(json){

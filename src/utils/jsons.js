@@ -63,7 +63,24 @@ let orderStatusOptions=[
     },
 ]
 
+// 客户类型
+let customType=[{
+    text: '全部',
+    value: 'all'
+},
+{
+    text: '普通用户',
+    value: 'pt'
+}, {
+    text: '会员',
+    value: 'hy'
+}, {
+    text: '星卡通',
+    value: 'xkt'
+}
+]
 export {
     orderTypeOptions,
-    orderStatusOptions
+    orderStatusOptions,
+    customType
 }
