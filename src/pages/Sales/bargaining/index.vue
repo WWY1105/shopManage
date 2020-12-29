@@ -1,6 +1,6 @@
 <!--  -->
 <template>
-<div class='makeGroup bgf'>
+<div class='bargaining bgf'>
     <div class="searchBox ">
         <el-form label-position="top" :inline="true" class="demo-form-inline">
             <el-row :gutter="20" type="flex" justify="space-between" align="center">
@@ -8,14 +8,14 @@
                     <el-row  type="flex" justify="start" align="center">
                         <el-col :span="4">
                             <el-form label-position="top" :inline="true" class="demo-form-inline">
-                                <el-form-item label="拼团模块开关">
+                                <el-form-item label="砍价模块开关">
                                     <el-switch size="large" active-color="#00B0F0" inactive-color="#aaaaaa">
                                     </el-switch>
                                 </el-form-item>
                             </el-form>
                         </el-col>
                         <el-col :span="14" class="flexStart" >
-                            <p class="dangerTips">本模块仅包含拼团商品，全部商品请至商品管理模块查看</p>
+                            <p class="dangerTips">本模块仅包含砍价商品，全部商品请至商品管理模块查看</p>
                         </el-col>
                     </el-row>
                 </el-col>
@@ -120,15 +120,15 @@
             </el-table-column>
             <el-table-column align="center" prop="address" label="原价">
             </el-table-column>
-            <el-table-column align="center" prop="address" label="拼团价">
+            <el-table-column align="center" prop="address" label="砍价底价">
             </el-table-column>
-            <el-table-column align="center" prop="address" label="人数要求">
+            <el-table-column align="center" prop="address" label="所需人数">
             </el-table-column>
-             <el-table-column align="center" prop="id" label="时间限制">
+             <el-table-column align="center" prop="id" label="时限">
             </el-table-column>
             <el-table-column align="center" prop="address" label="总库存">
             </el-table-column>
-            <el-table-column align="center" prop="categoryId" label="拼团库存">
+            <el-table-column align="center" prop="categoryId" label="砍价库存">
             </el-table-column>
             <el-table-column align="center" prop="address" label="单位">
             </el-table-column>
@@ -138,7 +138,7 @@
             </el-table-column>
              <el-table-column align="center" prop="address" label="排序 ">
             </el-table-column>
-            <el-table-column align="center" prop="address" label="其它" width="150">
+            <el-table-column align="center" prop="address" label="其它" width="100">
                 <template slot-scope="scope">
                     <div class="controlBox flexCenter">
                         <router-link class="editBtn" :to="{path:'/editGoods',query:{id:scope.row.id}}">
@@ -261,7 +261,7 @@ export default {
 
 <style lang="scss" scoped>
 //@import url(); 引入公共css类
-.makeGroup {
+.bargaining {
     padding: 48px 24px;
 
     .dangerTips {

@@ -121,7 +121,11 @@ let routes = [
           },{
             path:'/sales/preSale',
             name: 'PreSale',
-            component: () => import('@/pages/Sales/preSale.vue'),
+            component: () => import('@/pages/Sales/preSale/index.vue'),
+          },{
+            path:'/sales/makeGroup',
+            name: 'makeGroup',
+            component: () => import('@/pages/Sales/makeGroup/index.vue'),
           },{
             path:'/sales/coupon',
             name: 'Coupon',
@@ -158,7 +162,16 @@ let routes = [
             path:'/sales/rebate',
             name: 'rebate',
             component: () => import('@/pages/Sales/rebate/index.vue'),
+          },{
+            path:'/sales/seckill',
+            name: 'seckill',
+            component: () => import('@/pages/Sales/seckill/index.vue'),
+          },{
+            path:'/sales/bargaining',
+            name: 'bargaining',
+            component: () => import('@/pages/Sales/bargaining/index.vue')
           }
+          
         ]
       }, {
         path: '/comment',

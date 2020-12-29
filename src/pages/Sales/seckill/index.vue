@@ -1,0 +1,273 @@
+<!--  -->
+<template>
+<div class='makeGroup bgf'>
+    <div class="searchBox ">
+        <el-form label-position="top" :inline="true" class="demo-form-inline">
+            <el-row :gutter="20" type="flex" justify="space-between" align="center">
+                <el-col :span="20">
+                    <el-row  type="flex" justify="start" align="center">
+                        <el-col :span="4">
+                            <el-form label-position="top" :inline="true" class="demo-form-inline">
+                                <el-form-item label="拼团模块开关">
+                                    <el-switch size="large" active-color="#00B0F0" inactive-color="#aaaaaa">
+                                    </el-switch>
+                                </el-form-item>
+                            </el-form>
+                        </el-col>
+                        <el-col :span="14" class="flexStart" >
+                            <p class="dangerTips">本模块仅包含拼团商品，全部商品请至商品管理模块查看</p>
+                        </el-col>
+                    </el-row>
+                </el-col>
+
+                <el-col :span="4">
+                    <div class="flexEnd">
+                        <router-link :to="{name:'addGoods'}" class="grid-content bg-purple">
+                            <el-form-item>
+                                <el-button class="searchBtn">新增</el-button>
+                            </el-form-item>
+                        </router-link>
+                    </div>
+                </el-col>
+            </el-row>
+        </el-form>
+
+        <el-form label-position="top" :model="json">
+            <div class="">
+                <el-row :gutter="20" type="flex" justify="space-between" align="bottom">
+                    <el-col :span="3">
+                        <div class="grid-content bg-purple">
+                            <el-form-item label="显示">
+                                <el-select v-model="json.id" ></el-select>
+                            </el-form-item>
+                        </div>
+                    </el-col>
+                    <el-col :span="3">
+                        <div class="grid-content bg-purple">
+                            <el-form-item label="id">
+                                <el-input v-model="json.content" placeholder="id"></el-input>
+                            </el-form-item>
+                        </div>
+                    </el-col>
+
+                    <el-col :span="3">
+                        <div class="grid-content bg-purple">
+                            <el-form-item label="商品名称">
+                                 <el-input v-model="json.content" placeholder="id"></el-input>
+                            </el-form-item>
+                        </div>
+                    </el-col>
+                    <el-col :span="3">
+                        <div class="grid-content bg-purple">
+                            <el-form-item label="是否上架">
+                                 <el-select v-model="json.shelf" placeholder="是否上架">
+                                    <el-option label="是" value="true"></el-option>
+                                    <el-option label="否" value="false"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </div>
+                    </el-col>
+                    <el-col :span="3">
+                        <div class="grid-content bg-purple">
+                              <el-form-item label="是否有库存">
+                                <el-select v-model="json.hasStock" placeholder="是否有库存">
+                                    <el-option label="是" value="true"></el-option>
+                                    <el-option label="否" value="false"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </div>
+                    </el-col>
+                   <el-col :span="3">
+                        <div class="grid-content bg-purple">
+                            <el-form-item label="一级分类">
+                                <el-select v-model="json.categoryId" placeholder="一级分类"  @change="categoriesChange">
+                                    <el-option :label="item.name" :value="item.id" v-for="(item,index) in searchCategoryList" :key="index"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </div>
+                    </el-col>
+                    <el-col :span="3">
+                        <div class="grid-content bg-purple">
+                            <el-form-item label="二级分类">
+                                <el-select v-model="json.categoryId2" placeholder="二级分类">
+                                    <el-option v-for="(i,j) in categories2" :value="i.id" :key="j" :label="i.name"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </div>
+                    </el-col>
+                    <el-col :span="3">
+                        <div class="grid-content bg-purple flexEnd">
+                            <el-form-item>
+                                <el-button type="primary" @click="getDataFn">查询</el-button>
+                            </el-form-item>
+                        </div>
+                    </el-col>
+                </el-row>
+            </div>
+        </el-form>
+    </div>
+    <div class="tableBox bgf">
+        <el-table stripe :data="tableData" border style="width: 100%" fit>
+            <el-table-column align="center" prop="id" label="ID">
+            </el-table-column>
+            <el-table-column align="center" prop="name" label="主图" width="100">
+            </el-table-column>
+            <el-table-column align="center" prop="title" label="商品名称">
+            </el-table-column>
+            <el-table-column align="center" prop="address" label="规格">
+            </el-table-column>
+            <el-table-column align="center" prop="categoryId" label="分类">
+            </el-table-column>
+            <el-table-column align="center" prop="address" label="原价">
+            </el-table-column>
+            <el-table-column align="center" prop="address" label="拼团价">
+            </el-table-column>
+            <el-table-column align="center" prop="address" label="人数要求">
+            </el-table-column>
+             <el-table-column align="center" prop="id" label="时间限制">
+            </el-table-column>
+            <el-table-column align="center" prop="address" label="总库存">
+            </el-table-column>
+            <el-table-column align="center" prop="categoryId" label="拼团库存">
+            </el-table-column>
+            <el-table-column align="center" prop="address" label="单位">
+            </el-table-column>
+            <el-table-column align="center" prop="address" label="运费">
+            </el-table-column>
+            <el-table-column align="center" prop="address" label="上下架">
+            </el-table-column>
+             <el-table-column align="center" prop="address" label="排序 ">
+            </el-table-column>
+            <el-table-column align="center" prop="address" label="其它" width="150">
+                <template slot-scope="scope">
+                    <div class="controlBox flexCenter">
+                        <router-link class="editBtn" :to="{path:'/editGoods',query:{id:scope.row.id}}">
+                            编辑
+                        </router-link>
+                        <div class="deleteBtn">删除</div>
+                    </div>
+                </template>
+            </el-table-column>
+        </el-table>
+        <div class="pagination flexEnd">
+            <el-pagination background layout="prev, pager, next" :total="pageData.totalSize">
+            </el-pagination>
+        </div>
+    </div>
+
+</div>
+</template>
+
+<script>
+import {
+    getData
+} from '../../../api/sales/messagePush.js'
+export default {
+    //import引入的组件需要注入到对象中才能使用
+    components: {},
+    data() {
+        //这里存放数据
+        return {
+            pageData: {},
+            json: {
+                pageNum: 1,
+                pageSize: 30
+            },
+            tableData: [],
+            pushTypeList: [{
+                text: '全部',
+                value: ''
+            }, {
+                text: '消息',
+                value: 1
+            }, {
+                text: '短信',
+                value: 2
+            }],
+            pushWayList: [{
+                text: '全部',
+                value: ''
+            }, {
+                text: '立即发送',
+                value: 1
+            }, {
+                text: '预约发送',
+                value: 2
+            }],
+            pushStatusList: [{
+                    text: '全部',
+                    value: ''
+                },
+                {
+                    text: '已推送',
+                    value: 1
+                }, {
+                    text: '待推送',
+                    value: 2
+                }, {
+                    text: '取消推送',
+                    value: 3
+                }
+            ],
+            pushTargetList: [{
+                    text: '全部',
+                    value: 'all'
+                },
+                {
+                    text: '普通用户',
+                    value: 'pt'
+                }, {
+                    text: '会员',
+                    value: 'hy'
+                }, {
+                    text: '星卡通',
+                    value: 'xkt'
+                }
+            ],
+        };
+    },
+    //监听属性 类似于data概念
+    computed: {},
+    //监控data中的数据变化
+    watch: {},
+    //方法集合
+    methods: {
+        getDataFn() {
+            getData(this.json).then((res) => {
+                if (res.code == '00') {
+                    this.tableData = res.data;
+                    this.pageData = res.page;
+                }
+            })
+        }
+    },
+    //生命周期 - 创建完成（可以访问当前this实例）
+    created() {
+        this.getDataFn()
+    },
+    //生命周期 - 挂载完成（可以访问DOM元素）
+    mounted() {
+
+    },
+    beforeCreate() {}, //生命周期 - 创建之前
+    beforeMount() {}, //生命周期 - 挂载之前
+    beforeUpdate() {}, //生命周期 - 更新之前
+    updated() {}, //生命周期 - 更新之后
+    beforeDestroy() {}, //生命周期 - 销毁之前
+    destroyed() {}, //生命周期 - 销毁完成
+    activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
+}
+</script>
+
+<style lang="scss" scoped>
+//@import url(); 引入公共css类
+.makeGroup {
+    padding: 48px 24px;
+
+    .dangerTips {
+        font-size: 16px;
+        font-weight: 400;
+        color: #FF3636;
+    }
+}
+</style>
