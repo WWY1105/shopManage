@@ -30,11 +30,13 @@ let routes = [
     path: '/',
     name: 'Index',
     component: ()=>import ('@/pages/Index'),
-    redirect:{
-      name:'Center'
-    },
+    redirect:'/center',
     children: [
       {
+        path: '/',
+        name: 'Center',
+        component: ()=>import ('@/pages/center')
+      },{
         path: '/sysMsg',
         name: 'SysMsg',
         component: () => import('@/pages/SysMsg/sysMsg.vue')
@@ -47,11 +49,7 @@ let routes = [
         name: 'contact',
         component: () => import('@/pages/Contact/contact.vue')
       },
-      {
-        path: '/center',
-        name: 'Center',
-        component: ()=>import ('@/pages/center')
-      },{
+     {
         path: 'order',
         name: 'Order',
         component: ()=>import ('@/pages/Order/index')

@@ -18,8 +18,42 @@
     </div>
     <div class="dataBox">
         <el-row :gutter="20">
-            <el-col :span="14" class="bgf"></el-col>
-            <el-col :span="10" class="bgf"></el-col>
+            <!-- 订单量 -->
+            <el-col :span="16">
+                <div class="chartBox">
+                    <p class="title">
+                        <span>订单量</span>
+                        <span class="num">{{orderData.total}}</span>
+                    </p>
+                    <div class="searchBox flexStart">
+                        <div class="eachSearch">
+                            <el-date-picker v-model="dataTime" type="daterange" align="right" size="mini" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions2" @change="dataTimeChange" />
+                        </div>
+                        <el-popover placement="top-start" title="请选择订单类型" width="200" trigger="click">
+                            <div class="flexStart">
+                                <el-checkbox-group v-model="checkList">
+                                    <el-checkbox :label="i.text" :key="j" v-for="(i,j) in orderType" :value="i.value">{{i.text}}</el-checkbox>
+                                </el-checkbox-group>
+                            </div>
+                            <p slot="reference" class="eachSearch">所有订单</p>
+                        </el-popover>
+                        <el-popover placement="top-start" title="请选择订单类型" width="200" trigger="click">
+                            <div class="flexStart">
+                                <el-checkbox-group v-model="checkList">
+                                    <el-checkbox :label="i.text" :key="j" v-for="(i,j) in orderType" :value="i.value">{{i.text}}</el-checkbox>
+                                </el-checkbox-group>
+
+                            </div>
+                            <p slot="reference" class="eachSearch">所有商品</p>
+                        </el-popover>
+                    </div>
+                    <div id="mycharts1" ref="chartBox" class="mycharts">
+                        <span v-html="loading"></span>
+                    </div>
+                </div>
+            </el-col>
+            <!-- 订单退货量 -->
+            <el-col :span="8"></el-col>
         </el-row>
     </div>
 </div>

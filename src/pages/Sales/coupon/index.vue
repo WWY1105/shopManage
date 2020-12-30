@@ -122,6 +122,10 @@
                 </template>
             </el-table-column>
         </el-table>
+        <div class="pagination flexEnd">
+            <el-pagination background layout="prev, pager, next" :total="pageData.totalSize">
+            </el-pagination>
+        </div>
     </div>
 
     <el-dialog title="自动赠送规则：" center :visible.sync="ruleVisible" class="ruleDialog">
@@ -216,7 +220,12 @@
             <el-button @click="addCouponVisible = false">取 消</el-button>
         </span>
     </el-dialog>
+   
 
+    <!-- 赠送弹窗 -->
+    <el-dialog title="赠送优惠券：" :visible.sync="giveCouponVisible" class="giveCouponDialog">
+
+    </el-dialog>
     <!-- 删除的提示框 -->
     <el-dialog title="提示" center :visible.sync="deleteCouponVisible" width="30%">
         <span class="flexCenter">是否删除优惠券</span>
@@ -244,6 +253,7 @@ export default {
     components: {},
     data() {
         return {
+            giveCouponVisible:false,
             deleteCouponVisible: false,
             deleteCouponId: '',
             labelPosition: 'left',
@@ -264,6 +274,7 @@ export default {
                 name: '使用金额',
                 num: 0
             }],
+            pageData: {},
             formInline: {},
             formInline1: {},
             tableData: [],
@@ -292,6 +303,7 @@ export default {
             listPage(that.json).then(res => {
                 if (res.code == '00') {
                     this.tableData = res.data;
+                    this.pageData = res.page;
                 }
             })
         },
@@ -367,7 +379,7 @@ export default {
                 let id = this.newCoupon.id;
                 delete this.newCoupon.id;
                 delete this.newCoupon.businessId;
-                editCoupone(this.newCoupon,id).then(res => {
+                editCoupone(this.newCoupon, id).then(res => {
                     if (res.code == '00') {
                         that.$message({
                             showClose: true,
@@ -375,8 +387,9 @@ export default {
                             duration: 3 * 1000,
                             type: 'success'
                         })
-
-                    
+                        this.getList();
+                        this.addCouponVisible = false;
+                        this.newCoupon = {}
                     }
                 })
             } else {
@@ -388,12 +401,12 @@ export default {
                             duration: 3 * 1000,
                             type: 'success'
                         })
+                        this.getList();
+                        this.addCouponVisible = false;
+                        this.newCoupon = {}
                     }
                 })
             }
-            this.addCouponVisible = false;
-            this.getList();
-            this.newCoupon={}
 
         },
         // 一级分类改变获取二级分类
@@ -410,7 +423,7 @@ export default {
         editCouponFn(index) {
             this.addCouponVisible = true;
             this.newCoupon = this.tableData[index];
-
+            this.newCoupon.shelf = this.newCoupon.shelf + ''
         },
         giveCoupon() {},
         deleteCouponFn(id) {
@@ -513,6 +526,10 @@ export default {
             width: 263px;
             border-radius: 21px;
         }
+    }
+
+    /deep/ .el-form-item__label {
+        line-height: 42px;
     }
 }
 

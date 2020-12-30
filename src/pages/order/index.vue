@@ -166,22 +166,41 @@
                         <span>优惠价￥</span>
                         <span>小计￥</span>
                     </p>
+                    <div class="tableData">
+                        <p class="tableList flexSpace" :key="j" v-for="(i,j) in discountDetail.products" >
+                            <span>{{i.name}}</span>
+                            <span>{{i.itemText}}</span>
+                            <span>{{i.quantity}}</span>
+                            <span>原价￥</span>
+                            <span>优惠价￥</span>
+                            <span>小计￥</span>
+                        </p>
+                        <p class="tableList flexSpace">
+                            <span>商品名称</span>
+                            <span>规格</span>
+                            <span>数量</span>
+                            <span>原价￥</span>
+                            <span>优惠价￥</span>
+                            <span>小计￥</span>
+                        </p>
+                    </div>
+
                 </div>
-                <p class="eachList flexEnd">订单金额：<span class="num"> ￥2000.00</span> </p>
+                <p class="eachList flexEnd">订单金额：<span class="num"> ￥{{discountDetail.totalPrice}}</span> </p>
             </div>
             <div class="part2">
                 <p class="title">优惠明细：</p>
-                <p class="eachList">定金</p>
-                <p class="eachList">满减优惠</p>
-                <p class="eachList">抵用券（优惠券/预售券）</p>
-                <p class="eachList">积分</p>
-                <p class="eachList">会员卡</p>
-                <p class="eachList">星卡通</p>
-                <p class="eachList">储值卡（储值卡/礼品卡）</p>
+                <p class="eachList flexSpace"><span class="label">定金</span> <span>{{discountDetail.preferential.preSalePrice}}</span> </p>
+                <p class="eachList flexSpace"><span class="label">满减优惠</span><span>{{discountDetail.preferential.fullForFree}}</span> </p>
+                <p class="eachList flexSpace"><span class="label">抵用券（优惠券/预售券）</span><span>{{discountDetail.preferential.coupon}}</span> </p>
+                <p class="eachList flexSpace"><span class="label">积分</span><span>{{discountDetail.preferential.jf}}</span> </p>
+                <p class="eachList flexSpace"><span class="label">会员卡</span><span>{{discountDetail.preferential.vip}}</span> </p>
+                <p class="eachList flexSpace"><span class="label">星卡通</span><span>{{discountDetail.preferential.xkt}}</span> </p>
+                <p class="eachList flexSpace"><span class="label">储值卡（储值卡/礼品卡）</span><span>{{discountDetail.preferential.storedCard}}</span> </p>
             </div>
             <div class="part3 flexEnd">
                 实收金额：<span class="num">
-                    ￥1680.00
+                    ￥{{discountDetail.payPrice}}
                 </span>
 
             </div>
@@ -401,9 +420,9 @@ export default {
             })
         },
         // 点击去看图表
-        toCharts(){
+        toCharts() {
             this.$router.push({
-                path:'/statistics/order'
+                path: '/statistics/order'
             })
         }
     },
@@ -458,8 +477,9 @@ export default {
     .title {
         font-size: 22px;
         margin-bottom: 30px;
-        .transBtn{
-            margin-left:45px;
+
+        .transBtn {
+            margin-left: 45px;
         }
     }
 
@@ -523,6 +543,20 @@ export default {
         .tableTitle {
             color: #666666;
             font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        .tableData {
+            .tableList {
+                span {
+                    color: #000;
+                    font-size: 14px;
+                    line-height: 32px;
+                    display: inline-block;
+                    font-weight: bold;
+                }
+            }
+
         }
     }
 
@@ -540,10 +574,15 @@ export default {
     }
 
     .eachList {
-        color: #666666;
+       color: #333;
+       font-size: 14px;
+       span{
+            line-height: 32px;
+            &.label{
+                 color: #666666;
         font-size: 16px;
-        line-height: 32px;
-
+            }
+       }
         .num {
             color: #888888;
             font-size: 22px;
