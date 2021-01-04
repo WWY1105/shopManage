@@ -67,7 +67,7 @@ const user = {
 
           const data = response.data
           commit('SET_NAME', data.name)
-          commit('SET_AVATAR', data.avatar)
+          commit('SET_AVATAR', data.imgurl)
 
           resolve(response)
         }).catch(error => {

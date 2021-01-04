@@ -117,12 +117,15 @@
             </el-table-column>
             <el-table-column align="center" prop="name" label="主图" width="100">
                 <template slot-scope="scope">
-                    <img :src="scope.row.imgurl" alt="">
+                    <img :src="$imgurl+scope.row.imgurl" alt="">
                 </template>
             </el-table-column>
             <el-table-column align="center" prop="title" label="商品名称">
             </el-table-column>
             <el-table-column align="center" prop="address" label="规格">
+                 <template slot-scope="scope">
+                     <p class="eachItem" v-for="(i,j) in scope.row.skus" :key="j">{{i.itemNames}}</p>
+                 </template>
             </el-table-column>
             <el-table-column align="center" prop="categoryId" label="分类">
             </el-table-column>
@@ -132,11 +135,11 @@
             </el-table-column>
             <el-table-column align="center" prop="address" label="单位">
             </el-table-column>
-            <el-table-column align="center" prop="address" label="运费">
+            <el-table-column align="center" prop="expPrice" label="运费">
             </el-table-column>
             <el-table-column align="center" prop="address" label="营销">
             </el-table-column>
-            <el-table-column align="center" prop="address" label="上下架">
+            <el-table-column align="center"  label="上下架">
                 <template slot-scope="scope">
                     <p v-if="scope.row.shelf" class="editBtn">已上架</p>
                     <p v-else class="deleteBtn">已下架</p>
@@ -208,6 +211,7 @@ export default {
     components: {},
     data() {
         return {
+            searchCategoryList:[],
             childrenVal: '',
             parentVal: '',
             categoryVisible: false, //新增分类的弹窗

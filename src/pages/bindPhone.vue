@@ -162,7 +162,9 @@ export default {
             color: #FF2A2A;
             font-size: 22px;
             margin-bottom: 115px;
-            margin-top: 150px;
+            margin-top: 100px;
+                width: 540px;
+    text-align: right;
         }
 
         /deep/ .el-input__inner {

@@ -155,7 +155,7 @@
     <!--  优惠明细的弹窗 -->
 
     <el-dialog class="discountDialog" width="660px" :visible.sync="showDiscount">
-        <div>
+        <div v-if="discountDetail">
             <div class="part1">
                 <div class="dialogTableBox">
                     <p class="tableTitle flexSpace">
@@ -188,7 +188,7 @@
                 </div>
                 <p class="eachList flexEnd">订单金额：<span class="num"> ￥{{discountDetail.totalPrice}}</span> </p>
             </div>
-            <div class="part2">
+            <div class="part2" v-if="discountDetail.preferential">
                 <p class="title">优惠明细：</p>
                 <p class="eachList flexSpace"><span class="label">定金</span> <span>{{discountDetail.preferential.preSalePrice}}</span> </p>
                 <p class="eachList flexSpace"><span class="label">满减优惠</span><span>{{discountDetail.preferential.fullForFree}}</span> </p>

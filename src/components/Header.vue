@@ -37,7 +37,8 @@
         <el-dropdown>
             <span class="el-dropdown-link">
                 <div class="content flexCenter">
-                    <img class="user" src="../assets/images/header/user.png" />
+                      <img v-if="user.avatar" class="user" :src="$imgurl+user.avatar" alt="">
+                      <img v-else src="../assets/images/header/user.png" />
                     <span class="userName">{{loginUser&&loginUser.name?loginUser.name:'未登录'}}</span>
                     <i class="el-icon-arrow-down el-icon--right"></i>
                 </div>
@@ -93,7 +94,9 @@ export default {
         console.log(this.user)
 
         if (!this.user.name) {
-            this.$store.dispatch('GetInfo').then((res) => {})
+            this.$store.dispatch('GetInfo').then((res) => {
+               
+            })
         }
         if (!this.user.branch || this.user.branch.length <= 0) {
             this.$store.dispatch('Branch').then((res) => {})
@@ -146,6 +149,7 @@ export default {
             width: 40px;
             height: 40px;
             margin-right: 10px;
+            border-radius: 50%;
         }
     }
 

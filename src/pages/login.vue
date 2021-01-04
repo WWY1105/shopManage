@@ -61,7 +61,9 @@ export default {
                 }).then(function (response) {
                     console.log(response);
                     if (response && response.access_token) {
-                        that.getUserInfo()
+                         that.$router.push({
+                                path: '/'
+                            })
 
                     }
                 })
@@ -69,28 +71,8 @@ export default {
                     console.log(error);
                 });
 
-        },
-        // 获取用户信息
-        getUserInfo() {
-            let that = this;
-            that.$store.dispatch('GetInfo').then((res) => {
-                if (res.code == '00') {
-                    that.$store.dispatch('Branch').then((res) => {
-                        if (!res.data.mobile) {
-                            that.$router.push({
-                                path: '/bindPhone'
-                            })
-                        } else {
-                            that.$router.push({
-                                path: '/'
-                            })
-                        }
-                    })
-
-                }
-
-            })
         }
+       
     },
     created() {
 

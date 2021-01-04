@@ -67,6 +67,10 @@ let routes = [
             path: '/shops/editShop',
             name: 'editShop',
             component: () => import('@/pages/Shops/editShop.vue')
+          },{
+            path: '/shops/addShop',
+            name: 'addShop',
+            component: () => import('@/pages/Shops/addShop.vue')
           }, {
             path: '/shops/acountSetting',
             name: 'acountSetting',
@@ -208,6 +212,10 @@ let routes = [
           path: '/statistics/order',
           component: () => import('@/pages/Statistics/order.vue'),
         },{
+          name: '商品统计',
+          path: '/statistics/goods',
+          component: () => import('@/pages/Statistics/goods.vue'),
+        },,{
           name: '商品统计',
           path: '/statistics/goods',
           component: () => import('@/pages/Statistics/goods.vue'),

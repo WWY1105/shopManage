@@ -79,8 +79,25 @@ let customType=[{
     value: 'xkt'
 }
 ]
+
+
+// 发票类型
+let invoicesList= [{
+    id: '1',
+    name: '不开发票'
+},
+{
+    id:' 2',
+    name: '普票'
+},
+{
+    id: '3',
+    name: '专票与普票'
+}
+]
 export {
     orderTypeOptions,
     orderStatusOptions,
-    customType
+    customType,
+    invoicesList
 }

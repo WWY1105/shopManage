@@ -216,6 +216,44 @@
             </div>
         </el-col>
     </el-row>
+
+
+       <el-row :gutter="20">
+        <!-- 运费成本 ￥ -->
+        <el-col :span="16">
+            <div class="chartBox">
+                <p class="title">
+                    <span>运费成本</span>
+                    <span class="num">￥{{price.total}}</span>
+                </p>
+                <div class="searchBox flexStart">
+                    <div class="eachSearch">
+                        <el-date-picker v-model="dataTime" type="daterange" align="right" size="mini" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions2" @change="dataTimeChange" />
+                    </div>
+                </div>
+                <div id="mycharts7" ref="chartBox" class="mycharts">
+                    <span v-html="loading"></span>
+                </div>
+            </div>
+        </el-col>
+        <!-- 订单取消量 -->
+        <el-col :span="8">
+            <div class="chartBox">
+                <p class="title">
+                    <span>订单取消金额</span>
+                    <span class="num">{{cancelOrderCount.total}}</span>
+                </p>
+                <div class="searchBox flexStart">
+                    <div class="eachSearch">
+                        <el-date-picker v-model="dataTime" type="daterange" align="right" size="mini" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions2" @change="dataTimeChange" />
+                    </div>
+                </div>
+                <div id="mycharts8" ref="chartBox" class="mycharts">
+                    <span v-html="loading"></span>
+                </div>
+            </div>
+        </el-col>
+    </el-row>
 </div>
 </template>
 
@@ -227,7 +265,9 @@ import {
     getOrderPrice,
     getReturnPrice,
     getPrice,
-    getCancelOrderCount
+    getCancelOrderCount,
+    getExpressPrice,
+    getCancelOrderPrice
 } from '../../api/statistics/order'
 
 import {
@@ -356,6 +396,8 @@ export default {
             returnPrice: {}, //订单退货金额
             price: {}, // 实收金额
             cancelOrderCount: {}, //订单取消量 
+            expressPrice:{},//运费成本 
+            cancelOrderPrice:{},//  订单取消金额  
         };
     },
     //监听属性 类似于data概念
@@ -420,7 +462,24 @@ export default {
                 }
             })
         },
-
+        // 运费成本 
+        getExpressPriceFn(){
+            getExpressPrice({}).then(res => {
+                if (res.code == '00') {
+                    this.expressPrice = res.data;
+                    this.LineChart('mycharts7', res.data.xaxis, res.data.series, 'bar')
+                }
+            })
+        },
+        // 订单取消金额  
+        getCancelOrderPriceFn(){
+            getCancelOrderPrice({}).then(res => {
+                if (res.code == '00') {
+                    this.cancelOrderPrice = res.data;
+                    this.LineChart('mycharts8', res.data.xaxis, res.data.series, 'bar')
+                }
+            })
+        },
         // ---------------------关于画图--------------------------
 
         // 绘制订单量图图
@@ -469,16 +528,6 @@ export default {
                 },
                 toolbox: {
                     show: false,
-                    // feature: {
-                    //     dataZoom: {
-                    //         yAxisIndex: 'none'
-                    //     },
-                    //     magicType: {
-                    //         type: ['line', 'bar']
-                    //     },
-                    //     restore: {},
-                    //     saveAsImage: {}
-                    // }
                 },
                 xAxis: {
                     type: 'category',
@@ -504,6 +553,8 @@ export default {
         this.getReturnPriceFn();
         this.getPriceFn();
         this.getCancelOrderCountFn();
+        this.getExpressPriceFn();
+        this.getCancelOrderPriceFn()
 
     },
     //生命周期 - 挂载完成（可以访问DOM元素）

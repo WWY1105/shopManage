@@ -53,7 +53,20 @@ export function getCancelOrderCount(json){
         params:json
     })
 }
-// 运费成本
+// 运费成本  
+export function getExpressPrice(json){
+    return request({
+        url:"/statistics/expressPrice",
+        method:'get',
+        params:json
+    })
+}
 
-
-// 订单取消金额
+// 订单取消金额  
+export function getCancelOrderPrice(json){
+    return request({
+        url:"/statistics/cancel-order-price",
+        method:'get',
+        params:json
+    })
+}

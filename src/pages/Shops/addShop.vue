@@ -1,23 +1,23 @@
 <!--  -->
 <template>
-<div class='editShop bgf'>
+<div class='addShop bgf'>
     <div class="content flexCenter flexColumn">
         <div class="logoBox flexCenter flexColumn">
-            <img :src="formLabelAlign.imgurl?$imgurl+formLabelAlign.imgurl:'../../assets/images/header/user.png'" class="logoImg" alt="">
+            <img src="../../assets/images/header/user.png" class="logoImg" alt="">
             <el-upload class="upload-demo" :action="$uploadApi" :on-success="handleAvatarSuccess" :show-file-list="false">
                 <p class="editText flexCenter"><i class="el-icon-edit-outline"></i> 修改头像</p>
             </el-upload>
 
         </div>
         <div class="formBox ">
-            <el-form label-position="left" label-width="120px" :model="formLabelAlign">
+            <el-form label-position="left" label-width="160px" :model="formLabelAlign">
                 <el-form-item label="公司名称">
                     <el-input v-model="formLabelAlign.name"></el-input>
                 </el-form-item>
                 <el-form-item label="公司地址">
                     <div class="flexStart">
-                          <el-input v-model="formLabelAlign.address"></el-input>
-                          <img src="../../assets/images/shops/locateIcon.png" alt="" class="locateIocn">
+                        <el-input v-model="formLabelAlign.address"></el-input>
+                        <img src="../../assets/images/shops/locateIcon.png" alt="" class="locateIocn">
                     </div>
                 </el-form-item>
                 <el-form-item label="联系电话">
@@ -25,7 +25,7 @@
                 </el-form-item>
                 <el-form-item label="发票类型">
                     <el-select v-model="formLabelAlign.invoice">
-                        <el-option v-for="item in invoices"  :key="item.id" :label="item.name" :value="item.id">
+                        <el-option v-for="item in invoices" :key="item.id" :label="item.name" :value="item.id">
                         </el-option>
                     </el-select>
                 </el-form-item>
@@ -34,6 +34,12 @@
                         <el-option v-for="item in typeList" :key="item.id" :label="item.name" :value="item.id">
                         </el-option>
                     </el-select>
+                </el-form-item>
+                <el-form-item label="分店管理员手机号">
+                    <el-input v-model="formLabelAlign.mobile"></el-input>
+                </el-form-item>
+                <el-form-item label="分店管理密码">
+                    <el-input v-model="formLabelAlign.password"></el-input>
                 </el-form-item>
             </el-form>
             <div class="btnBox flexCenter">
@@ -49,17 +55,18 @@
 
 <script>
 import {
+    invoicesList
+} from '../../utils/jsons'
+import {
     getType,
-    putInfo,
-    getData
-} from '../../api/shops/index';
-import {invoicesList} from '../../utils/jsons'
+    saveInfo
+} from '../../api/shops/index'
 export default {
     components: {},
     data() {
         return {
             typeList: [], //营业行业列表
-             invoices: invoicesList,
+            invoices: invoicesList,
             formLabelAlign: {}
         };
     },
@@ -75,11 +82,11 @@ export default {
             })
         },
         handleAvatarSuccess(res, file) {
-            if(res.code=='00'){
+            if (res.code == '00') {
                 this.formLabelAlign.imgurl = res.data;
                 this.saveDataFn()
             }
-          
+
         },
         saveDataFn() {
             let that = this;
@@ -102,32 +109,32 @@ export default {
             if (this.formLabelAlign.typeId) {
                 json.typeId = this.formLabelAlign.typeId;
             }
-
-            putInfo(json).then(res => {
+ if (this.formLabelAlign.mobile) {
+                json.mobile = this.formLabelAlign.mobile;
+            }
+            if (this.formLabelAlign.password) {
+                json.password = this.formLabelAlign.password;
+            }
+            saveInfo(json).then(res => {
                 if (res.code == '00') {
                     that.$message({
                         showClose: true,
                         message: '保存成功',
                         duration: 3 * 1000,
-                        type: 'success'
+                        type: 'success',
+                        computed:()=>{
+                            that.$router.replace({
+                                path:'/shop'
+                            })
+                        }
                     })
-                    that.getDataFn()
                 }
             })
         },
-        getDataFn() {
-            let that = this;
-            getData({}).then(res => {
-                if (res.code == '00') {
-                    that.formLabelAlign = res.data;
-                }
-            })
-        }
 
     },
     created() {
         this.getTypeFn();
-        this.getDataFn()
     },
     mounted() {
 
@@ -144,7 +151,7 @@ export default {
 
 <style lang="scss" scoped>
 //@import url(); 引入公共css类
-.editShop {
+.addShop {
 
     //min-height: 100%;
     /deep/ .el-form-item__label {
@@ -164,8 +171,9 @@ export default {
         line-height: 60px;
 
     }
-    /deep/  .el-input__suffix{
-        right:100px;
+
+    /deep/ .el-input__suffix {
+        right: 100px;
     }
 
     /deep/ .el-input__inner {
@@ -187,7 +195,7 @@ export default {
 
     .logoBox {
         width: 378px;
-        margin-left: -75px;
+
         .logoImg {
             width: 100px;
             height: 100px;
@@ -220,7 +228,8 @@ export default {
         font-size: 22px;
     }
 }
-.locateIocn{
+
+.locateIocn {
     margin-left: 30px;
 }
 </style>

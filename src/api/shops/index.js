@@ -8,6 +8,17 @@ export function putInfo(json){
     })
 }
 
+
+// 添加分店
+export function saveInfo(json){
+    return request({
+        url:"/info",
+        method:'post',
+        params:json
+    })
+}
+
+
 // 获取营业行业
 export function getType(json){
     return request({

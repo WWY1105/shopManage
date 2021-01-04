@@ -84,9 +84,9 @@
             </div>
 
         </div>
-        <div class="addShop flexCenter flexColumn">
+        <router-link class="addShop flexCenter flexColumn" :to="{path:'/shops/addShop'}">
             <i class="el-icon-plus"></i>
-        </div>
+        </router-link>
     </div>
 </div>
 </template>
