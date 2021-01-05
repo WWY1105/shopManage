@@ -1,21 +1,21 @@
 <!--  -->
 <template>
-<div class='makeGroup bgf'>
+<div class='free bgf'>
     <div class="searchBox ">
         <el-form label-position="top" :inline="true" class="demo-form-inline">
             <el-row :gutter="20" type="flex" justify="space-between" align="center">
                 <el-col :span="20">
-                    <el-row  type="flex" justify="start" align="center">
+                    <el-row type="flex" justify="start" align="center">
                         <el-col :span="4">
                             <el-form label-position="top" :inline="true" class="demo-form-inline">
-                                <el-form-item label="拼团模块开关">
+                                <el-form-item label="免费拿模块开关">
                                     <el-switch size="large" active-color="#00B0F0" inactive-color="#aaaaaa">
                                     </el-switch>
                                 </el-form-item>
                             </el-form>
                         </el-col>
-                        <el-col :span="14" class="flexStart" >
-                            <p class="dangerTips">本模块仅包含拼团商品，全部商品请至商品管理模块查看</p>
+                        <el-col :span="14" class="flexStart">
+                            <p class="dangerTips">本模块仅包含免费拿商品，全部商品请至商品管理模块查看</p>
                         </el-col>
                     </el-row>
                 </el-col>
@@ -38,7 +38,7 @@
                     <el-col :span="3">
                         <div class="grid-content bg-purple">
                             <el-form-item label="显示">
-                                <el-select v-model="json.id" ></el-select>
+                                <el-select v-model="json.id"></el-select>
                             </el-form-item>
                         </div>
                     </el-col>
@@ -53,14 +53,14 @@
                     <el-col :span="3">
                         <div class="grid-content bg-purple">
                             <el-form-item label="商品名称">
-                                 <el-input v-model="json.content" placeholder="id"></el-input>
+                                <el-input v-model="json.content" placeholder="id"></el-input>
                             </el-form-item>
                         </div>
                     </el-col>
                     <el-col :span="3">
                         <div class="grid-content bg-purple">
                             <el-form-item label="是否上架">
-                                 <el-select v-model="json.shelf" placeholder="是否上架">
+                                <el-select v-model="json.shelf" placeholder="是否上架">
                                     <el-option label="是" value="true"></el-option>
                                     <el-option label="否" value="false"></el-option>
                                 </el-select>
@@ -69,7 +69,7 @@
                     </el-col>
                     <el-col :span="3">
                         <div class="grid-content bg-purple">
-                              <el-form-item label="是否有库存">
+                            <el-form-item label="是否有库存">
                                 <el-select v-model="json.hasStock" placeholder="是否有库存">
                                     <el-option label="是" value="true"></el-option>
                                     <el-option label="否" value="false"></el-option>
@@ -77,10 +77,10 @@
                             </el-form-item>
                         </div>
                     </el-col>
-                   <el-col :span="3">
+                    <el-col :span="3">
                         <div class="grid-content bg-purple">
                             <el-form-item label="一级分类">
-                                <el-select v-model="json.categoryId" placeholder="一级分类"  @change="categoriesChange">
+                                <el-select v-model="json.categoryId" placeholder="一级分类" @change="categoriesChange">
                                     <el-option :label="item.name" :value="item.id" v-for="(item,index) in searchCategoryList" :key="index"></el-option>
                                 </el-select>
                             </el-form-item>
@@ -120,15 +120,13 @@
             </el-table-column>
             <el-table-column align="center" prop="address" label="原价">
             </el-table-column>
-            <el-table-column align="center" prop="address" label="拼团价">
+            <el-table-column align="center" prop="address" label="所需人数">
             </el-table-column>
-            <el-table-column align="center" prop="address" label="人数要求">
-            </el-table-column>
-             <el-table-column align="center" prop="id" label="时间限制">
+            <el-table-column align="center" prop="id" label="时限">
             </el-table-column>
             <el-table-column align="center" prop="address" label="总库存">
             </el-table-column>
-            <el-table-column align="center" prop="categoryId" label="拼团库存">
+            <el-table-column align="center" prop="categoryId" label="免费拿库存">
             </el-table-column>
             <el-table-column align="center" prop="address" label="单位">
             </el-table-column>
@@ -136,9 +134,9 @@
             </el-table-column>
             <el-table-column align="center" prop="address" label="上下架">
             </el-table-column>
-             <el-table-column align="center" prop="address" label="排序 ">
+            <el-table-column align="center" prop="address" label="排序 ">
             </el-table-column>
-            <el-table-column align="center" prop="address" label="其它" width="150">
+            <el-table-column align="center" prop="address" label="其它" width="100">
                 <template slot-scope="scope">
                     <div class="controlBox flexCenter">
                         <router-link class="editBtn" :to="{path:'/editGoods',query:{id:scope.row.id}}">
@@ -171,17 +169,17 @@ export default {
     data() {
         //这里存放数据
         return {
-            searchCategoryList:[],
+            searchCategoryList: [],
             categoryList: [],
             categories2: [],
             pageData: {},
             json: {
-                sellType:'ms',
+                sellType: 'mfn',
                 pageNum: 1,
                 pageSize: 30
             },
             tableData: [],
-          
+
         };
     },
     //监听属性 类似于data概念
@@ -190,11 +188,11 @@ export default {
     watch: {},
     //方法集合
     methods: {
-           // 获取分类
+        // 获取分类
         getCategoryFn() {
             getCategory().then(res => {
                 if (res.code == '00') {
-                    this.searchCategoryList=res.data;
+                    this.searchCategoryList = res.data;
                     res.data.map(i => {
                         if (!i.categories || i.categories.length == 0) {
                             i.categories = [{
@@ -239,7 +237,7 @@ export default {
     //生命周期 - 创建完成（可以访问当前this实例）
     created() {
         this.getDataFn();
-         this.getCategoryFn()
+        this.getCategoryFn()
     },
     //生命周期 - 挂载完成（可以访问DOM元素）
     mounted() {
@@ -257,7 +255,7 @@ export default {
 
 <style lang="scss" scoped>
 //@import url(); 引入公共css类
-.makeGroup {
+.free {
     padding: 48px 24px;
 
     .dangerTips {

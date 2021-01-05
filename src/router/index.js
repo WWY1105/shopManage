@@ -141,6 +141,10 @@ let routes = [
             name: 'Distribution',
             component: () => import('@/pages/Sales/distribution/index.vue'),
           },{
+            path:'/sales/distribute',
+            name: 'Distribute',
+            component: () => import('@/pages/Sales/distribute/index.vue'),
+          },{
             path:'/sales/togetherDiscount',
             name: 'TogetherDiscount',
             component: () => import('@/pages/Sales/togetherDiscount/index.vue'),
@@ -172,6 +176,10 @@ let routes = [
             path:'/sales/bargaining',
             name: 'bargaining',
             component: () => import('@/pages/Sales/bargaining/index.vue')
+          },{
+            path:'/sales/free',
+            name: 'free',
+            component: () => import('@/pages/Sales/free/index.vue')
           }
           
         ]

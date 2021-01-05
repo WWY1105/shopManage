@@ -40,30 +40,50 @@
     <p class="partTitle">优惠设定（最多3种）</p>
 
     <!-- 优惠列表 -->
-    <div class="discountListBox">
-        <el-row :gutter="20">
-            <el-col :span="8" v-for="(i, j) in discountList" :key="j">
-                <el-card :body-style="{ padding: '32px 28px 39px' }" shadow="hover">
-                    <div class="eachDis">
-
+    <div class="discountListBox bgf">
+        <div class="flexStart">
+            <el-card v-for="(i, j) in discountList" :key="j" :body-style="{ padding:0}" shadow="hover">
+                <div class="eachDis">
+                    <p class="name">{{'优惠规则'+(j-0+1)}}</p>
+                    <div class="details">
+                        <p>条件：满{{i.fullPrice}}元</p>
+                        <p>优惠：减{{i.discountPrice}}元</p>
                     </div>
-                </el-card>
-            </el-col>
-            <!-- 添加按钮 -->
-            <el-col :span="8">
-                <el-card shadow="hover" class="addDis" :body-style="{borderRadius:'0',padding:'70px 30px 40px'}">
-                    <div class="bgGray addDis flexCenter flexColumn" @click="edtiDisVisible=true">
-                        <p class="addIcon">
-                            <i class="el-icon-plus" size="50"></i>
-                        </p>
-                        <p class="addTips">添加新卡</p>
+                    <div class="btns flexStart">
+                        <i class="editIcon el-icon-edit-outline" @click="val=>editFn(val,i)"></i>
+                        <i class="el-icon-delete deleteIcon" @click="val=>showDeleteFn(val,i.id)"></i>
                     </div>
-                </el-card>
-            </el-col>
-        </el-row>
-
+                </div>
+            </el-card>
+            <el-card v-if="discountList.length<3" shadow="hover" class="addDis  flexCenter flexColumn" :body-style="{ padding:0}">
+                <div @click="edtiDisVisible=true" >
+                      <i class="el-icon-plus addIcon" size="100"></i>
+                <p class="addTips">设置优惠</p>
+                </div>
+            </el-card>
+        </div>
     </div>
 
+    <el-dialog title="创建满减规则：" center :visible.sync="edtiDisVisible" width="600px" class="prizeDialog">
+        <div class="dialogContent ">
+            <el-form :inline="true" :label-position="posi" label-width="80px" :model="editJson">
+                <div class="flexCenter flexColumn">
+                    <el-form-item label="消费满">
+                        <el-input v-model="editJson.fullPrice"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="优惠">
+                        <el-input v-model="editJson.discountPrice"></el-input>
+                    </el-form-item>
+                </div>
+            </el-form>
+            <span slot="footer" class="dialog-footer flexCenter">
+                <el-button class="btn cancelBtn transBtn" @click="edtiDisVisible = false">取 消</el-button>
+                <el-button class="searchBtn btn" type="primary" @click="saveDataFn">确 定</el-button>
+            </span>
+        </div>
+
+    </el-dialog>
 </div>
 </template>
 
@@ -80,6 +100,10 @@ export default {
     data() {
         //这里存放数据
         return {
+            tergetId: false,
+            posi: 'left',
+            edtiDisVisible: false,
+            editJson: {},
             discountData: {},
             discountList: []
         };
@@ -96,6 +120,70 @@ export default {
                     this.discountList = res.data;
                 }
             })
+        },
+        // 修改
+        editFn(val, item) {
+            this.edtiDisVisible = true;
+            this.tergetId = item.id;
+            this.editJson = item;
+        },
+        // 删除
+        showDeleteFn(val,id) {
+            let that = this;
+            deleteData(id).then(res => {
+                if (res.code == '00') {
+                    that.$message({
+                        showClose: true,
+                        message: '删除成功',
+                        duration: 3 * 1000,
+                        type: 'success'
+                    })
+
+                }
+                that.getDataFn();
+                that.edtiDisVisible = false
+            })
+        },
+        // 保存
+        saveDataFn() {
+            let that = this;
+            let json = {};
+            if (this.tergetId) {
+                json.type = this.editJson.type;
+                json.val = this.editJson.val;
+                json.prizeRate = this.editJson.prizeRate;
+                json.prizeSize = this.editJson.prizeSize;
+                updateData(json, this.tergetId).then(res => {
+                    if (res.code == '00') {
+                        that.$message({
+                            showClose: true,
+                            message: '修改成功',
+                            duration: 3 * 1000,
+                            type: 'success'
+                        })
+                        that.getDataFn();
+                        that.edtiDisVisible = false;
+                         this.editJson={}
+                    }
+
+                })
+            } else {
+                saveData(this.editJson).then(res => {
+                    if (res.code == '00') {
+                        that.$message({
+                            showClose: true,
+                            message: '保存成功',
+                            duration: 3 * 1000,
+                            type: 'success'
+                        })
+                        that.getDataFn();
+                        that.edtiDisVisible = false;
+                        this.editJson={}
+                    }
+
+                })
+            }
+
         },
     },
     //生命周期 - 创建完成（可以访问当前this实例）
@@ -179,8 +267,90 @@ export default {
     }
 }
 
-.discountListBox {
+.partTitle {
+    padding: 22px 67px;
+    font-size: 22px;
+    font-weight: 400;
+    color: #393939;
+}
 
-    margin-top: 20px;
+.discountListBox {
+    padding: 68px;
+
+    .addDis {
+        /deep/ .el-card__body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+    }
+
+    .addIcon {
+        font-size: 50px;
+    }
+
+    .addTips {
+        margin-top: 25px;
+        font-size: 14px;
+        font-weight: 400;
+        color: #2A3F54;
+    }
+
+    .el-card {
+        background-color: unset;
+        border: none;
+        border-radius: 10px;
+        width: 210px;
+        height: 210px;
+        padding: 23px 33px;
+        background: #F4F4F4;
+        box-sizing: border-box;
+        margin-right: 40px;
+        display: inline-block;
+    }
+
+    .eachDis {
+        .name {
+            margin-bottom: 35px;
+            font-size: 22px;
+            font-weight: 400;
+            color: #00B0F0;
+            line-height: 11px;
+        }
+
+        .details {
+
+            font-size: 14px;
+            font-weight: 400;
+            color: #555555;
+            line-height: 11px;
+
+            p {
+                margin-bottom: 14px;
+            }
+        }
+
+        .btns {
+            margin-top: 30px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #FF5B5B;
+
+            .editIcon {
+                margin-right: 36px;
+                color: #00B0F0;
+            }
+        }
+    }
+}
+
+/deep/.el-form-item__label {
+    line-height: 40px;
+}
+
+.dialog-footer {
+    margin-top: 60px;
 }
 </style>

@@ -17,7 +17,7 @@
                         <el-col :span="18">
                             <el-form-item label="同行优惠规则：">
                                 <el-button class="searchBtn" @click="ruleVisible=true">
-                                   {{rule&&rule.personCount?rule.personCount+'人同行'+rule.freeCount+'免单':'点击输入同行优惠规则'}} 
+                                    {{rule&&rule.personCount?rule.personCount+'人同行'+rule.freeCount+'免单':'点击输入同行优惠规则'}}
                                     <i class="el-icon-edit-outline"></i>
                                 </el-button>
                             </el-form-item>
@@ -418,6 +418,8 @@ export default {
 .searchBox {
     padding: 28px 33px;
 }
+
+
 
 .tableBox {
     padding: 0 33px 30px;

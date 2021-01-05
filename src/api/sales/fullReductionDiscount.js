@@ -26,6 +26,6 @@ export function deleteData(id){
     return request({
         url:"/business-discount/"+id,
         method:'delete',
-        params:json
+        params:{}
     })
 }

@@ -286,7 +286,8 @@ export default {
                             type: 'success'
                         })
                         that.getPrizeFn();
-                        that.addPrizeVisible = false
+                        that.addPrizeVisible = false;
+                         this.editJson={}
                     }
 
                 })
@@ -300,7 +301,8 @@ export default {
                             type: 'success'
                         })
                         that.getPrizeFn();
-                        that.addPrizeVisible = false
+                        that.addPrizeVisible = false;
+                         this.editJson={}
                     }
 
                 })

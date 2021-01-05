@@ -162,14 +162,21 @@
 import {
     getData
 } from '../../../api/sales/messagePush.js'
+import {
+    getCategory
+} from '../../../api/goods/index'
 export default {
     //import引入的组件需要注入到对象中才能使用
     components: {},
     data() {
         //这里存放数据
         return {
+            searchCategoryList:[],
+            categoryList: [],
+            categories2: [],
             pageData: {},
             json: {
+                sellType:'kj',
                 pageNum: 1,
                 pageSize: 30
             },
@@ -232,6 +239,43 @@ export default {
     watch: {},
     //方法集合
     methods: {
+          // 获取分类
+        getCategoryFn() {
+            getCategory().then(res => {
+                if (res.code == '00') {
+                    this.searchCategoryList=res.data;
+                    res.data.map(i => {
+                        if (!i.categories || i.categories.length == 0) {
+                            i.categories = [{
+                                name: ''
+                            }]
+                        } else if (i.categories.length > 0) {
+                            i.categories.push({
+                                name: ''
+                            })
+                        }
+                    })
+                    res.data.push({
+                        name: '',
+                        categories: [{
+                            name: ''
+                        }]
+                    })
+
+                    this.categoryList = res.data;
+                    console.log(res.data)
+                }
+            })
+        },
+        // 一级分类改变获取二级分类
+        categoriesChange(e) {
+            let id = e;
+            this.searchCategoryList.map(i => {
+                if (i.id == id) {
+                    this.categories2 = i.categories;
+                }
+            })
+        },
         getDataFn() {
             getData(this.json).then((res) => {
                 if (res.code == '00') {
@@ -243,7 +287,8 @@ export default {
     },
     //生命周期 - 创建完成（可以访问当前this实例）
     created() {
-        this.getDataFn()
+        this.getDataFn();
+         this.getCategoryFn()
     },
     //生命周期 - 挂载完成（可以访问DOM元素）
     mounted() {

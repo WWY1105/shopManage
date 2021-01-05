@@ -162,6 +162,9 @@
 import {
     getData
 } from '../../../api/sales/messagePush.js'
+import {
+    getCategory
+} from '../../../api/goods/index'
 export default {
     //import引入的组件需要注入到对象中才能使用
     components: {},
@@ -169,61 +172,15 @@ export default {
         //这里存放数据
         return {
             pageData: {},
+            searchCategoryList:[],
+            categoryList: [],
+            categories2: [],
             json: {
+                sellType:'pt',
                 pageNum: 1,
                 pageSize: 30
             },
             tableData: [],
-            pushTypeList: [{
-                text: '全部',
-                value: ''
-            }, {
-                text: '消息',
-                value: 1
-            }, {
-                text: '短信',
-                value: 2
-            }],
-            pushWayList: [{
-                text: '全部',
-                value: ''
-            }, {
-                text: '立即发送',
-                value: 1
-            }, {
-                text: '预约发送',
-                value: 2
-            }],
-            pushStatusList: [{
-                    text: '全部',
-                    value: ''
-                },
-                {
-                    text: '已推送',
-                    value: 1
-                }, {
-                    text: '待推送',
-                    value: 2
-                }, {
-                    text: '取消推送',
-                    value: 3
-                }
-            ],
-            pushTargetList: [{
-                    text: '全部',
-                    value: 'all'
-                },
-                {
-                    text: '普通用户',
-                    value: 'pt'
-                }, {
-                    text: '会员',
-                    value: 'hy'
-                }, {
-                    text: '星卡通',
-                    value: 'xkt'
-                }
-            ],
         };
     },
     //监听属性 类似于data概念
@@ -232,6 +189,43 @@ export default {
     watch: {},
     //方法集合
     methods: {
+          // 获取分类
+        getCategoryFn() {
+            getCategory().then(res => {
+                if (res.code == '00') {
+                    this.searchCategoryList=res.data;
+                    res.data.map(i => {
+                        if (!i.categories || i.categories.length == 0) {
+                            i.categories = [{
+                                name: ''
+                            }]
+                        } else if (i.categories.length > 0) {
+                            i.categories.push({
+                                name: ''
+                            })
+                        }
+                    })
+                    res.data.push({
+                        name: '',
+                        categories: [{
+                            name: ''
+                        }]
+                    })
+
+                    this.categoryList = res.data;
+                    console.log(res.data)
+                }
+            })
+        },
+        // 一级分类改变获取二级分类
+        categoriesChange(e) {
+            let id = e;
+            this.searchCategoryList.map(i => {
+                if (i.id == id) {
+                    this.categories2 = i.categories;
+                }
+            })
+        },
         getDataFn() {
             getData(this.json).then((res) => {
                 if (res.code == '00') {
@@ -243,7 +237,8 @@ export default {
     },
     //生命周期 - 创建完成（可以访问当前this实例）
     created() {
-        this.getDataFn()
+        this.getDataFn();
+         this.getCategoryFn()
     },
     //生命周期 - 挂载完成（可以访问DOM元素）
     mounted() {

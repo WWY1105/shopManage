@@ -9,5 +9,8 @@ export function getGoodDetail(json){
         params:json
     })
 }
-
+// 添加商品
+export function saveData(json){
+    return request.post("/product",json)
+}
 

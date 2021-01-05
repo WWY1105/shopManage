@@ -1,11 +1,11 @@
 <!--  -->
 <template>
 <div class='union bgf'>
-    <div class="mainTitle">
+    <div class="mainTitle bgf">
         <p>加入极星联盟</p>
         <p> 开启3大板块</p>
     </div>
-    <div class="content flexCenter">
+    <div class="content flexCenter bgf">
         <div class="part flexCenter flexColumn">
             <img src="../../assets/images/union/zhibo.png" alt="">
             <div class="title">直播</div>

@@ -168,7 +168,7 @@ export default {
     padding: 23px 36px;
     background-color: #fff;
     color: #2A3F54;
-
+margin-bottom: 20px;
     .title {
         font-size: 22px;
         margin-bottom: 30px;

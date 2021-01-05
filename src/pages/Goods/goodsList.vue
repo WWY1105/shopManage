@@ -1,6 +1,17 @@
 <!--  -->
 <template>
 <div class='goods'>
+      <div class="totalPanel">
+        <p class="title">数据汇总：
+            <el-button class="transBtn" @click="toCharts">查看图表</el-button>
+        </p>
+        <div class="panelBox flexSpace">
+            <div class="eachTotalBox" v-for="(i,j) in panelDatas" :key="j">
+                <p class="partTitle">{{i.name}}</p>
+                <p class="num">{{i.num}}</p>
+            </div>
+        </div>
+    </div>
     <div class="searchBox bgf">
         <el-form label-position="top" :inline="true" :model="formInline" class="demo-form-inline">
             <el-row :gutter="20" type="flex" justify="space-between" align="bottom">
@@ -150,7 +161,7 @@
             <el-table-column align="center" prop="address" label="其它" width="150">
                 <template slot-scope="scope">
                     <div class="controlBox flexCenter">
-                        <router-link class="editBtn" :to="{path:'/editGoods',query:{id:scope.row.id}}">
+                        <router-link class="editBtn" :to="{path:'/goods/editGoods',query:{id:scope.row.id}}">
                             编辑
                         </router-link>
                         <div class="deleteBtn">删除</div>
@@ -211,6 +222,33 @@ export default {
     components: {},
     data() {
         return {
+            panelDatas:[
+                {
+                    name:'商品种类',
+                    num:0
+                },{
+                    name:'规格种类',
+                    num:0
+                },{
+                    name:'库存量',
+                    num:0
+                },{
+                    name:'销量',
+                    num:0
+                },{
+                    name:'销售金额',
+                    num:0
+                },{
+                    name:'平均复购率',
+                    num:0
+                },{
+                    name:'浏览量',
+                    num:0
+                },{
+                    name:'退货率',
+                    num:0
+                },
+            ],
             searchCategoryList:[],
             childrenVal: '',
             parentVal: '',
@@ -231,6 +269,8 @@ export default {
     computed: {},
     watch: {},
     methods: {
+        // 查看图表
+        toCharts(){},
         // 一级分类改变获取二级分类
         categoriesChange(e) {
             let id = e;
@@ -549,5 +589,31 @@ input:-ms-input-placeholder {
     right: 13px;
     top: 50%;
     margin-top: -8px;
+}
+.totalPanel {
+    padding: 23px 36px;
+    background-color: #fff;
+    color: #2A3F54;
+    margin-bottom: 20px;
+    .title {
+        font-size: 22px;
+        margin-bottom: 30px;
+
+        .transBtn {
+            margin-left: 45px;
+        }
+    }
+
+    .eachTotalBox {
+        .partTitle {
+            font-size: 16px;
+            margin-bottom: 16px;
+        }
+
+        .num {
+            font-size: 22px;
+            font-weight: bold;
+        }
+    }
 }
 </style>

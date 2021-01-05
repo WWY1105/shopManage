@@ -91,7 +91,7 @@ export default {
             ...this.$store.state
         };
         this.user = state.user ? state.user : {};
-        console.log(this.user)
+        // console.log(this.user)
 
         if (!this.user.name) {
             this.$store.dispatch('GetInfo').then((res) => {

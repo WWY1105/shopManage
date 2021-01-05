@@ -1,6 +1,6 @@
 <!--  -->
 <template>
-<div class='union bgf'>
+<div class='union'>
    <router-view></router-view>
 </div>
 </template>
