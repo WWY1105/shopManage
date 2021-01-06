@@ -224,9 +224,9 @@ let routes = [
           path: '/statistics/goods',
           component: () => import('@/pages/Statistics/goods.vue'),
         },,{
-          name: '商品统计',
-          path: '/statistics/goods',
-          component: () => import('@/pages/Statistics/goods.vue'),
+          name: '客户统计',
+          path: '/statistics/custom',
+          component: () => import('@/pages/Statistics/custom.vue'),
         }]
       }, {
         path: '/',

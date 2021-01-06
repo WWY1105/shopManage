@@ -9,8 +9,21 @@ export function getGoodDetail(json){
         params:json
     })
 }
+// 根据id 获取
+export function getData(id){
+    return request({
+        url:"/product/"+id,
+        method:'get',
+        params:{}
+    })
+}
 // 添加商品
 export function saveData(json){
     return request.post("/product",json)
 }
+export function putData(json,id){
+    return request.post("/product/"+id,json)
+}
+
+
 

@@ -2,9 +2,9 @@
 import request from '@/utils/request'
 
 
-export function listPage(json){
+export function list(json){
     return request({
-        url:"/business-more-free/page",
+        url:"/product/page",
         method:'get',
         params:json
     })

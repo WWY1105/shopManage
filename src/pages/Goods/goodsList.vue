@@ -1,7 +1,7 @@
 <!--  -->
 <template>
 <div class='goods'>
-      <div class="totalPanel">
+    <div class="totalPanel">
         <p class="title">数据汇总：
             <el-button class="transBtn" @click="toCharts">查看图表</el-button>
         </p>
@@ -80,7 +80,7 @@
                     <el-col :span="3">
                         <div class="grid-content bg-purple">
                             <el-form-item label="一级分类">
-                                <el-select v-model="json.categoryId" placeholder="一级分类"  @change="categoriesChange">
+                                <el-select v-model="json.categoryId" placeholder="一级分类" @change="categoriesChange">
                                     <el-option :label="item.name" :value="item.id" v-for="(item,index) in searchCategoryList" :key="index"></el-option>
                                 </el-select>
                             </el-form-item>
@@ -134,26 +134,31 @@
             <el-table-column align="center" prop="title" label="商品名称">
             </el-table-column>
             <el-table-column align="center" prop="address" label="规格">
-                 <template slot-scope="scope">
-                     <p class="eachItem" v-for="(i,j) in scope.row.skus" :key="j">{{i.itemNames}}</p>
-                 </template>
+                <template slot-scope="scope">
+                    <p class="eachItem" v-for="(i,j) in scope.row.skus" :key="j">{{i.itemNames}}</p>
+                </template>
             </el-table-column>
             <el-table-column align="center" prop="categoryId" label="分类">
+                <template slot-scope="scope">
+                    {{scope.row.categoryId|categoryFilter}}
+                    <span v-if="scope.row.categoryId&&scope.row.categoryId2">/</span>
+                     {{scope.row.categoryId2|categoryFilter}}
+                </template>
             </el-table-column>
-            <el-table-column align="center" prop="address" label="单价">
+            <el-table-column align="center" prop="price" label="单价">
             </el-table-column>
-            <el-table-column align="center" prop="address" label="库存">
+            <el-table-column align="center" prop="stock" label="库存">
             </el-table-column>
-            <el-table-column align="center" prop="address" label="单位">
+            <el-table-column align="center" prop="unit" label="单位">
             </el-table-column>
             <el-table-column align="center" prop="expPrice" label="运费">
             </el-table-column>
             <el-table-column align="center" prop="address" label="营销">
             </el-table-column>
-            <el-table-column align="center"  label="上下架">
+            <el-table-column align="center" label="上下架">
                 <template slot-scope="scope">
-                    <p v-if="scope.row.shelf" class="editBtn">已上架</p>
-                    <p v-else class="deleteBtn">已下架</p>
+                    <p v-if="scope.row.shelf" class="editBtn" @click="val=>setShelfFn(val,scope.row.id,false)">已上架</p>
+                    <p v-else class="deleteBtn" @click="val=>setShelfFn(val,scope.row.id,true)">已下架</p>
                 </template>
             </el-table-column>
             <el-table-column align="center" prop="address" label="排序">
@@ -164,7 +169,7 @@
                         <router-link class="editBtn" :to="{path:'/goods/editGoods',query:{id:scope.row.id}}">
                             编辑
                         </router-link>
-                        <div class="deleteBtn">删除</div>
+                        <div class="deleteBtn" @click="val=>{showDeleteDialog(val,scope.row.id)}">删除</div>
                     </div>
                 </template>
             </el-table-column>
@@ -207,51 +212,60 @@
             <el-button @click="categoryVisible = false">取 消</el-button>
         </div>
     </el-dialog>
+
+    <!-- 删除的确认弹窗 -->
+    <deleteDialog title="确定删除此商品?" :deleteVisible="deleteVisible" />
 </div>
 </template>
 
 <script>
+import deleteDialog from '../../components/deleteDialig'
 import {
     list,
     getCategory,
     addCategory,
     deleteCate,
-    save
-} from '../../api/goods/index'
+    deleteData,
+    save,
+    setShelf
+} from '../../api/goods/index';
+let that;
 export default {
-    components: {},
+    components: {
+        deleteDialog
+    },
     data() {
         return {
-            panelDatas:[
-                {
-                    name:'商品种类',
-                    num:0
-                },{
-                    name:'规格种类',
-                    num:0
-                },{
-                    name:'库存量',
-                    num:0
-                },{
-                    name:'销量',
-                    num:0
-                },{
-                    name:'销售金额',
-                    num:0
-                },{
-                    name:'平均复购率',
-                    num:0
-                },{
-                    name:'浏览量',
-                    num:0
-                },{
-                    name:'退货率',
-                    num:0
-                },
-            ],
-            searchCategoryList:[],
+            panelDatas: [{
+                name: '商品种类',
+                num: 0
+            }, {
+                name: '规格种类',
+                num: 0
+            }, {
+                name: '库存量',
+                num: 0
+            }, {
+                name: '销量',
+                num: 0
+            }, {
+                name: '销售金额',
+                num: 0
+            }, {
+                name: '平均复购率',
+                num: 0
+            }, {
+                name: '浏览量',
+                num: 0
+            }, {
+                name: '退货率',
+                num: 0
+            }, ],
+            searchCategoryList: [],
             childrenVal: '',
             parentVal: '',
+            targetId: '',
+            deleteVisible: false, //确认删除的弹窗
             categoryVisible: false, //新增分类的弹窗
             categoryList: [],
             categories2: [],
@@ -268,9 +282,61 @@ export default {
     },
     computed: {},
     watch: {},
+    filters: {
+        categoryFilter(val) {
+            let name = that.getDepById(that.categoryList, val)
+            return name;
+        }
+    },
     methods: {
+        // 便利树
+        getDepById(tree, ID) {
+            var Deep, T, F;
+            for (F = tree.length; F;) {
+                T = tree[--F]
+                if (ID == T.id) return T.name;
+                if (T.categories) {
+                    Deep = this.getDepById(T.categories, ID)
+                    if (Deep) return Deep
+                }
+            }
+        },
+        // 下线
+        setShelfFn(val,id,shelf){
+            // console.log(id);
+            // console.log(shelf);
+            // return;
+            setShelf(id,{
+                shelf
+            }).then(res=>{
+                 if (res.code == '00') {
+                      that.getList()
+                 }
+            })
+        },
+        // 删除的弹窗
+        showDeleteDialog(val, id) {
+            this.deleteVisible = true;
+            this.targetId = id;
+            console.log(val)
+        },
+        confirmDelete() {
+            let that = this;
+            deleteData(this.targetId).then(res => {
+                if (res.code == '00') {
+                    this.deleteVisible = false;
+                    that.$message({
+                        showClose: true,
+                        message: '删除成功',
+                        duration: 2 * 1000,
+                        type: 'success'
+                    })
+                    that.getList()
+                }
+            })
+        },
         // 查看图表
-        toCharts(){},
+        toCharts() {},
         // 一级分类改变获取二级分类
         categoriesChange(e) {
             let id = e;
@@ -294,7 +360,7 @@ export default {
         getCategory() {
             getCategory().then(res => {
                 if (res.code == '00') {
-                    this.searchCategoryList=res.data;
+                    this.searchCategoryList = res.data;
                     res.data.map(i => {
                         if (!i.categories || i.categories.length == 0) {
                             i.categories = [{
@@ -336,10 +402,12 @@ export default {
             if (this.categoryList[last].name.trim() != '') {
                 if (val.trim() != '') {
                     this.categoryList[index].name = val;
-                    
+
                     this.categoryList.push({
                         name: '',
-                        categories:[{name:''}]
+                        categories: [{
+                            name: ''
+                        }]
                     })
                 }
             }
@@ -404,7 +472,7 @@ export default {
                         that.$message({
                             showClose: true,
                             message: '删除成功',
-                            duration:2000,
+                            duration: 2000,
                             type: 'success'
                         })
                         that.getCategory()
@@ -460,6 +528,7 @@ export default {
         },
     },
     created() {
+        that = this;
         this.getList();
         this.getCategory()
     },
@@ -590,11 +659,13 @@ input:-ms-input-placeholder {
     top: 50%;
     margin-top: -8px;
 }
+
 .totalPanel {
     padding: 23px 36px;
     background-color: #fff;
     color: #2A3F54;
     margin-bottom: 20px;
+
     .title {
         font-size: 22px;
         margin-bottom: 30px;

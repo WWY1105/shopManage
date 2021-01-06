@@ -35,6 +35,22 @@ export function deleteCate(id){
     })
 }
 
+// 删除商品
+export function deleteData(id){
+    return request({
+        url:"/product/"+id,
+        method:'delete',
+        params:{}
+    })
+}
+// 上下架
+export function setShelf(id,json){
+    return request({
+        url:"/product/shelf/"+id,
+        method:'put',
+        params:json
+    })
+}
 // 批量保存
 export function save(json){
     return request.post("/product-category/batch",json)

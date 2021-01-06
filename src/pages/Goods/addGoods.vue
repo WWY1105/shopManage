@@ -207,8 +207,8 @@
                     </el-form-item>
                 </el-form>
             </div>
-
-            <div class="part price" v-if="form.sellType=='ys'">
+            <!-- v-if="form.sellType=='ys'" -->
+            <div class="part price" >
                 <div class="partTitle mainText flexSpace" style="width: 80%;">
                     <span>预售价格与库存</span>
                     <el-button class="searchBtn" @click.stop="yushouDialogVisible=true">设置价格与库存</el-button>
@@ -230,7 +230,29 @@
     </el-form>
     <el-button class="searchBtn finalSubmit" @click="saveDataFn">提交保存</el-button>
 
-    <!-- 弹窗 -->
+    <!-- 设置原价和库存 -->
+    <el-dialog class="yingxiaoDialog" :visible.sync="originDialogVisible" center title="编辑营销价格与库存" width="70%">
+        <el-table :data="specsList" style="background-color:#F8F8F8">
+            <el-table-column prop="itemNames" label="规格" width="200">
+            </el-table-column>
+            <el-table-column prop="price" label="商品售价（￥）" width="100">
+                <template slot-scope="scope">
+                    <el-input :value="scope.row.price" @input="val=>priceChange(val,scope.$index)"></el-input>
+                </template>
+            </el-table-column>
+            <el-table-column prop="stock" label="库存">
+                <template slot-scope="scope">
+                    <el-input :value="scope.row.stock" @input="val=>stockChange(val,scope.$index)"></el-input>
+                </template>
+            </el-table-column>
+        </el-table>
+         <div class="flexCenter btnBox">
+            <el-button class="transBtn" @click="originDialogVisible=false">保存</el-button>
+        </div>
+    </el-dialog>
+    <!-- 设置原价和库存 end-->
+
+   
     <!-- 预售 -->
     <el-dialog class="yingxiaoDialog" :visible.sync="yushouDialogVisible" center title="编辑营销价格与库存" width="70%">
         <el-table :data="yushouSpecsList" style="background-color:#F8F8F8">
@@ -248,6 +270,11 @@
             <el-table-column prop="stock" label="预售库存">
                 <template slot-scope="scope">
                     <el-input :value="scope.row.marketingStock" @input="val=>marketingStockChange(val,scope.$index)"></el-input>
+                </template>
+            </el-table-column>
+            <el-table-column label="启用">
+                <template slot-scope="scope">
+                    <el-switch :value="scope.row.enabled" @change="val=>enabledChange(val,scope.$index)"></el-switch>
                 </template>
             </el-table-column>
         </el-table>
@@ -280,6 +307,7 @@ export default {
     components: {},
     data() {
         return {
+            originDialogVisible: false, //原价和库存
             yushouDialogVisible: false,
 
             addGuiGeVal: '', //新添加规格名字
@@ -333,7 +361,7 @@ export default {
                 name: '免费拿',
                 active: false,
                 val: 'mfn'
-            }, ]
+            }]
         };
     },
     computed: {
@@ -409,7 +437,6 @@ export default {
                     type: 'error'
                 })
             }
-            // console.log(this.form.specs);
         },
         // 删除某个规格
         handleCloseGuiGe(index, i) {
@@ -445,6 +472,7 @@ export default {
                     }
                     specsList.push(obj)
                 })
+                this.originDialogVisible = true;
                 this.specsList = specsList;
                 this.form.skus = specsList;
             }
@@ -457,15 +485,16 @@ export default {
             });
             this.disbuteWayList[index].active = true;
             this.form.sellType = this.disbuteWayList[index].val;
-            if (this.form.sellType == 'ys') {
+            // if (this.form.sellType == 'ys') {
                 // 预售
                 this.yushouSpecsList = this.form.skus;
                 this.yushouSpecsList.map(i => {
                     i.marketingPrice = '';
                     i.marketingStock = '';
+                    i.enabled = false;
                 })
 
-            }
+            // }
         },
         // 保存数据
         saveDataFn() {
@@ -490,12 +519,50 @@ export default {
             })
             console.log(json)
             saveData(json).then(res => {
-
+                if (res.code == '00') {
+                    this.$message({
+                        showClose: true,
+                        message: '添加成功',
+                        duration: 3 * 1000,
+                        type: 'success',
+                        onClose: () => {
+                            this.$router.go(-1);
+                        }
+                    })
+                }
             })
         },
-        // 
+        // 营销是否启用
+        enabledChange(val, index) {
+            console.log(val)
+            let target = this.yushouSpecsList[index];
+            target.enabled = val;
+            this.$set(this.yushouSpecsList, index, target)
+        },
+        // 输入价格
+        priceChange(val, index) {
+            if (!this.specsList) {
+                this.setPriceFn();
+                return;
+            }
+            let target = this.specsList[index];
+            target.price = val;
+            this.$set(this.specsList, index, target)
+            // console.log(this.specsList)
+        },
+        //输入库存
+        stockChange(val, index) {
+            if (!this.specsList) {
+                this.setPriceFn();
+                return;
+            }
+            let target = this.specsList[index];
+            target.stock = val;
+            this.$set(this.specsList, index, target)
+            // console.log(this.specsList)
+        },
+        // 输入营销价格
         marketingPriceChange(val, index) {
-            console.log(val, index)
             if (!this.yushouSpecsList) {
                 this.setPriceFn();
                 return;
@@ -505,6 +572,7 @@ export default {
             this.$set(this.yushouSpecsList, index, target)
             console.log(this.yushouSpecsList)
         },
+        //输入营销库存
         marketingStockChange(val, index) {
             if (!this.yushouSpecsList) {
                 this.setPriceFn();
@@ -659,7 +727,7 @@ export default {
 }
 
 .yingxiaoDialog {
-    /deep/.el-dialog__body{
+    /deep/.el-dialog__body {
         position: relative;
     }
 
@@ -671,7 +739,7 @@ export default {
         position: absolute;
         left: 50%;
         margin-left: -150px;
-        bottom:-50%;
+        bottom: -80px;
     }
 }
 </style>

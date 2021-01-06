@@ -228,7 +228,7 @@
 
 <script>
 import {
-    listPage,
+    list,
     getRule,
     submitRule,
     goodCategory
@@ -264,6 +264,7 @@ export default {
             categories: [],
             categories2: [], //子类型
             json: {
+                sellType:'yhtx',
                 pageNum: 1,
                 pageSize: 30
             },
@@ -277,7 +278,7 @@ export default {
         // 获取列表
         getList() {
             let that = this;
-            listPage(that.json).then(res => {
+            list(that.json).then(res => {
                 if (res.code == '00') {
                     this.tableData = res.data;
                 }
@@ -395,7 +396,7 @@ export default {
 
     },
     created() {
-        // this.getList();
+        this.getList();
         this.getRuleFn()
     },
     mounted() {},
