@@ -36,7 +36,7 @@ export function getUserCount(json){
     })
 }
 
-// 用户量
+//消费金额
 export function getXfUser(json){
     return request({
         url:"/statistics-user/xf-user",

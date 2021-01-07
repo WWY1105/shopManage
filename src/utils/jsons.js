@@ -87,7 +87,7 @@ let invoicesList= [{
     name: '不开发票'
 },
 {
-    id:' 2',
+    id:'2',
     name: '普票'
 },
 {

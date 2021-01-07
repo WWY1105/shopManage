@@ -80,8 +80,6 @@ let routes = [
             name: 'setStyle',
             component: () => import('@/pages/Shops/setStyle.vue')
           }
-
-
           
         ]
       }, {
@@ -236,19 +234,20 @@ let routes = [
           name: '星秒联盟',
           path: '/union',
           component: () => import('@/pages/Union/main.vue'),
-        }, {
-          name: '联盟介绍',
-          path: '/union/introduce',
-          component: () => import('@/pages/Union/introduce.vue'),
-        }, {
-          name: '星秒订单',
-          path: '/union/order',
-          component: () => import('@/pages/Union/order.vue'),
-        }, {
-          name: '星秒商品',
-          path: '/union/goods',
-          component: () => import('@/pages/Union/goods.vue'),
         }
+        // , {
+        //   name: '联盟介绍',
+        //   path: '/union/introduce',
+        //   component: () => import('@/pages/Union/introduce.vue'),
+        // }, {
+        //   name: '星秒订单',
+        //   path: '/union/order',
+        //   component: () => import('@/pages/Union/order.vue'),
+        // }, {
+        //   name: '星秒商品',
+        //   path: '/union/goods',
+        //   component: () => import('@/pages/Union/goods.vue'),
+        // }
         ]
       }]
   }, {

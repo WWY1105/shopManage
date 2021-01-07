@@ -2,12 +2,12 @@
 <template>
 <div class=''>
     <el-row :gutter="20">
-        <!-- 订单量 -->
+        <!-- 用户量 -->
         <el-col :span="16">
             <div class="chartBox">
                 <p class="title">
-                    <span>订单量</span>
-                    <span class="num">{{orderData.total}}</span>
+                    <span>用户量</span>
+                    <span class="num">{{userCoun.total}}</span>
                 </p>
                 <div class="searchBox flexStart">
                     <div class="eachSearch">
@@ -18,7 +18,6 @@
                             <el-checkbox-group v-model="checkList">
                                 <el-checkbox :label="i.text" :key="j" v-for="(i,j) in orderType" :value="i.value">{{i.text}}</el-checkbox>
                             </el-checkbox-group>
-
                         </div>
                         <p slot="reference" class="eachSearch">所有订单</p>
                     </el-popover>
@@ -37,12 +36,12 @@
                 </div>
             </div>
         </el-col>
-        <!-- 订单退货量 -->
+        <!-- 消费金额 -->
         <el-col :span="8">
             <div class="chartBox">
                 <p class="title">
-                    <span>订单退货量</span>
-                    <span class="num">{{returnCount.total}}</span>
+                    <span>消费金额</span>
+                    <span class="num">{{XfUser.total}}</span>
                 </p>
                 <div class="searchBox flexStart">
                     <div class="eachSearch">
@@ -74,12 +73,12 @@
         </el-col>
     </el-row>
     <el-row :gutter="20">
-        <!-- 订单金额 ￥ -->
+        <!-- 新增用户 ￥ -->
         <el-col :span="16">
             <div class="chartBox">
                 <p class="title">
-                    <span>订单金额</span>
-                    <span class="num">￥{{orderPrice.total}}</span>
+                    <span>新增用户</span>
+                    <span class="num">￥{{newUserCount.total}}</span>
                 </p>
                 <div class="searchBox flexStart">
                     <div class="eachSearch">
@@ -110,12 +109,12 @@
                 </div>
             </div>
         </el-col>
-        <!-- 订单退货金额 ￥ -->
+        <!-- 客单价￥ -->
         <el-col :span="8">
             <div class="chartBox">
                 <p class="title">
-                    <span> 订单退货金额</span>
-                    <span class="num">￥{{returnPrice.total}}</span>
+                    <span>客单价？？？</span>
+                    <span class="num">￥</span>
                 </p>
                 <div class="searchBox flexStart">
                     <div class="eachSearch">
@@ -146,113 +145,7 @@
             </div>
         </el-col>
     </el-row>
-    <el-row :gutter="20">
-        <!-- 实收金额 ￥ -->
-        <el-col :span="16">
-            <div class="chartBox">
-                <p class="title">
-                    <span>实收金额</span>
-                    <span class="num">￥{{price.total}}</span>
-                </p>
-                <div class="searchBox flexStart">
-                    <div class="eachSearch">
-                        <el-date-picker v-model="dataTime" type="daterange" align="right" size="mini" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions2" @change="dataTimeChange" />
-                    </div>
-                    <el-popover placement="top-start" title="请选择订单类型" width="200" trigger="click">
-                        <div class="flexStart">
-                            <el-checkbox-group v-model="checkList">
-                                <el-checkbox :label="i.text" :key="j" v-for="(i,j) in orderType" :value="i.value">{{i.text}}</el-checkbox>
-                            </el-checkbox-group>
 
-                        </div>
-                        <p slot="reference" class="eachSearch">所有订单</p>
-                    </el-popover>
-                    <el-popover placement="top-start" title="请选择订单类型" width="200" trigger="click">
-                        <div class="flexStart">
-                            <el-checkbox-group v-model="checkList">
-                                <el-checkbox :label="i.text" :key="j" v-for="(i,j) in orderType" :value="i.value">{{i.text}}</el-checkbox>
-                            </el-checkbox-group>
-
-                        </div>
-                        <p slot="reference" class="eachSearch">所有商品</p>
-                    </el-popover>
-                </div>
-                <div id="mycharts5" ref="chartBox" class="mycharts">
-                    <span v-html="loading"></span>
-                </div>
-            </div>
-        </el-col>
-        <!-- 订单取消量 -->
-        <el-col :span="8">
-            <div class="chartBox">
-                <p class="title">
-                    <span>订单取消量</span>
-                    <span class="num">{{cancelOrderCount.total}}</span>
-                </p>
-                <div class="searchBox flexStart">
-                    <div class="eachSearch">
-                        <el-date-picker v-model="dataTime" type="daterange" align="right" size="mini" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions2" @change="dataTimeChange" />
-                    </div>
-                    <el-popover placement="top-start" title="请选择订单类型" width="200" trigger="click">
-                        <div class="flexStart">
-                            <el-checkbox-group v-model="checkList">
-                                <el-checkbox :label="i.text" :key="j" v-for="(i,j) in orderType" :value="i.value">{{i.text}}</el-checkbox>
-                            </el-checkbox-group>
-                        </div>
-                        <p slot="reference" class="eachSearch">所有订单</p>
-                    </el-popover>
-                    <el-popover placement="top-start" title="请选择订单类型" width="200" trigger="click">
-                        <div class="flexStart">
-                            <el-checkbox-group v-model="checkList">
-                                <el-checkbox :label="i.text" :key="j" v-for="(i,j) in orderType" :value="i.value">{{i.text}}</el-checkbox>
-                            </el-checkbox-group>
-                        </div>
-                        <p slot="reference" class="eachSearch">所有商品</p>
-                    </el-popover>
-                </div>
-                <div id="mycharts6" ref="chartBox" class="mycharts">
-                    <span v-html="loading"></span>
-                </div>
-            </div>
-        </el-col>
-    </el-row>
-
-    <el-row :gutter="20">
-        <!-- 运费成本 ￥ -->
-        <el-col :span="16">
-            <div class="chartBox">
-                <p class="title">
-                    <span>运费成本</span>
-                    <span class="num">￥{{price.total}}</span>
-                </p>
-                <div class="searchBox flexStart">
-                    <div class="eachSearch">
-                        <el-date-picker v-model="dataTime" type="daterange" align="right" size="mini" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions2" @change="dataTimeChange" />
-                    </div>
-                </div>
-                <div id="mycharts7" ref="chartBox" class="mycharts">
-                    <span v-html="loading"></span>
-                </div>
-            </div>
-        </el-col>
-        <!-- 订单取消量 -->
-        <el-col :span="8">
-            <div class="chartBox">
-                <p class="title">
-                    <span>订单取消金额</span>
-                    <span class="num">{{cancelOrderCount.total}}</span>
-                </p>
-                <div class="searchBox flexStart">
-                    <div class="eachSearch">
-                        <el-date-picker v-model="dataTime" type="daterange" align="right" size="mini" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions2" @change="dataTimeChange" />
-                    </div>
-                </div>
-                <div id="mycharts8" ref="chartBox" class="mycharts">
-                    <span v-html="loading"></span>
-                </div>
-            </div>
-        </el-col>
-    </el-row>
 </div>
 </template>
 
@@ -264,7 +157,7 @@ import {
     getProductReturnCount,
     getUserCount,
     getXfUser
-} from '../../api/statistics/order'
+} from '../../api/statistics/custom'
 
 import {
     orderTypeOptions
@@ -386,11 +279,11 @@ export default {
             },
             // 时间选择器  end
 
-            userCoun:{},//用户量
-            newUserCount:{},// 新增用户
-            productCount:{},// 商品销量
-            productReturnCount:{},// 商品退货率
-            XfUser:{},//消费金额
+            userCoun: {}, //用户量
+            newUserCount: {}, // 新增用户
+            productCount: {}, // 商品销量
+            productReturnCount: {}, // 商品退货率
+            XfUser: {}, //消费金额
         };
     },
     //监听属性 类似于data概念
@@ -411,12 +304,43 @@ export default {
         getNewUserCountFn() {
             getNewUserCount({}).then(res => {
                 if (res.code == '00') {
-                    this.orderData = res.data;
+                    this.newUserCount = res.data;
+                    this.LineChart('mycharts3', res.data.xaxis, res.data.series, 'line')
+                }
+            })
+        },
+        getProductCountFn() {
+            getProductCount({}).then(res => {
+                if (res.code == '00') {
+                    this.productCount = res.data;
                     this.LineChart('mycharts1', res.data.xaxis, res.data.series, 'line')
                 }
             })
         },
-
+        getUserCountFn() {
+            getUserCount({}).then(res => {
+                if (res.code == '00') {
+                    this.userCount = res.data;
+                    this.LineChart('mycharts1', res.data.xaxis, res.data.series, 'line')
+                }
+            })
+        },
+        getProductReturnCountFn() {
+            getProductReturnCount({}).then(res => {
+                if (res.code == '00') {
+                    this.productReturnCount = res.data;
+                    this.LineChart('mycharts1', res.data.xaxis, res.data.series, 'line')
+                }
+            })
+        },
+        getXfUserFn() {
+            getXfUser({}).then(res => {
+                if (res.code == '00') {
+                    this.xfUser = res.data;
+                    this.LineChart('mycharts2', res.data.xaxis, res.data.series, 'line')
+                }
+            })
+        },
         // ---------------------关于画图--------------------------
 
         // 绘制订单量图图

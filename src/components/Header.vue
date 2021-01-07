@@ -45,7 +45,7 @@
             </span>
             <div class="userBox">
                 <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item v-for="(i,j) in user.branch" :key="j">分店分店</el-dropdown-item>
+                    <el-dropdown-item v-for="(i,j) in user.branch" :key="j">{{i.name}}</el-dropdown-item>
                     <!-- <el-dropdown-item>分店分店</el-dropdown-item> -->
                     <el-dropdown-item>
                         <p class="logoutText" @click="LogOut">退出登陆</p>
@@ -99,7 +99,9 @@ export default {
             })
         }
         if (!this.user.branch || this.user.branch.length <= 0) {
-            this.$store.dispatch('Branch').then((res) => {})
+            this.$store.dispatch('Branch').then((res) => {
+                this.user.branch=res.data;
+            })
         }
     },
     beforeCreate() {}, //生命周期 - 创建之前

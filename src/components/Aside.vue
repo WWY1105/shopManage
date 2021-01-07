@@ -58,16 +58,16 @@ export default {
             }, {
                 title: '极星联盟',
                 path: '/union',
-                subs: [{
-                    title: '联盟介绍',
-                    path: '/union/introduce',
-                }, {
-                    title: '星秒订单',
-                    path: '/union/order',
-                }, {
-                    title: '星秒商品',
-                    path: '/union/goods',
-                }]
+                // subs: [{
+                //     title: '联盟介绍',
+                //     path: '/union/introduce',
+                // }, {
+                //     title: '星秒订单',
+                //     path: '/union/order',
+                // }, {
+                //     title: '星秒商品',
+                //     path: '/union/goods',
+                // }]
             }, {
                 title: '数据统计',
                 path: '/statistics',
@@ -119,7 +119,7 @@ export default {
 
     .menuContent {
         border-bottom: 1px solid #1A3F56;
-        // height: 100%;
+        height: 89px;
         line-height: 90px;
         width: 100%;
         text-align: center;

@@ -57,20 +57,21 @@
     <!-- 分店管理 -->
     <h1 class="branchShopTitle">分店管理：</h1>
     <div class="branchShopBox bgf flexStart">
-        <div class="eachSetting flexCenter">
+        <div class="eachSetting flexCenter" v-for="(i,j) in brand" :key="j">
             <div class="logoBox flexCenter">
-                <img src="../../assets/images/header/user.png" class="logo" alt="">
+                <img v-if="i.imgurl" :src="i.imgurl" class="logo" alt="">
+                <img v-else src="../../assets/images/header/user.png" class="logo" alt="">
                 <div class="switchBox">
-                    <el-switch size="large" v-model="value" active-color="#00B0F0" inactive-color="#aaaaaa">
+                    <el-switch size="large" @change="val=>enabledChange(val,j)" v-model="i.enabled" active-color="#00B0F0" inactive-color="#aaaaaa">
                     </el-switch>
                 </div>
             </div>
-            <p class="shopName">芭莎丽人[徐汇店]</p>
+            <p class="shopName">{{i.name}}[徐汇店]</p>
             <div class="otherText">
-                <p>公司名称：上海芭莎丽人美容有限公司</p>
-                <p>公司地址：上海市嘉定区明航路2130号19楼</p>
-                <p>联系电话：02198712412</p>
-                <p>发票类型：不开票</p>
+                <p>公司名称：{{i.username}}</p>
+                <p>公司地址：{{i.address}}</p>
+                <p>联系电话：{{i.mobile}}</p>
+                <p>发票类型：{{i.invoice|invoicesFilter}}</p>
             </div>
             <div class="btnBox flexSpace">
                 <el-button class="transBtn flexCenter">
@@ -82,7 +83,6 @@
                     <span> 删除</span>
                 </el-button>
             </div>
-
         </div>
         <router-link class="addShop flexCenter flexColumn" :to="{path:'/shops/addShop'}">
             <i class="el-icon-plus"></i>
@@ -92,17 +92,49 @@
 </template>
 
 <script>
+import {
+    branch
+} from '../../api/login'
+import {
+    putInfo
+} from '../../api/shops/index';
+import {
+    invoicesList
+} from '../../utils/jsons';
+let that;
 export default {
     components: {},
     data() {
         return {
+            brand: [],
             shopInfo: {},
-            value: true
+            value: true,
+            invoices: invoicesList
         };
+    },
+    filters: {
+        invoicesFilter(val) {
+            let name;
+            // console.log(val)
+            val = val.trim()
+            invoicesList.map(i => {
+                if (i.id == val) {
+                    name = i.name;
+                }
+            })
+            return name;
+        }
     },
     computed: {},
     watch: {},
     methods: {
+        getBranch() {
+            branch().then(res => {
+                if (res.code == '00') {
+                    this.brand = res.data;
+                }
+            })
+        },
         getShopInfo() {
             this.$store.dispatch('GetInfo').then((res) => {
                 const data = res.data;
@@ -114,10 +146,28 @@ export default {
             this.$router.push({
                 path: '/shops/acountSetting'
             })
+        },
+        // 是否可用
+        enabledChange(val,  index) {
+            let item = this.brand[index];
+            let that=this;
+            putInfo(item).then(res => {
+                if (res.code == '00') {
+                    that.$message({
+                        showClose: true,
+                        message: '设置成功',
+                        duration: 3 * 1000,
+                        type: 'success'
+                    })
+                    that.getBranch()
+                }
+            })
         }
     },
     created() {
-        this.getShopInfo()
+        let that = this;
+        this.getShopInfo();
+        this.getBranch()
     },
     mounted() {
 
@@ -224,13 +274,16 @@ export default {
 
     .branchShopBox {
         padding: 50px 30px;
+        flex-wrap: wrap;
 
         .addShop {
             background: #F4F4F4;
-            width: 33%;
+            width: 448px;
+            max-width: 448px;
             height: 406px;
             font-size: 70px;
             color: #333;
+            border-radius: 10px;
         }
 
         .eachSetting {
@@ -238,10 +291,12 @@ export default {
             background: #F4F4F4;
             border-radius: 10px;
             flex: 1;
-            margin: 0 36px;
+            margin-right: 36px;
             flex-direction: column;
-            max-width: 33%;
+            max-width: 448px;
+            width: 448px;
             padding: 26px 36px 46px;
+            box-sizing: border-box;
 
             .logoBox {
                 width: 100%;
@@ -280,18 +335,21 @@ export default {
                     margin-bottom: 10px;
                 }
             }
-            .btnBox{
+
+            .btnBox {
                 width: 100%;
-                 .transBtn{
-                background-color: transparent;
-                &.deleteBtn{
-                color: #FF2B2B!important;
-                border-color:#FF2B2B;
+
+                .transBtn {
+                    background-color: transparent;
+
+                    &.deleteBtn {
+                        color: #FF2B2B !important;
+                        border-color: #FF2B2B;
+                    }
+                }
+
             }
-            }
-            
-            }
-           
+
         }
     }
 }
