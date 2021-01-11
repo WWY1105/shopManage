@@ -88,6 +88,9 @@ export default {
                 title: '我要反馈',
                 path: '/feedback'
             }, {
+                title: '极星课堂',
+                path: '/class'
+            }, {
                 title: '安全设置',
                 path: '/setting'
             }]

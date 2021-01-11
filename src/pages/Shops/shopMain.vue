@@ -2,7 +2,8 @@
 <template>
 <div class='shops'>
     <div class="mainShopInfo flexCenter bgf">
-        <img src="../../assets/images/header/user.png" class="logo" alt="">
+        <img v-if="shopInfo.imgurl" :src="$imgurl+shopInfo.imgurl" class="logo" alt="">
+        <img v-else src="../../assets/images/header/user.png" class="logo" alt="">
         <p class="shopName">{{shopInfo.name}}</p>
         <div class="otherText">
             <p>公司名称：{{shopInfo.name}}</p>
@@ -24,7 +25,7 @@
             <p class="title">天极星 豪华版</p>
             <p class="desc">已激活 有效期至{{shopInfo.expireTime}}</p>
             <div class="buttons flexCenter">
-                <el-button class="searchBtn">续费</el-button>
+                <el-button class="searchBtn" @click="showTipsDialog=true">续费</el-button>
                 <el-button class="transBtn" @click="toSetting">账户设置</el-button>
             </div>
         </div>
@@ -39,9 +40,9 @@
         <div class="eachInfo flexCenter">
             <img src="../../assets/images/shops/edu.png" class="icon" alt="">
             <p class="title">分店额度</p>
-            <p class="desc">2/3</p>
+            <p class="desc">???????</p>
             <div class="buttons flexCenter">
-                <el-button class="searchBtn">扩充</el-button>
+                <el-button class="searchBtn" @click="showTipsDialog=true">扩充</el-button>
             </div>
         </div>
         <div class="eachInfo flexCenter">
@@ -49,7 +50,7 @@
             <p class="title">店铺二维码</p>
             <p class="desc">查看店铺二维码</p>
             <div class="buttons flexCenter">
-                <el-button class="searchBtn">续费</el-button>
+                <el-button class="searchBtn">查看</el-button>
             </div>
         </div>
     </div>
@@ -59,7 +60,7 @@
     <div class="branchShopBox bgf flexStart">
         <div class="eachSetting flexCenter" v-for="(i,j) in brand" :key="j">
             <div class="logoBox flexCenter">
-                <img v-if="i.imgurl" :src="i.imgurl" class="logo" alt="">
+                <img v-if="i.imgurl" :src="$imgurl+i.imgurl" class="logo" alt="">
                 <img v-else src="../../assets/images/header/user.png" class="logo" alt="">
                 <div class="switchBox">
                     <el-switch size="large" @change="val=>enabledChange(val,j)" v-model="i.enabled" active-color="#00B0F0" inactive-color="#aaaaaa">
@@ -80,7 +81,7 @@
                 </el-button>
                 <el-button class="transBtn deleteBtn flexCenter">
                     <i class="el-icon-delete"></i>
-                    <span> 删除</span>
+                    <span>删除???</span>
                 </el-button>
             </div>
         </div>
@@ -88,6 +89,15 @@
             <i class="el-icon-plus"></i>
         </router-link>
     </div>
+
+    <!-- 弹窗 -->
+    <el-dialog title="提示" center :visible.sync="showTipsDialog" width="30%">
+        <span class="flexCenter">请联系您的销售顾问</span>
+        <span slot="footer" class="dialog-footer">
+            <el-button @click="showTipsDialog = false">取 消</el-button>
+            <el-button type="primary" @click="showTipsDialog = false">确 定</el-button>
+        </span>
+    </el-dialog>
 </div>
 </template>
 
@@ -106,6 +116,7 @@ export default {
     components: {},
     data() {
         return {
+            showTipsDialog: false,
             brand: [],
             shopInfo: {},
             value: true,
@@ -148,9 +159,9 @@ export default {
             })
         },
         // 是否可用
-        enabledChange(val,  index) {
+        enabledChange(val, index) {
             let item = this.brand[index];
-            let that=this;
+            let that = this;
             putInfo(item).then(res => {
                 if (res.code == '00') {
                     that.$message({
@@ -202,6 +213,7 @@ export default {
             width: 60px;
             height: 60px;
             margin-bottom: 40px;
+                border-radius: 50%;
         }
 
         .shopName {
@@ -278,23 +290,27 @@ export default {
 
         .addShop {
             background: #F4F4F4;
-            width: 448px;
-            max-width: 448px;
+            width: 406px;
+            max-width: 406px;
             height: 406px;
             font-size: 70px;
             color: #333;
             border-radius: 10px;
+            margin-bottom: 20px;
+             padding: 26px 36px 46px;
+            box-sizing: border-box;
         }
 
         .eachSetting {
+            margin-bottom: 20px;
             box-sizing: border-box;
             background: #F4F4F4;
             border-radius: 10px;
             flex: 1;
             margin-right: 36px;
             flex-direction: column;
-            max-width: 448px;
-            width: 448px;
+            max-width: 406px;
+            width: 406px;
             padding: 26px 36px 46px;
             box-sizing: border-box;
 
@@ -311,6 +327,7 @@ export default {
                 .logo {
                     width: 60px;
                     height: 60px;
+                      border-radius: 50%;
                 }
             }
 

@@ -3,7 +3,8 @@
 <div class='editShop bgf'>
     <div class="content flexCenter flexColumn">
         <div class="logoBox flexCenter flexColumn">
-            <img :src="formLabelAlign.imgurl?$imgurl+formLabelAlign.imgurl:'../../assets/images/header/user.png'" class="logoImg" alt="">
+            <img v-if="formLabelAlign.imgurl" :src="$imgurl+formLabelAlign.imgurl" class="logoImg" alt="">
+             <img v-else src="../../assets/images/header/user.png" class="logoImg" alt="">
             <el-upload class="upload-demo" :action="$uploadApi" :on-success="handleAvatarSuccess" :show-file-list="false">
                 <p class="editText flexCenter"><i class="el-icon-edit-outline"></i> 修改头像</p>
             </el-upload>

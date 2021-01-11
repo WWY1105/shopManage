@@ -37,3 +37,11 @@ export function getData(json){
     })
 }
 
+// 切换分店
+export function changeShop(json){
+    return request({
+        url:"/branch/token",
+        method:'post',
+        params:json
+    })
+}

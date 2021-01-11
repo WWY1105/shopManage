@@ -1,7 +1,7 @@
 <!--  -->
 <template>
 <div class='header flexSpace bgf'>
-    <h1 class="flagName">商户管理控制台</h1>
+    <h1 class="flagName">商户管理控制台&nbsp;&nbsp;&nbsp;&nbsp;{{$store.state.meta.title}}</h1>
     <div class="userInfo flexEnd">
         <el-dropdown>
             <span class="el-dropdown-link">
@@ -34,18 +34,18 @@
             <img class="headerIcon info" src="../assets/images/header/info.png" />
             <span class="iconText">未读消息</span>
         </router-link>
-        <el-dropdown>
+        <el-dropdown @command="handleCommand">
             <span class="el-dropdown-link">
                 <div class="content flexCenter">
-                      <img v-if="user.avatar" class="user" :src="$imgurl+user.avatar" alt="">
-                      <img v-else src="../assets/images/header/user.png" />
+                    <img v-if="user.avatar" class="user" :src="$imgurl+user.avatar" alt="">
+                    <img v-else src="../assets/images/header/user.png" />
                     <span class="userName">{{loginUser&&loginUser.name?loginUser.name:'未登录'}}</span>
                     <i class="el-icon-arrow-down el-icon--right"></i>
                 </div>
             </span>
             <div class="userBox">
                 <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item v-for="(i,j) in user.branch" :key="j">{{i.name}}</el-dropdown-item>
+                    <el-dropdown-item :command="i.id" v-for="(i,j) in user.branch" :key="j">{{i.name}}</el-dropdown-item>
                     <!-- <el-dropdown-item>分店分店</el-dropdown-item> -->
                     <el-dropdown-item>
                         <p class="logoutText" @click="LogOut">退出登陆</p>
@@ -58,6 +58,12 @@
 </template>
 
 <script>
+import {
+    setToken
+} from '@/utils/auth'
+import {
+    changeShop
+} from '../api/shops/index'
 export default {
     components: {},
     data() {
@@ -74,6 +80,21 @@ export default {
                 that.$router.push({
                     path: '/login'
                 })
+            })
+        },
+        // 切换门店
+        handleCommand(val) {
+            console.log(val)
+            changeShop({
+                businessId: val
+            }).then(res => {
+                if (res.code == '00') {
+                    console.log(res)
+                    if (res.data && res.data.access_token) {
+                        setToken(res.data.access_token);
+                        this.$router.go(0);
+                    }
+                }
             })
         }
     },
@@ -95,12 +116,12 @@ export default {
 
         if (!this.user.name) {
             this.$store.dispatch('GetInfo').then((res) => {
-               
+
             })
         }
         if (!this.user.branch || this.user.branch.length <= 0) {
             this.$store.dispatch('Branch').then((res) => {
-                this.user.branch=res.data;
+                this.user.branch = res.data;
             })
         }
     },
@@ -157,6 +178,7 @@ export default {
 
     .userName {
         color: #00B0F0;
+        margin-left: 15px;
     }
 
 }
