@@ -30,11 +30,12 @@
             </div>
         </div>
         <div class="eachInfo flexCenter">
-            <img src="../../assets/images/shops/duanxin.png" class="icon" alt="">
-            <p class="title">短信条数</p>
-            <p class="desc">剩余{{shopInfo.smsCount}}条</p>
+            <img src="../../assets/images/shops/zijin.png" class="icon" alt="">
+            <p class="title">资金账户</p>
+            <p class="desc">￥？？？</p>
             <div class="buttons flexCenter">
                 <el-button class="searchBtn">充值 </el-button>
+                <el-button class="transBtn" >资金明细</el-button>
             </div>
         </div>
         <div class="eachInfo flexCenter">
@@ -126,15 +127,15 @@ export default {
     filters: {
         invoicesFilter(val) {
             let name;
-            // console.log(val)
             val = val.trim()
             invoicesList.map(i => {
-                if (i.id == val) {
+                if (i.value == val) {
                     name = i.name;
                 }
             })
             return name;
-        }
+        },
+        
     },
     computed: {},
     watch: {},

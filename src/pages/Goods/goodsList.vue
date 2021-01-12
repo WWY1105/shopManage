@@ -124,16 +124,16 @@
 
     <div class="tableBox bgf">
         <el-table stripe :data="tableData" border style="width: 100%" fit>
-            <el-table-column align="center" prop="id" label="ID">
+            <el-table-column align="center" prop="id" label="ID" >
             </el-table-column>
-            <el-table-column align="center" prop="name" label="主图" width="100">
+            <el-table-column align="center" prop="name" label="主图" width="120">
                 <template slot-scope="scope">
-                    <img :src="$imgurl+scope.row.imgurl" alt="">
+                    <img :src="$imgurl+scope.row.imgurl" alt="" class="mainPic">
                 </template>
             </el-table-column>
             <el-table-column align="center" prop="title" label="商品名称">
             </el-table-column>
-            <el-table-column align="center" prop="address" label="规格">
+            <el-table-column align="center" prop="address" label="规格" width="150">
                 <template slot-scope="scope">
                     <p class="eachItem" v-for="(i,j) in scope.row.skus" :key="j">{{i.itemNames}}</p>
                 </template>
@@ -142,18 +142,25 @@
                 <template slot-scope="scope">
                     {{scope.row.categoryId|categoryFilter}}
                     <span v-if="scope.row.categoryId&&scope.row.categoryId2">/</span>
-                     {{scope.row.categoryId2|categoryFilter}}
+                    {{scope.row.categoryId2|categoryFilter}}
                 </template>
             </el-table-column>
             <el-table-column align="center" prop="price" label="单价">
+                <template slot-scope="scope">
+                    <p class="eachItem" v-for="(i,j) in scope.row.skus" :key="j">{{i.price}}</p>
+                </template>
             </el-table-column>
             <el-table-column align="center" prop="stock" label="库存">
+                <template slot-scope="scope">
+                    <p class="eachItem" v-for="(i,j) in scope.row.skus" :key="j">{{i.stock}}</p>
+                </template>
             </el-table-column>
             <el-table-column align="center" prop="unit" label="单位">
             </el-table-column>
             <el-table-column align="center" prop="expPrice" label="运费">
             </el-table-column>
             <el-table-column align="center" prop="address" label="营销">
+               <template slot-scope="scope"><p>{{scope.row.sellType|sellTypeFilter}}</p></template>
             </el-table-column>
             <el-table-column align="center" label="上下架">
                 <template slot-scope="scope">
@@ -162,6 +169,12 @@
                 </template>
             </el-table-column>
             <el-table-column align="center" prop="address" label="排序">
+                <template slot-scope="scope">
+                    <div class="flexCenter sortBox">
+                        <i class="el-icon-arrow-up" @click="val=>toUporDown(val,scope.row.id,'sy')"></i>
+                        <i class="el-icon-arrow-down" @click="val=>toUporDown(val,scope.row.id,'xy')"></i>
+                    </div>
+                </template>
             </el-table-column>
             <el-table-column align="center" prop="address" label="其它" width="150">
                 <template slot-scope="scope">
@@ -227,8 +240,10 @@ import {
     deleteCate,
     deleteData,
     save,
-    setShelf
+    setShelf,
+    upOrDown
 } from '../../api/goods/index';
+import {orderTypeOptions } from '../../utils/jsons'
 let that;
 export default {
     components: {
@@ -286,9 +301,27 @@ export default {
         categoryFilter(val) {
             let name = that.getDepById(that.categoryList, val)
             return name;
+        },
+        sellTypeFilter(val){
+            let name;
+            val = val.trim()
+            orderTypeOptions.map(i => {
+                if (i.value == val) {
+                    name = i.text;
+                }
+            })
+            return name;
         }
     },
     methods: {
+        // 上移或者下移
+        toUporDown(val,id,type){
+            upOrDown(id,{type}).then(res => {
+                if (res.code == '00') {
+                    that.getList()
+                }
+            })
+        },
         // 便利树
         getDepById(tree, ID) {
             var Deep, T, F;
@@ -302,16 +335,14 @@ export default {
             }
         },
         // 下线
-        setShelfFn(val,id,shelf){
-            // console.log(id);
-            // console.log(shelf);
-            // return;
-            setShelf(id,{
+        setShelfFn(val, id, shelf) {
+           
+            setShelf(id, {
                 shelf
-            }).then(res=>{
-                 if (res.code == '00') {
-                      that.getList()
-                 }
+            }).then(res => {
+                if (res.code == '00') {
+                    that.getList()
+                }
             })
         },
         // 删除的弹窗
@@ -548,6 +579,31 @@ export default {
 <style lang="scss" scoped>
 /deep/.categoryDialog .el-dialog {
     width: 75% !important;
+}
+
+.eachItem {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+// 排序
+.sortBox {
+    i {
+    color: #7F7F7F;
+    width: 23px;
+    height: 23px;
+    border: 1px solid #7F7F7F;
+    text-align: center;
+    line-height: 23px;
+    margin: 0 5px;
+    min-width: 23px;
+}
+    }
+.mainPic{
+    width: 80px;
+height: 80px;
 }
 
 .categoryDialog .el-dialog {

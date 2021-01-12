@@ -22,7 +22,7 @@ export function saveData(json){
     return request.post("/product",json)
 }
 export function putData(json,id){
-    return request.post("/product/"+id,json)
+    return request.put("/product/"+id,json)
 }
 
 

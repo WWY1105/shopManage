@@ -8,7 +8,6 @@
             <el-upload class="upload-demo" :action="$uploadApi" :on-success="handleAvatarSuccess" :show-file-list="false">
                 <p class="editText flexCenter"><i class="el-icon-edit-outline"></i> 修改头像</p>
             </el-upload>
-
         </div>
         <div class="formBox ">
             <el-form label-position="left" label-width="120px" :model="formLabelAlign">

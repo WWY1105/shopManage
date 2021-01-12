@@ -13,27 +13,35 @@
         </div>
     </div>
     <div class="tableBox">
-        <el-form label-position="top" :inline="true" :model="formInline" class="demo-form-inline">
-            <div class="flexSpace alignEnd searchTopBox">
-                <div class="left">
-                    <el-form-item label="订单状态">
-                        <el-select v-model="formInline.status" placeholder="订单状态">
-                            <el-option :label="i.text" :value="i.value" v-for="(i,j) in statusList" :key="j"></el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item label="订单类型">
-                        <el-select v-model="formInline.sellType" placeholder="订单类型">
-                            <el-option :label="i.text" :value="i.value" v-for="(i,j) in orderTypeList" :key="j"></el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item label="筛选时间段">
-                        <el-date-picker arrow-control value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss" v-model="json.time" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
-                        </el-date-picker>
-                    </el-form-item>
-                </div>
-                <div class="flexEnd">
+        <el-form label-position="top" :inline="true"  class="demo-form-inline">
+            <el-row :gutter="16" type="flex" justify="space-between" align="bottom">
+                <el-col :span="20">
+                    <el-row :gutter="20" type="flex" justify="space-between" align="bottom">
+                        <el-col :span="6">
+                            <el-form-item label="订单状态">
+                                <el-select v-model="json.status" placeholder="订单状态">
+                                    <el-option :label="i.text" :value="i.value" v-for="(i,j) in statusList" :key="j"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item label="订单类型">
+                                <el-select v-model="json.sellType" placeholder="订单类型">
+                                    <el-option :label="i.text" :value="i.value" v-for="(i,j) in orderTypeList" :key="j"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="筛选时间段">
+                                <el-date-picker arrow-control value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss" v-model="json.time" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+                                </el-date-picker>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                </el-col>
+                <el-col :span="8">
                     <el-form-item>
-                        <div class="flexEnd">
+                        <div class="flexCenter">
                             <el-upload class="upload-demo" ref="upload" :action="$downloadFileApi+'/order/import?access_token='+token" :show-file-list="false">
                                 <el-button class="transBtn">导入电子表格</el-button>
                             </el-upload>
@@ -42,34 +50,44 @@
                             </el-button>
                         </div>
                     </el-form-item>
-                </div>
-
-            </div>
+                </el-col>
+            </el-row>
         </el-form>
 
-        <el-form label-position="top" :inline="true" :model="formInline" class="demo-form-inline">
-            <div class="flexSpace alignEnd">
-                <div class="left">
-                    <el-form-item label="收件人姓名">
-                        <el-input v-model="json.name"></el-input>
-                    </el-form-item>
-                    <el-form-item label="收件人电话">
-                        <el-input v-model="json.mobild"></el-input>
-                    </el-form-item>
-                    <el-form-item label="订单ID">
-                        <el-input v-model="json.id"></el-input>
-                    </el-form-item>
-                    <el-form-item label="商品名称">
-                        <el-input v-model="json.productName"></el-input>
-                    </el-form-item>
-                </div>
-                <div class="flexEnd">
-                    <el-form-item>
-                        <el-button class="searchBtn" type="primary" @click="getDataFn">查询</el-button>
-                    </el-form-item>
-                </div>
-
-            </div>
+        <el-form label-position="top" :inline="true" :model="json" class="demo-form-inline">
+            <el-row :gutter="16" type="flex" justify="space-between" align="bottom">
+                <el-col :span="20">
+                    <el-row :gutter="20" type="flex" justify="space-between" align="bottom">
+                        <el-col :span="6">
+                            <el-form-item label="收件人姓名">
+                                <el-input v-model="json.name"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item label="收件人电话">
+                                <el-input v-model="json.mobild"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item label="订单ID">
+                                <el-input v-model="json.id"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item label="商品名称">
+                                <el-input v-model="json.productName"></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                </el-col>
+                <el-col :span="8">
+                    <div class="flexEnd">
+                        <el-form-item>
+                            <el-button class="searchBtn" type="primary" @click="getDataFn">查询</el-button>
+                        </el-form-item>
+                    </div>
+                </el-col>
+            </el-row>
         </el-form>
 
     </div>
@@ -121,7 +139,6 @@
             </el-table-column>
             <el-table-column label="售后">
                 <template slot-scope="scope">
-                    <!-- v-if="scope.row.status==9" -->
                     <p class="seeMore warning">待处理</p>
                 </template>
             </el-table-column>
@@ -167,7 +184,7 @@
                         <span>小计￥</span>
                     </p>
                     <div class="tableData">
-                        <p class="tableList flexSpace" :key="j" v-for="(i,j) in discountDetail.products" >
+                        <p class="tableList flexSpace" :key="j" v-for="(i,j) in discountDetail.products">
                             <span>{{i.name}}</span>
                             <span>{{i.itemText}}</span>
                             <span>{{i.quantity}}</span>
@@ -175,14 +192,14 @@
                             <span>优惠价￥</span>
                             <span>小计￥</span>
                         </p>
-                        <p class="tableList flexSpace">
+                        <!-- <p class="tableList flexSpace">
                             <span>商品名称</span>
                             <span>规格</span>
                             <span>数量</span>
                             <span>原价￥</span>
                             <span>优惠价￥</span>
                             <span>小计￥</span>
-                        </p>
+                        </p> -->
                     </div>
 
                 </div>
@@ -291,7 +308,6 @@ export default {
             showDiscount: false, //优惠明细弹窗
             discountObj: {},
             tableData: [],
-            formInline: {},
             formLabelAlign: {},
             panelDatas: [{
                 name: '订单总量',
@@ -344,6 +360,7 @@ export default {
         // 获取表格信息
         getDataFn() {
             let that = this;
+
             if (that.json.time && that.json.time.length > 0) {
                 that.json.beginTime = that.json.time[0]
                 that.json.endTime = that.json.time[1]
@@ -574,15 +591,18 @@ export default {
     }
 
     .eachList {
-       color: #333;
-       font-size: 14px;
-       span{
+        color: #333;
+        font-size: 14px;
+
+        span {
             line-height: 32px;
-            &.label{
-                 color: #666666;
-        font-size: 16px;
+
+            &.label {
+                color: #666666;
+                font-size: 16px;
             }
-       }
+        }
+
         .num {
             color: #888888;
             font-size: 22px;

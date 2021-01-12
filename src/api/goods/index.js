@@ -44,9 +44,9 @@ export function deleteData(id){
     })
 }
 // 上下架
-export function setShelf(id,json){
+export function upOrDown(id,json){
     return request({
-        url:"/product/shelf/"+id,
+        url:"/product/resort/"+id,
         method:'put',
         params:json
     })

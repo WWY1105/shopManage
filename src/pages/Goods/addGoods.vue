@@ -406,12 +406,12 @@ export default {
         },
         // 上传成功
         handleAvatarSuccess(response) {
-
-            this.form.contentImgurl += response.data + ',';
-            console.log(this.fileList)
+            let arr = this.data.fileList;
+            arr.push(response.data)
+            this.form.contentImgurl = arr.join(',');
         },
         handleimgurlSuccess(response) {
-            this.form.imgurl += response.data + ',';
+            this.form.imgurl += response.data;
             console.log(this.imgUrlfileList)
         },
         // 点击添加规格
@@ -498,26 +498,27 @@ export default {
         },
         // 保存数据
         saveDataFn() {
+             console.log("提交数据")
             console.log(this.form);
-            console.log(this.yushouSpecsList)
+        //    return;
             let json = this.form;
-            json.specs = [];
-            this.form.specs.map(i => {
-                if (i.name) {
-                    let obj = {
-                        name: i.name,
-                        items: []
-                    }
-                    i.items.map(j => {
-                        if (j.name) {
-                            obj.items.push({
-                                name: j.name
-                            })
-                        }
-                    })
-                }
-            })
-            console.log(json)
+            // json.specs = [];
+            // this.form.specs.map(i => {
+            //     if (i.name) {
+            //         let obj = {
+            //             name: i.name,
+            //             items: []
+            //         }
+            //         i.items.map(j => {
+            //             if (j.name) {
+            //                 obj.items.push({
+            //                     name: j.name
+            //                 })
+            //             }
+            //         })
+            //     }
+            // })
+            console.log(JSON.stringify(json))
             saveData(json).then(res => {
                 if (res.code == '00') {
                     this.$message({
