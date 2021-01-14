@@ -43,7 +43,7 @@ export function deleteData(id){
         params:{}
     })
 }
-// 上下架
+// 上下移动
 export function upOrDown(id,json){
     return request({
         url:"/product/resort/"+id,
@@ -51,6 +51,19 @@ export function upOrDown(id,json){
         params:json
     })
 }
+
+
+// 上下架
+export function setShelf(id,json){
+    return request({
+        url:"/product/shelf/"+id,
+        method:'put',
+        params:json
+    })
+}
+
+
+
 // 批量保存
 export function save(json){
     return request.post("/product-category/batch",json)

@@ -16,7 +16,7 @@
                         <el-col :span="6" :pull="12">
                             <div class="grid-content bg-purple">
                                 <el-form-item label="筛选时间段">
-                                    <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss" v-model="json.time" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+                                    <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss"  type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" v-model="json.time">
                                     </el-date-picker>
                                 </el-form-item>
                             </div>
@@ -104,11 +104,13 @@ import {
     getData,
     saveData,
     deleteData
-} from '../../api/comment/index'
+} from '../../api/comment/index';
+
 export default {
     components: {},
     data() {
         return {
+            saleData:{},
             formInline: {},
             tableData: [],
             json: {
@@ -120,6 +122,33 @@ export default {
     computed: {},
     watch: {},
     methods: {
+        //    模块开关-----start
+        saveDataFn() {
+            let that = this;
+            let json = this.saleData;
+            delete json.businessId;
+            this.$store.dispatch('Setdistributions', json).then(result => {
+                if (result.code == '00') {
+                    that.$message({
+                        showClose: true,
+                        message: '设置成功',
+                        duration: 3 * 1000,
+                        type: 'success'
+                    })
+                    that.getDataFn()
+                }
+            })
+        },
+        getState() {
+            if (!this.$store.state.distribution.distributions) {
+                this.$store.dispatch('Getdistributions').then(result => {
+                    this.saleData = result;
+                })
+            } else {
+                this.saleData = this.$store.state.distribution.distributions;
+            }
+        },
+        //    模块开关----end
         getDataFn() {
             let that = this;
             if (that.json.time && that.json.time.length > 0) {
@@ -134,12 +163,12 @@ export default {
                 }
             })
         },
-        saveDataFn() {},
         deleteDataFn() {},
         seeMore() {},
         replayFn() {},
     },
     created() {
+        this.getState()
         this.getDataFn()
     },
     mounted() {},

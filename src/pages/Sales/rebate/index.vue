@@ -14,7 +14,7 @@
             <div class="switchBox flexEnd">
                 <el-form label-position="top" :inline="true" class="demo-form-inline">
                     <el-form-item label="返利模块总开关">
-                        <el-switch size="large" active-color="#00B0F0" inactive-color="#aaaaaa">
+                          <el-switch @change="saveSaleDataFn" size="large" v-model="saleData.fl" active-color="#00B0F0" inactive-color="#aaaaaa">
                         </el-switch>
                     </el-form-item>
                 </el-form>
@@ -136,6 +136,34 @@ export default {
     watch: {},
     //方法集合
     methods: {
+        //    模块开关-----start
+        saveSaleDataFn() {
+            let that = this;
+            let json = this.saleData;
+            delete json.businessId;
+            this.$store.dispatch('Setdistributions', json).then(result => {
+                if (result.code == '00') {
+                    that.$message({
+                        showClose: true,
+                        message: '设置成功',
+                        duration: 3 * 1000,
+                        type: 'success'
+                    })
+                    that.getDetail()
+                }
+            })
+        },
+        getState() {
+            console.log(this.$store)
+            if (!this.$store.state.distribution.distributions) {
+                this.$store.dispatch('Getdistributions').then(result => {
+                    this.saleData = result;
+                })
+            } else {
+                this.saleData = this.$store.state.distribution.distributions;
+            }
+        },
+        //    模块开关----end
         getDetail() {
             getData({}).then(res => {
                 if (res.code == '00') {
@@ -146,6 +174,7 @@ export default {
         saveDataFn() {
             let that = this;
             console.log('改变')
+            delete this.rebateData.businessId;
             saveData(this.rebateData).then(res => {
                 if (res.code == '00') {
                     that.$message({
@@ -165,6 +194,7 @@ export default {
     },
     //生命周期 - 创建完成（可以访问当前this实例）
     created() {
+        this.getState()
         this.getDetail();
     },
     //生命周期 - 挂载完成（可以访问DOM元素）

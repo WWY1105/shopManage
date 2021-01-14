@@ -11,8 +11,8 @@
         <div class="formBox flexCenter flexColumn">
             <el-form label-position="top" :inline="true" class="demo-form-inline">
                 <el-form-item label="配送模块开关" class="firstSwitch">
-                    <el-switch size="large" active-color="#00B0F0" inactive-color="#aaaaaa">
-                    </el-switch>
+                    <el-switch @change="saveSaleDataFn" size="large" v-model="saleData.ps" active-color="#00B0F0" inactive-color="#aaaaaa">
+                        </el-switch>
                 </el-form-item>
                 <el-form-item label="包邮优惠规则">
                     <el-switch size="large" active-color="#00B0F0" inactive-color="#aaaaaa" v-model="distribute.used">
@@ -45,6 +45,7 @@ export default {
     data() {
         //这里存放数据
         return {
+            saleData:{},
             distribute: {
                 fullPrice: 0,
                 used: false
@@ -58,6 +59,33 @@ export default {
     watch: {},
     //方法集合
     methods: {
+         //    模块开关-----start
+        saveSaleDataFn() {
+            let that = this;
+            let json = this.saleData;
+            delete json.businessId;
+            this.$store.dispatch('Setdistributions', json).then(result => {
+                if (result.code == '00') {
+                    that.$message({
+                        showClose: true,
+                        message: '设置成功',
+                        duration: 3 * 1000,
+                        type: 'success'
+                    })
+                    that.getDataFn()
+                }
+            })
+        },
+        getState() {
+            if (!this.$store.state.distribution.distributions) {
+                this.$store.dispatch('Getdistributions').then(result => {
+                    this.saleData = result;
+                })
+            } else {
+                this.saleData = this.$store.state.distribution.distributions;
+            }
+        },
+        //    模块开关----end
         getDataFn() {
             getData().then(res => {
                 if (res.code == '00') {
@@ -85,7 +113,8 @@ export default {
     },
     //生命周期 - 创建完成（可以访问当前this实例）
     created() {
-        this.getDataFn()
+        this.getDataFn();
+        this.getState()
     },
     //生命周期 - 挂载完成（可以访问DOM元素）
     mounted() {

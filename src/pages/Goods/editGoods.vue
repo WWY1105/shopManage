@@ -110,7 +110,7 @@
                     </div>
                     <div class="flexStart eachGuiGe">
                         <el-tag v-for="(i,j) in item.items" :key='j' closable :disable-transitions="false" @close="handleCloseGuiGe(index,j)">
-                            <el-input v-model="i.name" @change="val=>addGuiGeItems(val,index,j)"></el-input>
+                          <el-input v-model="i.name" @change="val=>addGuiGeItems(val,index,j)"></el-input>
                         </el-tag>
                     </div>
                 </el-form>
@@ -121,8 +121,9 @@
                 <span>价格与库存</span>
                 <el-button class="searchBtn" @click="setPriceFn">设置价格与库存</el-button>
             </div>
-            <el-table :data="specsList" style="width: 80%;background-color:#F8F8F8">
+            <el-table :data="form.skus"  style="width: 80%;background-color:#F8F8F8">
                 <el-table-column prop="itemNames" label="规格" width="400">
+                   
                 </el-table-column>
                 <el-table-column prop="price" label="商品定价（￥）" width="180">
                 </el-table-column>
@@ -188,7 +189,7 @@
                     <span>预售价格与库存</span>
                     <el-button class="searchBtn" @click.stop="yushouDialogVisible=true">设置价格与库存</el-button>
                 </div>
-                <el-table :data="specsList" style="width: 80%;background-color:#F8F8F8">
+                <el-table :data="form.skus"  style="width: 80%;background-color:#F8F8F8">
                     <el-table-column prop="itemNames" label="规格" width="200">
                     </el-table-column>
                     <el-table-column prop="price" label="原价（￥）" width="120">
@@ -207,8 +208,9 @@
 
     <!-- 设置原价和库存 -->
     <el-dialog class="yingxiaoDialog" :visible.sync="originDialogVisible" center title="编辑营销价格与库存" width="70%">
-        <el-table :data="specsList" style="background-color:#F8F8F8">
+        <el-table :data="form.skus" style="background-color:#F8F8F8">
             <el-table-column prop="itemNames" label="规格" width="200">
+                
             </el-table-column>
             <el-table-column prop="price" label="商品售价（￥）" width="100">
                 <template slot-scope="scope">
@@ -229,8 +231,9 @@
 
     <!-- 预售 -->
     <el-dialog class="yingxiaoDialog" :visible.sync="yushouDialogVisible" center title="编辑营销价格与库存" width="70%">
-        <el-table :data="specsList" style="background-color:#F8F8F8">
+        <el-table :data="form.skus" style="background-color:#F8F8F8">
             <el-table-column prop="itemNames" label="规格" width="200">
+             
             </el-table-column>
             <el-table-column prop="price" label="原价（￥）" width="120">
             </el-table-column>
@@ -295,12 +298,13 @@ export default {
                 categoryId: '',
                 categoryId2: '',
                 sellType: '',
-                // specs: [{
-                //     name: '',
-                //     items: [{
-                //         name: ''
-                //     }]
-                // }]
+                 specRequest: {
+                    spec: [{
+                        name: '',
+                        items: ['']
+                    }],
+                    sku: []
+                }
             },
             specsList: [],
             categoryList: [],
@@ -402,21 +406,16 @@ export default {
         },
         // 点击添加规格
         addGuiGeFn() {
-            console.log('点击添加规格')
-            this.form.specs.push({
+            this.form.specRequest.spec.push({
                 name: '',
-                items: [{
-                    name: ''
-                }]
+                items: ['']
             })
+            console.log(this.form.specRequest.spec)
         },
         // 添加小规格
         addGuiGeItems(val, index, j) {
-            console.log('添加小规格')
-            if (this.form.specs[index].name.trim() != '' && this.form.specs[index].items[j].name.trim() != '') {
-                this.form.specs[index].items.push({
-                    name: ''
-                })
+            if (this.form.specRequest.spec[index].name.trim() != '' && this.form.specRequest.spec[index].items[j].trim() != '') {
+                this.form.specRequest.spec[index].items.push('')
             } else {
                 this.$message({
                     showClose: true,
@@ -425,18 +424,18 @@ export default {
                     type: 'error'
                 })
             }
+             console.log(this.form.specRequest.spec)
         },
         // 删除某个规格
         handleCloseGuiGe(index, i) {
             console.log('删除某个规格')
             this.form.specs[index].items.splice(i, 1);
         },
-        // 点击设置价格与库存
+         // 点击设置价格与库存
         setPriceFn() {
-            console.log('点击设置价格与库存')
             let specsList = [];
             let arr = [];
-            if (!this.form.specs) {
+            if (!this.form.specRequest.spec) {
                 this.$message({
                     showClose: true,
                     message: '请输入规格名称',
@@ -444,32 +443,30 @@ export default {
                     type: 'error'
                 })
             } else {
-                this.form.specs.map(i => {
+                this.form.specRequest.spec.map(i => {
                     let a = [];
                     i.items.map(j => {
-                        if (j.name) {
-                            a.push(j.name)
+                        if(j.trim()!=''){
+                             a.push(j)
                         }
                     })
                     arr.push(a);
                 })
-                let allArr = this.cartesianProductOf(...arr)
+                let allArr = this.cartesianProductOf(...arr);
+                console.log(allArr)
                 allArr.map(i => {
+                    let arr = []
                     let obj = {
-                        itemNames: i.join('*'),
+                        item: i,
                         price: '',
-                        stock: '',
-                        marketingPrice: '',
-                        marketingStock: '',
-                        enabled: false
+                        stock: ''
                     }
                     specsList.push(obj)
                 })
                 this.originDialogVisible = true;
                 this.specsList = specsList;
-                this.form.skus = specsList;
+                this.form.specRequest.sku = specsList;
             }
-            console.log('---fhjfkafhdalfhal')
 
         },
         // 选中一种营销方式
@@ -483,14 +480,24 @@ export default {
         },
         // 保存数据
         saveDataFn() {
-            console.log('什么也没干')
-            console.log(this.form.specs)
-
-            let json = this.form;
-            json.specs = this.form.specs;
-
-            console.log()
-            console.log(this.form)
+             let json = this.form;
+            this.form.specRequest.spec.map(i => {
+                if (i.name) {
+                    let obj = {
+                        name: i.name,
+                        items: []
+                    }
+                    i.items.map(j => {
+                        if (j.trim()!='') {
+                            obj.items.push(j)
+                        }
+                    })
+                    json.specRequest.spec.push(obj)
+                }
+            })
+            console.log("提交数据")
+            console.log(json);
+            // return;
             // return;
             // if(this.isEmpty(json.title,'商品标题')){
             //     return;

@@ -9,8 +9,8 @@
                         <el-col :span="4">
                             <el-form label-position="top" :inline="true" class="demo-form-inline">
                                 <el-form-item label="砍价模块开关">
-                                    <el-switch size="large" active-color="#00B0F0" inactive-color="#aaaaaa">
-                                    </el-switch>
+                                    <el-switch @change="saveDataFn" size="large" v-model="saleData.kj" active-color="#00B0F0" inactive-color="#aaaaaa">
+                                   </el-switch>
                                 </el-form-item>
                             </el-form>
                         </el-col>
@@ -165,12 +165,14 @@ import {
 import {
     getCategory
 } from '../../../api/goods/index'
+
 export default {
     //import引入的组件需要注入到对象中才能使用
     components: {},
     data() {
         //这里存放数据
         return {
+            saleData:{},
             searchCategoryList:[],
             categoryList: [],
             categories2: [],
@@ -283,10 +285,39 @@ export default {
                     this.pageData = res.page;
                 }
             })
-        }
+        },
+         //    模块开关-----start
+        saveDataFn() {
+            let that = this;
+            let json = this.saleData;
+            delete json.businessId;
+            this.$store.dispatch('Setdistributions', json).then(result => {
+                if (result.code == '00') {
+                    that.$message({
+                        showClose: true,
+                        message: '设置成功',
+                        duration: 3 * 1000,
+                        type: 'success'
+                    })
+                    that.getDataFn()
+                }
+            })
+        },
+        getState() {
+            if (!this.$store.state.distribution.distributions) {
+                this.$store.dispatch('Getdistributions').then(result => {
+                    this.saleData = result;
+                })
+            } else {
+                this.saleData = this.$store.state.distribution.distributions;
+            }
+        },
+        //    模块开关----end
     },
+    
     //生命周期 - 创建完成（可以访问当前this实例）
     created() {
+        this.getState()
         this.getDataFn();
          this.getCategoryFn()
     },

@@ -45,9 +45,12 @@
             </span>
             <div class="userBox">
                 <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item :command="i.id" v-for="(i,j) in user.branch" :key="j">{{i.name}}</el-dropdown-item>
+                    <el-dropdown-item 
+                    :command="i.id" 
+                    v-for="(i,j) in user.branch" 
+                    :key="j">{{i.name}}</el-dropdown-item>
                     <!-- <el-dropdown-item>分店分店</el-dropdown-item> -->
-                    <el-dropdown-item>
+                    <el-dropdown-item class="noBorder">
                         <p class="logoutText" @click="LogOut">退出登陆</p>
                     </el-dropdown-item>
                 </el-dropdown-menu>
@@ -112,7 +115,8 @@ export default {
             ...this.$store.state
         };
         this.user = state.user ? state.user : {};
-        // console.log(this.user)
+        console.log('userState')
+        console.log(this.user)
 
         if (!this.user.name) {
             this.$store.dispatch('GetInfo').then((res) => {
@@ -123,6 +127,8 @@ export default {
             this.$store.dispatch('Branch').then((res) => {
                 this.user.branch = res.data;
             })
+        }else{
+            console.log('有店铺')
         }
     },
     beforeCreate() {}, //生命周期 - 创建之前
@@ -195,23 +201,28 @@ export default {
     }
 }
 
-/deep/ .userBox {
-    /deep/ .el-dropdown-menu {
+// /deep/ .userBox {
+     .el-dropdown-menu {
         width: 304px;
-        text-align: center;
-        top: 100px;
+        text-align: left;
+        top: 80px!important;
         right: 0 !important;
         left: unset !important;
-        padding: 0 24px;
+        // padding: 0 24px;
         box-sizing: border-box;
-
-        /deep/ .el-dropdown-menu__item {
+        padding-left: 24px;
+      
+    }
+      /deep/ .el-dropdown-menu__item {
             height: 60px;
             border-bottom: 1px solid #E6E6E6;
             line-height: 60px;
             color: #3C3C3C;
             font-size: 14px;
-
+            padding-left: 0;
+            &.noBorder{
+                border:none
+            }
             &:hover {
                 background-color: #fff;
             }
@@ -221,6 +232,5 @@ export default {
                 line-height: 60px;
             }
         }
-    }
-}
+// }
 </style>

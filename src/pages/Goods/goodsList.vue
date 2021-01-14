@@ -253,28 +253,28 @@ export default {
         return {
             panelDatas: [{
                 name: '商品种类',
-                num: 0
+                num: '???'
             }, {
                 name: '规格种类',
-                num: 0
+                num: '???'
             }, {
                 name: '库存量',
-                num: 0
+                num: '???'
             }, {
                 name: '销量',
-                num: 0
+                num: '???'
             }, {
                 name: '销售金额',
-                num: 0
+                num: '???'
             }, {
                 name: '平均复购率',
-                num: 0
+                num: '???'
             }, {
                 name: '浏览量',
-                num: 0
+                num: '???'
             }, {
                 name: '退货率',
-                num: 0
+                num: '???'
             }, ],
             searchCategoryList: [],
             childrenVal: '',
@@ -411,7 +411,7 @@ export default {
                     })
 
                     this.categoryList = res.data;
-                    console.log(res.data)
+                    // console.log(res.data)
                 }
             })
         },
@@ -582,7 +582,7 @@ export default {
 }
 
 .eachItem {
-    height: 100px;
+    height: 80px;
     display: flex;
     align-items: center;
     justify-content: center;

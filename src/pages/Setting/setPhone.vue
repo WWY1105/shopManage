@@ -161,6 +161,7 @@ export default {
             font-size: 22px;
             margin-bottom: 115px;
             margin-top: 150px;
+            margin-left: 100px;
         }
 
         /deep/ .el-input__inner {

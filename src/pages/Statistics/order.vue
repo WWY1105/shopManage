@@ -10,26 +10,28 @@
                     <span class="num">{{orderData.total}}</span>
                 </p>
                 <div class="searchBox flexStart">
-                    <div class="eachSearch">
-                        <el-date-picker v-model="dataTime" type="daterange" align="right" size="mini" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions2" @change="dataTimeChange" />
-                    </div>
-                    <el-popover placement="top-start" title="请选择订单类型" width="200" trigger="click">
-                        <div class="flexStart">
-                            <el-checkbox-group v-model="checkList">
-                                <el-checkbox :label="i.text" :key="j" v-for="(i,j) in orderType" :value="i.value">{{i.text}}</el-checkbox>
-                            </el-checkbox-group>
-
+                    <el-popover placement="top" width="400" trigger="hover">
+                        <div class="eachSearch">
+                            <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss" v-model="dataTime" type="daterange" align="right" size="mini" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions2" @change="val=>dataTimeChange(val,'订单量')" />
                         </div>
-                        <p slot="reference" class="eachSearch">所有订单</p>
+                        <p slot="reference" class="eachSearch">{{searchOptions[0].date.length>0?searchOptions[0].date[0]+'至'+searchOptions[0].date[1]:'所有日期'}}</p>
                     </el-popover>
-                    <el-popover placement="top-start" title="请选择订单类型" width="200" trigger="click">
+                    <el-popover placement="top-start" title="请选择订单类型" width="200" trigger="click" @hide="val=>orderTypeChange(val,0)">
+                        <div class="flexStart">
+                            <el-checkbox-group v-model="checkList">
+                                <el-checkbox :label="i.text" :key="j" v-for="(i,j) in orderType" :value="i.value">{{i.text}}</el-checkbox>
+                            </el-checkbox-group>
+                        </div>
+                        <p slot="reference" class="eachSearch">所有订单??????????????</p>
+                    </el-popover>
+                    <el-popover placement="top-start" title="请选择商品类型" width="200" trigger="click">
                         <div class="flexStart">
                             <el-checkbox-group v-model="checkList">
                                 <el-checkbox :label="i.text" :key="j" v-for="(i,j) in orderType" :value="i.value">{{i.text}}</el-checkbox>
                             </el-checkbox-group>
 
                         </div>
-                        <p slot="reference" class="eachSearch">所有商品</p>
+                        <p slot="reference" class="eachSearch">所有商品???????</p>
                     </el-popover>
                 </div>
                 <div id="mycharts1" ref="chartBox" class="mycharts">
@@ -45,9 +47,13 @@
                     <span class="num">{{returnCount.total}}</span>
                 </p>
                 <div class="searchBox flexStart">
-                    <div class="eachSearch">
-                        <el-date-picker v-model="dataTime" type="daterange" align="right" size="mini" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions2" @change="dataTimeChange" />
-                    </div>
+                    <el-popover placement="top" width="400" trigger="hover">
+                        <div class="eachSearch">
+                            <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss" v-model="dataTime" type="daterange" align="right" size="mini" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions2" @change="val=>dataTimeChange(val,'订单退货量')" />
+                        </div>
+                        <p slot="reference" class="eachSearch">{{searchOptions[1].date.length>0?searchOptions[1].date[0]+'至'+searchOptions[1].date[1]:'所有日期'}}</p>
+                    </el-popover>
+
                     <el-popover placement="top-start" title="请选择订单类型" width="200" trigger="click">
                         <div class="flexStart">
                             <el-checkbox-group v-model="checkList">
@@ -55,7 +61,7 @@
                             </el-checkbox-group>
 
                         </div>
-                        <p slot="reference" class="eachSearch">所有订单</p>
+                        <p slot="reference" class="eachSearch">所有订单???????</p>
                     </el-popover>
                     <el-popover placement="top-start" title="请选择订单类型" width="200" trigger="click">
                         <div class="flexStart">
@@ -82,9 +88,12 @@
                     <span class="num">￥{{orderPrice.total}}</span>
                 </p>
                 <div class="searchBox flexStart">
-                    <div class="eachSearch">
-                        <el-date-picker v-model="dataTime" type="daterange" align="right" size="mini" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions2" @change="dataTimeChange" />
-                    </div>
+                    <el-popover placement="top" width="400" trigger="hover">
+                        <div class="eachSearch">
+                            <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss" v-model="dataTime" type="daterange" align="right" size="mini" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions2" @change="val=>dataTimeChange(val,'订单金额')" />
+                        </div>
+                        <p slot="reference" class="eachSearch">{{searchOptions[2].date.length>0?searchOptions[2].date[0]+'至'+searchOptions[2].date[1]:'所有日期'}}</p>
+                    </el-popover>
                     <el-popover placement="top-start" title="请选择订单类型" width="200" trigger="click">
                         <div class="flexStart">
                             <el-checkbox-group v-model="checkList">
@@ -92,7 +101,7 @@
                             </el-checkbox-group>
 
                         </div>
-                        <p slot="reference" class="eachSearch">所有订单</p>
+                        <p slot="reference" class="eachSearch">所有订单???????</p>
                     </el-popover>
                     <el-popover placement="top-start" title="请选择订单类型" width="200" trigger="click">
                         <div class="flexStart">
@@ -118,9 +127,12 @@
                     <span class="num">￥{{returnPrice.total}}</span>
                 </p>
                 <div class="searchBox flexStart">
-                    <div class="eachSearch">
-                        <el-date-picker v-model="dataTime" type="daterange" align="right" size="mini" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions2" @change="dataTimeChange" />
-                    </div>
+                    <el-popover placement="top" width="400" trigger="hover">
+                        <div class="eachSearch">
+                            <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss" v-model="dataTime" type="daterange" align="right" size="mini" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions2" @change="val=>dataTimeChange(val,'订单退货金额')" />
+                        </div>
+                        <p slot="reference" class="eachSearch">{{searchOptions[3].date.length>0?searchOptions[3].date[0]+'至'+searchOptions[3].date[1]:'所有日期'}}</p>
+                    </el-popover>
                     <el-popover placement="top-start" title="请选择订单类型" width="200" trigger="click">
                         <div class="flexStart">
                             <el-checkbox-group v-model="checkList">
@@ -128,7 +140,7 @@
                             </el-checkbox-group>
 
                         </div>
-                        <p slot="reference" class="eachSearch">所有订单</p>
+                        <p slot="reference" class="eachSearch">所有订单???????</p>
                     </el-popover>
                     <el-popover placement="top-start" title="请选择订单类型" width="200" trigger="click">
                         <div class="flexStart">
@@ -155,9 +167,12 @@
                     <span class="num">￥{{price.total}}</span>
                 </p>
                 <div class="searchBox flexStart">
-                    <div class="eachSearch">
-                        <el-date-picker v-model="dataTime" type="daterange" align="right" size="mini" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions2" @change="dataTimeChange" />
-                    </div>
+                    <el-popover placement="top" width="400" trigger="hover">
+                        <div class="eachSearch">
+                            <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss" v-model="dataTime" type="daterange" align="right" size="mini" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions2" @change="val=>dataTimeChange(val,'实收金额')" />
+                        </div>
+                        <p slot="reference" class="eachSearch">{{searchOptions[4].date.length>0?searchOptions[4].date[0]+'至'+searchOptions[4].date[1]:'所有日期'}}</p>
+                    </el-popover>
                     <el-popover placement="top-start" title="请选择订单类型" width="200" trigger="click">
                         <div class="flexStart">
                             <el-checkbox-group v-model="checkList">
@@ -165,7 +180,7 @@
                             </el-checkbox-group>
 
                         </div>
-                        <p slot="reference" class="eachSearch">所有订单</p>
+                        <p slot="reference" class="eachSearch">所有订单???????</p>
                     </el-popover>
                     <el-popover placement="top-start" title="请选择订单类型" width="200" trigger="click">
                         <div class="flexStart">
@@ -190,16 +205,19 @@
                     <span class="num">{{cancelOrderCount.total}}</span>
                 </p>
                 <div class="searchBox flexStart">
-                    <div class="eachSearch">
-                        <el-date-picker v-model="dataTime" type="daterange" align="right" size="mini" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions2" @change="dataTimeChange" />
-                    </div>
+                    <el-popover placement="top" width="400" trigger="hover">
+                        <div class="eachSearch">
+                            <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss" v-model="dataTime" type="daterange" align="right" size="mini" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions2" @change="val=>dataTimeChange(val,'订单取消量')" />
+                        </div>
+                        <p slot="reference" class="eachSearch">{{searchOptions[5].date.length>0?searchOptions[5].date[0]+'至'+searchOptions[5].date[1]:'所有日期'}}</p>
+                    </el-popover>
                     <el-popover placement="top-start" title="请选择订单类型" width="200" trigger="click">
                         <div class="flexStart">
                             <el-checkbox-group v-model="checkList">
                                 <el-checkbox :label="i.text" :key="j" v-for="(i,j) in orderType" :value="i.value">{{i.text}}</el-checkbox>
                             </el-checkbox-group>
                         </div>
-                        <p slot="reference" class="eachSearch">所有订单</p>
+                        <p slot="reference" class="eachSearch">所有订单???????</p>
                     </el-popover>
                     <el-popover placement="top-start" title="请选择订单类型" width="200" trigger="click">
                         <div class="flexStart">
@@ -217,8 +235,7 @@
         </el-col>
     </el-row>
 
-
-       <el-row :gutter="20">
+    <el-row :gutter="20">
         <!-- 运费成本 ￥ -->
         <el-col :span="16">
             <div class="chartBox">
@@ -227,9 +244,12 @@
                     <span class="num">￥{{price.total}}</span>
                 </p>
                 <div class="searchBox flexStart">
-                    <div class="eachSearch">
-                        <el-date-picker v-model="dataTime" type="daterange" align="right" size="mini" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions2" @change="dataTimeChange" />
-                    </div>
+                    <el-popover placement="top" width="400" trigger="hover">
+                        <div class="eachSearch">
+                            <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss" v-model="dataTime" type="daterange" align="right" size="mini" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions2" @change="val=>dataTimeChange(val,'运费成本')" />
+                        </div>
+                        <p slot="reference" class="eachSearch">{{searchOptions[6].date.length>0?searchOptions[6].date[0]+'至'+searchOptions[6].date[1]:'所有日期'}}</p>
+                    </el-popover>
                 </div>
                 <div id="mycharts7" ref="chartBox" class="mycharts">
                     <span v-html="loading"></span>
@@ -244,9 +264,12 @@
                     <span class="num">{{cancelOrderCount.total}}</span>
                 </p>
                 <div class="searchBox flexStart">
-                    <div class="eachSearch">
-                        <el-date-picker v-model="dataTime" type="daterange" align="right" size="mini" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions2" @change="dataTimeChange" />
-                    </div>
+                    <el-popover placement="top" width="400" trigger="hover">
+                        <div class="eachSearch">
+                            <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss" v-model="dataTime" type="daterange" align="right" size="mini" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions2" @change="val=>dataTimeChange(val,'订单取消金额')" />
+                        </div>
+                        <p slot="reference" class="eachSearch">{{searchOptions[7].date.length>0?searchOptions[7].date[0]+'至'+searchOptions[7].date[1]:'所有日期'}}</p>
+                    </el-popover>
                 </div>
                 <div id="mycharts8" ref="chartBox" class="mycharts">
                     <span v-html="loading"></span>
@@ -396,8 +419,34 @@ export default {
             returnPrice: {}, //订单退货金额
             price: {}, // 实收金额
             cancelOrderCount: {}, //订单取消量 
-            expressPrice:{},//运费成本 
-            cancelOrderPrice:{},//  订单取消金额  
+            expressPrice: {}, //运费成本 
+            cancelOrderPrice: {}, //  订单取消金额 
+
+            searchOptions: [{
+                title: '订单量',
+                date: [],
+            }, {
+                title: '订单退货量',
+                date: []
+            }, {
+                title: '订单金额',
+                date: []
+            }, {
+                title: '订单退货金额',
+                date: []
+            }, {
+                title: '实收金额',
+                date: []
+            }, {
+                title: '订单取消量',
+                date: []
+            }, {
+                title: '运费成本',
+                date: []
+            }, {
+                title: '订单取消金额',
+                date: []
+            }, ]
         };
     },
     //监听属性 类似于data概念
@@ -406,10 +455,59 @@ export default {
     watch: {},
     //方法集合
     methods: {
-        dataTimeChange() {},
+        // 订单类型的筛选
+        orderTypeChange(val,index){
+
+        },
+        // 日期的筛选
+        dataTimeChange(val, title) {
+            console.log(title)
+            let newDate = [];
+            let that = this;
+            val.map(i => {
+                newDate.push(i.substr(0, 10))
+            })
+            this.searchOptions.map((i, j) => {
+                if (i.title == title) {
+                    i.date = newDate;
+                    switch (j) {
+                        case 0: //订单量 
+                            this.getOrderNumFn(val);
+                            break;
+                        case 1: //订单退货量 
+                            this.getReturnCountFn(val);
+                            break;
+                        case 2: //订单金额 
+                            this.getOrderPriceFn(val);
+                            break;
+                        case 3: //订单退货金额 
+                            this.getReturnPriceFn(val);
+                            break;
+                        case 4: //实收金额 
+                            this.getPriceFn(val);
+                            break;
+                        case 5: //订单取消量 
+                            this.getCancelOrderCountFn(val);
+                            break;
+                        case 6: //运费成本 
+                            this.getExpressPriceFn(val);
+                            break;
+                        case 7: //订单取消金额
+                            this.getCancelOrderCountFn(val);
+                            break;
+                    }
+                }
+            })
+            console.log(this.searchOptions)
+        },
         // 获取订单量
-        getOrderNumFn() {
-            getOrderNum({}).then(res => {
+        getOrderNumFn(date) {
+            let json = {}
+            if (date) {
+                json.beginTime = date[0]
+                json.endTime = date[1]
+            }
+            getOrderNum(json).then(res => {
                 if (res.code == '00') {
                     this.orderData = res.data;
                     this.LineChart('mycharts1', res.data.xaxis, res.data.series, 'line')
@@ -417,8 +515,13 @@ export default {
             })
         },
         // 订单退货量
-        getReturnCountFn() {
-            getReturnCount({}).then(res => {
+        getReturnCountFn(date) {
+            let json = {}
+            if (date) {
+                json.beginTime = date[0]
+                json.endTime = date[1]
+            }
+            getReturnCount(json).then(res => {
                 if (res.code == '00') {
                     this.returnCount = res.data;
                     this.LineChart('mycharts2', res.data.xaxis, res.data.series, 'line')
@@ -426,8 +529,13 @@ export default {
             })
         },
         // 订单金额
-        getOrderPriceFn() {
-            getOrderPrice({}).then(res => {
+        getOrderPriceFn(date) {
+            let json = {}
+            if (date) {
+                json.beginTime = date[0]
+                json.endTime = date[1]
+            }
+            getOrderPrice(json).then(res => {
                 if (res.code == '00') {
                     this.orderPrice = res.data;
                     this.LineChart('mycharts3', res.data.xaxis, res.data.series, 'bar')
@@ -435,8 +543,13 @@ export default {
             })
         },
         //  订单退货金额
-        getReturnPriceFn() {
-            getReturnPrice({}).then(res => {
+        getReturnPriceFn(date) {
+            let json = {}
+            if (date) {
+                json.beginTime = date[0]
+                json.endTime = date[1]
+            }
+            getReturnPrice(json).then(res => {
                 if (res.code == '00') {
                     this.returnPrice = res.data;
                     this.LineChart('mycharts4', res.data.xaxis, res.data.series, 'bar')
@@ -445,8 +558,13 @@ export default {
         },
 
         // 实收金额
-        getPriceFn() {
-            getPrice({}).then(res => {
+        getPriceFn(date) {
+            let json = {}
+            if (date) {
+                json.beginTime = date[0]
+                json.endTime = date[1]
+            }
+            getPrice(json).then(res => {
                 if (res.code == '00') {
                     this.price = res.data;
                     this.LineChart('mycharts5', res.data.xaxis, res.data.series, 'line')
@@ -454,8 +572,13 @@ export default {
             })
         },
         // 订单取消量  
-        getCancelOrderCountFn() {
-            getCancelOrderCount({}).then(res => {
+        getCancelOrderCountFn(date) {
+            let json = {}
+            if (date) {
+                json.beginTime = date[0]
+                json.endTime = date[1]
+            }
+            getCancelOrderCount(json).then(res => {
                 if (res.code == '00') {
                     this.cancelOrderCount = res.data;
                     this.LineChart('mycharts6', res.data.xaxis, res.data.series, 'bar')
@@ -463,8 +586,13 @@ export default {
             })
         },
         // 运费成本 
-        getExpressPriceFn(){
-            getExpressPrice({}).then(res => {
+        getExpressPriceFn(date) {
+            let json = {}
+            if (date) {
+                json.beginTime = date[0]
+                json.endTime = date[1]
+            }
+            getExpressPrice(json).then(res => {
                 if (res.code == '00') {
                     this.expressPrice = res.data;
                     this.LineChart('mycharts7', res.data.xaxis, res.data.series, 'bar')
@@ -472,8 +600,13 @@ export default {
             })
         },
         // 订单取消金额  
-        getCancelOrderPriceFn(){
-            getCancelOrderPrice({}).then(res => {
+        getCancelOrderPriceFn(date) {
+            let json = {}
+            if (date) {
+                json.beginTime = date[0]
+                json.endTime = date[1]
+            }
+            getCancelOrderPrice(json).then(res => {
                 if (res.code == '00') {
                     this.cancelOrderPrice = res.data;
                     this.LineChart('mycharts8', res.data.xaxis, res.data.series, 'bar')
@@ -610,7 +743,8 @@ export default {
         margin-bottom: 20px;
 
     }
-    .el-range-editor--mini.el-input__inner{
+
+    .el-range-editor--mini.el-input__inner {
         width: 100%;
     }
 }

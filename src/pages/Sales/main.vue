@@ -206,7 +206,7 @@ export default {
                         duration: 3 * 1000,
                         type: 'success'
                     })
-                    that.getDataFn()
+                    that.getState()
                 }
             })
         },
