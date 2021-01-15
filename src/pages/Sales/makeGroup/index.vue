@@ -149,7 +149,7 @@
                 </template>
             </el-table-column>
         </el-table>
-        <div class="pagination flexEnd">
+        <div class="pagination flexCenter">
             <el-pagination background layout="prev, pager, next" :total="pageData.totalSize">
             </el-pagination>
         </div>

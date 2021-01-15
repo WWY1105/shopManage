@@ -12,8 +12,8 @@
             </div>
             <div class="switchBox flexEnd">
                 <el-form label-position="top" :inline="true" class="demo-form-inline">
-                    <el-form-item label="抽奖模块总开关">
-                        <el-switch size="large" active-color="#00B0F0" inactive-color="#aaaaaa">
+                    <el-form-item label="抽奖模块开关">
+                        <el-switch @change="saveSaleDataFn" size="large" v-model="saleData.cj" active-color="#00B0F0" inactive-color="#aaaaaa">
                         </el-switch>
                     </el-form-item>
                 </el-form>
@@ -24,7 +24,7 @@
                 <el-row :gutter="80">
                     <el-col :span="12">
                         <el-form-item label="抽奖用户群设置">
-                            <el-button class="searchBtn" @click="getRuleFn">
+                            <el-button class="searchBtn" @click="editDialogShow=true">
                                 {{rule.userGroup?rule.userGroup:'点击设置抽奖用户群'}}
                                 <i class="el-icon-edit-outline"></i>
                             </el-button>
@@ -32,7 +32,7 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="抽奖频率设置">
-                            <el-button class="searchBtn" @click="getRuleFn">
+                            <el-button class="searchBtn" @click="editDialogShow=true">
                                 {{rule.prizeDraw?'每日抽奖'+rule.prizeDraw+'次':'点击设置抽奖频率'}}
                                 <i class="el-icon-edit-outline"></i>
                             </el-button>
@@ -61,7 +61,7 @@
                     </div>
                 </div>
             </el-col>
-            <el-col :xs="8" :sm="8" :md="8" :lg="6" :xl="4">
+            <el-col :xs="8" :sm="8" :md="8" :lg="6" :xl="4" v-if="prize.length<8">
                 <div class="eachPrize addBtn flexCenter flexColumn" @click="addPrizeVisible=true">
                     <i class="el-icon-plus"></i>
                     <p>添加奖品</p>
@@ -168,7 +168,25 @@
         </div>
 
     </el-dialog>
-
+    <!-- 抽奖规则 -->
+    <el-dialog title="抽奖规则 " center :visible.sync="editDialogShow" width="600px" class="prizeDialog">
+        <div class="dialogContent ">
+            <el-form label-width="100px" label-position="left" :inline="true">
+                <el-form-item label="用户群">
+                    <el-select v-model="editRule.userGroup" placeholder="用户群">
+                        <el-option v-for="(i,j) in groupList" :value="i.value" :label="i.text" :key="j"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="抽奖频率">
+                    <el-input v-model="editRule.prizeDraw" type="number"></el-input>
+                </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer flexCenter flexColumn">
+                <el-button class="searchBtn btn" type="primary" @click="saveRuleFn">确 定</el-button>
+                <el-button class="btn cancelBtn transBtn" @click="editDialogShow = false">取 消</el-button>
+            </span>
+        </div>
+    </el-dialog>
 </div>
 </template>
 
@@ -183,6 +201,9 @@ import {
     getPrize,
     getCouponList
 } from '../../../api/sales/lottery';
+import {
+    customType
+} from '../../../utils/jsons'
 let that;
 export default {
     //import引入的组件需要注入到对象中才能使用
@@ -190,6 +211,9 @@ export default {
     data() {
         //这里存放数据
         return {
+            editRule:{},
+            groupList: customType,
+            editDialogShow: false,
             labelPosition: 'left',
             addPrizeVisible: false,
             tergetId: false,
@@ -231,6 +255,33 @@ export default {
     watch: {},
     //方法集合
     methods: {
+        //    模块开关-----start
+        saveSaleDataFn() {
+            let that = this;
+            let json = this.saleData;
+            delete json.businessId;
+            this.$store.dispatch('Setdistributions', json).then(result => {
+                if (result.code == '00') {
+                    that.$message({
+                        showClose: true,
+                        message: '设置成功',
+                        duration: 3 * 1000,
+                        type: 'success'
+                    })
+                    that.getState()
+                }
+            })
+        },
+        getState() {
+            if (!this.$store.state.distribution.distributions) {
+                this.$store.dispatch('Getdistributions').then(result => {
+                    this.saleData = result;
+                })
+            } else {
+                this.saleData = this.$store.state.distribution.distributions;
+            }
+        },
+        //    模块开关----end
         getDataFn() {
             let that = this;
             if (that.json.time && that.json.time.length > 0) {
@@ -287,7 +338,7 @@ export default {
                         })
                         that.getPrizeFn();
                         that.addPrizeVisible = false;
-                         this.editJson={}
+                        this.editJson = {}
                     }
 
                 })
@@ -302,7 +353,7 @@ export default {
                         })
                         that.getPrizeFn();
                         that.addPrizeVisible = false;
-                         this.editJson={}
+                        this.editJson = {}
                     }
 
                 })
@@ -326,22 +377,38 @@ export default {
                         duration: 3 * 1000,
                         type: 'success'
                     })
-
                 }
                 that.getPrizeFn();
                 that.deletePrizeVisible = false
             })
 
         },
+        // 删除奖品
         showDeleteFn(val, id) {
             this.deletePrizeVisible = true;
             this.targetId = id;
-
         },
+        // 保存抽奖规则
+        saveRuleFn() {
+            let that=this;
+            saveRule(this.editRule).then(res => {
+                if (res.code == '00') {
+                    that.$message({
+                        showClose: true,
+                        message: '设置成功',
+                        duration: 3 * 1000,
+                        type: 'success'
+                    })
+                    that.editDialogShow=false;
+                    that.getRuleFn()
+
+                }
+            })
+        }
     },
     //生命周期 - 创建完成（可以访问当前this实例）
     created() {
-
+        this.getState()
         this.getDataFn();
         this.getRuleFn();
         this.getPrizeFn();

@@ -15,18 +15,18 @@
     <div class="searchBox bgf">
         <el-form label-position="top" :inline="true" :model="formInline" class="demo-form-inline">
             <el-row :gutter="20">
-                <el-col :span="5">
+                <el-col :span="7">
                     <div class="grid-content bg-purple">
                         <el-form-item label="注册时间段">
-                            <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss" v-model="json.registerTime" type="datetime" placeholder="注册时间段">
+                            <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss" onPick="registerTimeChange" v-model="json.registerTime" type="datetimerange" placeholder="注册时间段">
                             </el-date-picker>
                         </el-form-item>
                     </div>
                 </el-col>
-                <el-col :span="5">
+                <el-col :span="7">
                     <div class="grid-content bg-purple">
                         <el-form-item label="最后登录时间段">
-                            <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss" v-model="json.lastLoginTime" type="datetime" placeholder="最后登录时间段">
+                            <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss" v-model="json.lastLoginTime" type="datetimerange" placeholder="最后登录时间段">
                             </el-date-picker>
                         </el-form-item>
                     </div>
@@ -109,13 +109,103 @@
                 </template>
             </el-table-column>
         </el-table>
-        <div class="pagination flexEnd">
-            <el-pagination background layout="prev, pager, next" :total="pageData.totalSize">
+        <div class="pagination flexCenter">
+            <el-pagination background @size-change="handleSizeChange" layout="total, sizes, prev, pager, next, jumper" :current-page="json.pageNum" :total="pageData.totalSize">
             </el-pagination>
         </div>
     </div>
     <!-- 客户信息 -->
+    <el-dialog title="客户信息" center :visible.sync="cusInfoShow" width="343px" class="cusInfoDialog">
+        <div class="part part1">
+            <div class="partConetnt">
+                <div class="flexSpace each">
+                    <label for="">客户ID</label>
+                    <span class="value">{{targetObj.id}}</span>
+                </div>
+                <div class="flexSpace each">
+                    <label for="">名称</label>
+                    <span class="value">{{targetObj.nickname}}</span>
+                </div>
+                <div class="flexSpace each">
+                    <label for="">电话</label>
+                    <span class="value">{{targetObj.mobild}}</span>
+                </div>
+                <div class="flexSpace each">
+                    <label for="">性别</label>
+                    <span class="value">{{targetObj.gende==0?'未知':targetObj.gender==1?'男':'女'}}</span>
+                </div>
+                <div class="flexSpace each">
+                    <label for="">用户组</label>
+                    <span class="value">{{targetObj.usergroup}}</span>
+                </div>
+                <div class="flexSpace each">
+                    <label for="">注册时间</label>
+                    <span class="value">{{targetObj.regsterTime}}</span>
+                </div>
+                <div class="flexSpace each">
+                    <label for="">生日</label>
+                    <span class="value">{{targetObj.birthday}}</span>
+                </div>
+                <div class="flexSpace each">
+                    <label for="">默认地址：</label>
+                    <span class="value">{{targetObj.address}}</span>
+                </div>
+            </div>
+        </div>
+        <p class="partTitle">储值卡</p>
 
+        <div class="part part2">
+            <div class="partConetnt">
+                <div class="flexSpace each">
+                    <label for="">累计购买金额</label>
+                    <span class="value">{{targetObj.czk}}</span>
+                </div>
+                <div class="flexSpace each">
+                    <label for="">累计购买次数</label>
+                    <span class="value">{{targetObj.czkcs}}</span>
+                </div>
+                <div class="flexSpace each">
+                    <label for="">当前余额</label>
+                    <span class="value">{{targetObj.sy}}</span>
+                </div>
+            </div>
+        </div>
+        <p class="partTitle">积分</p>
+        <div class="part part3">
+            <div class="partConetnt">
+                <div class="flexSpace each">
+                    <label for=""> 累计获得积分
+                    </label>
+                    <span class="value">{{targetObj.jf}}</span>
+                </div>
+                <div class="flexSpace each">
+                    <label for="">剩余积分</label>
+                    <span class="value">{{targetObj.syjf}}</span>
+                </div>
+            </div>
+        </div>
+        <p class="partTitle">消费</p>
+        <div class="part part4 noBorder">
+            <div class="partConetnt">
+                <div class="flexSpace each">
+                    <label for=""> 总消费金额 </label>
+                    <span class="value">{{targetObj.consumption}}</span>
+                </div>
+                <div class="flexSpace each">
+                    <label for="">消费次数</label>
+                    <span class="value">{{targetObj.xfcs}}</span>
+                </div>
+                <div class="flexSpace each">
+                    <label for="">最后消费时间</label>
+                    <span class="value">{{targetObj.xftime}}</span>
+                </div>
+                <div class="flexSpace each">
+                    <label for="">消费记录</label>
+                    <span class="value">??????????</span>
+                </div>
+            </div>
+        </div>
+    </el-dialog>
     <!-- 客户消费记录 -->
 </div>
 </template>
@@ -133,6 +223,7 @@ export default {
     components: {},
     data() {
         return {
+            cusInfoShow: false,
             pageData: {},
             groupList: customType,
             panelDatas: [{
@@ -165,7 +256,9 @@ export default {
             tableData: [],
             json: {
                 pageNum: 1,
-                pageSize: 30
+                pageSize: 30,
+                lastLoginTime: [],
+                registerTime: [],
             },
         };
     },
@@ -175,12 +268,33 @@ export default {
 
         getList() {
             let that = this;
-            list(that.json).then(res => {
+            let json = this.json;
+            if (json.lastLoginTime && json.lastLoginTime.length > 0) {
+                json.loginBegin = json.lastLoginTime[0];
+                json.loginEnd = json.lastLoginTime[1];
+            }
+            if (json.registerTime && json.registerTime.length > 0) {
+                json.regBegin = json.registerTime[0];
+                json.regEnd = json.registerTime[1];
+            }
+            delete json.registerTime;
+            delete json.lastLoginTime;
+
+            list(json).then(res => {
                 if (res.code == '00') {
                     this.tableData = res.data;
                     this.pageData = res.page;
                 }
             })
+        },
+        handleSizeChange(val) {
+            console.log(`每页 ${val} 条`);
+            this.json.pageNum = val;
+            this.getList()
+        },
+        handleCurrentChange(val) {
+            this.json.pageSize = val;
+            this.getList()
         },
         getTotal() {
             let that = this;
@@ -217,6 +331,7 @@ export default {
         },
         // 查看详情
         getDetailFn(val, id) {
+            this.cusInfoShow=true;
             getDetail(id).then(res => {
                 if (res.code == '00') {
                     this.targetObj = res.data;
@@ -279,6 +394,42 @@ export default {
         .num {
             font-size: 22px;
             font-weight: bold;
+        }
+    }
+}
+
+.cusInfoDialog {
+    /deep/ .el-dialog__body {
+        padding-top: 0px !important;
+    }
+
+    .el-dialog__body {
+        padding-top: 0px !important;
+    }
+.partTitle{
+            padding: 20px 0 10px;
+             border-bottom: 1px solid #E5E5E5;
+             color: #666;
+             font-size: 22px;
+        }
+    .part {
+        padding-top:20px ; 
+        font-size: 14px;
+        line-height: 32px;
+        border-bottom: 1px solid #E5E5E5;
+        &.noBorder{
+            border:none;
+        }
+        .each {
+            margin-bottom: 20px;
+        }
+
+        label {
+            color: #666;
+        }
+
+        .value {
+            color: #333;
         }
     }
 }

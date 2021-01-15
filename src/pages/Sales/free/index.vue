@@ -147,7 +147,7 @@
                 </template>
             </el-table-column>
         </el-table>
-        <div class="pagination flexEnd">
+        <div class="pagination flexCenter">
             <el-pagination background layout="prev, pager, next" :total="pageData.totalSize">
             </el-pagination>
         </div>
@@ -157,9 +157,7 @@
 </template>
 
 <script>
-import {
-    getData
-} from '../../../api/sales/messagePush.js'
+import {list} from '../../../api/goods/index'
 import {
     getCategory
 } from '../../../api/goods/index'
@@ -254,7 +252,7 @@ export default {
             })
         },
         getDataFn() {
-            getData(this.json).then((res) => {
+            list(this.json).then((res) => {
                 if (res.code == '00') {
                     this.tableData = res.data;
                     this.pageData = res.page;
