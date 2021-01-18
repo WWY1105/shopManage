@@ -48,7 +48,7 @@ const user = {
           } else {
             Message({
               showClose: true,
-              message: '登录失败',
+              message: response.msg,
               duration: 3 * 1000,
               type: 'error'
             })

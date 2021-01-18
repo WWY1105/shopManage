@@ -8,7 +8,7 @@
             <el-menu-item :index="item.path+''" v-if="!item.subs">
                 <template slot="title">
                     <div class="menuContent">
-                        <i class="el-icon-location"></i>
+                        <img :src="item.icon" alt="">
                         <span slot="title">{{item.title}}</span>
                     </div>
                 </template>
@@ -26,6 +26,18 @@
 </template>
 
 <script>
+import anquan from '../assets/images/slide/anquan.png';
+import dianpu from '../assets/images/slide/dianpu.png';
+import dingdan from '../assets/images/slide/dingdan.png';
+import fankui from '../assets/images/slide/fankui.png';
+import guanli from '../assets/images/slide/guanli.png';
+import jianyi from '../assets/images/slide/jianyi.png';
+import jixing from '../assets/images/slide/jixing.png';
+import kehu from '../assets/images/slide/kehu.png';
+import pingjia from '../assets/images/slide/pingjia.png';
+import shangpin from '../assets/images/slide/shangpin.png';
+import shuju from '../assets/images/slide/shuju.png';
+import zhibo from '../assets/images/slide/zhibo.png';
 export default {
     name: 'Aside',
     data() {
@@ -33,31 +45,40 @@ export default {
             handleOpen: false,
             list: [{
                 title: '管理中心',
-                path: '/'
+                path: '/',
+                icon:guanli
             }, {
                 title: '店铺管理',
-                path: '/shops'
+                path: '/shops',
+                icon:dianpu
             }, {
                 title: '订单管理',
-                path: '/order'
+                path: '/order',
+                icon:dingdan
             }, {
                 title: '商品管理',
-                path: '/goods'
+                path: '/goods',
+                icon:shangpin
             }, {
                 title: '客户管理',
-                path: '/customs'
+                path: '/customs',
+                icon:kehu
             }, {
                 title: '直播管理',
-                path: '/live'
+                path: '/live',
+                icon:zhibo
             }, {
                 title: '营销中心',
-                path: '/sales'
+                path: '/sales',
+                icon:''
             }, {
                 title: '评价管理',
-                path: '/comment'
+                path: '/comment',
+                icon:pingjia
             }, {
                 title: '极星联盟',
                 path: '/union',
+                icon:jixing
                 // subs: [{
                 //     title: '联盟介绍',
                 //     path: '/union/introduce',
@@ -71,6 +92,7 @@ export default {
             }, {
                 title: '数据统计',
                 path: '/statistics',
+                icon:'',
                 subs: [{
                     title: '订单统计',
                     path: '/statistics/order',
@@ -83,16 +105,20 @@ export default {
                 }]
             }, {
                 title: '客户建议',
-                path: '/advice'
+                path: '/advice',
+                icon:jianyi
             }, {
                 title: '我要反馈',
-                path: '/feedback'
+                path: '/feedback',
+                icon:fankui
             }, {
                 title: '极星课堂',
-                path: '/class'
+                path: '/class',
+                icon:jixing
             }, {
                 title: '安全设置',
-                path: '/setting'
+                path: '/setting',
+                icon:anquan
             }]
         }
     }

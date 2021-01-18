@@ -223,6 +223,7 @@ export default {
     components: {},
     data() {
         return {
+            targetObj:{},
             cusInfoShow: false,
             pageData: {},
             groupList: customType,

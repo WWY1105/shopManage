@@ -241,7 +241,7 @@
             <div class="chartBox">
                 <p class="title">
                     <span>运费成本</span>
-                    <span class="num">￥{{price.total}}</span>
+                    <span class="num">￥{{expressPrice.total}}</span>
                 </p>
                 <div class="searchBox flexStart">
                     <el-popover placement="top" width="400" trigger="hover">

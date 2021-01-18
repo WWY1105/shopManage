@@ -24,7 +24,7 @@ service.interceptors.request.use(config => {
         if (store.getters.token) {
             config.headers['Authorization'] = 'Bearer ' + getToken()
         }else{
-            alert('没有token')
+            // alert('没有token')
         }
     }
 

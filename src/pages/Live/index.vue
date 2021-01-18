@@ -9,7 +9,7 @@
                         <el-col :span="6">
                             <div class="grid-content bg-purple">
                                 <el-form-item label="直播模块开关">
-                                    <el-switch size="large" v-model="value" active-color="#00B0F0" inactive-color="#aaaaaa">
+                                       <el-switch @change="saveDataFn" size="large" v-model="saleData.zb" active-color="#00B0F0" inactive-color="#aaaaaa">
                                     </el-switch>
                                 </el-form-item>
                             </div>
@@ -69,6 +69,7 @@ export default {
     components: {},
     data() {
         return {
+            saleData:{},
             value:false,
             time: true,
             formInline: {},
@@ -83,7 +84,32 @@ export default {
     computed: {},
     watch: {},
     methods: {
-        onSubmit() {},
+         //    模块开关-----start
+        saveDataFn() {
+            let that = this;
+            let json = this.saleData;
+            delete json.businessId;
+            this.$store.dispatch('Setdistributions', json).then(result => {
+                if (result.code == '00') {
+                    that.$message({
+                        showClose: true,
+                        message: '设置成功',
+                        duration: 3 * 1000,
+                        type: 'success'
+                    })
+                    that.getList()
+                }
+            })
+        },
+        getState() {
+            if (!this.$store.state.distribution.distributions) {
+                this.$store.dispatch('Getdistributions').then(result => {
+                    this.saleData = result;
+                })
+            } else {
+                this.saleData = this.$store.state.distribution.distributions;
+            }
+        },
         getList() {
             let that = this;
             console.log(that.json)

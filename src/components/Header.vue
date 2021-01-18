@@ -71,9 +71,10 @@ export default {
     components: {},
     data() {
         return {
-            user: false
+            // user: false
         };
     },
+    props:['user'],
     computed: {},
     watch: {},
     methods: {
@@ -111,25 +112,22 @@ export default {
         }
     },
     mounted() {
-        let state = {
-            ...this.$store.state
-        };
-        this.user = state.user ? state.user : {};
-        console.log('userState')
-        console.log(this.user)
+        // let state = {
+        //     ...this.$store.state
+        // };
+        // this.user = state.user ? state.user : {};
+        // if (!this.user.name) {
+        //     this.$store.dispatch('GetInfo').then((res) => {
 
-        if (!this.user.name) {
-            this.$store.dispatch('GetInfo').then((res) => {
-
-            })
-        }
-        if (!this.user.branch || this.user.branch.length <= 0) {
-            this.$store.dispatch('Branch').then((res) => {
-                this.user.branch = res.data;
-            })
-        }else{
-            console.log('有店铺')
-        }
+        //     })
+        // }
+        // if (!this.user.branch || this.user.branch.length <= 0) {
+        //     this.$store.dispatch('Branch').then((res) => {
+        //         this.user.branch = res.data;
+        //     })
+        // }else{
+        //     console.log('有店铺')
+        // }
     },
     beforeCreate() {}, //生命周期 - 创建之前
     beforeMount() {}, //生命周期 - 挂载之前

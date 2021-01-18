@@ -110,11 +110,12 @@ export default {
     methods: {
         getDataFn() {
             let json=this.json;
-            if(json.time.length>0){
+            if(json.time&&json.time.length>0){
                 json.createTimeBegin=json.time[0];
                 json.createTimeEnd=json.time[1];
+                   delete json.time;
             }
-            delete json.time;
+         
             getData(json).then(res => {
                 if (res.code == '00') {
                     this.tableData = res.data

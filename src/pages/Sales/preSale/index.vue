@@ -141,6 +141,12 @@
             <el-table-column align="center" prop="address" label="上下架">
             </el-table-column>
              <el-table-column align="center" prop="address" label="排序 ">
+                  <template slot-scope="scope">
+                    <div class="flexCenter sortBox">
+                        <i class="el-icon-arrow-up" @click="val=>toUporDown(val,scope.row.id,'sy')"></i>
+                        <i class="el-icon-arrow-down" @click="val=>toUporDown(val,scope.row.id,'xy')"></i>
+                    </div>
+                </template>
             </el-table-column>
             <el-table-column align="center" prop="address" label="其它" width="150">
                 <template slot-scope="scope">
@@ -163,13 +169,16 @@
 </template>
 
 <script>
-import {list} from '../../../api/goods/index'
+import deleteDialog from '../../../components/deleteDialig'
+import {list,upOrDown,getCategory} from '../../../api/goods/index'
 export default {
     //import引入的组件需要注入到对象中才能使用
-    components: {},
+    components: {deleteDialog},
     data() {
         //这里存放数据
         return {
+             targetId: '',
+            deleteVisible: false, //确认删除的弹窗
             saleData:{},
             pageData: {},
             categoryList: [],
@@ -189,6 +198,15 @@ export default {
     watch: {},
     //方法集合
     methods: {
+          // 上移或者下移
+        toUporDown(val,id,type){
+             let that=this;
+            upOrDown(id,{type}).then(res => {
+                if (res.code == '00') {
+                    that.getDataFn()
+                }
+            })
+        },
          //    模块开关-----start
         saveDataFn() {
             let that = this;
@@ -291,6 +309,19 @@ export default {
         font-size: 16px;
         font-weight: 400;
         color: #FF3636;
+    }
+    // 排序
+    .sortBox {
+        i {
+            color: #7F7F7F;
+            width: 23px;
+            height: 23px;
+            border: 1px solid #7F7F7F;
+            text-align: center;
+            line-height: 23px;
+            margin: 0 5px;
+            min-width: 23px;
+        }
     }
 }
 </style>

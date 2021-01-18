@@ -137,6 +137,10 @@
             <el-table-column align="center" prop="address" label="上下架">
             </el-table-column>
              <el-table-column align="center" prop="address" label="排序 ">
+                  <div class="flexCenter sortBox">
+                        <i class="el-icon-arrow-up" @click="val=>toUporDown(val,scope.row.id,'sy')"></i>
+                        <i class="el-icon-arrow-down" @click="val=>toUporDown(val,scope.row.id,'xy')"></i>
+                    </div>
             </el-table-column>
             <el-table-column align="center" prop="address" label="其它" width="150">
                 <template slot-scope="scope">
@@ -154,21 +158,26 @@
             </el-pagination>
         </div>
     </div>
-
+ <!-- 删除的确认弹窗 -->
+    <deleteDialog title="确定删除此商品?" :deleteVisible="deleteVisible" />
 </div>
 </template>
 
 <script>
-import {list} from '../../../api/goods/index'
+import deleteDialog from '../../../components/deleteDialig'
 import {
+    list,
+    upOrDown,
     getCategory
 } from '../../../api/goods/index'
 export default {
     //import引入的组件需要注入到对象中才能使用
-    components: {},
+    components: {deleteDialog},
     data() {
         //这里存放数据
         return {
+               targetId: '',
+            deleteVisible: false, //确认删除的弹窗
             saleData:{},
             searchCategoryList:[],
             categoryList: [],
@@ -253,6 +262,17 @@ export default {
                 }
             })
         },
+         // 上移或者下移
+        toUporDown(val, id, type) {
+            let that = this;
+            upOrDown(id, {
+                type
+            }).then(res => {
+                if (res.code == '00') {
+                    that.getDataFn()
+                }
+            })
+        },
         getDataFn() {
             list(this.json).then((res) => {
                 if (res.code == '00') {
@@ -291,6 +311,19 @@ export default {
         font-size: 16px;
         font-weight: 400;
         color: #FF3636;
+    }
+    // 排序
+    .sortBox {
+        i {
+            color: #7F7F7F;
+            width: 23px;
+            height: 23px;
+            border: 1px solid #7F7F7F;
+            text-align: center;
+            line-height: 23px;
+            margin: 0 5px;
+            min-width: 23px;
+        }
     }
 }
 </style>

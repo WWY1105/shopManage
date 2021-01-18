@@ -5,16 +5,16 @@
         <el-form label-position="top" :inline="true" class="demo-form-inline">
             <el-row :gutter="20" type="flex" justify="space-between" align="center">
                 <el-col :span="20">
-                    <el-row  type="flex" justify="start" align="center">
+                    <el-row type="flex" justify="start" align="center">
                         <el-col :span="4">
                             <el-form label-position="top" :inline="true" class="demo-form-inline">
                                 <el-form-item label="砍价模块开关">
                                     <el-switch @change="saveDataFn" size="large" v-model="saleData.kj" active-color="#00B0F0" inactive-color="#aaaaaa">
-                                   </el-switch>
+                                    </el-switch>
                                 </el-form-item>
                             </el-form>
                         </el-col>
-                        <el-col :span="14" class="flexStart" >
+                        <el-col :span="14" class="flexStart">
                             <p class="dangerTips">本模块仅包含砍价商品，全部商品请至商品管理模块查看</p>
                         </el-col>
                     </el-row>
@@ -38,7 +38,7 @@
                     <el-col :span="3">
                         <div class="grid-content bg-purple">
                             <el-form-item label="显示">
-                                <el-select v-model="json.id" ></el-select>
+                                <el-select v-model="json.id"></el-select>
                             </el-form-item>
                         </div>
                     </el-col>
@@ -53,14 +53,14 @@
                     <el-col :span="3">
                         <div class="grid-content bg-purple">
                             <el-form-item label="商品名称">
-                                 <el-input v-model="json.content" placeholder="id"></el-input>
+                                <el-input v-model="json.content" placeholder="id"></el-input>
                             </el-form-item>
                         </div>
                     </el-col>
                     <el-col :span="3">
                         <div class="grid-content bg-purple">
                             <el-form-item label="是否上架">
-                                 <el-select v-model="json.shelf" placeholder="是否上架">
+                                <el-select v-model="json.shelf" placeholder="是否上架">
                                     <el-option label="是" value="true"></el-option>
                                     <el-option label="否" value="false"></el-option>
                                 </el-select>
@@ -69,7 +69,7 @@
                     </el-col>
                     <el-col :span="3">
                         <div class="grid-content bg-purple">
-                              <el-form-item label="是否有库存">
+                            <el-form-item label="是否有库存">
                                 <el-select v-model="json.hasStock" placeholder="是否有库存">
                                     <el-option label="是" value="true"></el-option>
                                     <el-option label="否" value="false"></el-option>
@@ -77,10 +77,10 @@
                             </el-form-item>
                         </div>
                     </el-col>
-                   <el-col :span="3">
+                    <el-col :span="3">
                         <div class="grid-content bg-purple">
                             <el-form-item label="一级分类">
-                                <el-select v-model="json.categoryId" placeholder="一级分类"  @change="categoriesChange">
+                                <el-select v-model="json.categoryId" placeholder="一级分类" @change="categoriesChange">
                                     <el-option :label="item.name" :value="item.id" v-for="(item,index) in searchCategoryList" :key="index"></el-option>
                                 </el-select>
                             </el-form-item>
@@ -124,7 +124,7 @@
             </el-table-column>
             <el-table-column align="center" prop="address" label="所需人数">
             </el-table-column>
-             <el-table-column align="center" prop="id" label="时限">
+            <el-table-column align="center" prop="id" label="时限">
             </el-table-column>
             <el-table-column align="center" prop="address" label="总库存">
             </el-table-column>
@@ -136,7 +136,13 @@
             </el-table-column>
             <el-table-column align="center" prop="address" label="上下架">
             </el-table-column>
-             <el-table-column align="center" prop="address" label="排序 ">
+            <el-table-column align="center" prop="address" label="排序 ">
+                <template slot-scope="scope">
+                    <div class="flexCenter sortBox">
+                        <i class="el-icon-arrow-up" @click="val=>toUporDown(val,scope.row.id,'sy')"></i>
+                        <i class="el-icon-arrow-down" @click="val=>toUporDown(val,scope.row.id,'xy')"></i>
+                    </div>
+                </template>
             </el-table-column>
             <el-table-column align="center" prop="address" label="其它" width="100">
                 <template slot-scope="scope">
@@ -144,7 +150,7 @@
                         <router-link class="editBtn" :to="{path:'/editGoods',query:{id:scope.row.id}}">
                             编辑
                         </router-link>
-                        <div class="deleteBtn">删除</div>
+                        <div class="deleteBtn" @click="val=>{showDeleteDialog(val,scope.row.id)}">删除</div>
                     </div>
                 </template>
             </el-table-column>
@@ -154,30 +160,35 @@
             </el-pagination>
         </div>
     </div>
-
+    <!-- 删除的确认弹窗 -->
+    <deleteDialog title="确定删除此商品?" :deleteVisible="deleteVisible" />
 </div>
 </template>
 
 <script>
-
-import {list} from '../../../api/goods/index'
 import {
-    getCategory
+    list,
+    getCategory,
+    upOrDown
 } from '../../../api/goods/index'
-
+import deleteDialog from '../../../components/deleteDialig'
 export default {
     //import引入的组件需要注入到对象中才能使用
-    components: {},
+    components: {
+        deleteDialog
+    },
     data() {
         //这里存放数据
         return {
-            saleData:{},
-            searchCategoryList:[],
+            saleData: {},
+            searchCategoryList: [],
             categoryList: [],
             categories2: [],
             pageData: {},
+            targetId: '',
+            deleteVisible: false, //确认删除的弹窗
             json: {
-                sellType:'kj',
+                sellType: 'kj',
                 pageNum: 1,
                 pageSize: 30
             },
@@ -240,11 +251,28 @@ export default {
     watch: {},
     //方法集合
     methods: {
-          // 获取分类
+        // 删除的弹窗
+        showDeleteDialog(val, id) {
+            this.deleteVisible = true;
+            this.targetId = id;
+            console.log(val)
+        },
+        // 上移或者下移
+        toUporDown(val, id, type) {
+            let that=this;
+            upOrDown(id, {
+                type
+            }).then(res => {
+                if (res.code == '00') {
+                    that.getDataFn()
+                }
+            })
+        },
+        // 获取分类
         getCategoryFn() {
             getCategory().then(res => {
                 if (res.code == '00') {
-                    this.searchCategoryList=res.data;
+                    this.searchCategoryList = res.data;
                     res.data.map(i => {
                         if (!i.categories || i.categories.length == 0) {
                             i.categories = [{
@@ -285,7 +313,7 @@ export default {
                 }
             })
         },
-         //    模块开关-----start
+        //    模块开关-----start
         saveDataFn() {
             let that = this;
             let json = this.saleData;
@@ -313,12 +341,12 @@ export default {
         },
         //    模块开关----end
     },
-    
+
     //生命周期 - 创建完成（可以访问当前this实例）
     created() {
         this.getState()
         this.getDataFn();
-         this.getCategoryFn()
+        this.getCategoryFn()
     },
     //生命周期 - 挂载完成（可以访问DOM元素）
     mounted() {
@@ -345,4 +373,17 @@ export default {
         color: #FF3636;
     }
 }
+// 排序
+.sortBox {
+    i {
+    color: #7F7F7F;
+    width: 23px;
+    height: 23px;
+    border: 1px solid #7F7F7F;
+    text-align: center;
+    line-height: 23px;
+    margin: 0 5px;
+    min-width: 23px;
+}
+    }
 </style>

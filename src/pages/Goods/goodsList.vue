@@ -316,6 +316,7 @@ export default {
     methods: {
         // 上移或者下移
         toUporDown(val,id,type){
+             let that=this;
             upOrDown(id,{type}).then(res => {
                 if (res.code == '00') {
                     that.getList()
@@ -355,7 +356,7 @@ export default {
             let that = this;
             deleteData(this.targetId).then(res => {
                 if (res.code == '00') {
-                    this.deleteVisible = false;
+                    that.deleteVisible = false;
                     that.$message({
                         showClose: true,
                         message: '删除成功',

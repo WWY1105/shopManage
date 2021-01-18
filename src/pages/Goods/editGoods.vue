@@ -176,10 +176,10 @@
                         </el-date-picker>
                     </el-form-item>
                     <el-form-item label="预售定金">
-                        <el-input type="number" v-model="form.preSalePrice"></el-input>
+                        <el-input type="number" v-model="form.preSalePrice" min="0"></el-input>
                     </el-form-item>
                     <el-form-item label="预售定金抵扣">
-                        <el-input type="number" v-model="form.preSaleCost"></el-input>
+                        <el-input type="number" v-model="form.preSaleCost" min="0" ></el-input>
                     </el-form-item>
                 </el-form>
             </div>
@@ -214,12 +214,12 @@
             </el-table-column>
             <el-table-column prop="price" label="商品售价（￥）" width="100">
                 <template slot-scope="scope">
-                    <el-input :value="scope.row.price" @input="val=>priceChange(val,scope.$index)"></el-input>
+                    <el-input :value="scope.row.price" @input="val=>priceChange(val,scope.$index)" min="0"></el-input>
                 </template>
             </el-table-column>
             <el-table-column prop="stock" label="库存">
                 <template slot-scope="scope">
-                    <el-input :value="scope.row.stock" @input="val=>stockChange(val,scope.$index)"></el-input>
+                    <el-input :value="scope.row.stock" @input="val=>stockChange(val,scope.$index)" min="0" step="1"></el-input>
                 </template>
             </el-table-column>
         </el-table>
@@ -239,14 +239,14 @@
             </el-table-column>
             <el-table-column label="预售价格（￥）" width="180">
                 <template slot-scope="scope">
-                    <el-input :value="scope.row.marketingPrice" @input="val=>marketingPriceChange(val,scope.$index)"></el-input>
+                    <el-input :value="scope.row.marketingPrice" @input="val=>marketingPriceChange(val,scope.$index)" min="0"></el-input>
                 </template>
             </el-table-column>
             <el-table-column prop="stock" label="总库存">
             </el-table-column>
             <el-table-column prop="stock" label="预售库存">
                 <template slot-scope="scope">
-                    <el-input :value="scope.row.marketingStock" @input="val=>marketingStockChange(val,scope.$index)"></el-input>
+                    <el-input :value="scope.row.marketingStock" @input="val=>marketingStockChange(val,scope.$index)" min="0" step="1"></el-input>
                 </template>
             </el-table-column>
             <el-table-column label="启用">
@@ -499,18 +499,18 @@ export default {
             console.log(json);
             // return;
             // return;
-            // if(this.isEmpty(json.title,'商品标题')){
-            //     return;
-            // }
-            // if(this.isEmpty(json.imgurl,'商品主图')){
-            //     return;
-            // }
-            // if(this.isEmpty(json.unit,'单位')){
-            //     return;
-            // }
-            // if(this.isEmpty(json.sellType,'营销方式')){
-            //     return;
-            // }
+            if(!this.isEmpty(json.title,'商品标题')){
+                return;
+            }
+            if(!this.isEmpty(json.imgurl,'商品主图')){
+                return;
+            }
+            if(!this.isEmpty(json.unit,'单位')){
+                return;
+            }
+            if(!this.isEmpty(json.sellType,'营销方式')){
+                return;
+            }
 
             putData(json, this.form.id).then(res => {
                 if (res.code == '00') {
@@ -535,8 +535,10 @@ export default {
                     type: 'error'
                 })
                 return false;
+            }else{
+                 return true;
             }
-            return true;
+           
         },
 
         // 营销是否启用

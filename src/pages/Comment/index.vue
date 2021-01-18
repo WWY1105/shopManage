@@ -9,7 +9,8 @@
                         <el-col :span="6">
                             <div class="grid-content bg-purple">
                                 <el-form-item label="评价模块开关">
-                                    <el-switch></el-switch>
+                                       <el-switch @change="saveDataFn" size="large" v-model="saleData.pj" active-color="#00B0F0" inactive-color="#aaaaaa">
+                                    </el-switch>
                                 </el-form-item>
                             </div>
                         </el-col>

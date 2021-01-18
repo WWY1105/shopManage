@@ -121,7 +121,12 @@
                     <p>{{scope.row.self?'可以':'不可以'}}</p>
                 </template>
             </el-table-column>
-            <el-table-column prop="createTime" label="排序"> </el-table-column>
+            <el-table-column prop="createTime" label="排序">
+                 <div class="flexCenter sortBox">
+                        <i class="el-icon-arrow-up" @click="val=>toUporDown(val,scope.row.id,'sy')"></i>
+                        <i class="el-icon-arrow-down" @click="val=>toUporDown(val,scope.row.id,'xy')"></i>
+                    </div>
+            </el-table-column>
             <el-table-column label="其他" width="150px">
                 <template slot-scope="scope">
                     <div class="flexSpace otherCtr">
@@ -223,6 +228,9 @@
             <el-button type="primary" @click="confirmDelete">确 定</el-button>
         </span>
     </el-dialog>
+
+    <!-- 删除的确认弹窗 -->
+    <deleteDialog title="确定删除此商品?" :deleteVisible="deleteVisible" />
 </div>
 </template>
 
@@ -233,10 +241,17 @@ import {
     submitRule,
     goodCategory
 } from '../../../api/sales/togetherDiscount'
+import deleteDialog from '../../../components/deleteDialig'
+
+import {
+    upOrDown
+} from '../../../api/goods/index'
 export default {
-    components: {},
+    components: {deleteDialog},
     data() {
         return {
+            targetId: '',
+            deleteVisible: false, //确认删除的弹窗
             saleData:{},
             deleteDiscountVisible: false,
             deleteDiscountId: '',
@@ -302,7 +317,17 @@ export default {
             }
         },
         //    模块开关----end
-
+  // 上移或者下移
+        toUporDown(val, id, type) {
+            let that = this;
+            upOrDown(id, {
+                type
+            }).then(res => {
+                if (res.code == '00') {
+                    that.getList()
+                }
+            })
+        },
         // 获取列表
         getList() {
             let that = this;
@@ -440,6 +465,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+ // 排序
+    .sortBox {
+        i {
+            color: #7F7F7F;
+            width: 23px;
+            height: 23px;
+            border: 1px solid #7F7F7F;
+            text-align: center;
+            line-height: 23px;
+            margin: 0 5px;
+            min-width: 23px;
+        }
+    }
 .el-button.transBtn {
     padding: 11px 0;
     font-size: 16px;
