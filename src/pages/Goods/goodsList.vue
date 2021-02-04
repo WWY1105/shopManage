@@ -25,17 +25,20 @@
                         </el-form-item>
                     </div>
                 </el-col>
-                <el-col :span="3" :offset="15">
-                    <el-form-item>
-                        <el-button class="searchBtn" @click="categoryVisible=true">分类管理</el-button>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="3">
-                    <router-link :to="{name:'addGoods'}" class="grid-content bg-purple">
+                <el-col :span="6" :offset="15">
+                    <div class="flexEnd">
                         <el-form-item>
-                            <el-button class="searchBtn">新增</el-button>
+                            <el-button class="searchBtn" @click="categoryVisible=true">分类管理</el-button>
                         </el-form-item>
-                    </router-link>
+
+                        <!-- </el-col>
+                <el-col :span="3"> -->
+                        <router-link :to="{name:'addGoods'}" class="grid-content bg-purple">
+                            <el-form-item>
+                                <el-button class="searchBtn">新增</el-button>
+                            </el-form-item>
+                        </router-link>
+                    </div>
                 </el-col>
             </el-row>
         </el-form>
@@ -111,7 +114,7 @@
                         </div>
                     </el-col>
                     <el-col :span="3">
-                        <div class="grid-content bg-purple">
+                        <div class="grid-content bg-purple flexEnd">
                             <el-form-item>
                                 <el-button type="primary" @click="getList">查询</el-button>
                             </el-form-item>
@@ -124,7 +127,7 @@
 
     <div class="tableBox bgf">
         <el-table stripe :data="tableData" border style="width: 100%" fit>
-            <el-table-column align="center" prop="id" label="ID" >
+            <el-table-column align="center" prop="id" label="ID">
             </el-table-column>
             <el-table-column align="center" prop="name" label="主图" width="120">
                 <template slot-scope="scope">
@@ -160,7 +163,9 @@
             <el-table-column align="center" prop="expPrice" label="运费">
             </el-table-column>
             <el-table-column align="center" prop="address" label="营销">
-               <template slot-scope="scope"><p>{{scope.row.sellType|sellTypeFilter}}</p></template>
+                <template slot-scope="scope">
+                    <p>{{scope.row.sellType|sellTypeFilter}}</p>
+                </template>
             </el-table-column>
             <el-table-column align="center" label="上下架">
                 <template slot-scope="scope">
@@ -243,7 +248,9 @@ import {
     setShelf,
     upOrDown
 } from '../../api/goods/index';
-import {orderTypeOptions } from '../../utils/jsons'
+import {
+    orderTypeOptions
+} from '../../utils/jsons'
 let that;
 export default {
     components: {
@@ -302,7 +309,7 @@ export default {
             let name = that.getDepById(that.categoryList, val)
             return name;
         },
-        sellTypeFilter(val){
+        sellTypeFilter(val) {
             let name;
             val = val.trim()
             orderTypeOptions.map(i => {
@@ -315,9 +322,11 @@ export default {
     },
     methods: {
         // 上移或者下移
-        toUporDown(val,id,type){
-             let that=this;
-            upOrDown(id,{type}).then(res => {
+        toUporDown(val, id, type) {
+            let that = this;
+            upOrDown(id, {
+                type
+            }).then(res => {
                 if (res.code == '00') {
                     that.getList()
                 }
@@ -337,7 +346,7 @@ export default {
         },
         // 下线
         setShelfFn(val, id, shelf) {
-           
+
             setShelf(id, {
                 shelf
             }).then(res => {
@@ -592,19 +601,20 @@ export default {
 // 排序
 .sortBox {
     i {
-    color: #7F7F7F;
-    width: 23px;
-    height: 23px;
-    border: 1px solid #7F7F7F;
-    text-align: center;
-    line-height: 23px;
-    margin: 0 5px;
-    min-width: 23px;
-}
+        color: #7F7F7F;
+        width: 23px;
+        height: 23px;
+        border: 1px solid #7F7F7F;
+        text-align: center;
+        line-height: 23px;
+        margin: 0 5px;
+        min-width: 23px;
     }
-.mainPic{
+}
+
+.mainPic {
     width: 80px;
-height: 80px;
+    height: 80px;
 }
 
 .categoryDialog .el-dialog {

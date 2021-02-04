@@ -9,7 +9,7 @@
                     <el-input placeholder="账户" v-model="username"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-input placeholder="密码" show-password v-model="password" @change="onSubmit"></el-input>
+                    <el-input placeholder="密码" show-password v-model="password" ></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-button class="searchBtn loginBtn" @click="onSubmit">登陆</el-button>

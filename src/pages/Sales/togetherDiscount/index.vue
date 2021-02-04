@@ -2,19 +2,19 @@
 <template>
 <div class="coupon">
     <div class="searchBox bgf">
-        <el-form label-position="top" :inline="true" :model="formInline" class="demo-form-inline">
+        <el-form label-position="top" :inline="true" class="demo-form-inline">
             <el-row :gutter="20" type="flex" justify="space-between" align="bottom">
                 <el-col :span="18">
-                    <el-row :gutter="20" type="flex" justify="start" align="bottom">
+                    <el-row :gutter="20" type="flex" justify="start" align="center">
                         <el-col :span="6">
                             <div class="grid-content bg-purple">
                                 <el-form-item label="同行优惠模块开关">
-                                     <el-switch @change="saveDataFn" size="large" v-model="saleData.txyh" active-color="#00B0F0" inactive-color="#aaaaaa">
-                        </el-switch>
+                                    <el-switch @change="saveDataFn" size="large" v-model="saleData.txyh" active-color="#00B0F0" inactive-color="#aaaaaa">
+                                    </el-switch>
                                 </el-form-item>
                             </div>
                         </el-col>
-                        <el-col :span="18">
+                        <el-col :span="6">
                             <el-form-item label="同行优惠规则：">
                                 <el-button class="searchBtn" @click="ruleVisible=true">
                                     {{rule&&rule.personCount?rule.personCount+'人同行'+rule.freeCount+'免单':'点击输入同行优惠规则'}}
@@ -22,15 +22,20 @@
                                 </el-button>
                             </el-form-item>
                         </el-col>
+                        <el-col :span="12" class="flexStart">
+                            <!-- <el-form-item> -->
+                                <p class="dangerTips"> 本模块仅包含同行优惠商品，全部商品请至商品管理模块查看</p>
+                            <!-- </el-form-item> -->
+                        </el-col>
                     </el-row>
                 </el-col>
                 <el-col :span="6">
                     <el-row :gutter="20" type="flex" justify="end" align="bottom">
-                        <div class="grid-content bg-purple">
+                        <router-link :to="{name:'addGoods'}" class="grid-content bg-purple">
                             <el-form-item>
-                                <el-button class="searchBtn" @click="showAddCoupon">+新增</el-button>
+                                <el-button class="searchBtn">+新增</el-button>
                             </el-form-item>
-                        </div>
+                        </router-link>
                     </el-row>
                 </el-col>
             </el-row>
@@ -122,17 +127,18 @@
                 </template>
             </el-table-column>
             <el-table-column prop="createTime" label="排序">
-                 <div class="flexCenter sortBox">
-                        <i class="el-icon-arrow-up" @click="val=>toUporDown(val,scope.row.id,'sy')"></i>
-                        <i class="el-icon-arrow-down" @click="val=>toUporDown(val,scope.row.id,'xy')"></i>
-                    </div>
+                <div class="flexCenter sortBox">
+                    <i class="el-icon-arrow-up" @click="val=>toUporDown(val,scope.row.id,'sy')"></i>
+                    <i class="el-icon-arrow-down" @click="val=>toUporDown(val,scope.row.id,'xy')"></i>
+                </div>
             </el-table-column>
             <el-table-column label="其他" width="150px">
                 <template slot-scope="scope">
-                    <div class="flexSpace otherCtr">
-                        <p class="edit " @click="value=>editCouponFn(scope.$index,value)">修改</p>
-                        <p class="give" @click="value=>giveCoupon(scope.row.id,value)">赠送</p>
-                        <p class="delete" @click="value=>deleteCouponFn(scope.row.id,value)">删除</p>
+                    <div class="controlBox flexCenter">
+                        <router-link class="editBtn" :to="{path:'/goods/editGoods',query:{id:scope.row.id}}">
+                            编辑
+                        </router-link>
+                        <div class="deleteBtn" @click="val=>{showDeleteDialog(val,scope.row.id)}">删除</div>
                     </div>
                 </template>
             </el-table-column>
@@ -151,84 +157,6 @@
         </span>
     </el-dialog>
 
-    <!-- 创建优惠券： -->
-    <el-dialog title="创建优惠券：" center :visible.sync="addRuleVisible" class="couponDialog">
-        <div class="dialogContent">
-            <el-form :inline="true" :label-position="labelPosition" label-width="140px" :model="newDiscount">
-                <el-form-item label="优惠券名称：">
-                    <el-input v-model="newDiscount.name"></el-input>
-                </el-form-item>
-                <el-form-item label="优惠券面额：">
-                    <el-input v-model="newDiscount.price"></el-input>
-                </el-form-item>
-                <el-form-item label="满足使用金额：">
-                    <el-input v-model="newDiscount.fullPrice"></el-input>
-                </el-form-item>
-                <el-form-item>
-                    <div slot="label">
-                        <p>类型限制：</p>
-                        <p class="labelTips">不设置分类代表全场通用</p>
-                    </div>
-                    <div class=" flexColumn flexStart alignStart">
-                        <div class="categorySelect categorySelect1">
-                            <el-select @change="categoriesChange" v-model="newDiscount.categoryId1" placeholder="一级分类">
-                                <el-option v-for="(i,j) in categories" :value="i.id" :key="j" :label="i.name"></el-option>
-                            </el-select>
-                        </div>
-                        <div class="categorySelect">
-                            <el-select v-model="newDiscount.categoryId2" placeholder="二级分类">
-                                <el-option v-for="(i,j) in categories2" :value="i.id" :key="j" :label="i.name"></el-option>
-                            </el-select>
-                        </div>
-                    </div>
-                </el-form-item>
-                <el-form-item>
-                    <div slot="label">
-                        <p>总数量：</p>
-                        <p class="labelTips">输入0代表无限</p>
-                    </div>
-                    <el-input v-model="newDiscount.totalCount"></el-input>
-                </el-form-item>
-                <el-form-item>
-                    <div slot="label">
-                        <p>有效期：</p>
-                        <p class="labelTips">
-                            不设置代表无限
-                        </p>
-                    </div>
-                    <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss" v-model="newDiscount.expireDate" type="datetime" placeholder="有效期">
-                    </el-date-picker>
-                </el-form-item>
-                <el-form-item>
-                    <div slot="label">
-                        <p>能否领取：</p>
-                        <p class="labelTips">
-                            能否在商品优惠
-                            中领取使用
-                        </p>
-                    </div>
-                    <el-select v-model="newDiscount.shelf" placeholder="能否领取">
-                        <el-option label="是" value="true"></el-option>
-                        <el-option label="否" value="false"></el-option>
-                    </el-select>
-                </el-form-item>
-            </el-form>
-        </div>
-        <span slot="footer" class="dialog-footer flexCenter flexColumn">
-            <el-button type="primary" @click="addCoupon">确 定</el-button>
-            <el-button @click="addRuleVisible = false">取 消</el-button>
-        </span>
-    </el-dialog>
-
-    <!-- 删除的提示框 -->
-    <el-dialog title="提示" center :visible.sync="deleteDiscountVisible" width="30%">
-        <span class="flexCenter">是否删除优惠券</span>
-        <span slot="footer" class="dialog-footer">
-            <el-button @click="deleteDiscountVisible = false">取 消</el-button>
-            <el-button type="primary" @click="confirmDelete">确 定</el-button>
-        </span>
-    </el-dialog>
-
     <!-- 删除的确认弹窗 -->
     <deleteDialog title="确定删除此商品?" :deleteVisible="deleteVisible" />
 </div>
@@ -236,51 +164,35 @@
 
 <script>
 import {
-    list,
     getRule,
-    submitRule,
-    goodCategory
+    submitRule
 } from '../../../api/sales/togetherDiscount'
 import deleteDialog from '../../../components/deleteDialig'
-
 import {
+    list,
+    getCategory,
+    deleteData,
+    setShelf,
     upOrDown
-} from '../../../api/goods/index'
+} from '../../../api/goods/index.js';
+import {isEmpty} from '../../../utils/common'
 export default {
-    components: {deleteDialog},
+    components: {
+        deleteDialog
+    },
     data() {
         return {
             targetId: '',
             deleteVisible: false, //确认删除的弹窗
-            saleData:{},
-            deleteDiscountVisible: false,
-            deleteDiscountId: '',
-            labelPosition: 'left',
-            newDiscount: {},
+            saleData: {},
             value: false,
             addRuleVisible: false,
             ruleVisible: false,
-            panelDatas: [{
-                name: '赠送张数',
-                num: 0
-            }, {
-                name: '使用张数',
-                num: 0
-            }, {
-                name: '赠送金额',
-                num: 0
-            }, {
-                name: '使用金额',
-                num: 0
-            }],
-            formInline: {},
-            formInline1: {},
             tableData: [],
-            couponList: [],
             categories: [],
             categories2: [], //子类型
             json: {
-                sellType:'yhtx',
+                sellType: 'yhtx',
                 pageNum: 1,
                 pageSize: 30
             },
@@ -290,7 +202,39 @@ export default {
     computed: {},
     watch: {},
     methods: {
-           //    模块开关-----start
+        // 删除的弹窗
+        showDeleteDialog(val, id) {
+            this.deleteVisible = true;
+            this.targetId = id;
+            console.log(val)
+        },
+        // 下线
+        setShelfFn(val, id, shelf) {
+
+            setShelf(id, {
+                shelf
+            }).then(res => {
+                if (res.code == '00') {
+                    that.getList()
+                }
+            })
+        },
+        confirmDelete() {
+            let that = this;
+            deleteData(this.targetId).then(res => {
+                if (res.code == '00') {
+                    that.deleteVisible = false;
+                    that.$message({
+                        showClose: true,
+                        message: '删除成功',
+                        duration: 2 * 1000,
+                        type: 'success'
+                    })
+                    that.getList()
+                }
+            })
+        },
+        //    模块开关-----start
         saveDataFn() {
             let that = this;
             let json = this.saleData;
@@ -317,7 +261,7 @@ export default {
             }
         },
         //    模块开关----end
-  // 上移或者下移
+        // 上移或者下移
         toUporDown(val, id, type) {
             let that = this;
             upOrDown(id, {
@@ -351,6 +295,12 @@ export default {
         submitRuleFn() {
             let that = this;
             delete this.rule.businessId;
+            if(!isEmpty(this.rule.personCount,'同行人数')){
+                return;
+            }
+             if(!isEmpty(this.rule.freeCount,'免单人数')){
+                return;
+            }
             submitRule(this.rule).then(res => {
                 if (res.code == '00') {
                     that.$message({
@@ -364,50 +314,7 @@ export default {
                 }
             })
         },
-        showAddCoupon() {
-            this.addRuleVisible = true;
-            goodCategory({}).then(res => {
-                if (res.code == '00') {
-                    this.categories = res.data;
-                }
-            })
-        },
-        // 添加券
-        addCoupon() {
-            console.log(this.newDiscount)
-            let that = this;
-            if (this.newDiscount.id) {
-                let id = this.newDiscount.id;
-                delete this.newDiscount.id;
-                delete this.newDiscount.businessId;
-                editCoupone(this.newDiscount, id).then(res => {
-                    if (res.code == '00') {
-                        that.$message({
-                            showClose: true,
-                            message: '修改成功',
-                            duration: 3 * 1000,
-                            type: 'success'
-                        })
 
-                    }
-                })
-            } else {
-                submitCoupone(this.newDiscount).then(res => {
-                    if (res.code == '00') {
-                        that.$message({
-                            showClose: true,
-                            message: '添加成功',
-                            duration: 3 * 1000,
-                            type: 'success'
-                        })
-                    }
-                })
-            }
-            this.addRuleVisible = false;
-            this.getList();
-            this.newDiscount = {}
-
-        },
         // 一级分类改变获取二级分类
         categoriesChange(e) {
             console.log('改变');
@@ -419,33 +326,6 @@ export default {
                 }
             })
         },
-        editCouponFn(index) {
-            this.addRuleVisible = true;
-            this.newDiscount = this.tableData[index];
-
-        },
-        giveCoupon() {},
-        deleteCouponFn(id) {
-            let that = this;
-            this.deleteCouponVisible = true;
-            this.deleteCouponId = id;
-        },
-        confirmDelete() {
-            if (this.deleteCouponId) {
-                deleteCoupon(this.deleteCouponId).then(res => {
-                    if (res.code == '00') {
-                        that.$message({
-                            showClose: true,
-                            message: '删除成功',
-                            duration: 3 * 1000,
-                            type: 'success'
-                        })
-
-                        this.getList()
-                    }
-                })
-            }
-        }
 
     },
     created() {
@@ -465,19 +345,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
- // 排序
-    .sortBox {
-        i {
-            color: #7F7F7F;
-            width: 23px;
-            height: 23px;
-            border: 1px solid #7F7F7F;
-            text-align: center;
-            line-height: 23px;
-            margin: 0 5px;
-            min-width: 23px;
-        }
+// 排序
+.sortBox {
+    i {
+        color: #7F7F7F;
+        width: 23px;
+        height: 23px;
+        border: 1px solid #7F7F7F;
+        text-align: center;
+        line-height: 23px;
+        margin: 0 5px;
+        min-width: 23px;
     }
+}
+
 .el-button.transBtn {
     padding: 11px 0;
     font-size: 16px;
@@ -486,8 +367,6 @@ export default {
 .searchBox {
     padding: 28px 33px;
 }
-
-
 
 .tableBox {
     padding: 0 33px 30px;
@@ -550,5 +429,11 @@ export default {
         color: #FF4141;
         text-decoration: underline;
     }
+}
+
+.dangerTips {
+    font-size: 16px;
+    font-weight: 400;
+    color: #FF3636;
 }
 </style>

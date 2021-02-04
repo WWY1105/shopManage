@@ -14,6 +14,7 @@ Vue.use(VueRouter)
 
 import echarts from "echarts";
 Vue.prototype.$echarts = echarts;
+
 Vue.prototype.$uploadApi=process.env.BASE_API+'/api/business/tencent/oss?access_token=' + getToken();
 Vue.prototype.$downloadFileApi=process.env.BASE_API+'/api/business';
 
@@ -24,17 +25,16 @@ import '@/theme/index.css'
 
 // 样式--end
 
-import Routes from '@/router/index.js';
+import router from '@/router/index.js';
 
-
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 // 图片前缀
 Vue.prototype.$imgurl=process.env.IMG_URL;
 console.log(process.env.IMG_URL);
 
-const router = new VueRouter({
-  routes: Routes,
-  mode: "hash"
-})
 
 import store from './store'
 console.log(store)

@@ -15,7 +15,7 @@
     <div class="tableBox">
         <el-form label-position="top" :inline="true"  class="demo-form-inline">
             <el-row :gutter="16" type="flex" justify="space-between" align="bottom">
-                <el-col :span="20">
+                <el-col :span="18">
                     <el-row :gutter="20" type="flex" justify="space-between" align="bottom">
                         <el-col :span="6">
                             <el-form-item label="订单状态">
@@ -39,17 +39,19 @@
                         </el-col>
                     </el-row>
                 </el-col>
-                <el-col :span="8">
+                <el-col :span="6">
+                      <div class="flexEnd">
                     <el-form-item>
-                        <div class="flexCenter">
+                         <div class="flexEnd">
                             <el-upload class="upload-demo" ref="upload" :action="$downloadFileApi+'/order/import?access_token='+token" :show-file-list="false">
                                 <el-button class="transBtn">导入电子表格</el-button>
                             </el-upload>
                             <el-button class="transBtn">
                                 <a :href="$downloadFileApi+'/order/export?access_token='+token" target="_blank">导出电子表格</a>
                             </el-button>
-                        </div>
+                         </div>
                     </el-form-item>
+                      </div>
                 </el-col>
             </el-row>
         </el-form>

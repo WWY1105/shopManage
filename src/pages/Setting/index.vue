@@ -88,7 +88,7 @@ export default {
                 line-height: 32px;
                 width: 100%;
                 color: #000;
-
+               
                 img {
                     width: 110px;
                     height: 110px;

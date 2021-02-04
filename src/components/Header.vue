@@ -39,16 +39,13 @@
                 <div class="content flexCenter">
                     <img v-if="user.avatar" class="user" :src="$imgurl+user.avatar" alt="">
                     <img v-else src="../assets/images/header/user.png" />
-                    <span class="userName">{{loginUser&&loginUser.name?loginUser.name:'未登录'}}</span>
+                    <span class="userName">{{user&&user.name?user.name:'未登录'}}</span>
                     <i class="el-icon-arrow-down el-icon--right"></i>
                 </div>
             </span>
             <div class="userBox">
-                <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item 
-                    :command="i.id" 
-                    v-for="(i,j) in user.branch" 
-                    :key="j">{{i.name}}</el-dropdown-item>
+                <el-dropdown-menu slot="dropdown" class="userDroupDown">
+                    <el-dropdown-item :command="i.id" v-for="(i,j) in user.branch" :key="j">{{i.name}}</el-dropdown-item>
                     <!-- <el-dropdown-item>分店分店</el-dropdown-item> -->
                     <el-dropdown-item class="noBorder">
                         <p class="logoutText" @click="LogOut">退出登陆</p>
@@ -71,10 +68,10 @@ export default {
     components: {},
     data() {
         return {
-            // user: false
+
         };
     },
-    props:['user'],
+    props: ['user'],
     computed: {},
     watch: {},
     methods: {
@@ -106,28 +103,13 @@ export default {
 
     },
     computed: {
-        loginUser() {
-
-            return this.user;
-        }
+        // loginUser() {
+        //     return this.user;
+        // }
     },
     mounted() {
-        // let state = {
-        //     ...this.$store.state
-        // };
-        // this.user = state.user ? state.user : {};
-        // if (!this.user.name) {
-        //     this.$store.dispatch('GetInfo').then((res) => {
-
-        //     })
-        // }
-        // if (!this.user.branch || this.user.branch.length <= 0) {
-        //     this.$store.dispatch('Branch').then((res) => {
-        //         this.user.branch = res.data;
-        //     })
-        // }else{
-        //     console.log('有店铺')
-        // }
+        console.log('头部获取')
+        console.log(this.user)
     },
     beforeCreate() {}, //生命周期 - 创建之前
     beforeMount() {}, //生命周期 - 挂载之前
@@ -199,36 +181,42 @@ export default {
     }
 }
 
-// /deep/ .userBox {
-     .el-dropdown-menu {
+.userDroupDown {
+   &.el-dropdown-menu {
         width: 304px;
         text-align: left;
-        top: 80px!important;
+        top: 80px !important;
         right: 0 !important;
         left: unset !important;
-        // padding: 0 24px;
         box-sizing: border-box;
         padding-left: 24px;
-      
-    }
-      /deep/ .el-dropdown-menu__item {
-            height: 60px;
-            border-bottom: 1px solid #E6E6E6;
-            line-height: 60px;
-            color: #3C3C3C;
-            font-size: 14px;
-            padding-left: 0;
-            &.noBorder{
-                border:none
-            }
-            &:hover {
-                background-color: #fff;
-            }
 
-            .logoutText {
-                color: #FF1A1A;
-                line-height: 60px;
-            }
+    }
+
+  
+
+    /deep/ .el-dropdown-menu__item {
+        height: 60px;
+        border-bottom: 1px solid #E6E6E6;
+        line-height: 60px;
+        color: #3C3C3C;
+        font-size: 14px;
+        padding-left: 0;
+
+        &.noBorder {
+            border: none
         }
-// }
+
+        &:hover {
+            background-color: #fff;
+        }
+
+        .logoutText {
+            color: #FF1A1A;
+            line-height: 60px;
+        }
+    }
+
+   
+}
 </style>

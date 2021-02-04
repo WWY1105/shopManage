@@ -1,5 +1,4 @@
 'use strict'
-'use strict'
 
 const config = require('./api')
 

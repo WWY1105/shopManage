@@ -153,11 +153,8 @@
 import 'echarts/lib/chart/line'
 import {
     getNewUserCount,
-    getProductCount,
-    getProductReturnCount,
-    getUserCount,
-    getXfUser
-} from '../../api/statistics/custom'
+    getUserCount
+} from '../../api/statistics/custom.js'
 
 import {
     orderTypeOptions

@@ -290,6 +290,7 @@ export default {
         flex-wrap: wrap;
 
         .addShop {
+               min-width: 448px;
             background: #F4F4F4;
             width: 406px;
             max-width: 406px;
@@ -314,7 +315,7 @@ export default {
             width: 406px;
             padding: 26px 36px 46px;
             box-sizing: border-box;
-
+             min-width: 448px;
             .logoBox {
                 width: 100%;
                 position: relative;

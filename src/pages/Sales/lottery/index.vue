@@ -44,6 +44,21 @@
         </div>
 
     </div>
+    <div class="partTitle">活动说明???</div>
+    <div class="explainBox bgf">
+        <div class="contentBox flexSpace flexColumn">
+            <p>
+                加入会员，每日可抽奖一次。
+                兑奖请关注微信公众号，发送“朋友圈分享截图＋手机号”，即可领取奖品。
+                活动时间：2019-12-1至2020-02-01
+                奖品统一到店领取；
+                活动最终解释权归****所有。
+            </p>
+            <div class="btns flexStart">
+                <i class="editIcon el-icon-edit-outline" @click="val=>showExplaindFn(val,i)"></i>
+            </div>
+        </div>
+    </div>
     <div class="partTitle">奖品设定（最多8种奖品）</div>
     <div class="prizeBox bgf">
         <el-row :gutter="30" type="flex" justify="start">
@@ -171,7 +186,7 @@
     <!-- 抽奖规则 -->
     <el-dialog title="抽奖规则 " center :visible.sync="editDialogShow" width="600px" class="prizeDialog">
         <div class="dialogContent ">
-            <el-form label-width="100px" label-position="left" :inline="true">
+            <el-form label-width="100px" label-position="left" :inline="true" >
                 <el-form-item label="用户群">
                     <el-select v-model="editRule.userGroup" placeholder="用户群">
                         <el-option v-for="(i,j) in groupList" :value="i.value" :label="i.text" :key="j"></el-option>
@@ -186,6 +201,17 @@
                 <el-button class="btn cancelBtn transBtn" @click="editDialogShow = false">取 消</el-button>
             </span>
         </div>
+    </el-dialog>
+    <!-- 活动说明 -->
+    <el-dialog title="活动说明 " center :visible.sync="showExplaind" width="600px" class="prizeDialog">
+        <div class="dialogContent ">
+            <el-input type="textarea" rows="10"></el-input>
+            <span slot="footer" class="dialog-footer flexCenter flexColumn">
+                <el-button class="searchBtn btn" type="primary" @click="saveRuleFn">确 定</el-button>
+                <el-button class="btn cancelBtn transBtn" @click="editDialogShow = false">取 消</el-button>
+            </span>
+        </div>
+
     </el-dialog>
 </div>
 </template>
@@ -211,7 +237,7 @@ export default {
     data() {
         //这里存放数据
         return {
-            editRule:{},
+            editRule: {},
             groupList: customType,
             editDialogShow: false,
             labelPosition: 'left',
@@ -246,7 +272,8 @@ export default {
             },
             prize: {},
             rule: {},
-            couponList: []
+            couponList: [],
+            showExplaind: false
         };
     },
     //监听属性 类似于data概念
@@ -255,6 +282,12 @@ export default {
     watch: {},
     //方法集合
     methods: {
+        showExplaindFn() {
+            this.showExplaind = true;
+        },
+        editExplaindFn() {
+
+        },
         //    模块开关-----start
         saveSaleDataFn() {
             let that = this;
@@ -390,7 +423,7 @@ export default {
         },
         // 保存抽奖规则
         saveRuleFn() {
-            let that=this;
+            let that = this;
             saveRule(this.editRule).then(res => {
                 if (res.code == '00') {
                     that.$message({
@@ -399,7 +432,7 @@ export default {
                         duration: 3 * 1000,
                         type: 'success'
                     })
-                    that.editDialogShow=false;
+                    that.editDialogShow = false;
                     that.getRuleFn()
 
                 }
@@ -503,6 +536,32 @@ export default {
     border: 1px solid #C7C7C7;
     margin-top: 20px;
     padding: 36px 34px;
+}
+
+.explainBox {
+    padding: 52px 68px;
+    .contentBox {
+        align-items: flex-start;
+        width: 856px;
+        height: 210px;
+        background: #F4F4F4;
+        border-radius: 10px;
+        padding:23px 30px;
+        box-sizing: border-box;
+        p{
+            line-height: 22px;
+        }
+    }
+     .btns {
+            font-size: 24px;
+            font-weight: bold;
+            color: #FF5B5B;
+
+            .editIcon {
+                margin-right: 36px;
+                color: #00B0F0;
+            }
+        }
 }
 
 .prizeBox {

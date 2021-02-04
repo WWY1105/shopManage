@@ -3,7 +3,7 @@ import { Message } from 'element-ui'
 import store from '../store'
 import { getToken } from '@/utils/auth';
 import Vue from 'vue'
-
+import router from '@/router'
 
 const service = axios.create({
     baseURL: process.env.BASE_API,
@@ -25,6 +25,11 @@ service.interceptors.request.use(config => {
             config.headers['Authorization'] = 'Bearer ' + getToken()
         }else{
             // alert('没有token')
+            const [,...p]=window.location.href.split('/#/');
+        
+            if(p!='login'){
+                router.push({path:'/login'})
+            }
         }
     }
 

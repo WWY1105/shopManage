@@ -1,4 +1,4 @@
-import { login, getInfo,branch } from '@/api/login'
+import { login, getInfo ,branch} from '@/api/login'
 
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { Message } from 'element-ui'
@@ -32,7 +32,7 @@ const user = {
       return new Promise((resolve, reject) => {
         branch({}).then(response => {
           console.log(response)
-          commit('SET_BRANCH', '');
+          commit('SET_BRANCH', response.data);
           resolve(response)
         })
       

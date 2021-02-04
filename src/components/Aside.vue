@@ -70,7 +70,7 @@ export default {
             }, {
                 title: '营销中心',
                 path: '/sales',
-                icon:''
+                icon:'yingxiao'
             }, {
                 title: '评价管理',
                 path: '/comment',

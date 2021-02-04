@@ -1,7 +1,11 @@
 'use strict'
-const apiUrl = require('./api')
+const config = require('./api')
 
-module.exports = {
+
+
+module.exports =  {
   NODE_ENV: '"production"',
-  BASE_API : apiUrl
+  BASE_API : config.apiUrl,
+  BASE_TOKEN:config.baseToken,
+  IMG_URL:config.imgUrl
 }

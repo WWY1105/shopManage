@@ -2,13 +2,7 @@
 import request from '@/utils/request'
 
 
-export function list(json){
-    return request({
-        url:"/product/page",
-        method:'get',
-        params:json
-    })
-}
+
 
 export function getRule(json){
     return request({

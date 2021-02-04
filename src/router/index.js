@@ -1,31 +1,19 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-
-// 商铺
-import Shops from '@/pages/Shops/index'
-
-// 商品
 import Goods from '@/pages/Goods/index'
-
-
-// 客户
-import Customs from '@/pages/Customs/index'
-
-// 直播
 import Live from '@/pages/Live/index'
-
-
-// 营销
+import Custom from '@/pages/Customs/index'
 import Sales from '@/pages/Sales/index'
-
-// 评价
 import Comment from '@/pages/Comment/index'
-
+import Advice from  '@/pages/Advice/advice.vue'
+import Class from '@/pages/Class/index.vue'
 // 极星联盟
 
 Vue.use(Router)
-let routes = [
+export default new Router({
+  mode: 'hash',
+  routes: [
   {
     path: '/',
     name: 'Index',
@@ -49,7 +37,7 @@ let routes = [
       }, {
         path: '/advice',
         name: 'Advice',
-        component: () => import('@/pages/Advice/advice.vue'),
+        component: Advice,
         meta: {
           title: "客户建议"
         }
@@ -63,7 +51,7 @@ let routes = [
       }, {
         path: '/class',
         name: 'class',
-        component: () => import('@/pages/Class/index.vue'),
+        component: Class,
         meta: {
           title: "极星课堂"
         }
@@ -75,10 +63,15 @@ let routes = [
         meta: {
           title: "订单管理"
         }
-      }, {
+      },
+      
+      
+      
+      
+      {
         path: '/',
         name: 'Shops',
-        component: Shops,
+        component: ()=>import('@/pages/Shops/index'),
         children: [
           {
             path: '/shops',
@@ -150,7 +143,7 @@ let routes = [
       }, {
         path: '/customs',
         name: 'Customs',
-        component: Customs,
+        component: Custom,
         meta: {
           title: "客户管理"
         }
@@ -359,19 +352,6 @@ let routes = [
             title: "星秒联盟"
           }
         }
-          // , {
-          //   name: '联盟介绍',
-          //   path: '/union/introduce',
-          //   component: () => import('@/pages/Union/introduce.vue'),
-          // }, {
-          //   name: '星秒订单',
-          //   path: '/union/order',
-          //   component: () => import('@/pages/Union/order.vue'),
-          // }, {
-          //   name: '星秒商品',
-          //   path: '/union/goods',
-          //   component: () => import('@/pages/Union/goods.vue'),
-          // }
         ]
       }]
   }, {
@@ -397,4 +377,4 @@ let routes = [
     }
   }
 ]
-export default routes;
+})
