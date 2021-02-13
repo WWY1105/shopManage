@@ -139,7 +139,7 @@ export default {
 
         .title {
             color: #FF2A2A;
-            font-size: 22px;
+            font-size: 20px;
             margin-bottom: 115px;
             margin-top: 150px;
         }

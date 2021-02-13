@@ -65,14 +65,14 @@ export default {
         box-sizing: border-box;
 
         .chTitle {
-            font-size: 32px;
+            font-size: 30px;
             font-weight: bold;
             color: #0091C6;
             margin-bottom: 10px;
         }
 
         .enTitle {
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 400;
             color: #0091C6;
         }
@@ -87,7 +87,7 @@ export default {
                 background: #F4F4F4;
                 border-radius: 10px;
                 color: #757575;
-                font-size: 18px;
+                font-size: 16px;
                 padding: 26px 33px 26px 18px;
                 margin-bottom: 20px;
                 line-height: 22px;

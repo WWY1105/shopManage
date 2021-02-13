@@ -150,7 +150,7 @@ export default {
     /deep/ .el-form-item__label {
         line-height: 60px;
         color: #545454;
-        font-size: 16px;
+        font-size: 14px;
         padding-right: 23px;
     }
 
@@ -173,7 +173,7 @@ export default {
         border: none !important;
         text-align: center;
         color: #000;
-        font-size: 16px;
+        font-size: 14px;
         height: 60px;
         padding-right: 30px;
 
@@ -197,7 +197,7 @@ export default {
 
         .editText {
             color: #00B0F0;
-            font-size: 16px;
+            font-size: 14px;
             margin-bottom: 30px;
             cursor: pointer;
 
@@ -217,7 +217,7 @@ export default {
         width: 200px;
         height: 60px;
         border-radius: 30px;
-        font-size: 22px;
+        font-size: 20px;
     }
 }
 .locateIocn{

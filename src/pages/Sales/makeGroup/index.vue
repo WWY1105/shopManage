@@ -304,7 +304,7 @@ export default {
     padding: 48px 24px;
 
     .dangerTips {
-        font-size: 16px;
+        font-size: 14px;
         font-weight: 400;
         color: #FF3636;
     }

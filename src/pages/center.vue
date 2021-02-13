@@ -355,7 +355,7 @@ export default {
 
     .tabBox {
         margin-bottom: 46px;
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 400;
         color: #000000;
         line-height: 28px;
@@ -371,7 +371,7 @@ export default {
         .eachData {
             text-align: center;
             border-right: 1px solid #B9B9B9;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 400;
             color: #000000;
             width: 16.6%;
@@ -385,7 +385,7 @@ export default {
             }
 
             .num {
-                font-size: 28px;
+                font-size: 24px;
                 font-weight: bold;
 
                 margin-bottom: 25px;
@@ -424,7 +424,7 @@ export default {
     .eachSearch {
         word-break: keep-all;
         color: #797979;
-        font-size: 16px;
+        font-size: 14px;
         margin-left: 10px;
         cursor: pointer;
         text-decoration: underline;
@@ -440,7 +440,7 @@ export default {
 .currentShop {
     padding: 30px 40px;
     color: #00B0F0;
-    font-size: 24px;
+    font-size: 22px;
    margin-bottom: 20px;
     img {
         width: 60px;

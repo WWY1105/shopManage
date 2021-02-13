@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="asliderBox">
     <div class="logo flexCenter">
         <img src="../assets/images/logo.png" alt="">
     </div>
@@ -9,7 +9,7 @@
                 <template slot="title">
                     <div class="menuContent">
                         <img :src="item.icon" alt="">
-                        <span slot="title">{{item.title}}</span>
+                        <span slot="title" style=" margin-left:10px;">{{item.title}}</span>
                     </div>
                 </template>
             </el-menu-item>
@@ -128,6 +128,12 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style lang="scss" scoped>
+::-webkit-scrollbar{
+    display:none;
+}
+.asliderBox{
+    max-height:100vh;overflow-y:scroll;position:fixed;left: 0;top:0;width: 220px;
+}
 .el-submenu {
     /deep/ .el-menu {
         background-color: #0C2332 !important;
@@ -142,16 +148,21 @@ export default {
     }
 }
 
-.el-menu {
+ /deep/  .el-menu {
 
     border: none;
 
-    .menuContent {
+   /deep/ .menuContent {
         border-bottom: 1px solid #1A3F56;
-        height: 89px;
-        line-height: 90px;
+        height: 75px;
+        line-height: 75px;
         width: 100%;
         text-align: center;
+        img{
+            width: 30px;
+            height: 30px;
+        }
+      
     }
 
     .el-menu-item {
@@ -159,8 +170,8 @@ export default {
         display: flex;
         align-items: center;
         justify-content: center;
-        height: 90px;
-        font-size: 18px;
+        height: 80px;
+        font-size: 14px;
 
         &:hover {
             background-color: #00B0F0 !important;
@@ -179,7 +190,7 @@ export default {
         align-items: center;
         justify-content: center;
         height: 90px;
-        font-size: 18px;
+        font-size: 16px;
 
         &.is-active {
             background-color: #00B0F0 !important;

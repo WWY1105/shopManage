@@ -245,17 +245,17 @@ export default {
     //min-height: 100%;
     .part {
         margin-bottom: 20px;
-        padding: 34px 150px 50px;
+        padding: 34px 50px 50px;
 
         .chTitle {
-            font-size: 32px;
+            font-size: 30px;
             font-weight: bold;
             color: #0091C6;
             margin-bottom: 10px;
         }
 
         .enTitle {
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 400;
             color: #0091C6;
         }
@@ -264,16 +264,16 @@ export default {
             width: 100%;
 
             img {
-                width: 100px;
-                height: 100px;
-                margin-bottom: 26px;
+                width: 50px;
+                height: 50px;
+                margin-bottom: 20px;
                 margin-top: 60px;
             }
 
             p {
-                font-size: 18px;
+                font-size: 14px;
                 color: #000;
-                margin-bottom: 40px;
+                margin-bottom: 20px;
             }
         }
     }

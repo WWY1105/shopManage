@@ -99,7 +99,7 @@
                 <el-col :span="4">
                     <div class="grid-content bg-purple flexEnd">
                         <el-form-item>
-                            <el-button type="primary" @click="getList">查询</el-button>
+                            <el-button type="primary"  class="searchBtn" @click="getList">查询</el-button>
                         </el-form-item>
                     </div>
                 </el-col>
@@ -361,7 +361,7 @@ export default {
 
 .el-button.transBtn {
     padding: 11px 0;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .searchBox {
@@ -416,7 +416,7 @@ export default {
 }
 
 .otherCtr {
-    font-size: 14px;
+    font-size: 12px;
     cursor: pointer;
 
     .edit,
@@ -432,7 +432,7 @@ export default {
 }
 
 .dangerTips {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
     color: #FF3636;
 }

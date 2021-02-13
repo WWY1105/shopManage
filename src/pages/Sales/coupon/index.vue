@@ -35,13 +35,15 @@
                     </el-row>
                 </el-col>
                 <el-col :span="6">
-                    <el-row :gutter="20" type="flex" justify="end" align="bottom">
-                        <div class="grid-content bg-purple">
+                    <!-- <el-row :gutter="20" type="flex" justify="end" align="bottom"> -->
+                        <div class="flexEnd">
                             <el-form-item>
+                                 <div class="flexEnd">
                                 <el-button class="searchBtn" @click="showAddCoupon">+新增</el-button>
+                                 </div>
                             </el-form-item>
                         </div>
-                    </el-row>
+                    <!-- </el-row> -->
                 </el-col>
             </el-row>
         </el-form>
@@ -81,9 +83,11 @@
                 </el-col>
 
                 <el-col :span="4">
-                    <div class="grid-content bg-purple flexEnd">
+                    <div class="flexEnd">
                         <el-form-item>
-                            <el-button type="primary" @click="getList">查询</el-button>
+                             <div class="flexEnd">
+                            <el-button type="primary" class="searchBtn" @click="getList">查询</el-button>
+                             </div>
                         </el-form-item>
                     </div>
                 </el-col>
@@ -495,7 +499,7 @@ export default {
 <style lang="scss" scoped>
 .el-button.transBtn {
     padding: 11px 0;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .searchBox {
@@ -517,18 +521,18 @@ export default {
     }
 
     .title {
-        font-size: 22px;
+        font-size: 20px;
         margin-bottom: 30px;
     }
 
     .eachTotalBox {
         .partTitle {
-            font-size: 16px;
+            font-size: 14px;
             margin-bottom: 16px;
         }
 
         .num {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: bold;
         }
     }
@@ -580,7 +584,7 @@ export default {
 }
 
 .otherCtr {
-    font-size: 14px;
+    font-size: 12px;
     cursor: pointer;
 
     .edit,

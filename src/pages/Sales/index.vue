@@ -44,14 +44,14 @@ export default {
         padding: 34px 150px 50px;
 
         .chTitle {
-            font-size: 32px;
+            font-size: 30px;
             font-weight: bold;
             color: #0091C6;
             margin-bottom: 10px;
         }
 
         .enTitle {
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 400;
             color: #0091C6;
         }
@@ -67,7 +67,7 @@ export default {
             }
 
             p {
-                font-size: 18px;
+                font-size: 16px;
                 color: #000;
                 margin-bottom: 40px;
             }

@@ -699,7 +699,7 @@ export default {
                 .eachWay {
                     margin: 0 60px;
                     color: #ACACAC;
-                    font-size: 14px;
+                    font-size: 12px;
 
                     .yingxiaoImg {
                         width: 60px;
@@ -756,7 +756,7 @@ export default {
     /deep/ .el-form-item__label {
         line-height: 34px;
         color: #7A7A7A;
-        font-size: 14px;
+        font-size: 12px;
         word-break: keep-all;
         white-space: nowrap;
     }
@@ -776,7 +776,7 @@ export default {
     border-radius: 30px;
     margin-top: 300px;
     box-sizing: border-box;
-    font-size: 22px;
+    font-size: 20px;
 }
 
 .yingxiaoRuleDetails {

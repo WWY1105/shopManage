@@ -26,8 +26,10 @@
                     <el-row :gutter="20" type="flex" justify="end" align="bottom">
                         <div class="grid-content bg-purple">
                             <el-form-item>
+                                <div class="flexEnd">
                                 <el-button class="searchBtn" @click="getList">查询</el-button>
                                 <el-button class="searchBtn">+预约直播</el-button>
+                                </div>
                             </el-form-item>
                         </div>
                     </el-row>

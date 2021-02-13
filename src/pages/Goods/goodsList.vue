@@ -623,25 +623,25 @@ export default {
 
 .el-input__inner::-webkit-input-placeholder {
     color: #00AEF1;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .el-input__inner::-moz-placeholder {
     /* Mozilla Firefox 19+ */
     color: #00AEF1;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .el-input__inner:-moz-placeholder {
     /* Mozilla Firefox 4 to 18 */
     color: #00AEF1;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 input:-ms-input-placeholder {
     /* Internet Explorer 10-11 */
     color: #00AEF1;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .goods {
@@ -694,7 +694,7 @@ input:-ms-input-placeholder {
     border-radius: 17px;
     position: relative;
     line-height: 34px;
-    font-size: 14px;
+    font-size: 12px;
     margin-right: 30px;
     padding: 0;
     border: none;
@@ -720,7 +720,7 @@ input:-ms-input-placeholder {
 }
 
 /deep/ .el-icon-close {
-    font-size: 16px;
+    font-size: 14px;
     position: absolute;
     right: 13px;
     top: 50%;
@@ -734,7 +734,7 @@ input:-ms-input-placeholder {
     margin-bottom: 20px;
 
     .title {
-        font-size: 22px;
+        font-size: 20px;
         margin-bottom: 30px;
 
         .transBtn {
@@ -744,12 +744,12 @@ input:-ms-input-placeholder {
 
     .eachTotalBox {
         .partTitle {
-            font-size: 16px;
+            font-size: 14px;
             margin-bottom: 16px;
         }
 
         .num {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: bold;
         }
     }

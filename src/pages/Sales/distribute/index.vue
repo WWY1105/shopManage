@@ -148,14 +148,14 @@ export default {
 
     .title {
         margin-bottom: 20px;
-        font-size: 22px;
+        font-size: 20px;
         font-weight: bold;
         color: #00B0F0;
     }
 
     .tips {
         max-width: 379px;
-        font-size: 14px;
+        font-size: 12px;
         font-family: Microsoft YaHei;
         font-weight: 400;
         color: #7E7E7E;
@@ -164,7 +164,7 @@ export default {
 
     .formBox {
         margin-bottom: 178px;
-        margin-top: 60px;
+        margin-top: 30px;
 
         /deep/ .el-form-item {
             &.firstSwitch {
@@ -204,6 +204,6 @@ export default {
     height: 60px;
     background: #00B0F0;
     border-radius: 30px;
-    font-size: 22px;
+    font-size: 20px;
 }
 </style>

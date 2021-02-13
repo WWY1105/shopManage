@@ -17,7 +17,7 @@ a{
 }
 .mainText{
   color: #00B0F0;
-  font-size: 14px;
+  font-size: 12px;
 }
 .m0{
   margin:0!important;
@@ -72,7 +72,7 @@ margin-bottom: 20px;
 // btns
 .editBtn{
   color: #007EFF;
-  font-size: 14px;
+  font-size: 12px;
   text-decoration: underline;
   margin: 0 15px;
   word-break: keep-all;
@@ -80,7 +80,7 @@ margin-bottom: 20px;
 }
 .deleteBtn{
   color: #FF4141;
-  font-size: 14px;
+  font-size: 12px;
   text-decoration: underline;
   margin: 0 15px;
   word-break: keep-all;
@@ -114,17 +114,19 @@ body .el-table colgroup.gutter {
 }
 .el-button{
   line-height: 1;
-  min-width: 120px;
+  min-width: 100px;
+  font-size:14px;
 }
 .el-button.transBtn{
   color:#00B0F0!important;
-  font-size:18px;
+  
   border: 1px solid #00B0F0;
   border-radius: 21px;
   text-decoration: none!important;
+  padding:8px 10px;
 }
 .el-button.searchBtn{
-  padding:13px 16px;
+  padding:8px 10px;
   background: #00B0F0;
   border-radius: 21px;
   color: #fff;
@@ -133,14 +135,14 @@ body .el-table colgroup.gutter {
   color: #fff;
 }
 .el-button.cancelBtn{
-  padding:13px 16px;
+  padding:8px 10px;
   background: #fff;
   border-radius: 21px;
   color: #666666;
   border-color: #666666;
 }
 .el-input__inner {
-  height: 34px;
+  height: 30px!important;
   background-color: #FAFAFA!important;
   border-color: #d5d5d5!important;
 }
@@ -148,22 +150,27 @@ body .el-table colgroup.gutter {
   background-color: #FAFAFA;
   border-color: #d5d5d5;
 }
+.searchBox{
+  .el-form-item{
+   max-width: 200px;
+  }
+}
 
 // el-switch
 .el-switch{
-  height: 42px!important;
-  line-height: 42px!important;
+  height: 32px!important;
+  line-height: 32px!important;
   .el-switch__core{
-    height: 42px!important;
-    border-radius: 21px!important;
-    width: 105px!important;
+    height: 32px !important;
+    border-radius: 17px !important;
+    width: 70px !important;
     &:after{
-      top: 8px!important;
-      left: 8px!important;
-      right: auto!important;
-      border-radius: 50%!important;
-      width: 26px!important;
-      height: 26px!important;
+      top: 5px !important;
+      left: 5px !important;
+      right: auto !important;
+      border-radius: 50% !important;
+      width: 21px !important;
+      height: 21px !important;
     }
   }
   &.is-checked {
@@ -176,17 +183,25 @@ body .el-table colgroup.gutter {
 }
 
 
-
+.el-table th>.cell{
+  font-size: 14px;
+}
 
 
 // dialog
 .el-dialog__title{
   color: #017EFF;
-  font-size: 18px;
+  font-size: 16px;
 }
 .el-dialog__body{
 
   padding:35px 0px!important;
-  font-size: 18px;
+  font-size: 16px;
+}
 
+.el-date-editor .el-range__icon,.el-date-editor .el-range-separator{
+  line-height: 24px!important;
+}
+.el-range-editor .el-range-input{
+  font-size: 14px;
 }

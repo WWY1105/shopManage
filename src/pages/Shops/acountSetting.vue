@@ -95,14 +95,14 @@ export default {
 
         .title {
             margin-bottom: 20px;
-            font-size: 24px;
+            font-size: 22px;
             font-weight: bold;
             color: #00B0F0;
         }
 
         .tips {
             margin-bottom: 10px;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 400;
             color: #525252;
             min-height: 40px;
@@ -129,19 +129,19 @@ export default {
         padding-top: 28px;
 
         .title {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: bold;
             color: #00B0F0;
         }
         .tips{
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 400;
             color: #000000;
             margin-bottom: 50px;
             margin-top: 50px;
         }
         .themeColor{
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 400;
             color: #000000;
             line-height: 66px;

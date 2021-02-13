@@ -38,7 +38,7 @@
             <span class="el-dropdown-link">
                 <div class="content flexCenter">
                     <img v-if="user.avatar" class="user" :src="$imgurl+user.avatar" alt="">
-                    <img v-else src="../assets/images/header/user.png" />
+                    <img v-else src="../assets/images/header/user.png"  class="user" />
                     <span class="userName">{{user&&user.name?user.name:'未登录'}}</span>
                     <i class="el-icon-arrow-down el-icon--right"></i>
                 </div>
@@ -129,18 +129,18 @@ export default {
 
     h1 {
         color: #00B0F0;
-        font-size: 27px;
+        font-size: 24px;
     }
 
     .headerIcon {
-        height: 28px;
-        width: 28px;
+        height: 25px;
+        width: 25px;
         margin-right: 10px;
     }
 
     .iconText {
         color: #3C3C3C;
-        font-size: 14px;
+        font-size: 12px;
     }
 
     .contact {
@@ -155,8 +155,8 @@ export default {
 
     img {
         &.user {
-            width: 40px;
-            height: 40px;
+            width: 30px;
+            height: 30px;
             margin-right: 10px;
             border-radius: 50%;
         }
@@ -164,14 +164,13 @@ export default {
 
     .userName {
         color: #00B0F0;
-        margin-left: 15px;
     }
 
 }
 
 .instructions {
     max-width: 300px;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 400;
     color: #3C3C3C;
     line-height: 28px;
@@ -200,7 +199,7 @@ export default {
         border-bottom: 1px solid #E6E6E6;
         line-height: 60px;
         color: #3C3C3C;
-        font-size: 14px;
+        font-size: 12px;
         padding-left: 0;
 
         &.noBorder {

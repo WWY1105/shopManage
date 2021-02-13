@@ -218,7 +218,7 @@ export default {
         }
 
         .shopName {
-            font-size: 24px;
+            font-size: 22px;
             font-family: Microsoft YaHei;
             font-weight: bold;
             color: #00B0F0;
@@ -227,7 +227,7 @@ export default {
 
         .otherText {
             text-align: center;
-            font-size: 14px;
+            font-size: 12px;
             font-family: Microsoft YaHei;
             font-weight: 400;
             color: #525252;
@@ -239,7 +239,7 @@ export default {
     }
 
     .shopPartInfo {
-        padding: 0 70px 100px;
+        padding: 0 10px 100px;
 
         .eachInfo {
             flex-direction: column;
@@ -258,7 +258,7 @@ export default {
 
             .title {
 
-                font-size: 24px;
+                font-size: 22px;
                 font-family: Microsoft YaHei;
                 font-weight: bold;
                 color: #00B0F0;
@@ -267,7 +267,7 @@ export default {
 
             .desc {
 
-                font-size: 14px;
+                font-size: 12px;
                 font-family: Microsoft YaHei;
                 font-weight: 400;
                 color: #525252;
@@ -278,7 +278,7 @@ export default {
     }
 
     .branchShopTitle {
-        font-size: 22px;
+        font-size: 20px;
         font-family: Microsoft YaHei;
         font-weight: 400;
         color: #666666;
@@ -335,7 +335,7 @@ export default {
 
             .shopName {
                 margin-top: 40px;
-                font-size: 24px;
+                font-size: 22px;
                 font-family: Microsoft YaHei;
                 font-weight: bold;
                 color: #00B0F0;
@@ -343,7 +343,7 @@ export default {
 
             .otherText {
                 margin-top: 20px;
-                font-size: 14px;
+                font-size: 12px;
                 font-family: Microsoft YaHei;
                 font-weight: 400;
                 color: #525252;

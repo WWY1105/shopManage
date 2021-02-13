@@ -736,7 +736,7 @@ export default {
     .eachSearch {
         word-break: keep-all;
         color: #797979;
-        font-size: 16px;
+        font-size: 14px;
         margin-left: 10px;
         cursor: pointer;
         text-decoration: underline;

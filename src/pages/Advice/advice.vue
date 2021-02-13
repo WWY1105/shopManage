@@ -7,35 +7,13 @@
                 <el-row :gutter="20" type="flex" justify="start" align="bottom">
                     <el-col :span="20">
                         <el-row :gutter="20" type="flex" justify="start" align="bottom">
-                            <el-col :span="3">
+                            <el-col :span="6">
                                 <el-form-item label="小程序的意见反馈模块开关">
                                     <el-switch></el-switch>
                                 </el-form-item>
                             </el-col>
-                            <el-col :span="3">
-                                <el-form-item label="有无备注">
-                                    <el-select v-model="json.hasRemark">
-                                        <el-option label="有" value="true"></el-option>
-                                        <el-option label="无" value="false"></el-option>
-                                    </el-select>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="3">
-                                <el-form-item label="用户名称">
-                                    <el-input v-model="json.nickname"></el-input>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="3">
-                                <el-form-item label="留言称呼">
-                                    <el-input v-model="json.name"></el-input>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="3">
-                                <el-form-item label="联系方式">
-                                    <el-input v-model="json.tel"></el-input>
-                                </el-form-item>
-                            </el-col>
-                              <el-col :span="9">
+
+                            <el-col :span="9">
                                 <el-form-item label="提交时间">
                                     <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" v-model="json.time">
                                     </el-date-picker>
@@ -43,14 +21,45 @@
                             </el-col>
                         </el-row>
                     </el-col>
+
+                </el-row>
+                <el-row :gutter="20" type="flex" justify="start" align="bottom">
+                    <el-col :span="20">
+                        <el-col :span="6">
+                            <el-form-item label="有无备注">
+                                <el-select v-model="json.hasRemark">
+                                    <el-option label="有" value="true"></el-option>
+                                    <el-option label="无" value="false"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item label="用户名称">
+                                <el-input v-model="json.nickname"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item label="留言称呼">
+                                <el-input v-model="json.name"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item label="联系方式">
+                                <el-input v-model="json.tel"></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-col>
                     <el-col :span="4">
                         <div class="flexEnd">
                             <el-form-item label="">
+                                 <div class="flexEnd">
                                 <el-button class="searchBtn" @click="getDataFn">查询</el-button>
+                                 </div>
                             </el-form-item>
                         </div>
                     </el-col>
                 </el-row>
+
             </el-form>
         </div>
 
@@ -109,13 +118,13 @@ export default {
     //方法集合
     methods: {
         getDataFn() {
-            let json=this.json;
-            if(json.time&&json.time.length>0){
-                json.createTimeBegin=json.time[0];
-                json.createTimeEnd=json.time[1];
-                   delete json.time;
+            let json = this.json;
+            if (json.time && json.time.length > 0) {
+                json.createTimeBegin = json.time[0];
+                json.createTimeEnd = json.time[1];
+                delete json.time;
             }
-         
+
             getData(json).then(res => {
                 if (res.code == '00') {
                     this.tableData = res.data

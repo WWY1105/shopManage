@@ -2,7 +2,7 @@
 <template>
 <div class='index'>
     <el-container>
-        <el-aside width="260px" style="min-height:100vh;background-color:#235676">
+        <el-aside width="220px" style="min-height:100vh;background-color:#235676">
             <Aside />
         </el-aside>
         <el-container>

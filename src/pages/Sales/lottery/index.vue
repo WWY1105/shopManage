@@ -514,20 +514,20 @@ export default {
         h2 {
             color: #00B0F0;
             font-weight: bold;
-            font-size: 22px;
+            font-size: 20px;
             margin: 0 0 20px;
         }
 
         p {
             color: #7E7E7E;
-            font-size: 14px;
+            font-size: 12px;
         }
     }
 }
 
 .partTitle {
     padding: 22px 67px;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 400;
     color: #393939;
 }
@@ -553,7 +553,7 @@ export default {
         }
     }
      .btns {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: bold;
             color: #FF5B5B;
 
@@ -580,7 +580,7 @@ export default {
 
             p {
                 color: #2A3F54;
-                font-size: 14px;
+                font-size: 12px;
                 margin-top: 25px;
             }
 
@@ -592,14 +592,14 @@ export default {
 
         .name {
             color: #00B0F0;
-            font-size: 22px;
+            font-size: 20px;
             font-weight: bold;
             margin-bottom: 28px;
         }
 
         .details {
             color: #555555;
-            font-size: 14px;
+            font-size: 12px;
             margin-bottom: 35px;
 
             p {
@@ -608,7 +608,7 @@ export default {
         }
 
         .btns {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: bold;
             color: #FF5B5B;
 

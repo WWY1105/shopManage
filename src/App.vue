@@ -30,5 +30,6 @@ export default {
 <style>
 #app {
     background-color: rgb(244, 244, 244);
+    font-size: 14px;
 }
 </style>

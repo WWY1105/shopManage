@@ -264,7 +264,7 @@ export default {
         padding-left: 5%;
 
         .title {
-            font-size: 22px;
+            font-size: 20px;
             color: #2A3F54;
             margin-bottom: 39px;
         }
@@ -274,13 +274,13 @@ export default {
         }
 
         .dataTitle {
-            font-size: 16px;
+            font-size: 14px;
             color: #2A3F54;
             margin-bottom: 16px;
         }
 
         .num {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: bold;
         }
     }
@@ -295,13 +295,13 @@ export default {
         h2 {
             color: #00B0F0;
             font-weight: bold;
-            font-size: 22px;
+            font-size: 20px;
             margin: 0 0 20px;
         }
 
         p {
             color: #7E7E7E;
-            font-size: 14px;
+            font-size: 12px;
         }
     }
 }
@@ -313,19 +313,19 @@ export default {
     .eachMenber {
         .menberName {
             color: #393939;
-            font-size: 22px;
+            font-size: 20px;
         }
 
         .editIcon {
             color: #00B0F0;
-            font-size: 24px;
+            font-size: 22px;
             font-weight: bold;
             margin-right: 36px;
         }
 
         .deleteIcon {
             color: #FF5B5B;
-            font-size: 24px;
+            font-size: 22px;
             font-weight: bold;
         }
 
@@ -348,7 +348,7 @@ export default {
 
             .rule {
                 color: #00B0F0;
-                font-size: 24px;
+                font-size: 22px;
                 padding: 15px 35px;
                 background-color: #fff;
                 border-radius: 25px;
@@ -381,7 +381,7 @@ export default {
         }
 
         .addTips {
-            font-size: 14px;
+            font-size: 12px;
             margin-top: 25px;
             color: #2A3F54;
         }

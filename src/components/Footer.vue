@@ -54,7 +54,7 @@ export default {
     position: fixed;
     left: 0;
     bottom: 0;
-    font-size: 14px;
+    font-size: 12px;
     color: #909090;
     line-height: 16px;
     box-sizing: border-box;

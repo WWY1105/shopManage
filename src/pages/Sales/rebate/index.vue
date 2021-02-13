@@ -236,7 +236,7 @@ export default {
         padding-left: 10%;
 
         .title {
-            font-size: 22px;
+            font-size: 20px;
             color: #2A3F54;
             margin-bottom: 39px;
         }
@@ -246,13 +246,13 @@ export default {
         }
 
         .dataTitle {
-            font-size: 16px;
+            font-size: 14px;
             color: #2A3F54;
             margin-bottom: 16px;
         }
 
         .num {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: bold;
         }
     }
@@ -267,13 +267,13 @@ export default {
         h2 {
             color: #00B0F0;
             font-weight: bold;
-            font-size: 22px;
+            font-size: 20px;
             margin: 0 0 20px;
         }
 
         p {
             color: #7E7E7E;
-            font-size: 14px;
+            font-size: 12px;
 
             &.worningTips {
                 color: #FF2E2E;
@@ -285,7 +285,7 @@ export default {
 
 .partTitle {
     padding: 22px 67px;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 400;
     color: #393939;
 }
@@ -295,7 +295,7 @@ export default {
     border: 1px solid #C7C7C7;
     padding: 64px 67px;
     color: #393939;
-    font-size: 14px;
+    font-size: 12px;
 
     .rule {
         margin-bottom: 78px;

@@ -79,12 +79,12 @@ export default {
         margin-bottom: 55px;
 
         p:first-child {
-            font-size: 32px;
+            font-size: 30px;
             margin-bottom: 10px;
         }
 
         p:last-child {
-            font-size: 22px;
+            font-size: 20px;
         }
 
     }
@@ -105,14 +105,14 @@ export default {
             }
 
             .title {
-                font-size: 22px;
+                font-size: 20px;
                 color: #202020;
                 margin-bottom: 42px;
                 text-align: center;
             }
 
             .desc {
-                font-size: 16px;
+                font-size: 14px;
                 color: #202020;
                 margin-bottom: 20px;
                 line-height: 22px;
@@ -145,13 +145,13 @@ export default {
 
         .statusTtile {
             color: #2A3F54;
-            font-size: 22px;
+            font-size: 20px;
             margin-bottom: 45px;
         }
 
         .statusText {
             margin-top: 16px;
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 400;
             color: #00B0F0;
         }

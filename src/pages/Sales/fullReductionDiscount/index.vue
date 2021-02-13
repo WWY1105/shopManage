@@ -254,7 +254,7 @@ export default {
         padding-left: 5%;
 
         .title {
-            font-size: 22px;
+            font-size: 20px;
             color: #2A3F54;
             margin-bottom: 39px;
         }
@@ -264,13 +264,13 @@ export default {
         }
 
         .dataTitle {
-            font-size: 16px;
+            font-size: 14px;
             color: #2A3F54;
             margin-bottom: 16px;
         }
 
         .num {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: bold;
         }
     }
@@ -285,20 +285,20 @@ export default {
         h2 {
             color: #00B0F0;
             font-weight: bold;
-            font-size: 22px;
+            font-size: 20px;
             margin: 0 0 20px;
         }
 
         p {
             color: #7E7E7E;
-            font-size: 14px;
+            font-size: 12px;
         }
     }
 }
 
 .partTitle {
     padding: 22px 67px;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 400;
     color: #393939;
 }
@@ -322,7 +322,7 @@ export default {
 
     .addTips {
         margin-top: 25px;
-        font-size: 14px;
+        font-size: 12px;
         font-weight: 400;
         color: #2A3F54;
     }
@@ -343,7 +343,7 @@ export default {
     .eachDis {
         .name {
             margin-bottom: 35px;
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 400;
             color: #00B0F0;
             line-height: 11px;
@@ -351,7 +351,7 @@ export default {
 
         .details {
 
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 400;
             color: #555555;
             line-height: 11px;
@@ -363,7 +363,7 @@ export default {
 
         .btns {
             margin-top: 30px;
-            font-size: 24px;
+            font-size: 22px;
             font-weight: bold;
             color: #FF5B5B;
 

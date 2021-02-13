@@ -170,18 +170,18 @@ export default {
     color: #2A3F54;
 
     .title {
-        font-size: 22px;
+        font-size: 20px;
         margin-bottom: 30px;
     }
 
     .eachTotalBox {
         .partTitle {
-            font-size: 16px;
+            font-size: 14px;
             margin-bottom: 16px;
         }
 
         .num {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: bold;
         }
     }

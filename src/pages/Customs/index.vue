@@ -14,70 +14,77 @@
     </div>
     <div class="searchBox bgf">
         <el-form label-position="top" :inline="true" :model="formInline" class="demo-form-inline">
-            <el-row :gutter="20">
-                <el-col :span="7">
-                    <div class="grid-content bg-purple">
-                        <el-form-item label="注册时间段">
-                            <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss" onPick="registerTimeChange" v-model="json.registerTime" type="datetimerange" placeholder="注册时间段">
-                            </el-date-picker>
-                        </el-form-item>
-                    </div>
-                </el-col>
-                <el-col :span="7">
-                    <div class="grid-content bg-purple">
-                        <el-form-item label="最后登录时间段">
-                            <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss" v-model="json.lastLoginTime" type="datetimerange" placeholder="最后登录时间段">
-                            </el-date-picker>
-                        </el-form-item>
-                    </div>
-                </el-col>
-                <el-col :span="5">
-                    <div class="grid-content bg-purple">
-                        <el-form-item label="客户组">
-                            <el-select v-model="json.usergroup" placeholder="客户组">
-                                <el-option v-for="(i,j) in groupList" :value="i.value" :label="i.text" :key="j"></el-option>
-                            </el-select>
-                        </el-form-item>
-                    </div>
-                </el-col>
+            <el-row :gutter="20" type="flex" justify="space-between" align="bottom">
+                <!-- <div class="flexStart"> -->
+                    <el-col :span="10">
+                        <div class="grid-content bg-purple">
+                            <el-form-item label="注册时间段">
+                                <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss" onPick="registerTimeChange" v-model="json.registerTime" type="datetimerange" placeholder="注册时间段">
+                                </el-date-picker>
+                            </el-form-item>
+                        </div>
+                    </el-col>
+                    <el-col :span="10">
+                        <div class="grid-content bg-purple">
+                            <el-form-item label="最后登录时间段">
+                                <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss" v-model="json.lastLoginTime" type="datetimerange" placeholder="最后登录时间段">
+                                </el-date-picker>
+                            </el-form-item>
+                        </div>
+                    </el-col>
+                    <el-col :span="8">
+                        <div class="grid-content bg-purple">
+                            <el-form-item label="客户组">
+                                <el-select v-model="json.usergroup" placeholder="客户组">
+                                    <el-option v-for="(i,j) in groupList" :value="i.value" :label="i.text" :key="j"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </div>
+                    </el-col>
+                <!-- </div> -->
             </el-row>
         </el-form>
 
         <el-form label-position="top">
             <el-row :gutter="20" type="flex" justify="space-between" align="bottom">
-                <el-col :span="5">
-                    <div class="grid-content bg-purple">
-                        <el-form-item label="用户昵称">
-                            <el-input v-model="json.nickname" placeholder="用户昵称"></el-input>
-                        </el-form-item>
-                    </div>
+                <el-col :span="20">
+                    <el-row :gutter="20" type="flex" justify="start" align="bottom">
+                        <el-col>
+                            <div class="grid-content bg-purple">
+                                <el-form-item label="用户昵称">
+                                    <el-input v-model="json.nickname" placeholder="用户昵称"></el-input>
+                                </el-form-item>
+                            </div>
+                        </el-col>
+                        <el-col>
+                            <div class="grid-content bg-purple">
+                                <el-form-item label="用户ID">
+                                    <el-input v-model="json.user" placeholder="用户ID"></el-input>
+                                </el-form-item>
+                            </div>
+                        </el-col>
+                        <el-col>
+                            <div class="grid-content bg-purple">
+                                <el-form-item label="邀请人昵称">
+                                    <el-input v-model="json.id" placeholder="邀请人昵称"></el-input>
+                                </el-form-item>
+                            </div>
+                        </el-col>
+                        <el-col>
+                            <div class="grid-content bg-purple">
+                                <el-form-item label="邀请人ID">
+                                    <el-input v-model="json.inviterId" placeholder="邀请人ID"></el-input>
+                                </el-form-item>
+                            </div>
+                        </el-col>
+                    </el-row>
                 </el-col>
-                <el-col :span="5">
-                    <div class="grid-content bg-purple">
-                        <el-form-item label="用户ID">
-                            <el-input v-model="json.user" placeholder="用户ID"></el-input>
-                        </el-form-item>
-                    </div>
-                </el-col>
-                <el-col :span="5">
-                    <div class="grid-content bg-purple">
-                        <el-form-item label="邀请人昵称">
-                            <el-input v-model="json.id" placeholder="邀请人昵称"></el-input>
-                        </el-form-item>
-                    </div>
-                </el-col>
-                <el-col :span="5">
-                    <div class="grid-content bg-purple">
-                        <el-form-item label="邀请人ID">
-                            <el-input v-model="json.inviterId" placeholder="邀请人ID"></el-input>
-                        </el-form-item>
-                    </div>
-                </el-col>
-
-                <el-col :span="4">
-                    <div class="grid-content bg-purple flexEnd">
+                <el-col :span="8">
+                    <div class="flexEnd">
                         <el-form-item>
+                            <div class="flexEnd">
                             <el-button class="searchBtn" type="primary" @click="getList">查询</el-button>
+                            </div>
                         </el-form-item>
                     </div>
                 </el-col>
@@ -223,7 +230,7 @@ export default {
     components: {},
     data() {
         return {
-            targetObj:{},
+            targetObj: {},
             cusInfoShow: false,
             pageData: {},
             groupList: customType,
@@ -332,7 +339,7 @@ export default {
         },
         // 查看详情
         getDetailFn(val, id) {
-            this.cusInfoShow=true;
+            this.cusInfoShow = true;
             getDetail(id).then(res => {
                 if (res.code == '00') {
                     this.targetObj = res.data;
@@ -358,7 +365,7 @@ export default {
 <style lang="scss" scoped>
 .el-button.transBtn {
     padding: 11px 0;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .searchBox {
@@ -372,7 +379,7 @@ export default {
 .toDetail {
     cursor: pointer;
     color: #2481FF;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .totalPanel {
@@ -382,18 +389,18 @@ export default {
     margin-bottom: 20px;
 
     .title {
-        font-size: 22px;
+        font-size: 20px;
         margin-bottom: 30px;
     }
 
     .eachTotalBox {
         .partTitle {
-            font-size: 16px;
+            font-size: 14px;
             margin-bottom: 16px;
         }
 
         .num {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: bold;
         }
     }
@@ -407,20 +414,24 @@ export default {
     .el-dialog__body {
         padding-top: 0px !important;
     }
-.partTitle{
-            padding: 20px 0 10px;
-             border-bottom: 1px solid #E5E5E5;
-             color: #666;
-             font-size: 22px;
-        }
+
+    .partTitle {
+        padding: 20px 0 10px;
+        border-bottom: 1px solid #E5E5E5;
+        color: #666;
+        font-size: 20px;
+    }
+
     .part {
-        padding-top:20px ; 
-        font-size: 14px;
+        padding-top: 20px;
+        font-size: 12px;
         line-height: 32px;
         border-bottom: 1px solid #E5E5E5;
-        &.noBorder{
-            border:none;
+
+        &.noBorder {
+            border: none;
         }
+
         .each {
             margin-bottom: 20px;
         }

@@ -13,7 +13,7 @@
         </div>
     </div>
     <div class="tableBox">
-        <el-form label-position="top" :inline="true"  class="demo-form-inline">
+        <el-form label-position="top" :inline="true" class="demo-form-inline">
             <el-row :gutter="16" type="flex" justify="space-between" align="bottom">
                 <el-col :span="18">
                     <el-row :gutter="20" type="flex" justify="space-between" align="bottom">
@@ -40,18 +40,18 @@
                     </el-row>
                 </el-col>
                 <el-col :span="6">
-                      <div class="flexEnd">
-                    <el-form-item>
-                         <div class="flexEnd">
-                            <el-upload class="upload-demo" ref="upload" :action="$downloadFileApi+'/order/import?access_token='+token" :show-file-list="false">
-                                <el-button class="transBtn">导入电子表格</el-button>
-                            </el-upload>
-                            <el-button class="transBtn">
-                                <a :href="$downloadFileApi+'/order/export?access_token='+token" target="_blank">导出电子表格</a>
-                            </el-button>
-                         </div>
-                    </el-form-item>
-                      </div>
+                    <div class="flexEnd">
+                        <el-form-item>
+                            <div class="flexEnd">
+                                <el-upload class="upload-demo" ref="upload" :action="$downloadFileApi+'/order/import?access_token='+token" :show-file-list="false">
+                                    <el-button class="transBtn">导入表格</el-button>
+                                </el-upload>
+                                <el-button class="transBtn">
+                                    <a :href="$downloadFileApi+'/order/export?access_token='+token" target="_blank">导出表格</a>
+                                </el-button>
+                            </div>
+                        </el-form-item>
+                    </div>
                 </el-col>
             </el-row>
         </el-form>
@@ -83,11 +83,13 @@
                     </el-row>
                 </el-col>
                 <el-col :span="8">
-                    <div class="flexEnd">
-                        <el-form-item>
+                      <div class="flexEnd">
+                    <el-form-item>
+                        <div class="flexEnd">
                             <el-button class="searchBtn" type="primary" @click="getDataFn">查询</el-button>
-                        </el-form-item>
-                    </div>
+                        </div>
+                    </el-form-item>
+                      </div>
                 </el-col>
             </el-row>
         </el-form>
@@ -477,7 +479,7 @@ export default {
 
 .seeMore {
 
-    font-size: 14px;
+    font-size: 12px;
     cursor: pointer;
     font-weight: 400;
     text-decoration: underline;
@@ -494,7 +496,7 @@ export default {
     color: #2A3F54;
 
     .title {
-        font-size: 22px;
+        font-size: 20px;
         margin-bottom: 30px;
 
         .transBtn {
@@ -504,12 +506,12 @@ export default {
 
     .eachTotalBox {
         .partTitle {
-            font-size: 16px;
+            font-size: 14px;
             margin-bottom: 16px;
         }
 
         .num {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: bold;
         }
     }
@@ -561,7 +563,7 @@ export default {
 
         .tableTitle {
             color: #666666;
-            font-size: 14px;
+            font-size: 12px;
             margin-bottom: 16px;
         }
 
@@ -569,7 +571,7 @@ export default {
             .tableList {
                 span {
                     color: #000;
-                    font-size: 14px;
+                    font-size: 12px;
                     line-height: 32px;
                     display: inline-block;
                     font-weight: bold;
@@ -588,38 +590,38 @@ export default {
 
     .title {
         color: #666;
-        font-size: 22px;
+        font-size: 20px;
         margin-bottom: 10px;
     }
 
     .eachList {
         color: #333;
-        font-size: 14px;
+        font-size: 12px;
 
         span {
             line-height: 32px;
 
             &.label {
                 color: #666666;
-                font-size: 16px;
+                font-size: 14px;
             }
         }
 
         .num {
             color: #888888;
-            font-size: 22px;
+            font-size: 20px;
             font-weight: bold;
         }
     }
 
     .part3 {
         color: #666666;
-        font-size: 14px;
+        font-size: 12px;
         padding-bottom: 5px;
 
         .num {
             color: #FF1818;
-            font-size: 22px;
+            font-size: 20px;
             font-weight: bold;
         }
     }
@@ -637,13 +639,13 @@ export default {
 
         .title {
             color: #666666;
-            font-size: 14px;
+            font-size: 12px;
             margin-bottom: 24px;
         }
 
         .listBox {
             color: #000;
-            font-size: 14px;
+            font-size: 12px;
 
             .eachList {
                 margin-bottom: 25px;
@@ -657,7 +659,7 @@ export default {
 
     .part2 {
         color: #666666;
-        font-size: 14px;
+        font-size: 12px;
         padding-top: 38px;
 
         .eachList {
@@ -669,7 +671,7 @@ export default {
 
             .num {
                 color: #FF1818;
-                font-size: 22px;
+                font-size: 20px;
             }
         }
     }

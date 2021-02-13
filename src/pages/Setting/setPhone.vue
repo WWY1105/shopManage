@@ -158,7 +158,7 @@ export default {
 
         .title {
             color: #FF2A2A;
-            font-size: 22px;
+            font-size: 20px;
             margin-bottom: 115px;
             margin-top: 150px;
             margin-left: 100px;
@@ -185,7 +185,7 @@ export default {
 
             .getCode {
                 margin-left: 33px;
-                font-size: 16px;
+                font-size: 14px;
                 font-weight: 400;
                 text-decoration: underline;
                 color: #0078FF;

@@ -211,7 +211,7 @@ export default {
 
     p.tips {
         color: #454545;
-        font-size: 24px;
+        font-size: 22px;
         margin-bottom: 58px;
     }
 
@@ -245,7 +245,7 @@ export default {
             border-radius: 50%;
             min-width: 60px;
             color: #fff;
-            font-size: 27px;
+            font-size: 24px;
             font-weight: bolder;
             margin-bottom: 50px;
         }
@@ -262,7 +262,7 @@ export default {
 
         .colorTips {
             color: #9A9A9A;
-            font-size: 24px;
+            font-size: 22px;
         }
 
         .btnBox {

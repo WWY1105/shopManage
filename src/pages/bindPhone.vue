@@ -160,7 +160,7 @@ export default {
 
         .title {
             color: #FF2A2A;
-            font-size: 22px;
+            font-size: 20px;
             margin-bottom: 115px;
             margin-top: 100px;
                 width: 540px;
@@ -188,7 +188,7 @@ export default {
 
             .getCode {
                 margin-left: 33px;
-                font-size: 16px;
+                font-size: 14px;
                 font-weight: 400;
                 text-decoration: underline;
                 color: #0078FF;
