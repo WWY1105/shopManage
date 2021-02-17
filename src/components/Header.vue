@@ -1,17 +1,17 @@
 <!--  -->
 <template>
 <div class='header flexSpace bgf'>
-    <h1 class="flagName">商户管理控制台&nbsp;&nbsp;&nbsp;&nbsp;{{$store.state.meta.title}}</h1>
+    <h1 class="flagName">{{$store.state.meta.title}}</h1>
     <div class="userInfo flexEnd">
-        <el-dropdown>
-            <span class="el-dropdown-link">
+        <!-- <el-dropdown> -->
+            <!-- <span class="el-dropdown-link">
                 <div class="content flexCenter">
                     <img class="headerIcon shuoming" src="../assets/images/header/shuoming.png" />
                     <span class="iconText">操作说明</span>
                     <i class="el-icon-arrow-down el-icon--right"></i>
                 </div>
-            </span>
-            <el-dropdown-menu slot="dropdown">
+            </span> -->
+            <!-- <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item>
                     <div class="instructions">
                         <p>
@@ -24,8 +24,8 @@
 
                     </div>
                 </el-dropdown-item>
-            </el-dropdown-menu>
-        </el-dropdown>
+            </el-dropdown-menu> -->
+        <!-- </el-dropdown> -->
         <router-link class="contact flexCenter" :to="{path: '/contact'}">
             <img class="headerIcon kefu" src="../assets/images/header/kefu.png" />
             <span class="iconText">联系客服</span>
@@ -123,18 +123,17 @@ export default {
 
 <style lang="scss" scoped>
 .header {
-    height: 100px;
-
+    height: 80px;
     padding: 0 28px;
 
     h1 {
         color: #00B0F0;
-        font-size: 24px;
+        font-size: 22px;
     }
 
     .headerIcon {
-        height: 25px;
-        width: 25px;
+        height: 15px;
+        width: 15px;
         margin-right: 10px;
     }
 
@@ -182,7 +181,7 @@ export default {
 
 .userDroupDown {
    &.el-dropdown-menu {
-        width: 304px;
+        width: 250px;
         text-align: left;
         top: 80px !important;
         right: 0 !important;
@@ -195,9 +194,9 @@ export default {
   
 
     /deep/ .el-dropdown-menu__item {
-        height: 60px;
+        height: 40px;
         border-bottom: 1px solid #E6E6E6;
-        line-height: 60px;
+        line-height: 40px;
         color: #3C3C3C;
         font-size: 12px;
         padding-left: 0;

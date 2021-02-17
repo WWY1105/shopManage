@@ -32,7 +32,7 @@
                             </el-form-item>
                         </div>
                     </el-col>
-                    <el-col :span="8">
+                    <el-col :span="4">
                         <div class="grid-content bg-purple">
                             <el-form-item label="客户组">
                                 <el-select v-model="json.usergroup" placeholder="客户组">

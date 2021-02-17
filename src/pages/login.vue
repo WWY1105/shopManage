@@ -47,7 +47,6 @@ export default {
             this.$store.dispatch('Login', {
                     client_id: 'business',
                     client_secret: '1234',
-                    // auth_type: 'business',
                     grant_type: 'business',
                     username: this.username,
                     password: this.password

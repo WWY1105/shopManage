@@ -11,7 +11,7 @@
             <p>联系电话：{{shopInfo.tel}}</p>
             <p>发票类型：{{shopInfo.invoice==1?'不开发票':shopInfo.invoice==2?'普票':shopInfo.invoice==3?'专票与普票':''}}</p>
         </div>
-        <el-button class="transBtn flexCenter">
+        <el-button class="transBtn flexCenter xiugaiBtn">
             <router-link :to="{name:'editShop'}">
                 <img src="../../assets/images/shops/editIcon.png" class="editIcon" alt="">
                 <span> 修改</span>
@@ -35,7 +35,7 @@
             <p class="desc">￥？？？</p>
             <div class="buttons flexCenter">
                 <el-button class="searchBtn">充值 </el-button>
-                <el-button class="transBtn" >资金明细</el-button>
+                <el-button class="transBtn">资金明细</el-button>
             </div>
         </div>
         <div class="eachInfo flexCenter">
@@ -135,7 +135,7 @@ export default {
             })
             return name;
         },
-        
+
     },
     computed: {},
     watch: {},
@@ -199,22 +199,36 @@ export default {
 <style lang="scss" scoped>
 .shops {
 
+    .editIcon {
+        width: 12px;
+        height: 12px;
+        margin-right: 4px;
+    }
+
+    >>>.el-button {
+        &.searchBtn {
+            padding: 5px;
+            border-radius: 30px;
+            font-size: 14px;
+        }
+
+        &.transBtn {
+            padding: 5px;
+            border-radius: 30px;
+            font-size: 14px;
+        }
+    }
+
     //min-height: 100%;
     .mainShopInfo {
         flex-direction: column;
         padding: 42px 0 88px 0;
 
-        .editIcon {
-            width: 17px;
-            height: 16px;
-            margin-right: 10px;
-        }
-
         .logo {
             width: 60px;
             height: 60px;
-            margin-bottom: 40px;
-                border-radius: 50%;
+            margin-bottom: 30px;
+            border-radius: 50%;
         }
 
         .shopName {
@@ -231,9 +245,11 @@ export default {
             font-family: Microsoft YaHei;
             font-weight: 400;
             color: #525252;
+            margin-bottom: 10px;
 
             p {
                 margin-bottom: 10px;
+                font-size: 16px;
             }
         }
     }
@@ -243,7 +259,7 @@ export default {
 
         .eachInfo {
             flex-direction: column;
-            border-right: 1px solid #B9B9B9;
+            // border-right: 1px solid #B9B9B9;
             width: 25%;
 
             &:last-child {
@@ -253,13 +269,12 @@ export default {
             .icon {
                 width: 60px;
                 height: 60px;
-                margin-bottom: 40px;
+                margin-bottom: 30px;
             }
 
             .title {
 
-                font-size: 22px;
-                font-family: Microsoft YaHei;
+                font-size: 18px;
                 font-weight: bold;
                 color: #00B0F0;
                 margin-bottom: 20px;
@@ -271,7 +286,7 @@ export default {
                 font-family: Microsoft YaHei;
                 font-weight: 400;
                 color: #525252;
-                margin-bottom: 40px;
+                margin-bottom: 30px;
             }
         }
 
@@ -290,16 +305,15 @@ export default {
         flex-wrap: wrap;
 
         .addShop {
-               min-width: 448px;
             background: #F4F4F4;
-            width: 406px;
-            max-width: 406px;
-            height: 406px;
+            height: 340px;
             font-size: 70px;
             color: #333;
             border-radius: 10px;
             margin-bottom: 20px;
-             padding: 26px 36px 46px;
+            max-width: 350px;
+            width: 350px;
+            padding: 25px;
             box-sizing: border-box;
         }
 
@@ -311,11 +325,11 @@ export default {
             flex: 1;
             margin-right: 36px;
             flex-direction: column;
-            max-width: 406px;
-            width: 406px;
-            padding: 26px 36px 46px;
+            min-width: 350px;
+            width: 350px;
+            padding: 25px;
             box-sizing: border-box;
-             min-width: 448px;
+            max-width: 350px;
             .logoBox {
                 width: 100%;
                 position: relative;
@@ -329,14 +343,13 @@ export default {
                 .logo {
                     width: 60px;
                     height: 60px;
-                      border-radius: 50%;
+                    border-radius: 50%;
                 }
             }
 
             .shopName {
                 margin-top: 40px;
-                font-size: 22px;
-                font-family: Microsoft YaHei;
+                font-size: 20px;
                 font-weight: bold;
                 color: #00B0F0;
             }
@@ -348,10 +361,11 @@ export default {
                 font-weight: 400;
                 color: #525252;
                 text-align: center;
-                margin-bottom: 50px;
+                margin-bottom: 30px;
 
                 p {
                     margin-bottom: 10px;
+
                 }
             }
 
@@ -364,6 +378,9 @@ export default {
                     &.deleteBtn {
                         color: #FF2B2B !important;
                         border-color: #FF2B2B;
+                        padding: 5px;
+                        border-radius: 30px;
+                        font-size: 14px;
                     }
                 }
 

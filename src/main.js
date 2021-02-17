@@ -29,7 +29,7 @@ import router from '@/router/index.js';
 
 const originalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {
-  return originalPush.call(this, location).catch(err => err)
+  return originalPush.call(this, location)
 }
 // 图片前缀
 Vue.prototype.$imgurl=process.env.IMG_URL;

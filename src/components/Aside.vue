@@ -5,18 +5,18 @@
     </div>
     <el-menu router default-active="1" text-color="#ffffff" background-color="#235676" class="el-menu-vertical-demo">
         <template v-for="(item,index) in list">
-            <el-menu-item :index="item.path+''" v-if="!item.subs">
+            <el-menu-item :index="item.path+''" v-if="!item.subs" :key="index">
                 <template slot="title">
                     <div class="menuContent">
-                        <img :src="item.icon" alt="">
+                        <img :src="item.icon" alt="" class="icon">
                         <span slot="title" style=" margin-left:10px;">{{item.title}}</span>
                     </div>
                 </template>
             </el-menu-item>
-            <el-submenu v-if="item.subs&&item.subs.length>0" :index="item.path+''">
+            <el-submenu v-if="item.subs&&item.subs.length>0" :index="item.path+''" :key="index">
                 <template slot="title">
-                    <i class="el-icon-location"></i>
-                    <span slot="title">{{item.title}}</span>
+                     <img :src="item.icon" alt="" class="icon">
+                    <span slot="title" style=" margin-left:10px;">{{item.title}}</span>
                 </template>
                 <el-menu-item v-for="(i,idx) in item.subs" :index="i.path+''" :key='idx'>{{i.title}}</el-menu-item>
             </el-submenu>
@@ -38,6 +38,7 @@ import pingjia from '../assets/images/slide/pingjia.png';
 import shangpin from '../assets/images/slide/shangpin.png';
 import shuju from '../assets/images/slide/shuju.png';
 import zhibo from '../assets/images/slide/zhibo.png';
+import yingxiao from '../assets/images/slide/yingxiao.png';
 export default {
     name: 'Aside',
     data() {
@@ -70,7 +71,7 @@ export default {
             }, {
                 title: '营销中心',
                 path: '/sales',
-                icon:'yingxiao'
+                icon:yingxiao
             }, {
                 title: '评价管理',
                 path: '/comment',
@@ -92,7 +93,7 @@ export default {
             }, {
                 title: '数据统计',
                 path: '/statistics',
-                icon:'',
+                icon:shuju,
                 subs: [{
                     title: '订单统计',
                     path: '/statistics/order',
@@ -153,12 +154,12 @@ export default {
     border: none;
 
    /deep/ .menuContent {
-        border-bottom: 1px solid #1A3F56;
+        // border-bottom: 1px solid #1A3F56;
         height: 75px;
         line-height: 75px;
         width: 100%;
         text-align: center;
-        img{
+        .icon{
             width: 30px;
             height: 30px;
         }
@@ -166,7 +167,7 @@ export default {
     }
 
     .el-menu-item {
-        padding: 0 26px;
+        // padding: 0 26px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -196,11 +197,18 @@ export default {
             background-color: #00B0F0 !important;
             color: #fff;
         }
+        .icon{
+                   width: 30px;
+            height: 30px;
+        }
     }
 }
 
 .logo {
     height: 100px;
     line-height: 100px;
+    img{
+        width: 150px;
+    }
 }
 </style>
