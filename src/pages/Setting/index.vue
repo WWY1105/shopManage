@@ -81,18 +81,17 @@ export default {
 
             .settingPart {
                 margin: 0 15px;
-                // background: #F4F4F4;
-                height: 376px;
+                height: 200px;
                 border-radius: 10px;
-                font-size: 20px;
+                font-size: 16px;
                 line-height: 32px;
                 width: 100%;
                 color: #000;
                
                 img {
-                    width: 110px;
-                    height: 110px;
-                    margin-bottom: 46px;
+                    width: 80px;
+                    height: 80px;
+                    margin-bottom: 30px;
                 }
             }
         }

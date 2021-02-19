@@ -133,7 +133,7 @@ export default {
     display:none;
 }
 .asliderBox{
-    max-height:100vh;overflow-y:scroll;position:fixed;left: 0;top:0;width: 220px;
+    max-height:100vh;overflow-y:scroll;position:fixed;left: 0;top:0;width: 180px;
 }
 .el-submenu {
     /deep/ .el-menu {
@@ -208,7 +208,7 @@ export default {
     height: 100px;
     line-height: 100px;
     img{
-        width: 150px;
+        width: 120px;
     }
 }
 </style>

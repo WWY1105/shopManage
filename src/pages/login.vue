@@ -2,7 +2,7 @@
 <template>
 <div class='login flexStart flexColumn'>
     <div class="content flexCenter flexColumn">
-        <img src="../assets/images/login/mainLogo.png" alt="" class="mainLogo">
+        <img src="../assets/images/logo.png" alt="" class="mainLogo">
         <el-form>
             <div class="flexStart flexColumn">
                 <el-form-item>
@@ -85,7 +85,6 @@ export default {
 
 <style lang="scss" scoped>
 .login {
-    // min-width: 100vw;
     height: 100%;
     background: url('../assets/images/login/loginBg.png')left center no-repeat;
     background-size: 100% 100%;
@@ -95,9 +94,8 @@ export default {
         width: 254px;
 
         .mainLogo {
-            width: 144px;
-            height: 89px;
-            margin-bottom: 118px;
+            width: 300px;
+            margin-bottom: 68px;
         }
 
         /deep/ .el-input__inner {
@@ -107,12 +105,14 @@ export default {
             border-radius: 25px;
             text-align: center;
             width: 254px;
+            height: 40px!important;
         }
 
         .loginBtn {
             width: 254px;
             border: none;
             margin-top: 100px;
+            height:40px
         }
 
         .forgetPass {
