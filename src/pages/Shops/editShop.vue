@@ -174,7 +174,7 @@ export default {
         text-align: center;
         color: #000;
         font-size: 14px;
-        height: 60px;
+        height: 60px!important;
         padding-right: 30px;
 
     }

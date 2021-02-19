@@ -1,18 +1,18 @@
 <!--  -->
 <template>
 <div class='setStyle bgf'>
-    <p class="tips">选择您的小程序软件风格和主题色</p>
-    <div class="content flexSpace">
-        <div class="imgBox flexCenter">
+    <p class="tips">选择风格颜色</p>
+    <el-row :gutter="20" type="flex" justify="top" class="content flexSpace">
+        <el-col :span="12" class="imgBox flexCenter">
             <img :src="mainImg" alt="" :style="'background:'+formLabelAlign.pageStyle">
             <img :src="detailImg" alt="" :style="'background:'+formLabelAlign.pageStyle">
             <p class="imgTips"></p>
-        </div>
-        <div class="colorBox">
-            <p class="tips">软件主题色选择</p>
-            <div class="colorList flexStart">
-                <el-row :gutter="50">
-                    <el-col :span="4" v-for="(i,j) in colorList" :key="j">
+        </el-col>
+        <el-col :span="12" class="colorBox ">
+            <!-- flexStart flexWrap -->
+            <div class="colorList ">
+                <el-row :gutter="50" type="flex" justify="start" align="top" class="flexWrap">
+                    <el-col :span="6" v-for="(i,j) in colorList" :key="j">
                         <p class="eachColor flexCenter" :style="{'background':i.color}" @click="value=>selectColor(value,j)">
                             <i class="el-icon-check" v-if="i.selected"></i>
                         </p>
@@ -22,7 +22,7 @@
             <p class="tips inputIips">自定义色值</p>
             <div class="flexStart ">
                 <div class="inputBox">
-                    <el-input @input="colorInput" placeholder="以#号开头" v-model="selectedColor"></el-input>
+                    <el-input @input="colorInput" placeholder="以#号开头" :value="formLabelAlign.pageStyle"></el-input>
                 </div>
                 <span class="colorTips">请填写6位色值</span>
             </div>
@@ -30,8 +30,8 @@
                 <el-button class="searchBtn" @click="saveDataFn">确定</el-button>
             </div>
 
-        </div>
-    </div>
+        </el-col>
+    </el-row>
 </div>
 </template>
 
@@ -41,17 +41,20 @@ import detailImg from '../../assets/images/shops/style/2.png'
 import {
     putInfo,
     getData
-} from '../../api/shops/index'
+} from '../../api/shops/index';
+import {
+    mapState
+} from 'vuex';
+
 export default {
     //import引入的组件需要注入到对象中才能使用
     components: {},
     data() {
         //这里存放数据
         return {
-            selectedColor:'',
+            // selectedColor: '',
             mainImg: mainImg,
             detailImg: detailImg,
-            formLabelAlign: {},
             colorList: [{
                     color: '#00B0F0',
                     selected: false
@@ -91,19 +94,26 @@ export default {
         };
     },
     //监听属性 类似于data概念
-    computed: {},
+    computed: {
+        ...mapState({
+             formLabelAlign: state => state.user.userInfo
+        })
+       
+    },
     //监控data中的数据变化
-    watch: {},
+    watch: {
+
+    },
     //方法集合
     methods: {
         colorInput(e) {
-            if (e.trim() != '') {
+            if (e.trim() != ''&&e.trim().length<=7) {
                 this.colorList.map(i => {
                     i.selected = false;
                 })
-                this.formLabelAlign.pageStyle = this.selectedColor;
+                this.$set(this.formLabelAlign,'pageStyle',e)
             }
-            
+            console.log(this.formLabelAlign)
         },
         selectColor(value, j) {
             this.colorList.map(i => {
@@ -111,30 +121,13 @@ export default {
             })
             this.colorList[j].selected = true;
             this.formLabelAlign.pageStyle = this.colorList[j].color;
-            this.selectedColor= this.colorList[j].color;
+            this.selectedColor = this.colorList[j].color;
         },
         saveDataFn() {
             let that = this;
-            let json = {};
-            if (this.formLabelAlign.imgurl) {
-                json.imgurl = this.formLabelAlign.imgurl;
-            }
-            if (this.formLabelAlign.name) {
-                json.name = this.formLabelAlign.name;
-            }
-            if (this.formLabelAlign.address) {
-                json.address = this.formLabelAlign.address;
-            }
-            if (this.formLabelAlign.tel) {
-                json.tel = this.formLabelAlign.tel;
-            }
-            if (this.formLabelAlign.invoice) {
-                json.invoice = this.formLabelAlign.invoice;
-            }
-            if (this.formLabelAlign.typeId) {
-                json.typeId = this.formLabelAlign.typeId;
-            }
-            // let selectColor = false;
+            let json = this.formLabelAlign;
+           
+
             this.colorList.map(i => {
                 if (i.selected) {
                     this.formLabelAlign.pageStyle = i.color;
@@ -170,25 +163,27 @@ export default {
                     that.$message({
                         showClose: true,
                         message: '保存成功',
-                        duration: 3 * 1000,
+                        duration:1 * 1000,
                         type: 'success'
                     })
-                    that.getDataFn()
+                    // that.getDataFn()
+                    that.$router.go(-1)
                 }
             })
         },
-        getDataFn() {
-            let that = this;
-            getData({}).then(res => {
-                if (res.code == '00') {
-                    that.formLabelAlign = res.data;
-                }
-            })
-        }
+        // getDataFn() {
+        //     let that = this;
+        //     getData({}).then(res => {
+        //         if (res.code == '00') {
+        //             that.formLabelAlign = res.data;
+        //         }
+        //     })
+        // }
     },
     //生命周期 - 创建完成（可以访问当前this实例）
     created() {
-        this.getDataFn()
+        // this.getDataFn()
+        console.log(this.$store.state)
     },
     //生命周期 - 挂载完成（可以访问DOM元素）
     mounted() {
@@ -207,66 +202,71 @@ export default {
 <style lang="scss" scoped>
 //@import url(); 引入公共css类
 .setStyle {
-    padding: 72px 78px;
+    padding: 30px;
 
     p.tips {
         color: #454545;
         font-size: 22px;
-        margin-bottom: 58px;
+        margin-bottom: 20px;
     }
 
-    .imgBox {
-        // width: 50%;
-        // height: 832px;
-        padding:36px 54px;
-        box-sizing: border-box;
-        border: 2px dashed #797979;
-        border-radius: 10px;
-      
-        img {
-            width: 375px;
-            height: 812px;
-            display: inline-block;
-              margin: 0 20px;
-        }
-    }
+    .content {
+        align-items: flex-start;
+        margin-top: 30px;
 
-    .colorBox {
-        width: 50%;
-            margin-left: 110px;
+        // .colorList>div{
+        //     width: 25%;
+        // }
+        .imgBox {
+            padding: 30px 10px;
+            box-sizing: border-box;
+            border: 2px dashed #797979;
+            border-radius: 10px;
 
-        .colorList {
-            margin-top: 33px;
+            img {
+                width: 220px;
+                display: inline-block;
+                margin: 0 20px;
+            }
         }
 
-        .eachColor {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            min-width: 60px;
-            color: #fff;
-            font-size: 24px;
-            font-weight: bolder;
-            margin-bottom: 50px;
-        }
+        .colorBox {
+            width: 50%;
+            margin-left: 30px;
 
-        .inputIips {
-            margin-bottom: 60px;
-        }
+            .colorList {
+                margin-bottom: 30px;
 
-        .inputBox {
-            width: 180px;
-            margin-right: 18px;
+                .eachColor {
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                    min-width: 40px;
+                    color: #fff;
+                    font-size: 24px;
+                    font-weight: bolder;
+                    margin-bottom: 20px;
+                }
+            }
 
-        }
+            .inputIips {
+                margin-bottom: 60px;
+            }
 
-        .colorTips {
-            color: #9A9A9A;
-            font-size: 22px;
-        }
+            .inputBox {
+                width: 180px;
+                margin-right: 18px;
 
-        .btnBox {
-            margin-top: 280px;
+            }
+
+            .colorTips {
+                color: #9A9A9A;
+                font-size: 22px;
+            }
+
+            .btnBox {
+                margin-top: 100px;
+            }
         }
     }
 }

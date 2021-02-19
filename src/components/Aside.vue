@@ -9,7 +9,7 @@
                 <template slot="title">
                     <div class="menuContent">
                         <img :src="item.icon" alt="" class="icon">
-                        <span slot="title" style=" margin-left:10px;">{{item.title}}</span>
+                        <span slot="title" style="margin-left:10px;">{{item.title}}</span>
                     </div>
                 </template>
             </el-menu-item>
@@ -133,7 +133,7 @@ export default {
     display:none;
 }
 .asliderBox{
-    max-height:100vh;overflow-y:scroll;position:fixed;left: 0;top:0;width: 180px;
+    max-height:100vh;overflow-y:scroll;position:fixed;left: 0;top:0;width: 150px;
 }
 .el-submenu {
     /deep/ .el-menu {
@@ -167,7 +167,7 @@ export default {
     }
 
     .el-menu-item {
-        // padding: 0 26px;
+        padding-left:5px!important;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -185,8 +185,7 @@ export default {
     }
 
     /deep/ .el-submenu__title {
-        padding: 0 !important;
-        border-bottom: 1px solid #1A3F56;
+        padding-left:5px !important;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -198,8 +197,11 @@ export default {
             color: #fff;
         }
         .icon{
-                   width: 30px;
+            width: 30px;
             height: 30px;
+        }
+        .el-submenu__icon-arrow{
+            right: 10px;
         }
     }
 }

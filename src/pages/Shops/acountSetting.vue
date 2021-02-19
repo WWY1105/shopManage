@@ -31,7 +31,7 @@
                 <p class="title">软件风格选择</p>
                 <p class="tips">软件类型：标准风格与功能</p>
                 <p class="themeColor flexStart">
-                    <span> 主题色：</span>
+                    <span> 主题色：{{userInfo.pageStyle}}</span>
                     <span class="color"></span>
                 </p>
                 <router-link :to="{path:'/shops/setStyle'}">
@@ -44,6 +44,7 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
 export default {
     components: {},
     data() {
@@ -51,13 +52,15 @@ export default {
 
         };
     },
-    computed: {},
+    computed: mapState({
+        userInfo:state=>state.user.userInfo
+    }),
     watch: {},
     methods: {
 
     },
     created() {
-
+        console.log(this.$store.state)
     },
     mounted() {
 

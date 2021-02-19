@@ -6,8 +6,7 @@ import { Message } from 'element-ui'
 const user = {
   state: {
     token: getToken(),
-    name: '',
-    avatar: '',
+    userInfo:null,
     branch: []
   },
 
@@ -15,15 +14,19 @@ const user = {
     SET_TOKEN: (state, token) => {
       state.token = token
     },
-    SET_NAME: (state, name) => {
-      state.name = name
-    },
-    SET_AVATAR: (state, avatar) => {
-      state.avatar = avatar
-    },
+    // SET_NAME: (state, name) => {
+    //   state.name = name
+    // },
+    // SET_AVATAR: (state, avatar) => {
+    //   state.avatar = avatar
+    // },
     SET_BRANCH: (state, branch) => {
       state.branch = branch
+    },
+    SET_USERINFO:(state,user)=>{
+      state.userInfo=user
     }
+
   },
 
   actions: {
@@ -64,11 +67,8 @@ const user = {
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
         getInfo().then(response => {
-
           const data = response.data
-          commit('SET_NAME', data.name)
-          commit('SET_AVATAR', data.imgurl)
-
+          commit('SET_USERINFO', data)
           resolve(response)
         }).catch(error => {
           reject(error)
