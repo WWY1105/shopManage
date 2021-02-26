@@ -9,7 +9,7 @@
                     <el-input placeholder="账户" v-model="username"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-input placeholder="密码" show-password v-model="password" ></el-input>
+                    <el-input placeholder="密码" show-password v-model="password"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-button class="searchBtn loginBtn" @click="onSubmit">登陆</el-button>
@@ -43,20 +43,22 @@ export default {
         // 点击登录
         onSubmit() {
             let that = this;
-           
+
             this.$store.dispatch('Login', {
                     client_id: 'business',
                     client_secret: '1234',
                     grant_type: 'business',
                     username: this.username,
                     password: this.password
-                 
+
                 }).then(function (response) {
                     console.log(response);
                     if (response && response.access_token) {
-                         that.$router.push({
+                        that.$store.dispatch('Getdistributions').then(result => {
+                            that.$router.push({
                                 path: '/'
                             })
+                        })
 
                     }
                 })
@@ -65,7 +67,7 @@ export default {
                 });
 
         }
-       
+
     },
     created() {
 
@@ -105,14 +107,14 @@ export default {
             border-radius: 25px;
             text-align: center;
             width: 254px;
-            height: 40px!important;
+            height: 40px !important;
         }
 
         .loginBtn {
             width: 254px;
             border: none;
             margin-top: 100px;
-            height:40px
+            height: 40px
         }
 
         .forgetPass {

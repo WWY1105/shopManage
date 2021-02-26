@@ -237,6 +237,13 @@ export default new Router({
               title: ""
             }
           }, {
+            path: '/sales/shortMessage',
+            name: 'shortMessage',
+            component: () => import('@/pages/Sales/shortMessage/index.vue'),
+            meta: {
+              title: ""
+            }
+          },{
             path: '/sales/fullReductionDiscount',
             name: 'fullReductionDiscount',
             component: () => import('@/pages/Sales/fullReductionDiscount/index.vue'),
@@ -268,6 +275,13 @@ export default new Router({
             path: '/sales/free',
             name: 'free',
             component: () => import('@/pages/Sales/free/index.vue'),
+            meta: {
+              title: ""
+            }
+          }, {
+            path: '/sales/integral',
+            name: 'integral',
+            component: () => import('@/pages/Sales/integral/index.vue'),
             meta: {
               title: ""
             }

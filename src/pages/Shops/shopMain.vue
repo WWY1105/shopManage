@@ -11,12 +11,15 @@
             <p>联系电话：{{shopInfo.tel}}</p>
             <p>发票类型：{{shopInfo.invoice==1?'不开发票':shopInfo.invoice==2?'普票':shopInfo.invoice==3?'专票与普票':''}}</p>
         </div>
+        <div class="flexCenter">
         <el-button class="transBtn flexCenter xiugaiBtn">
             <router-link :to="{name:'editShop'}">
                 <img src="../../assets/images/shops/editIcon.png" class="editIcon" alt="">
                 <span> 修改</span>
             </router-link>
         </el-button>
+        <el-button class="transBtn" @click="toSetting">账户设置</el-button>
+    </div>
     </div>
 
     <div class="shopPartInfo bgf flexSpace">
@@ -26,7 +29,7 @@
             <p class="desc">已激活 有效期至{{shopInfo.expireTime}}</p>
             <div class="buttons flexCenter">
                 <el-button class="searchBtn" @click="showTipsDialog=true">续费</el-button>
-                <el-button class="transBtn" @click="toSetting">账户设置</el-button>
+                <!-- <el-button class="transBtn" @click="toSetting">账户设置</el-button> -->
             </div>
         </div>
         <div class="eachInfo flexCenter">
@@ -76,10 +79,12 @@
                 <p>发票类型：{{i.invoice|invoicesFilter}}</p>
             </div>
             <div class="btnBox flexSpace">
-                <el-button class="transBtn flexCenter">
-                    <img src="../../assets/images/shops/editIcon.png" class="editIcon" alt="">
-                    <span> 修改</span>
-                </el-button>
+                      <router-link :to="{name:'editShop',query:{child:i}}">
+                    <el-button class="transBtn flexCenter">
+                        <img src="../../assets/images/shops/editIcon.png" class="editIcon" alt="">
+                        <span> 修改</span>
+                    </el-button>
+                </router-link>
                 <el-button class="transBtn deleteBtn flexCenter">
                     <i class="el-icon-delete"></i>
                     <span>删除???</span>
@@ -112,7 +117,7 @@ import {
 import {
     invoicesList
 } from '../../utils/jsons';
-let that;
+
 export default {
     components: {},
     data() {
@@ -120,16 +125,17 @@ export default {
             showTipsDialog: false,
             brand: [],
             shopInfo: {},
-            value: true,
-            invoices: invoicesList
+            value: true
         };
     },
     filters: {
         invoicesFilter(val) {
+            //console.log('发票'+val)
+            //console.log(invoicesList)
             let name;
             val = val.trim()
             invoicesList.map(i => {
-                if (i.value == val) {
+                if (i.id == val) {
                     name = i.name;
                 }
             })
@@ -330,6 +336,7 @@ export default {
             padding: 25px;
             box-sizing: border-box;
             max-width: 350px;
+
             .logoBox {
                 width: 100%;
                 position: relative;

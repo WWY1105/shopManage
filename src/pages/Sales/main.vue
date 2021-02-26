@@ -3,173 +3,24 @@
 <div class='sale'>
     <!-- 商品营销 -->
     <div class="part bgf flexCenter flexColumn">
-        <p class="chTitle">商品营销</p>
-        <p class="enTitle">Commodity marketing</p>
+        <!-- <p class="chTitle">商品营销</p>
+        <p class="enTitle">Commodity marketing</p> -->
         <div class="content">
-            <el-row :gutter="20" type="flex" justify="space-between" align="bottom">
-                <el-col :span="6">
-                    <router-link :to="{path:'/sales/preSale'}" tag="div" class="flexCenter flexColumn">
-                        <img src="../../assets/images/sales/yushou.png" alt="">
-                        <p>预售</p>
-                        <el-switch size="large" @change="saveDataFn" v-model="saleData.ys" active-color="#00B0F0" inactive-color="#aaaaaa">
-                        </el-switch>
+            <div  class="gridBox">
+                <div :span="6" v-for="(item,index) in saleList" :key="index">
+                    <router-link :to="{path:item.path}" tag="div" class="flexCenter flexColumn eachItem">
+                        <div class="imgBox">
+                            <div class="shadow"></div>
+                            <img :src="item.iconActive" alt="" v-if="saleData[item.attr]">
+                            <img :src="item.icon" alt="" v-else>
+                        </div>
+                        <p>{{item.text}}</p>
                     </router-link>
-                </el-col>
-                <el-col :span="6">
-                    <router-link :to="{path:'/sales/makeGroup'}" tag="div" class="flexCenter flexColumn">
-                        <img src="../../assets/images/sales/pintuan.png" alt="">
-                        <p>拼团</p>
-                        <el-switch @change="saveDataFn" size="large" v-model="saleData.pt" active-color="#00B0F0" inactive-color="#aaaaaa">
-                        </el-switch>
-                    </router-link>
-                </el-col>
-                <el-col :span="6">
-                    <router-link :to="{path:'/sales/seckill'}" tag="div" class="flexCenter flexColumn">
-                        <img src="../../assets/images/sales/miaosha.png" alt="">
-                        <p>限时秒杀</p>
-                        <el-switch @change="saveDataFn" size="large" v-model="saleData.ms" active-color="#00B0F0" inactive-color="#aaaaaa">
-                        </el-switch>
-                    </router-link>
-                </el-col>
-                <el-col :span="6">
-                    <router-link :to="{path:'/sales/togetherDiscount'}" tag="div" class="flexCenter flexColumn">
-                        <img src="../../assets/images/sales/tongxing.png" alt="">
-                        <p>同行优惠</p>
-                        <el-switch @change="saveDataFn" size="large" v-model="saleData.txyh" active-color="#00B0F0" inactive-color="#aaaaaa">
-                        </el-switch>
-                    </router-link>
-                </el-col>
-            </el-row>
-            <el-row :gutter="20" type="flex" justify="start" align="bottom">
-                <el-col :span="6">
-                    <router-link :to="{path:'/sales/bargaining'}" tag="div" class="flexCenter flexColumn">
-                        <img src="../../assets/images/sales/kanjia.png" alt="">
-                        <p>砍价</p>
-                        <el-switch @change="saveDataFn" size="large" v-model="saleData.kj" active-color="#00B0F0" inactive-color="#aaaaaa">
-                        </el-switch>
-                    </router-link>
-                </el-col>
-                <el-col :span="6">
-                    <router-link :to="{path:'/sales/free'}" tag="div" class="flexCenter flexColumn">
-                        <img src="../../assets/images/sales/mianfei.png" alt="">
-                        <p>免费拿</p>
-                        <el-switch @change="saveDataFn" size="large" v-model="saleData.mfn" active-color="#00B0F0" inactive-color="#aaaaaa">
-                        </el-switch>
-                    </router-link>
-                </el-col>
-                <el-col :span="6">
-                    <router-link :to="{path:'/sales/distribute'}" tag="div" class="flexCenter flexColumn">
-                        <img src="../../assets/images/sales/peisong.png" alt="">
-                        <p>配送</p>
-                        <el-switch @change="saveDataFn" size="large" v-model="saleData.ps" active-color="#00B0F0" inactive-color="#aaaaaa">
-                        </el-switch>
-                    </router-link>
-                </el-col>
-
-            </el-row>
+                </div>
+            </div>
         </div>
     </div>
-    <!-- 优惠营销 -->
-    <div class="part bgf flexCenter flexColumn">
-        <p class="chTitle">优惠营销</p>
-        <p class="enTitle">Preferential marketing</p>
-        <div class="content">
-            <el-row :gutter="20" type="flex" justify="space-between" align="bottom">
-                <el-col :span="6">
-                    <router-link :to="{path:'/sales/fullReductionDiscount'}" tag="div" class="flexCenter flexColumn">
-                        <img src="../../assets/images/sales/manjian.png" alt="">
-                        <p>满减优惠</p>
-                        <el-switch @change="saveDataFn" size="large" v-model="saleData.mjyh" active-color="#00B0F0" inactive-color="#aaaaaa">
-                        </el-switch>
-                    </router-link>
-                </el-col>
-                <el-col :span="6">
-                    <router-link :to="{path:'/sales/coupon'}" tag="div" class="flexCenter flexColumn">
-                        <img src="../../assets/images/sales/youhuiquan.png" alt="">
-                        <p>优惠券</p>
-                        <el-switch @change="saveDataFn" size="large" v-model="saleData.yhq" active-color="#00B0F0" inactive-color="#aaaaaa">
-                        </el-switch>
-                    </router-link>
-                </el-col>
-                <el-col :span="6">
-                    <router-link :to="{path:'/sales/integral'}" tag="div" class="flexCenter flexColumn">
-                        <img src="../../assets/images/sales/jifen.png" alt="">
-                        <p>积分</p>
-                        <el-switch @change="saveDataFn" size="large" v-model="saleData.jf" active-color="#00B0F0" inactive-color="#aaaaaa">
-                        </el-switch>
-                    </router-link>
-                </el-col>
-                <el-col :span="6">
-                    <router-link :to="{path:'/sales/rebate'}" tag="div" class="flexCenter flexColumn">
-                        <img src="../../assets/images/sales/fanli.png" alt="">
-                        <p>返利</p>
-                        <el-switch @change="saveDataFn" size="large" v-model="saleData.fl" active-color="#00B0F0" inactive-color="#aaaaaa">
-                        </el-switch>
-                    </router-link>
-                </el-col>
-            </el-row>
-        </div>
-    </div>
-
-    <!-- 客户营销 -->
-    <div class="part bgf flexCenter flexColumn">
-        <p class="chTitle">客户营销</p>
-        <p class="enTitle">Customer marketing</p>
-        <div class="content">
-            <el-row :gutter="20" type="flex" justify="space-between" align="bottom">
-                <el-col :span="6">
-                    <router-link :to="{path:'/sales/member'}" tag="div" class="flexCenter flexColumn">
-                        <img src="../../assets/images/sales/huiyuan.png" alt="">
-                        <p>会员</p>
-                        <el-switch @change="saveDataFn" size="large" v-model="saleData.hy" active-color="#00B0F0" inactive-color="#aaaaaa">
-                        </el-switch>
-                    </router-link>
-                </el-col>
-                <el-col :span="6">
-                    <router-link :to="{path:'/sales/store'}" tag="div" class="flexCenter flexColumn">
-                        <img src="../../assets/images/sales/chuzhika.png" alt="">
-                        <p>储值卡</p>
-                        <el-switch @change="saveDataFn" size="large" v-model="saleData.czk" active-color="#00B0F0" inactive-color="#aaaaaa">
-                        </el-switch>
-                    </router-link>
-                </el-col>
-                <el-col :span="6">
-                    <router-link :to="{path:'/sales/distribution'}" tag="div" class="flexCenter flexColumn">
-                        <img src="../../assets/images/sales/fenxiao.png" alt="">
-                        <p>分销</p>
-                        <el-switch @change="saveDataFn" size="large" v-model="saleData.fx" active-color="#00B0F0" inactive-color="#aaaaaa">
-                        </el-switch>
-                    </router-link>
-                </el-col>
-                <el-col :span="6">
-                    <router-link :to="{path:'/sales/lottery'}" tag="div" class="flexCenter flexColumn">
-                        <img src="../../assets/images/sales/choujiang.png" alt="">
-                        <p>抽奖</p>
-                        <el-switch @change="saveDataFn" size="large" v-model="saleData.cj" active-color="#00B0F0" inactive-color="#aaaaaa">
-                        </el-switch>
-                    </router-link>
-                </el-col>
-            </el-row>
-            <el-row :gutter="20" type="flex" justify="start" align="bottom">
-                <el-col :span="6">
-                    <router-link :to="{path:'/sales/messagePush'}" tag="div" class="flexCenter flexColumn">
-                        <img src="../../assets/images/sales/xiaoxi.png" alt="">
-                        <p>消息推送</p>
-                        <el-switch @change="saveDataFn" size="large" v-model="saleData.xxts" active-color="#00B0F0" inactive-color="#aaaaaa">
-                        </el-switch>
-                    </router-link>
-                </el-col>
-                <el-col :span="6">
-                    <router-link :to="{path:'/sales/shortMessage'}" tag="div" class="flexCenter flexColumn">
-                        <img src="../../assets/images/sales/duanxin.png" alt="">
-                        <p>短信群发</p>
-                        <el-switch @change="saveDataFn" size="large" v-model="saleData.dxqf" active-color="#00B0F0" inactive-color="#aaaaaa">
-                        </el-switch>
-                    </router-link>
-                </el-col>
-            </el-row>
-        </div>
-    </div>
+  
 
 </div>
 </template>
@@ -179,16 +30,180 @@ import {
     getData,
     saveData
 } from '../../api/sales/index';
+import yushou from '../../assets/images/sales/yushou.png';
+import yushou_active from "../../assets/images/sales/yushou_active.png";
+import pintuan_active from  '../../assets/images/sales/pintuan_active.png'
+import pintuan from  '../../assets/images/sales/pintuan.png'
+import miaosha_active from "../../assets/images/sales/miaosha_active.png"
+import miaosha from "../../assets/images/sales/miaosha.png"
+import tongxing_active from  '../../assets/images/sales/tongxing_active.png'
+import tongxing from   '../../assets/images/sales/tongxing.png'
+import kanjia_active from  "../../assets/images/sales/kanjia_active.png"
+import kanjia from  "../../assets/images/sales/kanjia.png"
+import mianfei_active from "../../assets/images/sales/mianfei_active.png"
+import mianfei from "../../assets/images/sales/mianfei.png"
+
+import peisong_active from "../../assets/images/sales/peisong_active.png"
+import peisong from "../../assets/images/sales/peisong.png"
+import youhuiquan_active from "../../assets/images/sales/youhuiquan_active.png"
+import youhuiquan from "../../assets/images/sales/youhuiquan.png"
+import jifen_active from "../../assets/images/sales/jifen_active.png"
+import jifen from "../../assets/images/sales/jifen.png"
+import fanli_active from "../../assets/images/sales/fanli_active.png"
+import fanli from "../../assets/images/sales/fanli.png"
+
+import huiyuan_active from "../../assets/images/sales/huiyuan_active.png"
+import huiyuan from "../../assets/images/sales/huiyuan.png"
+import chuzhika_active from "../../assets/images/sales/chuzhika_active.png"
+import chuzhika from "../../assets/images/sales/chuzhika.png"
+import fenxiao_active from "../../assets/images/sales/fenxiao_active.png"
+import fenxiao from "../../assets/images/sales/fenxiao.png"
+import choujiang_active from "../../assets/images/sales/choujiang_active.png"
+import choujiang from "../../assets/images/sales/choujiang.png"
+import xiaoxi_active from "../../assets/images/sales/xiaoxi_active.png"
+import xiaoxi from "../../assets/images/sales/xiaoxi.png"
+import duanxin_active from "../../assets/images/sales/duanxin_active.png"
+import duanxin from "../../assets/images/sales/duanxin.png"
+import manjian_active from "../../assets/images/sales/manjian_active.png"
+import manjian from "../../assets/images/sales/manjian.png"
+import { mapState } from 'vuex';
+
 export default {
     components: {},
     data() {
         return {
-            saleData: {}
+            saleList:[
+                {
+                    text:'预售',
+                    icon:yushou,
+                    iconActive:yushou_active,
+                    path:'/sales/preSale',
+                    attr:'ys',
+                    active:false
+                },{
+                    text:'拼团',
+                    icon:pintuan,
+                    iconActive:pintuan_active,
+                    path:'/sales/makeGroup',
+                    attr:'pt',
+                    active:false
+                },{
+                    text:'限时秒杀',
+                    icon:miaosha,
+                    iconActive:miaosha_active,
+                    path:'/sales/seckill',
+                    attr:'ms',
+                    active:false
+                },{
+                    text:'同行优惠',
+                    icon:tongxing,
+                    iconActive:tongxing_active,
+                    path:'/sales/togetherDiscount',
+                    attr:'txyh',
+                    active:false
+                }, 
+                 {
+                    text:'砍价',
+                    icon:kanjia,
+                    iconActive:kanjia_active,
+                    path:'/sales/bargaining',
+                    attr:'kj',
+                    active:false
+                },{
+                    text:'免费拿',
+                    icon:mianfei,
+                    iconActive:mianfei_active,
+                    path:'/sales/free',
+                    attr:'mfn',
+                    active:false
+                },{
+                    text:'配送',
+                    icon:peisong,
+                    iconActive:peisong_active,
+                    path:'/sales/distribute',
+                    attr:'ps',
+                    active:false
+                },{
+                    text:'满减优惠',
+                    icon:manjian,
+                    iconActive:manjian_active,
+                    path:'/sales/fullReductionDiscount',
+                    attr:'mjyh',
+                    active:false
+                },{
+                    text:'优惠券',
+                    icon:youhuiquan,
+                    iconActive:youhuiquan_active,
+                    path:'/sales/coupon',
+                    attr:'yhq',
+                    active:false
+                },{
+                    text:'积分',
+                    icon:jifen,
+                    iconActive:jifen_active,
+                    path:'/sales/integral',
+                    attr:'jf',
+                    active:false
+                },{
+                    text:'返利',
+                    icon:fanli,
+                    iconActive:fanli_active,
+                    path:'/sales/rebate',
+                    attr:'fl',
+                    active:false
+                },{
+                    text:'会员',
+                    icon:huiyuan,
+                    iconActive:huiyuan_active,
+                    path:'/sales/member',
+                    attr:'hy',
+                    active:false
+                },
+                {
+                    text:'储值卡',
+                    icon:chuzhika,
+                    iconActive:chuzhika_active,
+                    path:'/sales/store',
+                    attr:'czk',
+                    active:false
+                },{
+                    text:'分销',
+                    icon:fenxiao,
+                    iconActive:fenxiao_active,
+                    path:'/sales/distribution',
+                    attr:'fx',
+                    active:false
+                },{
+                    text:'抽奖',
+                    icon:choujiang,
+                    iconActive:choujiang_active,
+                    path:'/sales/lottery',
+                    attr:'cj',
+                    active:false
+                },{
+                    text:'消息推送',
+                    icon:xiaoxi,
+                    iconActive:xiaoxi_active,
+                    path:'/sales/messagePush',
+                    attr:'xxts',
+                    active:false
+                },{
+                    text:'短信群发',
+                    icon:duanxin,
+                    iconActive:duanxin_active,
+                    path:'/sales/shortMessage',
+                    attr:'dxqf',
+                    active:false
+                },
+            ]
         };
     },
-    computed: {
-
-    },
+    computed:mapState({
+        saleData(state){
+           return state.distribution.distributions
+        }
+        
+    }),
     watch: {
 
     },
@@ -210,20 +225,20 @@ export default {
                 }
             })
         },
-        getState() {
-            if (!this.$store.state.distribution.distributions) {
-                this.$store.dispatch('Getdistributions').then(result => {
-                    this.saleData = result;
-                })
-            } else {
-                this.saleData = this.$store.state.distribution.distributions;
-            }
-        },
+        // getState() {
+        //     if (!this.$store.state.distribution.distributions) {
+        //         this.$store.dispatch('Getdistributions').then(result => {
+        //             this.saleData = result;
+        //         })
+        //     } else {
+        //         this.saleData = this.$store.state.distribution.distributions;
+        //     }
+        // },
         //    模块开关----end
     },
 
     created() {
-        this.getState()
+        // this.getState()
     },
     mounted() {
 
@@ -241,11 +256,58 @@ export default {
 <style lang="scss" scoped>
 //@import url(); 引入公共css类
 .sale {
-
-    //min-height: 100%;
-    .part {
-        margin-bottom: 20px;
+    .content {
+    width: 100%;
         padding: 34px 50px 50px;
+        .gridBox{
+            display: grid;
+            grid-template-columns:25% 25% 25% 25%; 
+            justify-items: center;
+        }
+        .eachItem {
+            cursor: pointer;
+            width: 200px;
+            height: 200px;
+            background: rgba(238, 238, 238, .5);
+            border-radius: 10px;
+            margin-top: 30px;
+
+            .imgBox {
+                position: relative;
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                margin-bottom: 30px;
+                .shadow {
+                    width: 100%;
+                    height: 100%;
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    background: rgba(0, 0, 0, .2);
+                    z-index: 111;
+                    display: none;
+                    border-radius: 50%;
+
+                }
+
+                img {
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                  
+                    left: 0;
+                    top: 0;
+                }
+
+            }
+
+            &:hover {
+                .shadow {
+                    display: block;
+                }
+            }
+        }
 
         .chTitle {
             font-size: 30px;
@@ -263,17 +325,10 @@ export default {
         .content {
             width: 100%;
 
-            img {
-                width: 50px;
-                height: 50px;
-                margin-bottom: 20px;
-                margin-top: 60px;
-            }
-
             p {
                 font-size: 14px;
                 color: #000;
-                margin-bottom: 20px;
+                  margin-top: 30px;
             }
         }
     }

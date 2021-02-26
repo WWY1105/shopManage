@@ -519,7 +519,7 @@ export default {
 
 .tableBox {
     background: #fff;
-    padding: 39px 32px;
+   padding: 35px;
     margin-top: 20px;
 
 }

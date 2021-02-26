@@ -561,7 +561,7 @@ export default {
     }
 
     /deep/ .el-form-item__label {
-        line-height: 42px;
+        line-height:30 px;
     }
 }
 
@@ -572,7 +572,7 @@ export default {
 }
 
 /deep/.el-form-item__label {
-    line-height: 42px;
+    line-height: 30px;
 }
 
 .categorySelect1 {

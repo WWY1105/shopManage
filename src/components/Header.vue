@@ -37,7 +37,7 @@
         <el-dropdown @command="handleCommand">
             <span class="el-dropdown-link">
                 <div class="content flexCenter">
-                    <img v-if="user.avatar" class="user" :src="$imgurl+user.avatar" alt="">
+                    <img v-if="user.imgurl" class="user" :src="$imgurl+user.imgurl" alt="">
                     <img v-else src="../assets/images/header/user.png"  class="user" />
                     <span class="userName">{{user&&user.name?user.name:'未登录'}}</span>
                     <i class="el-icon-arrow-down el-icon--right"></i>
@@ -45,7 +45,7 @@
             </span>
             <div class="userBox">
                 <el-dropdown-menu slot="dropdown" class="userDroupDown">
-                    <el-dropdown-item :command="i.id" v-for="(i,j) in user.branch" :key="j">{{i.name}}</el-dropdown-item>
+                    <el-dropdown-item :command="i.id" v-for="(i,j) in branch" :key="j">{{i.name}}</el-dropdown-item>
                     <!-- <el-dropdown-item>分店分店</el-dropdown-item> -->
                     <el-dropdown-item class="noBorder">
                         <p class="logoutText" @click="LogOut">退出登陆</p>
@@ -71,7 +71,7 @@ export default {
 
         };
     },
-    props: ['user'],
+    props: ['user','branch'],
     computed: {},
     watch: {},
     methods: {
@@ -85,15 +85,16 @@ export default {
         },
         // 切换门店
         handleCommand(val) {
-            console.log(val)
+            if(!val)return;
+            let that=this;
             changeShop({
                 businessId: val
             }).then(res => {
                 if (res.code == '00') {
-                    console.log(res)
+                    //console.log(res)
                     if (res.data && res.data.access_token) {
                         setToken(res.data.access_token);
-                        this.$router.go(0);
+                        that.$router.go(0);
                     }
                 }
             })
@@ -108,8 +109,8 @@ export default {
         // }
     },
     mounted() {
-        console.log('头部获取')
-        console.log(this.user)
+        //console.log('头部获取')
+        //console.log(this.user)
     },
     beforeCreate() {}, //生命周期 - 创建之前
     beforeMount() {}, //生命周期 - 挂载之前

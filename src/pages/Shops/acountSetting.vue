@@ -1,7 +1,23 @@
 <!--  -->
 <template>
 <div class='acountSetting'>
-    <div class="baseSetting bgf flexStart">
+     <div class="styleSetting bgf">
+        <div class="flexCenter">
+            <img src="../../assets/images/shops/phoneStyle.png" alt="" class="styleImg">
+            <div class="textBox">
+                <p class="title">软件风格选择</p>
+                <p class="tips">软件类型：标准风格与功能</p>
+                <div class="themeColor flexStart">
+                    <p class="flexStart"> 主题色：<span class="pageStyle" :style="{'background':userInfo.pageStyle}"></span></p>
+                    <span class="color"></span>
+                </div>
+                <router-link :to="{path:'/shops/setStyle'}">
+                    <el-button class="searchBtn setStyleBtn">修改</el-button>
+                </router-link>
+            </div>
+        </div>
+    </div>
+    <div class="baseSetting bgf flexCenter">
         <div class="eachSetting flexCenter flexColumn">
             <img src="../../assets/images/shops/haohua.png" alt="">
             <p class="title">微信小程序对接</p>
@@ -24,22 +40,7 @@
             <el-button class="searchBtn dangerBtn">配置???</el-button>
         </div>
     </div>
-    <div class="styleSetting bgf">
-        <div class="flexStart">
-            <img src="../../assets/images/shops/phoneStyle.png" alt="" class="styleImg">
-            <div class="textBox">
-                <p class="title">软件风格选择</p>
-                <p class="tips">软件类型：标准风格与功能</p>
-                <p class="themeColor flexStart">
-                    <span> 主题色：{{userInfo.pageStyle}}</span>
-                    <span class="color"></span>
-                </p>
-                <router-link :to="{path:'/shops/setStyle'}">
-                    <el-button class="searchBtn setStyleBtn">修改</el-button>
-                </router-link>
-            </div>
-        </div>
-    </div>
+   
 </div>
 </template>
 
@@ -60,7 +61,7 @@ export default {
 
     },
     created() {
-        console.log(this.$store.state)
+        //console.log(this.$store.state)
     },
     mounted() {
 
@@ -79,12 +80,12 @@ export default {
 //@import url(); 引入公共css类
 .baseSetting {
     padding: 74px 0 74px 10px;
-    border: 1px solid #C7C7C7;
-    margin-bottom: 20px;
+    // border: 1px solid #C7C7C7;
+    margin-top: 20px;
 
     .eachSetting {
-        padding: 67px;
-        border-right: 1px solid #B9B9B9;
+        padding: 0 90px;
+        // border-right: 1px solid #B9B9B9;
 
         &:last-child {
             border: none
@@ -148,6 +149,12 @@ export default {
             font-weight: 400;
             color: #000000;
             line-height: 66px;
+            .pageStyle{
+                width:30px;
+                height: 30px;
+                display: inline-block;
+                border-radius: 50%;
+            }
         }
         .searchBtn{
             margin-top: 52px;

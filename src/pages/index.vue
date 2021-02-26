@@ -7,7 +7,7 @@
         </el-aside>
         <el-container>
             <el-header height="80px">
-                <Header :user="user"/>
+                <Header :user="userInfo" :branch="branch"/>
             </el-header>
             <el-main style="background:#F4F4F4">
                    <router-view />
@@ -20,6 +20,7 @@
 <script>
 import Aside from '@/components/Aside'
 import Header from '@/components/Header'
+import {mapState} from 'vuex'
 export default {
     components: {
         Aside,
@@ -30,45 +31,19 @@ export default {
 
         };
     },
-    computed: {},
+    computed:  mapState({
+        userInfo:state=>state.user.userInfo,
+        branch:state=>state.user.branch
+    }),
     watch: {},
      methods: {
-        getBaseInfo() {
-            let state = {
-                ...this.$store.state
-            };
-            this.user = state.user ? state.user : {};
-            if (!this.user.name) {
-                this.$store.dispatch('GetInfo').then((res) => {
-
-                })
-            }
-            if (!this.user.branch || this.user.branch.length <= 0) {
-                this.$store.dispatch('Branch').then((res) => {
-                    this.user.branch = res.data;
-                })
-            } else {
-                // console.log('有店铺')
-            }
-        },
-        // 获取营销
-         getState() {
-            if (!this.$store.state.distribution.distributions) {
-                this.$store.dispatch('Getdistributions').then(result => {
-                    this.saleData = result;
-                })
-            } else {
-                this.saleData = this.$store.state.distribution.distributions;
-            }
-        },
+       
+     
     },
     created(){
-        console.log('吧')
-        this.getBaseInfo();
-        this.getState()
+        //console.log(this.$store.state)
     },
     mounted() {
-          console.log('mounted')
     },
     beforeCreate() {}, //生命周期 - 创建之前
     beforeMount() {}, //生命周期 - 挂载之前

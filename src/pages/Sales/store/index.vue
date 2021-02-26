@@ -428,7 +428,7 @@ export default {
     }
 
     /deep/ .el-form-item__label {
-        line-height: 42px;
+        line-height: 30px;
     }
 
     .el-radio {

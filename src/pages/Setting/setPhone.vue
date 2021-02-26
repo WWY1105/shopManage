@@ -23,7 +23,7 @@
                 </div>
             </el-form-item>
         </el-form>
-        <div class="btnBox flexCenter flexColumn">
+        <div class="btnBox flexCenter">
             <el-button class="searchBtn" @click="onSubmit">确认绑定</el-button>
             <el-button class="cancelBtn" @click="back">取消</el-button>
         </div>

@@ -116,7 +116,7 @@
                     <el-col :span="3">
                         <div class="grid-content bg-purple flexEnd">
                             <el-form-item>
-                                <el-button type="primary" @click="getList">查询</el-button>
+                                <el-button type="primary" @click="getList" class="searchBtn">查询</el-button>
                             </el-form-item>
                         </div>
                     </el-col>
@@ -206,20 +206,31 @@
                     <div class="firstCategoryName flexStart">
                         <span class="categoryLabel">分类</span>
                         <div class="tags">
-                            <el-tag :color="item.name?'#00aef1':''" closable @close="deleteCategoryParent(item.id,index)">
-                                <el-input autofocus v-model="item.name" placeholder="+添加一个分类" class="addCategory" @change="val=>parentCategoryChange(val,index)">
+                            <el-tag closable @close="deleteCategoryParent(item.id,index)">
+                                <el-input autofocus v-model="item.name" placeholder="请输父类名称" class="addCategory parentCategory" @change="val=>parentCategoryChange(val,index)">
                                 </el-input>
                             </el-tag>
+
                         </div>
                     </div>
                     <div class="firstCategoryChildren flexStart">
                         <span class="categoryLabel">子分类</span>
                         <div class="eachChildren flexStart flexWrap">
-                            <el-tag :color="tag.name?'#00aef1':''" v-for="(tag,tagIndex) in item.categories" :key="tagIndex" closable :type="tag.type" @close="deleteCategoryChild(tag.id,item.id,tagIndex,index)">
-                                <!-- 原有分类 -->
-                                <el-input autofocus v-model="tag.name" placeholder="+添加子分类" class="addCategory" @change="val=>childCategoryChange(val,index,tagIndex)" @keyup.enter.native="val=>childEnter(val,index,tagIndex)">
+                            <el-tag v-for="(tag,tagIndex) in item.categories" :key="tagIndex" closable :type="tag.type" @close="deleteCategoryChild(tag.id,item.id,tagIndex,index)">
+                                <!-- 原有子分类 -->
+                                <!-- @keyup.enter.native="val=>childEnter(val,index,tagIndex)" -->
+                                <el-input autofocus v-model="tag.name" placeholder="请输入子类名称" class="addCategory" @change="val=>childCategoryChange(val,index,tagIndex)">
                                 </el-input>
                             </el-tag>
+                            <el-button class="addCategories" :disabled="!item.categories[item.categories.length-1].name" @click="val=>addCategoryFn(index)">+添加子分类</el-button>
+                        </div>
+                    </div>
+                </div>
+                <div class="firstCategory">
+                    <div class="firstCategoryName flexStart">
+                        <span class="categoryLabel">分类</span>
+                        <div class="tags">
+                            <el-button class="addCategories addParentCategories" :disabled="!categoryList[categoryList.length-1].name" @click="val=>addParentCategoryFn(index)">+添加一个分类</el-button>
                         </div>
                     </div>
                 </div>
@@ -359,7 +370,7 @@ export default {
         showDeleteDialog(val, id) {
             this.deleteVisible = true;
             this.targetId = id;
-            console.log(val)
+            //console.log(val)
         },
         confirmDelete() {
             let that = this;
@@ -390,11 +401,19 @@ export default {
         // 表格列表
         getList() {
             list(this.json).then((res) => {
-                console.log(res)
+                //console.log(res)
                 if (res.code == '00') {
                     this.tableData = res.data;
                     this.pageData = res.page;
                 }
+            })
+        },
+        addParentCategoryFn() {
+            this.searchCategoryList.push({
+                name: '',
+                categories: [{
+                    name: ''
+                }]
             })
         },
         // 获取分类
@@ -421,24 +440,26 @@ export default {
                     })
 
                     this.categoryList = res.data;
-                    // console.log(res.data)
+                    // //console.log(res.data)
                 }
             })
         },
-        // 子分类回车
-        childEnter(val, index, chilIndex) {
+        // // 子分类回车
+        // childEnter(val, index, chilIndex) {
+
+        // },
+        // 添加一个子类
+        addCategoryFn(index) {
             let last = this.categoryList[index].categories.length - 1;
             if (this.categoryList[index].categories[last].name.trim() != '') {
                 this.categoryList[index].categories.push({
                     name: ''
                 })
             }
-
         },
         // 监听父类的改变
         parentCategoryChange(val, index) {
-            // console.log('父类回车')
-            // console.log(val, index)
+
             let last = this.categoryList.length - 1;
             if (this.categoryList[last].name.trim() != '') {
                 if (val.trim() != '') {
@@ -453,12 +474,13 @@ export default {
                 }
             }
         },
+
         // 监听子类输入
         childCategoryChange(val, index, chilIndex) {
             if (val.trim() != '') {
                 this.categoryList[index].categories[chilIndex].name = val;
             }
-            console.log(this.categoryList)
+            //console.log(this.categoryList)
         },
         getParentInput(val) {
             this.parentVal = val;
@@ -505,7 +527,7 @@ export default {
         // 删除子类
         deleteCategoryChild(childid, pid, childIndex, pIndex) {
             let that = this;
-            console.log(childid)
+            //console.log(childid)
             if (childid) {
                 deleteCate(childid).then(res => {
                     if (res.code == '00') {
@@ -519,7 +541,7 @@ export default {
                         that.getCategory()
                     }
                 })
-            } else {
+            } else if (that.categoryList[pIndex].categories[childIndex].name.trim() != '') {
                 that.categoryList[pIndex].categories.splice(childIndex, 1)
             }
 
@@ -529,9 +551,9 @@ export default {
         saveCategory() {
             let that = this;
             let params = [];
-            // console.log(this.categoryList)
+            // //console.log(this.categoryList)
             this.categoryList.map(i => {
-                console.log(i)
+                //console.log(i)
                 if (i.name) {
                     let json = {};
                     json.name = i.name;
@@ -549,7 +571,7 @@ export default {
                 }
 
             })
-            console.log(params)
+            //console.log(params)
 
             save(params).then(res => {
                 if (res.code == '00') {
@@ -560,7 +582,8 @@ export default {
                         duration: 1 * 1000,
                         type: 'success',
                         onClose: () => {
-                            that.categoryVisible = false
+                            that.categoryVisible = false;
+                            that.getCategory()
                         }
                     })
 
@@ -619,6 +642,25 @@ export default {
 
 .categoryDialog .el-dialog {
     width: 75% !important;
+
+    .addCategories {
+        text-align: center;
+        height: 30px;
+        width: 170px;
+        border-radius: 17px;
+        line-height: 34px;
+        background-color: #fff !important;
+        border-color: #00AEF1 !important;
+        color: #00AEF1 !important;
+        padding: 0;
+        line-height: 30px;
+
+        &.addParentCategories {
+            background-color: #00AEF1 !important;
+            border-color: #00AEF1 !important;
+            color: #fff !important;
+        }
+    }
 }
 
 .el-input__inner::-webkit-input-placeholder {
@@ -660,9 +702,10 @@ input:-ms-input-placeholder {
 .dialogContent {
     .categoryLabel {
         color: #000;
-        min-width: 102px;
-        width: 102px;
+        min-width: 70px;
+        width: 70px;
         text-align: left;
+        line-height: 30px;
     }
 
     .firstCategory {
@@ -698,6 +741,7 @@ input:-ms-input-placeholder {
     margin-right: 30px;
     padding: 0;
     border: none;
+    background: transparent;
 }
 
 .addCategory {
@@ -708,14 +752,21 @@ input:-ms-input-placeholder {
     margin-right: 30px;
 
     /deep/ .el-input__inner {
-        text-align: center;
+        text-align: left;
         height: 34px;
         width: 170px;
         border-radius: 17px;
         line-height: 34px;
         background-color: #fff !important;
-        border-color: #00AEF1 !important;
-        color: #00AEF1 !important;
+        border-color: #D4D4D4 !important;
+        color: #000 !important;
+    }
+
+    &.parentCategory {
+        /deep/ .el-input__inner {
+            color: #fff !important;
+            background: #00AEF1 !important;
+        }
     }
 }
 

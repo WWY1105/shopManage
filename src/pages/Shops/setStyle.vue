@@ -56,41 +56,39 @@ export default {
             mainImg: mainImg,
             detailImg: detailImg,
             colorList: [{
-                    color: '#00B0F0',
-                    selected: false
-                }, {
-                    color: '#09BB07',
-                    selected: false
-                }, {
-                    color: '#2782D7',
-                    selected: false
-                }, {
-                    color: '#FFD24D',
-                    selected: false
-                }, {
-                    color: '#EC6B4A',
-                    selected: false
-                },
-                {
-                    color: '#FF5B5B',
-                    selected: false
-                }, {
-                    color: '#C346C4',
-                    selected: false
-                }, {
-                    color: '#DADADA',
-                    selected: false
-                }, {
-                    color: '#E8C892',
-                    selected: false
-                }, {
-                    color: '#8E63C9',
-                    selected: false
-                }, {
-                    color: '#5C503C',
-                    selected: false
-                }
-            ]
+                color: '#ff3131',
+                selected: false
+            },{
+                color: '#00B0F0',
+                selected: false
+            }, {
+                color: '#09BB07',
+                selected: false
+            }, {
+                color: '#2782D7',
+                selected: false
+            }, {
+                color: '#FFD24D',
+                selected: false
+            }, {
+                color: '#EC6B4A',
+                selected: false
+            },  {
+                color: '#C346C4',
+                selected: false
+            }, {
+                color: '#DADADA',
+                selected: false
+            }, {
+                color: '#E8C892',
+                selected: false
+            }, {
+                color: '#8E63C9',
+                selected: false
+            }, {
+                color: '#5C503C',
+                selected: false
+            }]
         };
     },
     //监听属性 类似于data概念
@@ -113,7 +111,7 @@ export default {
                 })
                 this.$set(this.formLabelAlign,'pageStyle',e)
             }
-            console.log(this.formLabelAlign)
+            // console.log(this.formLabelAlign)
         },
         selectColor(value, j) {
             this.colorList.map(i => {

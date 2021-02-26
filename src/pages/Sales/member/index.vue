@@ -63,15 +63,20 @@
     <el-dialog :visible.sync="edtiMenberVisible" title="添加新的会员等级" width="887px">
         <div class="editBox">
             <el-form ref="form" :model="menberForm" label-width="120px" label-position="center">
-                <el-form-item label="等级名称">
+                <el-form-item label="会员卡名称">
                     <el-input v-model="menberForm.denomination"></el-input>
                 </el-form-item>
                 <div class="flexStart">
                     <el-form-item label="领取条件">
-                        <el-input v-model="menberForm.price"></el-input>
+                        <el-select v-model="menberForm.price"></el-select>
                     </el-form-item>
                     <el-form-item label="满足金额￥">
-                        <el-input v-model="menberForm.minPrice"></el-input>
+                        <el-select v-model="menberForm.minPrice"></el-select>
+                    </el-form-item>
+                </div>
+                   <div class="flexStart">
+                    <el-form-item label="会员折扣">
+                        <el-input v-model="menberForm.price"></el-input>
                     </el-form-item>
                 </div>
                 <el-form-item label="等级说明">
@@ -399,9 +404,14 @@ export default {
     .el-input {
         width: 148px;
     }
-
+  /deep/ .el-select {
+        width: 148px;
+    }
+.el-select {
+        width: 148px;
+    }
     /deep/ .el-form-item__label {
-        line-height: 42px;
+        line-height:30px;
     }
 
     .el-radio {

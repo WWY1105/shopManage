@@ -10,7 +10,7 @@
 
         </div>
         <div class="formBox ">
-            <el-form label-position="left" label-width="160px" :model="formLabelAlign">
+            <el-form label-position="left" label-width="140px" :model="formLabelAlign">
                 <el-form-item label="公司名称">
                     <el-input v-model="formLabelAlign.name"></el-input>
                 </el-form-item>
@@ -153,9 +153,9 @@ export default {
 //@import url(); 引入公共css类
 .addShop {
 
-    //min-height: 100%;
+      //min-height: 100%;
     /deep/ .el-form-item__label {
-        line-height: 60px;
+        line-height:40px;
         color: #545454;
         font-size: 14px;
         padding-right: 23px;
@@ -163,12 +163,12 @@ export default {
 
     .el-input,
     .el-select {
-        width: 375px;
-        height: 60px;
+        width: 300px;
+        height:40px;
         background: #F4F4F4;
         border: 1px solid #E8E8E8;
         border-radius: 30px;
-        line-height: 60px;
+        line-height:40px;
 
     }
 
@@ -182,7 +182,7 @@ export default {
         text-align: center;
         color: #000;
         font-size: 14px;
-        height: 60px;
+        height: 40px;
         padding-right: 30px;
 
     }
@@ -220,15 +220,14 @@ export default {
         padding-left: 100px;
     }
 
-    .searchBtn {
-        margin-top: 125px;
+   .searchBtn {
+        margin-top: 55px;
         width: 200px;
-        height: 60px;
+        height:40px;
         border-radius: 30px;
         font-size: 20px;
     }
 }
-
 .locateIocn {
     margin-left: 30px;
 }

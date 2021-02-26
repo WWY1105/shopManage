@@ -111,7 +111,8 @@ export default {
                         duration: 3 * 1000,
                         type: 'success'
                     })
-                    that.getDataFn()
+                    that.getDataFn();
+                     that.$router.go(-1)
                 }
             })
         },
@@ -127,7 +128,13 @@ export default {
     },
     created() {
         this.getTypeFn();
-        this.getDataFn()
+     
+        if(this.$route.query.child){
+            this.formLabelAlign=this.$route.query.child
+        }else{
+            this.getDataFn()
+        }
+        
     },
     mounted() {
 
@@ -148,7 +155,7 @@ export default {
 
     //min-height: 100%;
     /deep/ .el-form-item__label {
-        line-height: 60px;
+        line-height: 40px;
         color: #545454;
         font-size: 14px;
         padding-right: 23px;
@@ -156,12 +163,12 @@ export default {
 
     .el-input,
     .el-select {
-        width: 375px;
-        height: 60px;
+        width: 300px;
+        height: 40px;
         background: #F4F4F4;
         border: 1px solid #E8E8E8;
         border-radius: 30px;
-        line-height: 60px;
+        line-height: 40px;
 
     }
     /deep/  .el-input__suffix{
@@ -174,7 +181,7 @@ export default {
         text-align: center;
         color: #000;
         font-size: 14px;
-        height: 60px!important;
+        height:40px!important;
         padding-right: 30px;
 
     }
@@ -213,9 +220,9 @@ export default {
     }
 
     .searchBtn {
-        margin-top: 125px;
+        margin-top: 55px;
         width: 200px;
-        height: 60px;
+        height: 40px;
         border-radius: 30px;
         font-size: 20px;
     }
