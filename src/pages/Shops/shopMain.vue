@@ -130,8 +130,8 @@ export default {
     },
     filters: {
         invoicesFilter(val) {
-            //console.log('发票'+val)
-            //console.log(invoicesList)
+            ////console.log('发票'+val)
+            ////console.log(invoicesList)
             let name;
             val = val.trim()
             invoicesList.map(i => {
@@ -185,20 +185,22 @@ export default {
     created() {
         let that = this;
         this.getShopInfo();
-        this.getBranch()
+        this.getBranch();
+        console.log('created')
     },
     mounted() {
-
+              console.log('mounted')
     },
     beforeCreate() {
-
+         console.log('beforeCreate')
     }, //生命周期 - 创建之前
-    beforeMount() {}, //生命周期 - 挂载之前
-    beforeUpdate() {}, //生命周期 - 更新之前
-    updated() {}, //生命周期 - 更新之后
-    beforeDestroy() {}, //生命周期 - 销毁之前
-    destroyed() {}, //生命周期 - 销毁完成
-    activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
+    beforeMount() {   console.log('beforeMount')}, //生命周期 - 挂载之前
+    beforeUpdate() { console.log('beforeUpdate')}, //生命周期 - 更新之前
+    updated() {console.log('updated')}, //生命周期 - 更新之后
+    beforeDestroy() {console.log('beforeDestroy')}, //生命周期 - 销毁之前
+    destroyed() {console.log('destroyed')}, //生命周期 - 销毁完成
+    activated() {console.log('activated')}, //如果页面有keep-alive缓存功能，这个函数会触发
+    deactivated(){console.log('deactivated')}
 }
 </script>
 

@@ -34,7 +34,7 @@ const user = {
      Branch({ commit }) {
       return new Promise((resolve, reject) => {
         branch({}).then(response => {
-          console.log(response)
+          //console.log(response)
           commit('SET_BRANCH', response.data);
           resolve(response)
         })

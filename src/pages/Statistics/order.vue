@@ -354,7 +354,7 @@ export default {
 
                             function getCurrentMonthFirst() {
                                 var date = new Date()
-                                console.log(date)
+                                //console.log(date)
                                 date.setDate(1)
                                 return date
                             }
@@ -461,7 +461,7 @@ export default {
         },
         // 日期的筛选
         dataTimeChange(val, title) {
-            console.log(title)
+            //console.log(title)
             let newDate = [];
             let that = this;
             val.map(i => {
@@ -498,7 +498,7 @@ export default {
                     }
                 }
             })
-            console.log(this.searchOptions)
+            //console.log(this.searchOptions)
         },
         // 获取订单量
         getOrderNumFn(date) {

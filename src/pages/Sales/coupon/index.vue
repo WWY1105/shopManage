@@ -371,8 +371,8 @@ export default {
             })
             list({}).then(res => {
                 if (res.code == '00') {
-                    console.log('uuu')
-                    console.log(res.data)
+                    //console.log('uuu')
+                    //console.log(res.data)
                     that.couponList = res.data;
                 }
             })
@@ -404,7 +404,7 @@ export default {
         },
         // 添加券
         addCoupon() {
-            console.log(this.newCoupon)
+            //console.log(this.newCoupon)
             let that = this;
             if (this.newCoupon.id) {
                 let id = this.newCoupon.id;
@@ -442,8 +442,8 @@ export default {
         },
         // 一级分类改变获取二级分类
         categoriesChange(e) {
-            console.log('改变');
-            console.log(e)
+            //console.log('改变');
+            //console.log(e)
             let id = e;
             this.categories.map(i => {
                 if (i.id == id) {

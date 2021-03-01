@@ -91,7 +91,7 @@ export default {
                 businessId: val
             }).then(res => {
                 if (res.code == '00') {
-                    //console.log(res)
+                    ////console.log(res)
                     if (res.data && res.data.access_token) {
                         setToken(res.data.access_token);
                         that.$router.go(0);
@@ -109,8 +109,8 @@ export default {
         // }
     },
     mounted() {
-        //console.log('头部获取')
-        //console.log(this.user)
+        ////console.log('头部获取')
+        ////console.log(this.user)
     },
     beforeCreate() {}, //生命周期 - 创建之前
     beforeMount() {}, //生命周期 - 挂载之前

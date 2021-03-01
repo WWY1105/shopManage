@@ -370,7 +370,7 @@ export default {
         showDeleteDialog(val, id) {
             this.deleteVisible = true;
             this.targetId = id;
-            //console.log(val)
+            ////console.log(val)
         },
         confirmDelete() {
             let that = this;
@@ -401,7 +401,7 @@ export default {
         // 表格列表
         getList() {
             list(this.json).then((res) => {
-                //console.log(res)
+                ////console.log(res)
                 if (res.code == '00') {
                     this.tableData = res.data;
                     this.pageData = res.page;
@@ -440,7 +440,7 @@ export default {
                     })
 
                     this.categoryList = res.data;
-                    // //console.log(res.data)
+                    // ////console.log(res.data)
                 }
             })
         },
@@ -480,7 +480,7 @@ export default {
             if (val.trim() != '') {
                 this.categoryList[index].categories[chilIndex].name = val;
             }
-            //console.log(this.categoryList)
+            ////console.log(this.categoryList)
         },
         getParentInput(val) {
             this.parentVal = val;
@@ -527,7 +527,7 @@ export default {
         // 删除子类
         deleteCategoryChild(childid, pid, childIndex, pIndex) {
             let that = this;
-            //console.log(childid)
+            ////console.log(childid)
             if (childid) {
                 deleteCate(childid).then(res => {
                     if (res.code == '00') {
@@ -551,9 +551,9 @@ export default {
         saveCategory() {
             let that = this;
             let params = [];
-            // //console.log(this.categoryList)
+            // ////console.log(this.categoryList)
             this.categoryList.map(i => {
-                //console.log(i)
+                ////console.log(i)
                 if (i.name) {
                     let json = {};
                     json.name = i.name;
@@ -571,7 +571,7 @@ export default {
                 }
 
             })
-            //console.log(params)
+            ////console.log(params)
 
             save(params).then(res => {
                 if (res.code == '00') {

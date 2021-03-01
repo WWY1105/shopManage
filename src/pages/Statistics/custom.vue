@@ -216,7 +216,7 @@ export default {
 
                             function getCurrentMonthFirst() {
                                 var date = new Date()
-                                console.log(date)
+                                //console.log(date)
                                 date.setDate(1)
                                 return date
                             }

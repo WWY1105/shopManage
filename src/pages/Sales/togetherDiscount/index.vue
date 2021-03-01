@@ -206,7 +206,7 @@ export default {
         showDeleteDialog(val, id) {
             this.deleteVisible = true;
             this.targetId = id;
-            console.log(val)
+            //console.log(val)
         },
         // 下线
         setShelfFn(val, id, shelf) {
@@ -317,8 +317,8 @@ export default {
 
         // 一级分类改变获取二级分类
         categoriesChange(e) {
-            console.log('改变');
-            console.log(e)
+            //console.log('改变');
+            //console.log(e)
             let id = e;
             this.categories.map(i => {
                 if (i.id == id) {

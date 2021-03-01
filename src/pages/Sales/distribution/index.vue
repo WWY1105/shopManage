@@ -179,7 +179,7 @@ export default {
         },
         saveDataFn() {
             let that = this;
-            console.log('改变')
+            //console.log('改变')
             saveData(this.distributionData).then(res => {
                 if (res.code == '00') {
                     that.$message({

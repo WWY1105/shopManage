@@ -255,7 +255,7 @@ export default {
         showDeleteDialog(val, id) {
             this.deleteVisible = true;
             this.targetId = id;
-            console.log(val)
+            //console.log(val)
         },
         // 上移或者下移
         toUporDown(val, id, type) {
@@ -292,7 +292,7 @@ export default {
                     })
 
                     this.categoryList = res.data;
-                    console.log(res.data)
+                    //console.log(res.data)
                 }
             })
         },

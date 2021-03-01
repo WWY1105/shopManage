@@ -114,7 +114,7 @@ export default {
         },
         getList() {
             let that = this;
-            console.log(that.json)
+            //console.log(that.json)
             if(that.json.time&&that.json.time.length>0){
                 that.json.beginTime=that.json.time[0]
                 that.json.endTime=that.json.time[1]

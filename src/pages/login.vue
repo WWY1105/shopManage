@@ -52,7 +52,7 @@ export default {
                     password: this.password
 
                 }).then(function (response) {
-                    console.log(response);
+                    //console.log(response);
                     if (response && response.access_token) {
                         that.$store.dispatch('Getdistributions').then(result => {
                             that.$router.push({
@@ -63,7 +63,7 @@ export default {
                     }
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    //console.log(error);
                 });
 
         }

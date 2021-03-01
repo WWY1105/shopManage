@@ -33,11 +33,11 @@ VueRouter.prototype.push = function push(location) {
 }
 // 图片前缀
 Vue.prototype.$imgurl=process.env.IMG_URL;
-console.log(process.env.IMG_URL);
+//console.log(process.env.IMG_URL);
 
 
 import store from './store'
-console.log(store)
+//console.log(store)
 new Vue({
   el: '#app',
   store,

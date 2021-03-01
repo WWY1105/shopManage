@@ -111,7 +111,7 @@ export default {
                 })
                 this.$set(this.formLabelAlign,'pageStyle',e)
             }
-            // console.log(this.formLabelAlign)
+            // //console.log(this.formLabelAlign)
         },
         selectColor(value, j) {
             this.colorList.map(i => {
@@ -181,7 +181,7 @@ export default {
     //生命周期 - 创建完成（可以访问当前this实例）
     created() {
         // this.getDataFn()
-        console.log(this.$store.state)
+        //console.log(this.$store.state)
     },
     //生命周期 - 挂载完成（可以访问DOM元素）
     mounted() {

@@ -154,7 +154,7 @@ export default {
             })
         },
         getState() {
-            console.log(this.$store)
+            //console.log(this.$store)
             if (!this.$store.state.distribution.distributions) {
                 this.$store.dispatch('Getdistributions').then(result => {
                     this.saleData = result;
@@ -173,7 +173,7 @@ export default {
         },
         saveDataFn() {
             let that = this;
-            console.log('改变')
+            //console.log('改变')
             delete this.rebateData.businessId;
             saveData(this.rebateData).then(res => {
                 if (res.code == '00') {

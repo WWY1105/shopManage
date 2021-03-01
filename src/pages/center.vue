@@ -164,7 +164,7 @@ export default {
 
                             function getCurrentMonthFirst() {
                                 var date = new Date()
-                                console.log(date)
+                                //console.log(date)
                                 date.setDate(1)
                                 return date
                             }
@@ -257,7 +257,7 @@ export default {
                     }
                     // 获取品牌
                     that.$store.dispatch('Branch').then((res) => {
-                        console.log(res)
+                        //console.log(res)
 
                     })
 

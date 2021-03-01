@@ -104,11 +104,11 @@ export default {
                         })
                     })
                 } else {
-                    console.log('error submit!!');
+                    //console.log('error submit!!');
                     return false;
                 }
             });
-            console.log('执行')
+            //console.log('执行')
             // 
         }
 

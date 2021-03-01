@@ -345,15 +345,15 @@ export default {
         getCouponFn() {
             getCouponList({}).then(res => {
                 if (res.code == '00') {
-                    console.log('uuu')
-                    console.log(res.data)
+                    //console.log('uuu')
+                    //console.log(res.data)
                     that.couponList = res.data;
                 }
             })
         },
         saveDataFn() {
             let that = this;
-            console.log(this.editJson);
+            //console.log(this.editJson);
             let json = {};
 
             if (this.tergetId) {

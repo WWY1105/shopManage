@@ -426,7 +426,7 @@ export default {
         },
         handleimgurlSuccess(response) {
             this.form.imgurl += response.data;
-            console.log(this.imgUrlfileList)
+            //console.log(this.imgUrlfileList)
         },
         // 点击添加规格
         addGuiGeFn() {
@@ -434,7 +434,7 @@ export default {
                 name: '',
                 items: ['']
             })
-            console.log(this.form.specRequest.spec)
+            //console.log(this.form.specRequest.spec)
         },
         // 添加小规格
         addGuiGeItems(val, index, j) {
@@ -448,7 +448,7 @@ export default {
                     type: 'error'
                 })
             }
-             console.log(this.form.specRequest.spec)
+             //console.log(this.form.specRequest.spec)
         },
         // 删除某个规格
         handleCloseGuiGe(index, i) {
@@ -476,7 +476,7 @@ export default {
                     arr.push(a);
                 })
                 let allArr = this.cartesianProductOf(...arr);
-                console.log(allArr)
+                //console.log(allArr)
                 allArr.map(i => {
                     let arr = []
                     let obj = {
@@ -526,8 +526,8 @@ export default {
                     json.specRequest.spec.push(obj)
                 }
             })
-            console.log("提交数据")
-            console.log(json);
+            //console.log("提交数据")
+            //console.log(json);
             // return;
             saveData(json).then(res => {
                 if (res.code == '00') {
@@ -545,7 +545,7 @@ export default {
         },
         // 营销是否启用
         enabledChange(val, index) {
-            console.log(val)
+            //console.log(val)
             let target = this.yushouSpecsList[index];
             target.enabled = val;
             this.$set(this.yushouSpecsList, index, target)
@@ -559,7 +559,7 @@ export default {
             let target = this.specsList[index];
             target.price = val;
             this.$set(this.specsList, index, target)
-            // console.log(this.specsList)
+            // //console.log(this.specsList)
         },
         //输入库存
         stockChange(val, index) {
@@ -570,7 +570,7 @@ export default {
             let target = this.specsList[index];
             target.stock = val;
             this.$set(this.specsList, index, target)
-            // console.log(this.specsList)
+            // //console.log(this.specsList)
         },
         // 输入营销价格
         marketingPriceChange(val, index) {
@@ -581,7 +581,7 @@ export default {
             let target = this.yushouSpecsList[index];
             target.marketingPrice = val;
             this.$set(this.yushouSpecsList, index, target)
-            console.log(this.yushouSpecsList)
+            //console.log(this.yushouSpecsList)
         },
         //输入营销库存
         marketingStockChange(val, index) {
@@ -592,7 +592,7 @@ export default {
             let target = this.yushouSpecsList[index];
             target.marketingStock = val;
             this.$set(this.yushouSpecsList, index, target)
-            console.log(this.yushouSpecsList)
+            //console.log(this.yushouSpecsList)
         }
 
     },

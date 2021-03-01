@@ -384,13 +384,13 @@ export default {
         },
         // 删除图片
         removeImgurl(file, fileList) {
-            // console.log(file);
-            // console.log(fileList);
+            // //console.log(file);
+            // //console.log(fileList);
             this.imgUrlfileList = fileList;
         },
         removeImgurl2(file, fileList) {
-            // console.log(file);
-            // console.log(fileList);
+            // //console.log(file);
+            // //console.log(fileList);
             this.fileList = fileList;
         },
 
@@ -410,7 +410,7 @@ export default {
                 name: '',
                 items: ['']
             })
-            console.log(this.form.specRequest.spec)
+            //console.log(this.form.specRequest.spec)
         },
         // 添加小规格
         addGuiGeItems(val, index, j) {
@@ -424,11 +424,11 @@ export default {
                     type: 'error'
                 })
             }
-             console.log(this.form.specRequest.spec)
+             //console.log(this.form.specRequest.spec)
         },
         // 删除某个规格
         handleCloseGuiGe(index, i) {
-            console.log('删除某个规格')
+            //console.log('删除某个规格')
             this.form.specs[index].items.splice(i, 1);
         },
          // 点击设置价格与库存
@@ -453,7 +453,7 @@ export default {
                     arr.push(a);
                 })
                 let allArr = this.cartesianProductOf(...arr);
-                console.log(allArr)
+                //console.log(allArr)
                 allArr.map(i => {
                     let arr = []
                     let obj = {
@@ -495,8 +495,8 @@ export default {
                     json.specRequest.spec.push(obj)
                 }
             })
-            console.log("提交数据")
-            console.log(json);
+            //console.log("提交数据")
+            //console.log(json);
             // return;
             // return;
             if(!this.isEmpty(json.title,'商品标题')){
@@ -543,7 +543,7 @@ export default {
 
         // 营销是否启用
         enabledChange(val, index) {
-            console.log(val)
+            //console.log(val)
             let target = this.specsList[index];
             target.enabled = val;
             this.$set(this.specsList, index, target)
@@ -557,7 +557,7 @@ export default {
             let target = this.specsList[index];
             target.price = val;
             this.$set(this.specsList, index, target)
-            // console.log(this.specsList)
+            // //console.log(this.specsList)
         },
         //输入库存
         stockChange(val, index) {
@@ -568,7 +568,7 @@ export default {
             let target = this.specsList[index];
             target.stock = val;
             this.$set(this.specsList, index, target)
-            // console.log(this.specsList)
+            // //console.log(this.specsList)
         },
         // 输入营销价格
         marketingPriceChange(val, index) {
@@ -579,7 +579,7 @@ export default {
             let target = this.specsList[index];
             target.marketingPrice = val;
             this.$set(this.specsList, index, target)
-            console.log(this.specsList)
+            //console.log(this.specsList)
         },
         //输入营销库存
         marketingStockChange(val, index) {
@@ -590,7 +590,7 @@ export default {
             let target = this.specsList[index];
             target.marketingStock = val;
             this.$set(this.specsList, index, target)
-            // console.log(this.specsList)
+            // //console.log(this.specsList)
         },
         getDataFn() {
             getData(this.$route.query.id).then(res => {
@@ -615,7 +615,7 @@ export default {
                         obj.url = this.$imgurl + result.imgurl;
                         arr.push(obj)
                         this.imgUrlfileList = arr;
-                        // console.log(this.imgUrlfileList)
+                        // //console.log(this.imgUrlfileList)
                     }
                     // 商品详情图
                     if (result.contentImgurl) {
@@ -645,8 +645,8 @@ export default {
                     this.form = {
                         ...result
                     };
-                    console.log('获取数据')
-                    console.log(this.form.specs)
+                    //console.log('获取数据')
+                    //console.log(this.form.specs)
                 }
             })
         }

@@ -17,7 +17,7 @@ export default {
             let title = to.meta.title ? to.meta.title : '';
             this.$store.dispatch('setTitle', title)
             next();
-            console.log(this.$store.state);
+            //console.log(this.$store.state);
         });
         //在页面加载时读取sessionStorage里的状态信息
         if (sessionStorage.getItem('store')) {

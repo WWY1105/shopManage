@@ -352,7 +352,7 @@ export default {
         // 获取优惠明细
         showDiscountFn(val, id) {
             this.showDiscount = true;
-            console.log(id)
+            //console.log(id)
             getDiscount({
                 oid: id
             }).then(res => {
