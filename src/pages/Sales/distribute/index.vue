@@ -98,12 +98,11 @@ export default {
             saveData(this.distribute).then(res => {
                 if (res.code == '00') {
                     this.$message({
-                        
                         showClose: true,
                         message: '保存成功',
-                        duration: 3 * 1000,
+                        duration: 1000,
                         type: 'success',
-                        close: () => {
+                        computed: () => {
                             that.$router.go(-1)
                         }
                     })

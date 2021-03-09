@@ -359,11 +359,11 @@ export default new Router({
         name: 'Union',
         component: () => import('@/pages/Union/index.vue'),
         children: [{
-          name: '星秒联盟',
+          name: '极星联盟',
           path: '/union',
           component: () => import('@/pages/Union/main.vue'),
           meta: {
-            title: "星秒联盟"
+            title: "极星联盟"
           }
         }
         ]

@@ -239,7 +239,7 @@ export default {
                         that.$message({
                             showClose: true,
                             message: '保存成功',
-                            duration: 3 * 1000,
+                            duration:  1000,
                             type: 'success'
                         })
                     }

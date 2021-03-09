@@ -1,12 +1,12 @@
 <!--  -->
 <template>
 <div class='union bgf'>
-    <div class="mainTitle bgf">
+    <!-- <div class="mainTitle bgf">
         <p>加入极星联盟</p>
         <p> 开启3大板块</p>
-    </div>
+    </div> -->
     <div class="content flexCenter bgf">
-        <div class="part flexCenter flexColumn">
+        <!-- <div class="part flexCenter flexColumn">
             <img src="../../assets/images/union/zhibo.png" alt="">
             <div class="title">直播</div>
             <div class="desc">
@@ -14,18 +14,24 @@
                 且直播板块用户为公共用户流量，除本店会员、粉丝外还可获得新客流量
             </div>
             <div class="tips zhiboTips">使用直播需额外支付流量费用 </div>
-        </div>
+        </div> -->
         <div class="part flexCenter flexColumn">
             <img src="../../assets/images/union/xingmiao.png" alt="">
             <div class="title">星秒</div>
-            <div class="desc"> 加入极星联盟即可加入星秒板块，本板块的特价秒杀商品将推广到全平台用户根据用户距离推广，公平公正</div>
+            <div class="desc"> 您的商品或服务将会通过星秒
+                <br>让千万商家都来帮您售卖
+                <br>打造您的爆品，引爆您的流量</div>
             <div class="tips xingmiaoTips">进入星秒商品与订单管理</div>
         </div>
         <div class="part flexCenter flexColumn">
             <img src="../../assets/images/union/xingkatong.png" alt="">
-            <div class="title">星卡通</div>
-            <div class="desc">加入极星联盟即可让店铺用户使用星卡通折上折会员</div>
-            <div class="tips xingkatongTips">拥有星卡通的用户可能不是您的用户，但如果您的店铺支持星卡通，他就有可能成为您的新用户</div>
+            <div class="title">星卡</div>
+            <div class="desc">
+                拥有星卡的用户可能不是您的用户
+                <br>但如果您的店铺可以使用星卡
+                <br>他就会成为您的新客户
+            </div>
+            <div class="tips xingkatongTips"></div>
         </div>
     </div>
 
@@ -91,8 +97,8 @@ export default {
 
     .content {
         .part {
-            width: 33.3333%;
-            border-right: 1px solid #B9B9B9;
+            width: 50%;
+            // border-right: 1px solid #B9B9B9;
 
             &:last-child {
                 border: none

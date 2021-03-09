@@ -109,7 +109,7 @@ export default {
             if (this.formLabelAlign.typeId) {
                 json.typeId = this.formLabelAlign.typeId;
             }
- if (this.formLabelAlign.mobile) {
+            if (this.formLabelAlign.mobile) {
                 json.mobile = this.formLabelAlign.mobile;
             }
             if (this.formLabelAlign.password) {
