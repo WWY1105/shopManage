@@ -75,9 +75,7 @@ export default {
 <style lang="scss" scoped>
 //@import url(); 引入公共css类
 .union {
-    padding: 34px 73px;
-    //min-height: 100%;
-
+    padding: 90px 73px;
     .mainTitle {
         text-align: center;
         color: #0091C6;
