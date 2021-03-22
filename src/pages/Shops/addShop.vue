@@ -182,8 +182,9 @@ export default {
         text-align: center;
         color: #000;
         font-size: 14px;
-        height: 40px;
+        height: 42px!important;
         padding-right: 30px;
+        line-height: 42px;
 
     }
 

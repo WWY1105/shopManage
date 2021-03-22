@@ -45,3 +45,14 @@ export function changeShop(json){
         params:json
     })
 }
+
+// 删除分店
+export function deleteShopFn(id){
+    return request({
+        url:"/branch",
+        method:'delete',
+        params:{
+            businessId:id
+        }
+    })
+}

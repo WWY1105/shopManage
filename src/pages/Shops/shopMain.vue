@@ -25,8 +25,8 @@
     <div class="shopPartInfo bgf flexSpace">
         <div class="eachInfo flexCenter ">
             <img src="../../assets/images/shops/haohua.png" class="icon" alt="">
-            <p class="title">天极星 豪华版</p>
-            <p class="desc">已激活 有效期至{{shopInfo.expireTime}}</p>
+            <p class="title">天极星 {{shopInfo.memberLevel}}</p>
+            <p class="desc">已激活 有效期至{{shopInfo.memberExpire}}</p>
             <div class="buttons flexCenter">
                 <el-button class="searchBtn" @click="showTipsDialog=true">续费</el-button>
                 <!-- <el-button class="transBtn" @click="toSetting">账户设置</el-button> -->
@@ -35,7 +35,7 @@
         <div class="eachInfo flexCenter">
             <img src="../../assets/images/shops/zijin.png" class="icon" alt="">
             <p class="title">资金账户</p>
-            <p class="desc">￥？？？</p>
+            <p class="desc">￥{{shopInfo.balance}}</p>
             <div class="buttons flexCenter">
                 <el-button class="searchBtn">充值 </el-button>
                 <el-button class="transBtn">资金明细</el-button>
@@ -44,7 +44,7 @@
         <div class="eachInfo flexCenter">
             <img src="../../assets/images/shops/edu.png" class="icon" alt="">
             <p class="title">分店额度</p>
-            <p class="desc">???????</p>
+            <p class="desc">{{shopInfo.branchCount}}</p>
             <div class="buttons flexCenter">
                 <el-button class="searchBtn" @click="showTipsDialog=true">扩充</el-button>
             </div>
@@ -85,9 +85,9 @@
                         <span> 修改</span>
                     </el-button>
                 </router-link>
-                <el-button class="transBtn deleteBtn flexCenter">
+                <el-button class="transBtn deleteBtn flexCenter" @click="deleteShop(i.id)" >
                     <i class="el-icon-delete"></i>
-                    <span>删除???</span>
+                    <span>删除</span>
                 </el-button>
             </div>
         </div>
@@ -104,6 +104,16 @@
             <el-button type="primary" @click="showTipsDialog = false">确 定</el-button>
         </span>
     </el-dialog>
+
+
+       <!-- 删除的提示框 -->
+    <el-dialog title="提示" center :visible.sync="deleteShopVisible" width="30%">
+        <span class="flexCenter">是否删除此店铺</span>
+        <span slot="footer" class="dialog-footer">
+            <el-button @click="deleteShopVisible = false">取 消</el-button>
+            <el-button type="primary" @click="confirmDelete">确 定</el-button>
+        </span>
+    </el-dialog>
 </div>
 </template>
 
@@ -112,7 +122,7 @@ import {
     branch
 } from '../../api/login'
 import {
-    putInfo
+    putInfo,deleteShopFn
 } from '../../api/shops/index';
 import {
     invoicesList
@@ -122,10 +132,12 @@ export default {
     components: {},
     data() {
         return {
+            deleteShopVisible:false,
             showTipsDialog: false,
             brand: [],
             shopInfo: {},
-            value: true
+            value: true,
+            deleteTarget:''
         };
     },
     filters: {
@@ -177,6 +189,26 @@ export default {
                         duration: 3 * 1000,
                         type: 'success'
                     })
+                    that.getBranch()
+                }
+            })
+        },
+        // 是否删除
+        deleteShop(id){
+            this.deleteTarget=id;
+            this.deleteShopVisible=true;
+        },
+        confirmDelete(){
+             let that = this;
+            deleteShopFn(this.deleteTarget).then(res => {
+                if (res.code == '00') {
+                    that.$message({
+                        showClose: true,
+                        message: '删除成功',
+                        duration: 3 * 1000,
+                        type: 'success'
+                    })
+                    this.deleteShopVisible=false;
                     that.getBranch()
                 }
             })
