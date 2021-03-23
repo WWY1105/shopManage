@@ -257,7 +257,8 @@ import {
     deleteData,
     save,
     setShelf,
-    upOrDown
+    upOrDown,
+    getStatic
 } from '../../api/goods/index';
 import {
     orderTypeOptions
@@ -271,28 +272,36 @@ export default {
         return {
             panelDatas: [{
                 name: '商品种类',
-                num: '???'
+                num: 0,
+                key:'categories'
             }, {
                 name: '规格种类',
-                num: '???'
+                num: 0,
+                key:'items'
             }, {
                 name: '库存量',
-                num: '???'
+                num: 0,
+                 key:'stock'
             }, {
                 name: '销量',
-                num: '???'
+                num: 0,
+                key:'sellCount'
             }, {
                 name: '销售金额',
-                num: '???'
+                num: 0,
+                key:'sellPrice'
             }, {
                 name: '平均复购率',
-                num: '???'
+                num: 0,
+                key:'fg'
             }, {
                 name: '浏览量',
-                num: '???'
+                num: 0,
+                key:'pv'
             }, {
                 name: '退货率',
-                num: '???'
+                num: 0,
+                key:'backPer'
             }, ],
             searchCategoryList: [],
             childrenVal: '',
@@ -332,6 +341,20 @@ export default {
         }
     },
     methods: {
+        // 获取统计
+        getStaticFn() {
+            getStatic().then(res => {
+                if (res.code == '00') {
+                    this.panelDatas.forEach(i=>{
+                        for(let j in res.data){
+                            if(j==i.key){
+                                i.num=res.data[j]
+                            }
+                        }
+                    })
+                }
+            })
+        },
         // 上移或者下移
         toUporDown(val, id, type) {
             let that = this;
@@ -594,6 +617,7 @@ export default {
     created() {
         that = this;
         this.getList();
+        this.getStaticFn()
         this.getCategory()
     },
     mounted() {

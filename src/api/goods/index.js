@@ -9,7 +9,14 @@ export function list(json){
         params:json
     })
 }
-
+// 商品统计
+export function getStatic(){
+    return request({
+        url:"/product/statistic",
+        method:'get',
+        params:{}
+    })
+}
 // 获取商品分类
 export function getCategory(json){
     return request({
