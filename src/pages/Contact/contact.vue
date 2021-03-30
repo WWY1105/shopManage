@@ -4,40 +4,81 @@
     <div class="part  flexCenter flexColumn">
         <p class="chTitle">联系我们</p>
         <p class="enTitle">我们会尽快给您回复</p>
-        <div class="content flexStart">
-            <div class="eachMsg flexCenter flexColumn">
-                <P class="flexStart alignStart">
+        <div class="content">
+            <div class="eachMsg flexCenter flexColumn" v-for="(i,j) in list" :key="j">
+                <P class="flexStart alignStart textBox">
                     <img src="" alt="" class="userImg">
                     <span class="userName">天极星：</span>
-                    <span class="sysContent">尊敬的商户用户您好，平台将于2020年12月12日凌晨2:00至4:00进行服务器升级，届时平台服务会暂停服
-                        务，对您造成的不便敬请理解，谢谢！</span>
+                    <span class="sysContent">{{i.content}}
+                        </span>
                 </P>
-                <p class="date">2020-12-14 21:00:00</p>
+                <p class="date">{{i.createTime}}</p>
             </div>
         </div>
         <div class="sendBox flexEnd">
-            <el-input type="textarea" rows="9" placeholder="请输入留言" resize="none" style="background-color: #F4F4F4"></el-input>
-            <el-button class="searchBtn">发送</el-button>
+            <el-input v-model="content" type="textarea" rows="9" placeholder="请输入留言" resize="none" style="background-color: #F4F4F4"></el-input>
+            <el-button class="searchBtn" @click="postMsgFn">发送</el-button>
         </div>
     </div>
 </div>
 </template>
 
 <script>
+import {
+    list,
+    postMsg
+} from '@/api/contact/index'
 export default {
     components: {},
     data() {
         return {
-
+            content: '',
+            list:[]
         };
     },
     computed: {},
     watch: {},
     methods: {
-
+        getList() {
+            let that = this;
+            list().then(res => {
+                if (res.code == '00') {
+                    this.list = res.data;
+                }
+            })
+        },
+        postMsgFn() {
+            let that=this;
+            console.log(this.content.trim() == '');
+            // return;
+            if ( this.content.trim() == '') {
+                that.$message({
+                    showClose: true,
+                    message: '不能发送空白消息',
+                    duration: 3 * 1000,
+                    type: 'fail'
+                })
+                return;
+            }
+            postMsg({
+                content: this.content
+            }).then(res => {
+                console.log(res)
+                if (res.code == '00') {
+                    that.$message({
+                        showClose: true,
+                        message: '发送成功',
+                        duration: 3 * 1000,
+                        type: 'success'
+                    })
+                    this.content='';
+                    this.getList();
+                }
+            })
+        }
     },
     created() {
-
+        this.getList()
     },
     mounted() {
 
@@ -91,9 +132,13 @@ export default {
                 padding: 26px 33px 26px 18px;
                 margin-bottom: 20px;
                 line-height: 22px;
-
+                .textBox{
+                      width: 100%;
+              
+                }
                 .sysContent {
                     line-height: 22px;
+                    word-break:break-all;
                 }
 
                 .userName {

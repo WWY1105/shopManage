@@ -16,31 +16,31 @@
         <el-form label-position="top" :inline="true" :model="formInline" class="demo-form-inline">
             <el-row :gutter="20" type="flex" justify="space-between" align="bottom">
                 <!-- <div class="flexStart"> -->
-                    <el-col :span="10">
-                        <div class="grid-content bg-purple">
-                            <el-form-item label="注册时间段">
-                                <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss" onPick="registerTimeChange" v-model="json.registerTime" type="datetimerange" placeholder="注册时间段">
-                                </el-date-picker>
-                            </el-form-item>
-                        </div>
-                    </el-col>
-                    <el-col :span="10">
-                        <div class="grid-content bg-purple">
-                            <el-form-item label="最后登录时间段">
-                                <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss" v-model="json.lastLoginTime" type="datetimerange" placeholder="最后登录时间段">
-                                </el-date-picker>
-                            </el-form-item>
-                        </div>
-                    </el-col>
-                    <el-col :span="4">
-                        <div class="grid-content bg-purple">
-                            <el-form-item label="客户组">
-                                <el-select v-model="json.usergroup" placeholder="客户组">
-                                    <el-option v-for="(i,j) in groupList" :value="i.value" :label="i.text" :key="j"></el-option>
-                                </el-select>
-                            </el-form-item>
-                        </div>
-                    </el-col>
+                <el-col :span="10">
+                    <div class="grid-content bg-purple">
+                        <el-form-item label="注册时间段">
+                            <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss" onPick="registerTimeChange" v-model="json.registerTime" type="datetimerange" placeholder="注册时间段">
+                            </el-date-picker>
+                        </el-form-item>
+                    </div>
+                </el-col>
+                <el-col :span="10">
+                    <div class="grid-content bg-purple">
+                        <el-form-item label="最后登录时间段">
+                            <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss" v-model="json.lastLoginTime" type="datetimerange" placeholder="最后登录时间段">
+                            </el-date-picker>
+                        </el-form-item>
+                    </div>
+                </el-col>
+                <el-col :span="4">
+                    <div class="grid-content bg-purple">
+                        <el-form-item label="客户组">
+                            <el-select v-model="json.usergroup" placeholder="客户组">
+                                <el-option v-for="(i,j) in groupList" :value="i.value" :label="i.text" :key="j"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </div>
+                </el-col>
                 <!-- </div> -->
             </el-row>
         </el-form>
@@ -83,7 +83,7 @@
                     <div class="flexEnd">
                         <el-form-item>
                             <div class="flexEnd">
-                            <el-button class="searchBtn" type="primary" @click="getList">查询</el-button>
+                                <el-button class="searchBtn" type="primary" @click="getList">查询</el-button>
                             </div>
                         </el-form-item>
                     </div>
@@ -122,98 +122,118 @@
         </div>
     </div>
     <!-- 客户信息 -->
-    <el-dialog title="客户信息" center :visible.sync="cusInfoShow" width="343px" class="cusInfoDialog">
-        <div class="part part1">
-            <div class="partConetnt">
-                <div class="flexSpace each">
-                    <label for="">客户ID</label>
-                    <span class="value">{{targetObj.id}}</span>
+    <el-dialog title="" center append-to-body :visible.sync="cusInfoShow" width="920px" class="cusInfoDialog">
+        <div class="flexCenter">
+            <div class="leftPart bgf" style="width:430px">
+                <p class="header flexSpace"><span>客户信息</span><i class="el-icon-close" @click="cusInfoShow=false"></i></p>
+                <div class="part part1">
+                    <div class="partConetnt">
+                        <div class="flexSpace each">
+                            <label for="">客户ID</label>
+                            <span class="value">{{targetObj.id}}</span>
+                        </div>
+                        <div class="flexSpace each">
+                            <label for="">名称</label>
+                            <span class="value">{{targetObj.nickname}}</span>
+                        </div>
+                        <div class="flexSpace each">
+                            <label for="">电话</label>
+                            <span class="value">{{targetObj.mobild}}</span>
+                        </div>
+                        <div class="flexSpace each">
+                            <label for="">性别</label>
+                            <span class="value">{{targetObj.gende==0?'未知':targetObj.gender==1?'男':'女'}}</span>
+                        </div>
+                        <div class="flexSpace each">
+                            <label for="">用户组</label>
+                            <span class="value">{{targetObj.usergroup}}</span>
+                        </div>
+                        <div class="flexSpace each">
+                            <label for="">注册时间</label>
+                            <span class="value">{{targetObj.regsterTime}}</span>
+                        </div>
+                        <div class="flexSpace each">
+                            <label for="">生日</label>
+                            <span class="value">{{targetObj.birthday}}</span>
+                        </div>
+                        <div class="flexSpace each">
+                            <label for="">默认地址：</label>
+                            <span class="value">{{targetObj.address}}</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="flexSpace each">
-                    <label for="">名称</label>
-                    <span class="value">{{targetObj.nickname}}</span>
-                </div>
-                <div class="flexSpace each">
-                    <label for="">电话</label>
-                    <span class="value">{{targetObj.mobild}}</span>
-                </div>
-                <div class="flexSpace each">
-                    <label for="">性别</label>
-                    <span class="value">{{targetObj.gende==0?'未知':targetObj.gender==1?'男':'女'}}</span>
-                </div>
-                <div class="flexSpace each">
-                    <label for="">用户组</label>
-                    <span class="value">{{targetObj.usergroup}}</span>
-                </div>
-                <div class="flexSpace each">
-                    <label for="">注册时间</label>
-                    <span class="value">{{targetObj.regsterTime}}</span>
-                </div>
-                <div class="flexSpace each">
-                    <label for="">生日</label>
-                    <span class="value">{{targetObj.birthday}}</span>
-                </div>
-                <div class="flexSpace each">
-                    <label for="">默认地址：</label>
-                    <span class="value">{{targetObj.address}}</span>
-                </div>
-            </div>
-        </div>
-        <p class="partTitle">储值卡</p>
+                <p class="partTitle">储值卡</p>
 
-        <div class="part part2">
-            <div class="partConetnt">
-                <div class="flexSpace each">
-                    <label for="">累计购买金额</label>
-                    <span class="value">{{targetObj.czk}}</span>
+                <div class="part part2">
+                    <div class="partConetnt">
+                        <div class="flexSpace each">
+                            <label for="">累计购买金额</label>
+                            <span class="value">{{targetObj.czk}}</span>
+                        </div>
+                        <div class="flexSpace each">
+                            <label for="">累计购买次数</label>
+                            <span class="value">{{targetObj.czkcs}}</span>
+                        </div>
+                        <div class="flexSpace each">
+                            <label for="">当前余额</label>
+                            <span class="value">{{targetObj.sy}}</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="flexSpace each">
-                    <label for="">累计购买次数</label>
-                    <span class="value">{{targetObj.czkcs}}</span>
+                <p class="partTitle">积分</p>
+                <div class="part part3">
+                    <div class="partConetnt">
+                        <div class="flexSpace each">
+                            <label for=""> 累计获得积分
+                            </label>
+                            <span class="value">{{targetObj.jf}}</span>
+                        </div>
+                        <div class="flexSpace each">
+                            <label for="">剩余积分</label>
+                            <span class="value">{{targetObj.syjf}}</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="flexSpace each">
-                    <label for="">当前余额</label>
-                    <span class="value">{{targetObj.sy}}</span>
+                <p class="partTitle">消费</p>
+                <div class="part part4 noBorder">
+                    <div class="partConetnt">
+                        <div class="flexSpace each">
+                            <label for=""> 总消费金额 </label>
+                            <span class="value">{{targetObj.consumption}}</span>
+                        </div>
+                        <div class="flexSpace each">
+                            <label for="">消费次数</label>
+                            <span class="value">{{targetObj.xfcs}}</span>
+                        </div>
+                        <div class="flexSpace each">
+                            <label for="">最后消费时间</label>
+                            <span class="value">{{targetObj.xftime}}</span>
+                        </div>
+                        <div class="flexSpace each">
+                            <label for="">消费记录</label>
+                            <span class="value record" @click="recordShow=true">查看详细消费记录</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 详细消费记录 -->
+            <div class="rightPart bgf" style="width:430px" v-if="recordShow">
+                <p class="header flexSpace">
+                    <span>详细消费记录</span>
+                    <i class="el-icon-close" @click="recordShow=false"></i>
+                </p>
+                <div class="recordBody">
+                    <div class="eachRecord flexSpace" v-for="(i,j) in recordList" :key="j">
+                        <label for="">{{i.date}}</label>
+                        <span class="value record">￥{{i.price}}</span>
+                    </div>
                 </div>
             </div>
         </div>
-        <p class="partTitle">积分</p>
-        <div class="part part3">
-            <div class="partConetnt">
-                <div class="flexSpace each">
-                    <label for=""> 累计获得积分
-                    </label>
-                    <span class="value">{{targetObj.jf}}</span>
-                </div>
-                <div class="flexSpace each">
-                    <label for="">剩余积分</label>
-                    <span class="value">{{targetObj.syjf}}</span>
-                </div>
-            </div>
-        </div>
-        <p class="partTitle">消费</p>
-        <div class="part part4 noBorder">
-            <div class="partConetnt">
-                <div class="flexSpace each">
-                    <label for=""> 总消费金额 </label>
-                    <span class="value">{{targetObj.consumption}}</span>
-                </div>
-                <div class="flexSpace each">
-                    <label for="">消费次数</label>
-                    <span class="value">{{targetObj.xfcs}}</span>
-                </div>
-                <div class="flexSpace each">
-                    <label for="">最后消费时间</label>
-                    <span class="value">{{targetObj.xftime}}</span>
-                </div>
-                <div class="flexSpace each">
-                    <label for="">消费记录</label>
-                    <span class="value">??????????</span>
-                </div>
-            </div>
-        </div>
+
     </el-dialog>
-    <!-- 客户消费记录 -->
+
 </div>
 </template>
 
@@ -221,7 +241,8 @@
 import {
     list,
     total,
-    getDetail
+    getDetail,
+    getRecord
 } from '../../api/customs/index'
 import {
     customType
@@ -230,6 +251,7 @@ export default {
     components: {},
     data() {
         return {
+            recordShow: false,
             targetObj: {},
             cusInfoShow: false,
             pageData: {},
@@ -268,6 +290,7 @@ export default {
                 lastLoginTime: [],
                 registerTime: [],
             },
+            recordList: {}
         };
     },
     computed: {},
@@ -345,6 +368,15 @@ export default {
                     this.targetObj = res.data;
                 }
             })
+            this.getRecordFn(id)
+        },
+        // 获取消费记录
+        getRecordFn(id) {
+            getRecord(id).then(res => {
+                if (res.code == '00') {
+                    this.recordList = res.data;
+                }
+            })
         }
     },
     created() {
@@ -407,8 +439,54 @@ export default {
 }
 
 .cusInfoDialog {
+    /deep/ .el-dialog {
+        background-color: transparent;
+
+        .leftPart {
+            padding: 16px 43px;
+            box-sizing: border-box;
+            border-radius: 10px;
+        }
+
+        .rightPart {
+            height: 815px;
+            margin-left: 30px;
+            padding: 16px 43px;
+            box-sizing: border-box;
+            border-radius: 10px;
+        }
+
+        .header {
+            color: #666;
+            font-size: 22px;
+            border-bottom: 1px solid #E5E5E5;
+            padding-bottom: 10px;
+        }
+
+        .recordBody {
+            padding-top: 20px;
+
+            .eachRecord {
+                margin-bottom: 20px;
+                font-size: 14px;
+            }
+
+            label {
+                color: #666;
+            }
+
+            .value {
+                color: #333;
+            }
+        }
+    }
+
     /deep/ .el-dialog__body {
         padding-top: 0px !important;
+    }
+
+    /deep/ .el-dialog__header {
+        border: none;
     }
 
     .el-dialog__body {
@@ -416,7 +494,7 @@ export default {
     }
 
     .partTitle {
-        padding: 20px 0 10px;
+        padding: 10px 0;
         border-bottom: 1px solid #E5E5E5;
         color: #666;
         font-size: 20px;
@@ -442,6 +520,10 @@ export default {
 
         .value {
             color: #333;
+
+            &.record {
+                color: #016DFF;
+            }
         }
     }
 }

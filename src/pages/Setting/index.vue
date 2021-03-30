@@ -10,11 +10,11 @@
                 <img src="../../assets/images/setting/phone.png" alt="">
                 <p>绑定手机号</p>
             </router-link>
-            <div class="settingPart flexCenter flexColumn editPas">
+            <router-link :to="{path:'/setting/setPassword'}" class="settingPart flexCenter flexColumn editPas">
                 <img src="../../assets/images/setting/editPass.png" alt="">
                 <p>修改登录密码</p>
-            </div>
-            <div class="settingPart flexCenter flexColumn logout">
+            </router-link>
+            <div class="settingPart flexCenter flexColumn logout" @click="LogOut">
                 <img src="../../assets/images/setting/logout.png" alt="">
                 <p>退出登录</p>
             </div>
@@ -35,7 +35,14 @@ export default {
     computed: {},
     watch: {},
     methods: {
-
+         LogOut() {
+            let that = this;
+            this.$store.dispatch('LogOut', {}).then(res => {
+                that.$router.push({
+                    path: '/login'
+                })
+            })
+        },
     },
     created() {
 

@@ -8,3 +8,13 @@ export function bindPhone(json){
         params:json
     })
 }
+
+// 修改密码
+export function changePas(json){
+    return request({
+        url:"/change-password",
+        method:'put',
+        params:json
+    })
+}
+

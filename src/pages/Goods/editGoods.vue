@@ -269,11 +269,11 @@ import miaosha from '../../assets/images/goods/miaosha.png';
 import kanjia from '../../assets/images/goods/kanjia.png';
 import mianfei from '../../assets/images/goods/mianfei.png';
 
-import yushou_active from '../../assets/images/sales/yushou.png';
-import pintuan_active from '../../assets/images/sales/pintuan.png';
-import miaosha_active from '../../assets/images/sales/miaosha.png';
-import kanjia_active from '../../assets/images/sales/kanjia.png';
-import mianfei_active from '../../assets/images/sales/mianfei.png';
+import yushou_active from '../../assets/images/sales/yushou_active.png';
+import pintuan_active from '../../assets/images/sales/pintuan_active.png';
+import miaosha_active from '../../assets/images/sales/miaosha_active.png';
+import kanjia_active from '../../assets/images/sales/kanjia_active.png';
+import mianfei_active from '../../assets/images/sales/mianfei_active.png';
 import {
     getCategory
 } from '../../api/goods/index'

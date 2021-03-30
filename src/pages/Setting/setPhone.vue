@@ -165,7 +165,7 @@ export default {
         }
 
         /deep/ .el-input__inner {
-            width: 375px;
+            width: 300px;
             height: 60px;
             background: #E8E8E8;
             border: 1px solid #E8E8E8;
@@ -173,7 +173,7 @@ export default {
         }
 
         /deep/ .el-form-item__label {
-            line-height: 60px;
+            line-height:30px;
         }
 
         .el-form-item__label {
@@ -214,7 +214,7 @@ export default {
                 border-radius: 30px;
 
                 &.searchBtn {
-                    margin-bottom: 33px;
+                    // margin-bottom: 33px;
                 }
             }
         }

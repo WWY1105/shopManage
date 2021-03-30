@@ -23,4 +23,10 @@ export function getDetail(id){
     })
 }
 
-
+export function getRecord(id){
+    return request({
+        url:"/member/fee-details",
+        method:'get',
+        params:{id}
+    })
+}

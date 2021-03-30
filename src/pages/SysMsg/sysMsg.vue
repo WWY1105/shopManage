@@ -6,13 +6,12 @@
         <p class="chTitle">系统消息</p>
         <p class="enTitle">System message</p>
         <div class="content flexCenter">
-            <div class="eachMsg flexCenter flexColumn">
-                <P>
+            <div class="eachMsg flexCenter flexColumn" v-for="(i,j) in list" :key="j">
+                <P class="textBox">
                     <span class="userName">天极星：</span>
-                    <span class="sysContent">尊敬的商户用户您好，平台将于2020年12月12日凌晨2:00至4:00进行服务器升级，届时平台服务会暂停服
-                        务，对您造成的不便敬请理解，谢谢！</span>
+                    <span class="sysContent">{{i.content}}</span>
                 </P>
-                <p class="date">2020-12-14 21:00:00</p>
+                <p class="date">{{i.createTime}}</p>
             </div>
         </div>
     </div>
@@ -21,20 +20,30 @@
 </template>
 
 <script>
+import {
+    list
+} from '@/api/contact/index'
 export default {
     components: {},
     data() {
         return {
-
+            list:[]
         };
     },
     computed: {},
     watch: {},
     methods: {
-
+          getList() {
+            let that = this;
+            list().then(res => {
+                if (res.code == '00') {
+                    this.list = res.data;
+                }
+            })
+        },
     },
     created() {
-
+         this.getList()
     },
     mounted() {
 
@@ -77,7 +86,7 @@ export default {
         .content {
             width: 100%;
             margin-top: 38px;
-
+            flex-direction: column;
             .eachMsg {
                 background: #F4F4F4;
                 border-radius: 10px;
@@ -86,9 +95,13 @@ export default {
                 padding: 26px 33px 26px 18px;
                 margin-bottom: 20px;
                 line-height: 22px;
-
+                width: 100%;
+                .textBox{
+                    width: 100%;
+                }
                 .sysContent {
                     line-height: 22px;
+                    word-break: break-all;
                 }
 
                 .userName {

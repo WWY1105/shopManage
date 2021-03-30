@@ -319,6 +319,11 @@ export default new Router({
             path: '/setting/setPhone',
             name: 'setPhone',
             component: () => import('@/pages/Setting/setPhone.vue'),
+          },
+          {
+            path: '/setting/setPassword',
+            name: 'setPassword',
+            component: () => import('@/pages/Setting/setPassword.vue'),
           }
         ]
       }, {

@@ -26,7 +26,7 @@
         <div class="eachInfo flexCenter ">
             <img src="../../assets/images/shops/haohua.png" class="icon" alt="">
             <p class="title">天极星 {{shopInfo.memberLevel}}</p>
-            <p class="desc">已激活 有效期至{{shopInfo.memberExpire}}</p>
+            <p class="desc">已激活 有效期至{{shopInfo.memberExpireTime}}</p>
             <div class="buttons flexCenter">
                 <el-button class="searchBtn" @click="showTipsDialog=true">续费</el-button>
                 <!-- <el-button class="transBtn" @click="toSetting">账户设置</el-button> -->
@@ -67,7 +67,7 @@
                 <img v-if="i.imgurl" :src="$imgurl+i.imgurl" class="logo" alt="">
                 <img v-else src="../../assets/images/header/user.png" class="logo" alt="">
                 <div class="switchBox">
-                    <el-switch size="large" @change="val=>enabledChange(val,j)" v-model="i.enabled" active-color="#00B0F0" inactive-color="#aaaaaa">
+                    <el-switch size="large" @change="val=>enabledChange(val,j)" v-model="i.used" active-color="#00B0F0" inactive-color="#aaaaaa">
                     </el-switch>
                 </div>
             </div>

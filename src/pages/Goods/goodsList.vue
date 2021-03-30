@@ -193,7 +193,7 @@
             </el-table-column>
         </el-table>
         <div class="pagination flexCenter">
-            <el-pagination background layout="prev, pager, next" :total="pageData.totalSize">
+            <el-pagination background layout="prev, pager, next" :total="pageData.totalSize" @current-change="pageChange">
             </el-pagination>
         </div>
     </div>
@@ -341,6 +341,12 @@ export default {
         }
     },
     methods: {
+        // 页码改变
+        pageChange(val){
+            console.log(val)
+            this.json.pageNum=val;
+            this.getList()
+        },
         // 获取统计
         getStaticFn() {
             getStatic().then(res => {
@@ -371,7 +377,7 @@ export default {
             var Deep, T, F;
             for (F = tree.length; F;) {
                 T = tree[--F]
-                if (ID == T.id) return T.name;
+                if (ID == T.id) return T&&T.name?T.name:'';
                 if (T.categories) {
                     Deep = this.getDepById(T.categories, ID)
                     if (Deep) return Deep
