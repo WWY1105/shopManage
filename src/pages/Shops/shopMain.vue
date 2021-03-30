@@ -37,7 +37,7 @@
             <p class="title">资金账户</p>
             <p class="desc">￥{{shopInfo.balance}}</p>
             <div class="buttons flexCenter">
-                <el-button class="searchBtn">充值 </el-button>
+                <el-button class="searchBtn" @click="goCapitalRecharge">充值 </el-button>
                 <el-button class="transBtn">资金明细</el-button>
             </div>
         </div>
@@ -158,6 +158,12 @@ export default {
     computed: {},
     watch: {},
     methods: {
+        goCapitalRecharge(){
+            this.$router.push({
+                path:' /shops/capitalRecharge'
+            })
+        },
+       
         getBranch() {
             branch().then(res => {
                 if (res.code == '00') {

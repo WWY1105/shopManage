@@ -25,7 +25,7 @@
                 appkey:1098481--02939-120<br>
                 appID:dsksjj1098899301
             </p>
-            <el-button class="searchBtn">修改配置???</el-button>
+            <el-button class="searchBtn" @click="goWxSet">修改配置</el-button>
         </div>
         <div class="eachSetting flexCenter flexColumn">
             <img src="../../assets/images/shops/weixin.png" alt="">
@@ -58,7 +58,11 @@ export default {
     }),
     watch: {},
     methods: {
-
+        goWxSet(){
+            this.$router.push({
+                path:'/shops/wxAcountSet'
+            })
+        }
     },
     created() {
         ////console.log(this.$store.state)
