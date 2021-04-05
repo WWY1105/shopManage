@@ -46,7 +46,7 @@
                 <div class="content">
                     <el-upload :file-list="imgUrlfileList" :action="$uploadApi" :on-success="handleimgurlSuccess" list-type="picture-card">
                         <i slot="default" class="el-icon-plus"></i>
-                       
+
                     </el-upload>
                 </div>
             </div>
@@ -63,21 +63,10 @@
                     <el-upload :file-list="fileList" :action="$uploadApi" :on-success="handleAvatarSuccess" list-type="picture-card">
                         <i slot="default" class="el-icon-plus"></i>
                         <div slot="file" slot-scope="{file}">
-                            <img class="el-upload-list__item-thumbnail" :src="file.url" alt="">
-                            <!-- <span class="el-upload-list__item-actions">
-                                <span class="el-upload-list__item-preview" @click="handlePictureCardPreview(file)">
-                                    <i class="el-icon-zoom-in"></i>
-                                </span>
-                                <span v-if="!disabled" class="el-upload-list__item-delete" @click="handleDownload(file)">
-                                    <i class="el-icon-download"></i>
-                                </span>
-                                <span v-if="!disabled" class="el-upload-list__item-delete" @click="handleRemove(file)">
-                                    <i class="el-icon-delete"></i>
-                                </span>
-                            </span> -->
+                            <img class="el-upload-list__item-thumbnail" :src="$imgurl+file.url" alt="">
+
                         </div>
                     </el-upload>
-
                 </div>
             </div>
             <p class="tips">
@@ -120,6 +109,7 @@
                             <el-button class="searchBtn" @click="addGuiGeFn">添加规格</el-button>
                         </el-form-item>
                     </div>
+                    <!-- 小规格 -->
                     <div class="flexStart eachGuiGe">
                         <el-tag v-for="(i,j) in item.items" :key='j' closable :disable-transitions="false" @close="handleCloseGuiGe(index,j)">
                             <el-input v-model="item.items[j]" @change="val=>addGuiGeItems(val,index,j)"></el-input>
@@ -407,8 +397,13 @@ export default {
         },
         // 上传成功
         handleAvatarSuccess(response) {
-            let arr = this.data.fileList;
-            arr.push(response.data)
+            console.log('上传成功')
+            console.log(response)
+            let arr = this.fileList;
+            arr.push({
+                url: response.data
+            });
+            console.log(arr)
             this.form.contentImgurl = arr.join(',');
         },
         handleimgurlSuccess(response) {
@@ -420,10 +415,12 @@ export default {
                 name: '',
                 items: ['']
             })
-            //console.log(this.form.specRequest.spec)
+            console.log('点击添加规格')
+            console.log(this.form.specRequest.spec)
         },
         // 添加小规格
         addGuiGeItems(val, index, j) {
+            console.log(val, index, j)
             if (this.form.specRequest.spec[index].name.trim() != '' && this.form.specRequest.spec[index].items[j].trim() != '') {
                 this.form.specRequest.spec[index].items.push('')
             } else {
@@ -434,7 +431,8 @@ export default {
                     type: 'error'
                 })
             }
-             //console.log(this.form.specRequest.spec)
+            console.log('添加小规格')
+            console.log(this.form.specRequest.spec)
         },
         // 删除某个规格
         handleCloseGuiGe(index, i) {
@@ -455,14 +453,15 @@ export default {
                 this.form.specRequest.spec.map(i => {
                     let a = [];
                     i.items.map(j => {
-                        if(j.trim()!=''){
-                             a.push(j)
+                        if (j.trim() != '') {
+                            a.push(j)
                         }
                     })
                     arr.push(a);
                 })
                 let allArr = this.cartesianProductOf(...arr);
-                //console.log(allArr)
+                console.log('allArr')
+                console.log(allArr)
                 allArr.map(i => {
                     let arr = []
                     let obj = {
@@ -498,22 +497,29 @@ export default {
         // 保存数据
         saveDataFn() {
             let json = this.form;
-            this.form.specRequest.spec.map(i => {
-                if (i.name) {
-                    let obj = {
-                        name: i.name,
-                        items: []
-                    }
-                    i.items.map(j => {
-                        if (j.trim()!='') {
-                            obj.items.push(j)
-                        }
-                    })
-                    json.specRequest.spec.push(obj)
-                }
-            })
-            //console.log("提交数据")
-            //console.log(json);
+            console.log("提交数据")
+            console.log(this.form.specRequest.spec);
+
+            // let spec = JSON.parse(JSON.stringify(this.form.specRequest.spec));
+            // spec.forEach(i => {
+            //     if (i.name) {
+            //         console.log(i)
+            //         let obj = {
+            //             name: i.name,
+            //             items: i.items
+            //         }
+            //         // i.items.forEach(j => {
+            //         //     if (j.trim()!='') {
+            //         //         obj.items.push(j)
+            //         //     }
+            //         // })
+            //         // let specStr=i.items.join(',');
+            //         // obj.items.push()
+            //         json.specRequest.spec.push(obj)
+            //     }
+            // })
+            console.log('json');
+            console.log(json);
             // return;
             saveData(json).then(res => {
                 if (res.code == '00') {

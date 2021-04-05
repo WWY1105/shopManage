@@ -4,7 +4,8 @@
     <div class="bgf part1 flexSpace">
         <div class="left flexStart">
             <div class="flexStart">
-                <img src="../../../assets/images/sales/fanli.png" class="icon" alt="">
+                <img src="../../../assets/images/sales/fanli.png" class="icon" alt="" v-if="!saleData.fl" >
+                 <img src="../../../assets/images/sales/fanli_active.png" class="icon" alt="" v-else>
                 <div class="textBox">
                     <h2>返利模块设置</h2>
                     <p>本模块可以设置返积分、返优惠券的比例、金额</p>
@@ -139,7 +140,7 @@ export default {
         //    模块开关-----start
         saveSaleDataFn() {
             let that = this;
-            let json = this.saleData;
+            let json =  JSON.parse(JSON.stringify(this.saleData));
             delete json.businessId;
             this.$store.dispatch('Setdistributions', json).then(result => {
                 if (result.code == '00') {

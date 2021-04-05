@@ -165,7 +165,9 @@ export default {
         }
       
     }
-
+    .el-submenu__title{
+        padding-left:13px!important;
+    }
     .el-menu-item {
         padding-left:5px!important;
         display: flex;

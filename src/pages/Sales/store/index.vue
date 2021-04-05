@@ -4,7 +4,8 @@
     <div class="bgf part1 flexSpace">
         <div class="left flexSpace">
             <div class="flexStart">
-                <img src="../../../assets/images/sales/fenxiao.png" class="icon" alt="">
+                <img src="../../../assets/images/sales/fenxiao.png" class="icon" alt="" v-if="!saleData.czk">
+                <img src="../../../assets/images/sales/fenxiao_active.png" class="icon" alt="" v-else>
                 <div class="textBox">
                     <h2>储值卡管理设置</h2>
                     <p>本模块可以设置储值卡的种类、金额</p>
@@ -13,7 +14,7 @@
             <div class="switchBox flexEnd">
                 <el-form label-position="top" :inline="true" class="demo-form-inline">
                     <el-form-item label="储值卡模块总开关">
-                        <el-switch size="large" active-color="#00B0F0" inactive-color="#aaaaaa">
+                        <el-switch size="large" active-color="#00B0F0" inactive-color="#aaaaaa" @change="saveSaleDataFn" v-model="saleData.czk">
                         </el-switch>
                     </el-form-item>
                 </el-form>
@@ -46,7 +47,7 @@
     <div class="cardListBox">
         <el-row :gutter="20">
 
-            <el-col :span="8" v-for="(i, j) in cardList" :key="j">
+            <el-col :span="8" v-for="(i, j) in cardList" :key="j" class="eachItem">
                 <el-card :body-style="{ padding: '32px 28px 39px' }" shadow="hover">
                     <div class="eachCard">
                         <div class="flexSpace">
@@ -134,6 +135,7 @@ export default {
     data() {
         //这里存放数据
         return {
+            saleData:{},
             deleteCardVisible: false,
             edtiCardVisible: false,
             targetId: '',
@@ -156,6 +158,34 @@ export default {
     watch: {},
     //方法集合
     methods: {
+          //    模块开关-----start
+        saveSaleDataFn() {
+            let that = this;
+            let json =  JSON.parse(JSON.stringify(this.saleData));
+            delete json.businessId;
+            this.$store.dispatch('Setdistributions', json).then(result => {
+                if (result.code == '00') {
+                    that.$message({
+                        showClose: true,
+                        message: '设置成功',
+                        duration: 3 * 1000,
+                        type: 'success'
+                    })
+                    that.getDetail()
+                }
+            })
+        },
+        getState() {
+            //console.log(this.$store)
+            if (!this.$store.state.distribution.distributions) {
+                this.$store.dispatch('Getdistributions').then(result => {
+                    this.saleData = result;
+                })
+            } else {
+                this.saleData = this.$store.state.distribution.distributions;
+            }
+        },
+        //    模块开关----end
         getDataFn() {
             getData({}).then(res => {
                 if (res.code == '00') {
@@ -253,7 +283,7 @@ export default {
     },
     //生命周期 - 创建完成（可以访问当前this实例）
     created() {
-
+         this.getState()
     },
     //生命周期 - 挂载完成（可以访问DOM元素）
     mounted() {
@@ -336,7 +366,9 @@ export default {
 .cardListBox {
 
     margin-top: 20px;
-
+    .eachItem{
+        margin-bottom: 20px;
+    }
     .eachCard {
         .cardName {
             color: #393939;

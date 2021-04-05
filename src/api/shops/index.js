@@ -56,3 +56,12 @@ export function deleteShopFn(id){
         }
     })
 }
+
+// 商家统计
+export function getStatic(){
+    return request({
+        url:"/statistic",
+        method:'get',
+        params:{}
+    })
+}

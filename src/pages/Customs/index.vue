@@ -299,7 +299,7 @@ export default {
 
         getList() {
             let that = this;
-            let json = this.json;
+            let json =JSON.parse(JSON.stringify( this.json));
             if (json.lastLoginTime && json.lastLoginTime.length > 0) {
                 json.loginBegin = json.lastLoginTime[0];
                 json.loginEnd = json.lastLoginTime[1];

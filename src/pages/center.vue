@@ -69,6 +69,9 @@ import {
     getOrderNum
 } from '../api/statistics/order'
 import {
+    getStatic
+} from '../api/shops/index'
+import {
     orderTypeOptions
 } from '../utils/jsons'
 export default {
@@ -230,13 +233,19 @@ export default {
     computed: {},
     watch: {},
     methods: {
+        // 获取统计数据 ??? 参数没给
+        getStaticFn(){
+            getStatic().then(res=>{
+
+            })
+        },
         // 时间改变
         dataTimeChange(val) {
 
         },
         // 获取订单量
         getOrderNumFn() {
-            getOrderNum({}).then(res => {
+            getOrderNum({orderType:''}).then(res => {
                 if (res.code == '00') {
                     this.orderData = res.data;
                     this.LineChart('mycharts1', res.data.xaxis, res.data.series, 'line')
@@ -333,6 +342,7 @@ export default {
     created() {
         this.getUserInfo();
         this.getOrderNumFn();
+        this.getStaticFn()
     },
     mounted() {
 

@@ -20,7 +20,7 @@
                             <div class="grid-content bg-purple">
                                 <el-form-item label="优惠券模块开关">
                                     <el-switch @change="saveDataFn" size="large" v-model="saleData.yhq" active-color="#00B0F0" inactive-color="#aaaaaa">
-                        </el-switch>
+                                    </el-switch>
                                 </el-form-item>
                             </div>
                         </el-col>
@@ -36,13 +36,13 @@
                 </el-col>
                 <el-col :span="6">
                     <!-- <el-row :gutter="20" type="flex" justify="end" align="bottom"> -->
-                        <div class="flexEnd">
-                            <el-form-item>
-                                 <div class="flexEnd">
+                    <div class="flexEnd">
+                        <el-form-item>
+                            <div class="flexEnd">
                                 <el-button class="searchBtn" @click="showAddCoupon">+新增</el-button>
-                                 </div>
-                            </el-form-item>
-                        </div>
+                            </div>
+                        </el-form-item>
+                    </div>
                     <!-- </el-row> -->
                 </el-col>
             </el-row>
@@ -85,9 +85,9 @@
                 <el-col :span="4">
                     <div class="flexEnd">
                         <el-form-item>
-                             <div class="flexEnd">
-                            <el-button type="primary" class="searchBtn" @click="getList">查询</el-button>
-                             </div>
+                            <div class="flexEnd">
+                                <el-button type="primary" class="searchBtn" @click="getList">查询</el-button>
+                            </div>
                         </el-form-item>
                     </div>
                 </el-col>
@@ -104,11 +104,19 @@
             </el-table-column>
             <el-table-column prop="price" label="优惠券面额"></el-table-column>
             <el-table-column prop="fullPrice" label="满足使用金额"></el-table-column>
-            <el-table-column prop="？？？" label="类型限制"> </el-table-column>
+            <el-table-column prop="" label="类型限制">
+                 <template slot-scope="scope">
+                    <p>{{scope.row.categoryId1}}</p>
+                </template>
+             </el-table-column>
             <el-table-column prop="expireDate" label="有效期致"> </el-table-column>
             <el-table-column prop="totalCount" label="总数量"> </el-table-column>
             <el-table-column prop="getCount" label="领取数量"> </el-table-column>
-            <el-table-column prop="？？？" label="剩余可领 "> </el-table-column>
+            <el-table-column prop="" label="剩余可领 ">
+                 <template slot-scope="scope">
+                    <p>{{scope.row.totalCount-scope.row.getCount}}</p>
+                </template>
+            </el-table-column>
             <el-table-column prop="usedCount" label="使用数量"> </el-table-column>
             <el-table-column prop="createTime" label="创建时间"> </el-table-column>
             <el-table-column prop="type" label="能否领取">
@@ -224,11 +232,31 @@
             <el-button @click="addCouponVisible = false">取 消</el-button>
         </span>
     </el-dialog>
-   
 
     <!-- 赠送弹窗 -->
-    <el-dialog title="赠送优惠券：" :visible.sync="giveCouponVisible" class="giveCouponDialog">
+    <el-dialog title="赠送优惠券：" :visible.sync="giveCouponVisible" class="giveCouponDialog" width="600px">
+        <div class="dialogContent flexColumn flexStart ">
+            <el-form :inline="true" label-width="170px" :model="editJson">
+                <div class="flexStart flexColumn">
+                    <el-form-item label="赠送对象：">
+                        <el-select v-model="givenObj.userGroup" placeholder="用户群">
+                            <el-option v-for="(i,j) in groupList" :value="i.value" :label="i.text" :key="j"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="指定客户ID：">
+                        <el-input v-model="givenObj.uid" :disabled="givenObj.userGroup=='all'?true:false"></el-input>
+                    </el-form-item>
+                    <el-form-item label="赠送数量：">
+                        <el-input v-model="givenObj.count"></el-input>
+                    </el-form-item>
+                </div>
+            </el-form>
+            <span slot="footer" class="dialog-footer flexCenter flexColumn">
+                <el-button class="searchBtn btn" type="primary" @click="saveGiveDataFn">确 定</el-button>
+                <el-button class="btn cancelBtn " @click="giveCouponVisible = false">取 消</el-button>
 
+            </span>
+        </div>
     </el-dialog>
     <!-- 删除的提示框 -->
     <el-dialog title="提示" center :visible.sync="deleteCouponVisible" width="30%">
@@ -251,14 +279,20 @@ import {
     goodCategory,
     submitCoupone,
     deleteCoupon,
-    editCoupone
-} from '../../../api/sales/coupon'
+    editCoupone,
+    saveGiveGuest
+} from '../../../api/sales/coupon';
+import {
+    customType
+} from '../../../utils/jsons'
 export default {
     components: {},
     data() {
         return {
-            saleData:{},
-            giveCouponVisible:false,
+            saleData: {},
+            givenObj: {}, // 赠送券保存数据的对象
+            groupList: customType,
+            giveCouponVisible: false,
             deleteCouponVisible: false,
             deleteCouponId: '',
             labelPosition: 'left',
@@ -295,16 +329,43 @@ export default {
                 birthdayUsed: false,
                 newUserCouponId: '',
                 newUserUsed: false
-            }
+            },
+            targetGiveCouponId: '', //赠送的券的id
+            memberType: 'all', //赠送的客户类型
+            uid: '', // 赠送的客户id
         };
     },
     computed: {},
     watch: {},
     methods: {
-  //    模块开关-----start
+        giveCoupon(id) {
+            this.giveCouponVisible = true;
+            this.targetGiveCouponId = id;
+        },
+        // 保存赠送数据 ??? 少了数量
+        saveGiveDataFn() {
+            const that=this;
+            let json = {
+                couponId: this.targetGiveCouponId,
+                memberType: !this.memberType || this.memberType == 'all' ? 0 : this.memberType,
+                uid: this.uid
+            }
+            saveGiveGuest(json).then(result => {
+                if (result.code == '00') {
+                    that.$message({
+                        showClose: true,
+                        message: '赠送成功',
+                        duration: 3 * 1000,
+                        type: 'success'
+                    })
+                    that.giveCouponVisible = false;
+                }
+            })
+        },
+        //    模块开关-----start
         saveDataFn() {
             let that = this;
-            let json = this.saleData;
+            let json = JSON.parse(JSON.stringify(this.saleData));
             delete json.businessId;
             this.$store.dispatch('Setdistributions', json).then(result => {
                 if (result.code == '00') {
@@ -456,7 +517,7 @@ export default {
             this.newCoupon = this.tableData[index];
             this.newCoupon.shelf = this.newCoupon.shelf + ''
         },
-        giveCoupon() {},
+
         deleteCouponFn(id) {
             let that = this;
             this.deleteCouponVisible = true;
@@ -561,7 +622,31 @@ export default {
     }
 
     /deep/ .el-form-item__label {
-        line-height:30 px;
+        line-height: 30 px;
+    }
+}
+
+.giveCouponDialog {
+    .dialogContent {
+        align-items: flex-start;
+
+        .btn {
+            margin: 0;
+            width: 220px;
+
+            &.searchBtn {
+                margin-bottom: 35px;
+            }
+        }
+
+        .dialog-footer {
+            margin-top: 50px;
+            width: 100%;
+        }
+
+        /deep/ .el-form-item__label {
+            line-height: 30px;
+        }
     }
 }
 

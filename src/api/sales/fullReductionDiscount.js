@@ -1,6 +1,12 @@
 import request from '@/utils/request'
 
-
+export function getStatistics(json){
+    return request({
+        url:"/business-discount/statistics",
+        method:'get',
+        params:json
+    })
+}
 export function getData(json){
     return request({
         url:"/business-discount",

@@ -126,7 +126,7 @@ export default {
         //    模块开关-----start
         saveDataFn() {
             let that = this;
-            let json = this.saleData;
+            let json = JSON.parse(JSON.stringify(this.saleData));
             delete json.businessId;
             this.$store.dispatch('Setdistributions', json).then(result => {
                 if (result.code == '00') {

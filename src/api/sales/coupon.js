@@ -47,7 +47,14 @@ export function submitRule(json){
         params:json
     })
 }
-
+// 保存赠送客户数据
+export function saveGiveGuest(json){
+    return request({
+        url:"/coupon/give",
+        method:'post',
+        params:json
+    })
+}
 //添加优惠券 
 export function submitCoupone(json){
     return request({

@@ -148,7 +148,7 @@
             </el-table-column>
         </el-table>
         <div class="pagination flexCenter">
-            <el-pagination background layout="prev, pager, next" :total="pageData.totalSize">
+            <el-pagination background layout="prev, pager, next" :total="pageData.totalSize" @current-change="pageChange">
             </el-pagination>
         </div>
     </div>
@@ -192,18 +192,10 @@
                             <span>{{i.name}}</span>
                             <span>{{i.itemText}}</span>
                             <span>{{i.quantity}}</span>
-                            <span>原价￥</span>
-                            <span>优惠价￥</span>
-                            <span>小计￥</span>
+                            <span>{{i.price}}</span>
+                            <span>{{i.payPrice}}</span>
+                            <span>{{i.total}}</span>
                         </p>
-                        <!-- <p class="tableList flexSpace">
-                            <span>商品名称</span>
-                            <span>规格</span>
-                            <span>数量</span>
-                            <span>原价￥</span>
-                            <span>优惠价￥</span>
-                            <span>小计￥</span>
-                        </p> -->
                     </div>
 
                 </div>
@@ -211,13 +203,13 @@
             </div>
             <div class="part2" v-if="discountDetail.preferential">
                 <p class="title">优惠明细：</p>
-                <p class="eachList flexSpace"><span class="label">定金</span> <span>{{discountDetail.preferential.preSalePrice}}</span> </p>
-                <p class="eachList flexSpace"><span class="label">满减优惠</span><span>{{discountDetail.preferential.fullForFree}}</span> </p>
-                <p class="eachList flexSpace"><span class="label">抵用券（优惠券/预售券）</span><span>{{discountDetail.preferential.coupon}}</span> </p>
-                <p class="eachList flexSpace"><span class="label">积分</span><span>{{discountDetail.preferential.jf}}</span> </p>
-                <p class="eachList flexSpace"><span class="label">会员卡</span><span>{{discountDetail.preferential.vip}}</span> </p>
-                <p class="eachList flexSpace"><span class="label">星卡通</span><span>{{discountDetail.preferential.xkt}}</span> </p>
-                <p class="eachList flexSpace"><span class="label">储值卡（储值卡/礼品卡）</span><span>{{discountDetail.preferential.storedCard}}</span> </p>
+                <p class="eachList flexSpace"><span class="label">定金</span> <span>{{discountDetail.preferential.preSalePrice||'无'}}</span> </p>
+                <p class="eachList flexSpace"><span class="label">满减优惠</span><span>{{discountDetail.preferential.fullForFree||'无'}}</span> </p>
+                <p class="eachList flexSpace"><span class="label">抵用券（优惠券/预售券）</span><span>{{discountDetail.preferential.coupon||'无'}}</span> </p>
+                <p class="eachList flexSpace"><span class="label">积分</span><span>{{discountDetail.preferential.jf||'无'}}</span> </p>
+                <p class="eachList flexSpace"><span class="label">会员卡</span><span>{{discountDetail.preferential.vip||'无'}}</span> </p>
+                <p class="eachList flexSpace"><span class="label">星卡通</span><span>{{discountDetail.preferential.xkt||'无'}}</span> </p>
+                <p class="eachList flexSpace"><span class="label">储值卡（储值卡/礼品卡）</span><span>{{discountDetail.preferential.storedCard||'无'}}</span> </p>
             </div>
             <div class="part3 flexEnd">
                 实收金额：<span class="num">
@@ -349,6 +341,12 @@ export default {
     computed: {},
     watch: {},
     methods: {
+             // 页码改变
+        pageChange(val){
+            console.log(val)
+            this.json.pageNum=val;
+            this.getDataFn()
+        },
         // 获取优惠明细
         showDiscountFn(val, id) {
             this.showDiscount = true;
@@ -565,6 +563,10 @@ export default {
             color: #666666;
             font-size: 12px;
             margin-bottom: 16px;
+            span{
+                width: 16%;
+                text-align: center;
+            }
         }
 
         .tableData {
@@ -572,9 +574,11 @@ export default {
                 span {
                     color: #000;
                     font-size: 12px;
-                    line-height: 32px;
+                    line-height: 15px;
                     display: inline-block;
                     font-weight: bold;
+                    width: 16%;
+                   text-align: center;
                 }
             }
 

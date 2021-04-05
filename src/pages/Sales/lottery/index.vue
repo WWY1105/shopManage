@@ -4,7 +4,8 @@
     <div class="bgf part1 flexSpace">
         <div class="left flexSpace">
             <div class="flexStart">
-                <img src="../../../assets/images/sales/choujiang.png" class="icon" alt="">
+                <img src="../../../assets/images/sales/choujiang.png" class="icon" alt=""  v-if="!saleData.cj" >
+                 <img src="../../../assets/images/sales/choujiang_active.png" class="icon" alt="" v-else>
                 <div class="textBox">
                     <h2>抽奖管理设置</h2>
                     <p>本模块可以设置抽奖的用户群、频率及奖品设置</p>
@@ -273,7 +274,8 @@ export default {
             prize: {},
             rule: {},
             couponList: [],
-            showExplaind: false
+            showExplaind: false,
+            saleData:{}
         };
     },
     //监听属性 类似于data概念
@@ -291,7 +293,7 @@ export default {
         //    模块开关-----start
         saveSaleDataFn() {
             let that = this;
-            let json = this.saleData;
+            let json =  JSON.parse(JSON.stringify(this.saleData));
             delete json.businessId;
             this.$store.dispatch('Setdistributions', json).then(result => {
                 if (result.code == '00') {

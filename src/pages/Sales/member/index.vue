@@ -4,7 +4,8 @@
     <div class="bgf part1 flexSpace">
         <div class="left flexSpace">
             <div class="flexStart">
-                <img src="../../../assets/images/sales/huiyuan.png" class="icon" alt="">
+                <img src="../../../assets/images/sales/huiyuan.png" class="icon" alt="" v-if="!saleData.hy">
+                <img src="../../../assets/images/sales/huiyuan_active.png" v-else class="icon" alt="">
                 <div class="textBox">
                     <h2>会员管理设置</h2>
                     <p>本模块可以设置会员的等级数量、每个等级的明细管理</p>
@@ -13,7 +14,7 @@
             <div class="switchBox flexEnd">
                 <el-form label-position="top" :inline="true" class="demo-form-inline">
                     <el-form-item label="会员模块总开关">
-                        <el-switch size="large" active-color="#00B0F0" inactive-color="#aaaaaa">
+                        <el-switch @change="saveSaleDataFn" size="large" active-color="#00B0F0" inactive-color="#aaaaaa" v-model="saleData.hy">
                         </el-switch>
                     </el-form-item>
                 </el-form>
@@ -229,11 +230,38 @@ export default {
                 })
             }
 
-        }
+        },
+          //    模块开关-----start
+        saveSaleDataFn() {
+            let that = this;
+            let json =  JSON.parse(JSON.stringify(this.saleData));
+            delete json.businessId;
+            this.$store.dispatch('Setdistributions', json).then(result => {
+                if (result.code == '00') {
+                    that.$message({
+                        showClose: true,
+                        message: '设置成功',
+                        duration: 3 * 1000,
+                        type: 'success'
+                    })
+                    that.getState()
+                }
+            })
+        },
+        getState() {
+            if (!this.$store.state.distribution.distributions) {
+                this.$store.dispatch('Getdistributions').then(result => {
+                    this.saleData = result;
+                })
+            } else {
+                this.saleData = this.$store.state.distribution.distributions;
+            }
+        },
+        //    模块开关----end
     },
     //生命周期 - 创建完成（可以访问当前this实例）
     created() {
-
+        this.getState()
     },
     //生命周期 - 挂载完成（可以访问DOM元素）
     mounted() {

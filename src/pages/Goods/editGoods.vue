@@ -60,12 +60,7 @@
                     <el-input type="textarea" :rows="20" v-model="form.content"></el-input>
                     <el-upload :on-remove="removeImgurl2" :file-list="fileList" :action="$uploadApi" :on-success="handleAvatarSuccess" list-type="picture-card">
                         <i slot="default" class="el-icon-plus"></i>
-                        <!-- <div slot="file" slot-scope="{file}">
-                            <img class="el-upload-list__item-thumbnail" :src="file.url" alt="">
-
-                        </div> -->
                     </el-upload>
-
                 </div>
             </div>
             <p class="tips">
@@ -78,7 +73,7 @@
             <el-row :gutter="33">
                 <el-col :span="7">
                     <el-form-item label="配送方式">
-                        <el-select v-model="form.expType ">
+                        <el-select v-model="form.expType">
                             <el-option value="1" label="免运费"></el-option>
                             <el-option value="2" label="收费"></el-option>
                         </el-select>
@@ -110,7 +105,7 @@
                     </div>
                     <div class="flexStart eachGuiGe">
                         <el-tag v-for="(i,j) in item.items" :key='j' closable :disable-transitions="false" @close="handleCloseGuiGe(index,j)">
-                          <el-input v-model="i.name" @change="val=>addGuiGeItems(val,index,j)"></el-input>
+                            <el-input v-model="i.name" @change="val=>addGuiGeItems(val,index,j)"></el-input>
                         </el-tag>
                     </div>
                 </el-form>
@@ -121,9 +116,9 @@
                 <span>价格与库存</span>
                 <el-button class="searchBtn" @click="setPriceFn">设置价格与库存</el-button>
             </div>
-            <el-table :data="form.skus"  style="width: 80%;background-color:#F8F8F8">
+            <el-table :data="form.skus" style="width: 80%;background-color:#F8F8F8">
                 <el-table-column prop="itemNames" label="规格" width="400">
-                   
+
                 </el-table-column>
                 <el-table-column prop="price" label="商品定价（￥）" width="180">
                 </el-table-column>
@@ -179,7 +174,7 @@
                         <el-input type="number" v-model="form.preSalePrice" min="0"></el-input>
                     </el-form-item>
                     <el-form-item label="预售定金抵扣">
-                        <el-input type="number" v-model="form.preSaleCost" min="0" ></el-input>
+                        <el-input type="number" v-model="form.preSaleCost" min="0"></el-input>
                     </el-form-item>
                 </el-form>
             </div>
@@ -189,7 +184,7 @@
                     <span>预售价格与库存</span>
                     <el-button class="searchBtn" @click.stop="yushouDialogVisible=true">设置价格与库存</el-button>
                 </div>
-                <el-table :data="form.skus"  style="width: 80%;background-color:#F8F8F8">
+                <el-table :data="form.skus" style="width: 80%;background-color:#F8F8F8">
                     <el-table-column prop="itemNames" label="规格" width="200">
                     </el-table-column>
                     <el-table-column prop="price" label="原价（￥）" width="120">
@@ -210,7 +205,7 @@
     <el-dialog class="yingxiaoDialog" :visible.sync="originDialogVisible" center title="编辑营销价格与库存" width="70%">
         <el-table :data="form.skus" style="background-color:#F8F8F8">
             <el-table-column prop="itemNames" label="规格" width="200">
-                
+
             </el-table-column>
             <el-table-column prop="price" label="商品售价（￥）" width="100">
                 <template slot-scope="scope">
@@ -233,7 +228,7 @@
     <el-dialog class="yingxiaoDialog" :visible.sync="yushouDialogVisible" center title="编辑营销价格与库存" width="70%">
         <el-table :data="form.skus" style="background-color:#F8F8F8">
             <el-table-column prop="itemNames" label="规格" width="200">
-             
+
             </el-table-column>
             <el-table-column prop="price" label="原价（￥）" width="120">
             </el-table-column>
@@ -298,7 +293,7 @@ export default {
                 categoryId: '',
                 categoryId2: '',
                 sellType: '',
-                 specRequest: {
+                specRequest: {
                     spec: [{
                         name: '',
                         items: ['']
@@ -384,19 +379,17 @@ export default {
         },
         // 删除图片
         removeImgurl(file, fileList) {
-            // //console.log(file);
-            // //console.log(fileList);
+
             this.imgUrlfileList = fileList;
         },
         removeImgurl2(file, fileList) {
-            // //console.log(file);
-            // //console.log(fileList);
+
             this.fileList = fileList;
         },
 
         // 上传成功
         handleAvatarSuccess(response) {
-            let arr = this.data.fileList;
+            let arr = this.fileList;
             arr.push(response.data)
             this.form.contentImgurl = arr.join(',');
 
@@ -424,14 +417,14 @@ export default {
                     type: 'error'
                 })
             }
-             //console.log(this.form.specRequest.spec)
+            //console.log(this.form.specRequest.spec)
         },
         // 删除某个规格
         handleCloseGuiGe(index, i) {
             //console.log('删除某个规格')
             this.form.specs[index].items.splice(i, 1);
         },
-         // 点击设置价格与库存
+        // 点击设置价格与库存
         setPriceFn() {
             let specsList = [];
             let arr = [];
@@ -446,8 +439,8 @@ export default {
                 this.form.specRequest.spec.map(i => {
                     let a = [];
                     i.items.map(j => {
-                        if(j.trim()!=''){
-                             a.push(j)
+                        if (j.trim() != '') {
+                            a.push(j)
                         }
                     })
                     arr.push(a);
@@ -480,35 +473,35 @@ export default {
         },
         // 保存数据
         saveDataFn() {
-             let json = this.form;
-            this.form.specRequest.spec.map(i => {
-                if (i.name) {
-                    let obj = {
-                        name: i.name,
-                        items: []
-                    }
-                    i.items.map(j => {
-                        if (j.trim()!='') {
-                            obj.items.push(j)
-                        }
-                    })
-                    json.specRequest.spec.push(obj)
-                }
-            })
-            //console.log("提交数据")
-            //console.log(json);
+            let json = this.form;
+            // this.form.specRequest.spec.map(i => {
+            //     if (i.name) {
+            //         let obj = {
+            //             name: i.name,
+            //             items: []
+            //         }
+            //         i.items.map(j => {
+            //             if (j.trim()!='') {
+            //                 obj.items.push(j)
+            //             }
+            //         })
+            //         json.specRequest.spec.push(obj)
+            //     }
+            // })
+            console.log("提交数据")
+            console.log(json);
             // return;
             // return;
-            if(!this.isEmpty(json.title,'商品标题')){
+            if (!this.isEmpty(json.title, '商品标题')) {
                 return;
             }
-            if(!this.isEmpty(json.imgurl,'商品主图')){
+            if (!this.isEmpty(json.imgurl, '商品主图')) {
                 return;
             }
-            if(!this.isEmpty(json.unit,'单位')){
+            if (!this.isEmpty(json.unit, '单位')) {
                 return;
             }
-            if(!this.isEmpty(json.sellType,'营销方式')){
+            if (!this.isEmpty(json.sellType, '营销方式')) {
                 return;
             }
 
@@ -535,10 +528,10 @@ export default {
                     type: 'error'
                 })
                 return false;
-            }else{
-                 return true;
+            } else {
+                return true;
             }
-           
+
         },
 
         // 营销是否启用
@@ -630,21 +623,46 @@ export default {
                             this.fileList.push(obj)
                         })
 
+                    } else {
+                        this.fileList = []
                     }
-                    // skus
-
-                    this.specsList = result.skus;
-                    if (result.specs.length == 0) {
-                        result.specs.push({
-                            name: '',
-                            items: [{
-                                name: ''
-                            }]
-                        })
-                    }
-                    this.form = {
-                        ...result
-                    };
+                    // specRequest
+                    // this.specsList = result.skus;
+                    // if (!result.specRequest) {
+                    //     result.specRequest = {
+                    //         sku: [],
+                    //         spec: []
+                    //     };
+                    //     result.sku.forEach(sku => {
+                    //         let skuObj = {
+                    //             id: sku.id,
+                    //             price: sku.price,
+                    //             marketingPrice: sku.marketingPrice,
+                    //             marketingStock: sku.marketingStock,
+                    //             stock: sku.stock,
+                    //             enabled: sku.enabled,
+                    //             items:sku.itemNames.split(',')
+                    //         }
+                    //         result.specRequest.sku.push(skuObj)
+                    //     })
+                    //      result.specs.forEach(specs => {
+                    //           let specsObj = {
+                    //               name:specs.name,
+                    //               id:specs.id
+                    //           }
+                    //      })
+                    // }
+                    // if (result.specs.length == 0) {
+                    //     result.specs.push({
+                    //         name: '',
+                    //         items: [{
+                    //             name: ''
+                    //         }]
+                    //     })
+                    // }
+                    // this.form = {
+                    //     ...result
+                    // };
                     //console.log('获取数据')
                     //console.log(this.form.specs)
                 }
@@ -774,7 +792,7 @@ export default {
     height: 60px;
     background: #00AEF1;
     border-radius: 30px;
-    margin-top: 300px;
+    margin-top: 200px;
     box-sizing: border-box;
     font-size: 20px;
 }

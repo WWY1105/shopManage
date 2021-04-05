@@ -4,7 +4,8 @@
     <div class="bgf part1 flexSpace">
         <div class="left flexSpace">
             <div class="flexStart">
-                <img src="../../../assets/images/sales/fenxiao.png" class="icon" alt="">
+                <img src="../../../assets/images/sales/fenxiao.png" class="icon" alt="" v-if="!saleData.fx">
+                 <img src="../../../assets/images/sales/fenxiao_active.png" class="icon" alt="" v-else>
                 <div class="textBox">
                     <h2>分销管理设置</h2>
                     <p>本模块可设置邀请奖励与分享佣金的明细设置</p>
@@ -146,7 +147,7 @@ export default {
          //    模块开关-----start
         saveSaleDataFn() {
             let that = this;
-            let json = this.saleData;
+            let json =  JSON.parse(JSON.stringify(this.saleData));
             delete json.businessId;
             this.$store.dispatch('Setdistributions', json).then(result => {
                 if (result.code == '00') {

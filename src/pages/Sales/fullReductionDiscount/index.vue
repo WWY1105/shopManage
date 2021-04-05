@@ -4,7 +4,8 @@
     <div class="bgf part1 flexSpace">
         <div class="left flexSpace">
             <div class="flexStart">
-                <img src="../../../assets/images/sales/manjian.png" class="icon" alt="">
+                <img src="../../../assets/images/sales/manjian.png" class="icon" alt="" v-if="!saleData.mjyh">
+                <img src="../../../assets/images/sales/manjian_active.png" class="icon" alt="" v-else>
                 <div class="textBox">
                     <h2>满减优惠规则设置</h2>
                     <p>除预售定金外，该规则适用于全部商品、订单<br>
@@ -26,10 +27,16 @@
                 <p class="title">数据汇总</p>
                 <div class="flexStart">
                     <div class="eachData1">
-                        <p class="dataTitle">优惠金额
-                            <span class="dateTimePicker">全部日期</span>
+                        <p class="dataTitle flexStart">
+                            <span class="dateTimePicker">优惠金额</span>
+                            <el-popover placement="top" width="400" trigger="hover">
+                                <div class="eachSearch">
+                                    <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss" v-model="dataTime" type="daterange" align="right" size="mini" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions2" @change="val=>dataTimeChange(val)" />
+                                </div>
+                                <p slot="reference" class="eachSearch transText">{{dataTime?beginDate+'至'+endDate:'所有日期'}}</p>
+                            </el-popover>
                         </p>
-                        <p class="num">{{discountData.total}}</p>
+                        <p class="num">￥{{discountData.total||0}}</p>
                     </div>
                 </div>
             </div>
@@ -92,7 +99,8 @@ import {
     getData,
     deleteData,
     updateData,
-    saveData
+    saveData,
+    getStatistics
 } from '../../../api/sales/fullReductionDiscount'
 export default {
     //import引入的组件需要注入到对象中才能使用
@@ -106,7 +114,11 @@ export default {
             edtiDisVisible: false,
             editJson: {},
             discountData: {},
-            discountList: []
+            discountList: [],
+            dataTime: '',
+            searchOptions: null,
+            beginDate:'',
+            endDate:''
         };
     },
     //监听属性 类似于data概念
@@ -115,10 +127,27 @@ export default {
     watch: {},
     //方法集合
     methods: {
+        dataTimeChange(date) {
+            console.log(date)
+            if (date) {
+                this.beginDate = date[0];
+                this.endDate = date[1];
+                this.getStatisticsFn()
+            }
+        },
+        getStatisticsFn(){
+            let json={
+                beginDate:this.beginDate,
+                endDate:this.endDate
+            };
+            getStatistics(json).then(res=>{
+                this.discountData.total=res.data;
+            })
+        },
         //    模块开关-----start
         saveSaleDataFn() {
             let that = this;
-            let json = this.saleData;
+            let json = JSON.parse(JSON.stringify(this.saleData));
             delete json.businessId;
             this.$store.dispatch('Setdistributions', json).then(result => {
                 if (result.code == '00') {
@@ -267,6 +296,12 @@ export default {
             font-size: 14px;
             color: #2A3F54;
             margin-bottom: 16px;
+            .dateTimePicker{
+                margin-right: 20px;
+            }
+            .transText{
+                text-decoration: underline;
+            }
         }
 
         .num {

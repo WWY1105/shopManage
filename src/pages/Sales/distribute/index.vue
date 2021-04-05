@@ -2,7 +2,8 @@
 <template>
 <div class='bgf'>
     <div class="content flexCenter flexColumn">
-        <img src="../../../assets/images/sales/peisong.png" alt="" class="icon">
+        <img src="../../../assets/images/sales/peisong.png" alt="" class="icon" v-if="!saleData.ps">
+        <img src="../../../assets/images/sales/peisong_active.png" alt="" class="icon" v-else>
         <p class="title">配送设置</p>
         <p class="tips">
             如果您经营的是无需配送的服务类商品，可以关闭本模块开关
@@ -62,7 +63,7 @@ export default {
          //    模块开关-----start
         saveSaleDataFn() {
             let that = this;
-            let json = this.saleData;
+            let json = JSON.parse(JSON.stringify(this.saleData));
             delete json.businessId;
             this.$store.dispatch('Setdistributions', json).then(result => {
                 if (result.code == '00') {
@@ -183,8 +184,8 @@ export default {
         }
 
         /deep/ .el-input__inner {
-            width: 375px;
-            height: 60px;
+            width: 300px;
+            height:30px;
             background: #F4F4F4;
             border: 1px solid #E8E8E8;
             border-radius: 30px;
@@ -192,7 +193,7 @@ export default {
         }
 
         /deep/ .el-form-item__label {
-            line-height: 60px;
+            line-height: 30px;
 
         }
     }

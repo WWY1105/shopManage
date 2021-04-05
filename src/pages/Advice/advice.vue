@@ -118,7 +118,7 @@ export default {
     //方法集合
     methods: {
         getDataFn() {
-            let json = this.json;
+            let json = JSON.parse(JSON.stringify( this.json));;
             if (json.time && json.time.length > 0) {
                 json.createTimeBegin = json.time[0];
                 json.createTimeEnd = json.time[1];

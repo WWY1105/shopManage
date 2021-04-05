@@ -28,7 +28,7 @@
                 <el-col :span="6" :offset="15">
                     <div class="flexEnd">
                         <el-form-item>
-                            <el-button class="searchBtn" @click="categoryVisible=true">分类管理</el-button>
+                            <el-button class="searchBtn categoryBtn" @click="categoryVisible=true">分类管理</el-button>
                         </el-form-item>
 
                         <!-- </el-col>
@@ -273,35 +273,35 @@ export default {
             panelDatas: [{
                 name: '商品种类',
                 num: 0,
-                key:'categories'
+                key: 'categories'
             }, {
                 name: '规格种类',
                 num: 0,
-                key:'items'
+                key: 'items'
             }, {
                 name: '库存量',
                 num: 0,
-                 key:'stock'
+                key: 'stock'
             }, {
                 name: '销量',
                 num: 0,
-                key:'sellCount'
+                key: 'sellCount'
             }, {
                 name: '销售金额',
                 num: 0,
-                key:'sellPrice'
+                key: 'sellPrice'
             }, {
                 name: '平均复购率',
                 num: 0,
-                key:'fg'
+                key: 'fg'
             }, {
                 name: '浏览量',
                 num: 0,
-                key:'pv'
+                key: 'pv'
             }, {
                 name: '退货率',
                 num: 0,
-                key:'backPer'
+                key: 'backPer'
             }, ],
             searchCategoryList: [],
             childrenVal: '',
@@ -342,19 +342,19 @@ export default {
     },
     methods: {
         // 页码改变
-        pageChange(val){
+        pageChange(val) {
             console.log(val)
-            this.json.pageNum=val;
+            this.json.pageNum = val;
             this.getList()
         },
         // 获取统计
         getStaticFn() {
             getStatic().then(res => {
                 if (res.code == '00') {
-                    this.panelDatas.forEach(i=>{
-                        for(let j in res.data){
-                            if(j==i.key){
-                                i.num=res.data[j]
+                    this.panelDatas.forEach(i => {
+                        for (let j in res.data) {
+                            if (j == i.key) {
+                                i.num = res.data[j]
                             }
                         }
                     })
@@ -377,7 +377,7 @@ export default {
             var Deep, T, F;
             for (F = tree.length; F;) {
                 T = tree[--F]
-                if (ID == T.id) return T&&T.name?T.name:'';
+                if (ID == T.id) return T && T.name ? T.name : '';
                 if (T.categories) {
                     Deep = this.getDepById(T.categories, ID)
                     if (Deep) return Deep
@@ -832,6 +832,14 @@ input:-ms-input-placeholder {
         .num {
             font-size: 20px;
             font-weight: bold;
+        }
+    }
+}
+
+.el-form--inline {
+    .el-form-item {
+        .categoryBtn {
+            margin-right: 10px;
         }
     }
 }

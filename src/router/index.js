@@ -114,7 +114,14 @@ export default new Router({
               name: 'wxAcountSet',
               component: () => import('@/pages/Shops/wxAcountSet.vue'),
               meta: {
-                title: "主题设置"
+                title: "微信小程序对接配置"
+              }
+            },{
+              path: '/shops/quickReg',
+              name: 'quickReg',
+              component: () => import('@/pages/Shops/quickReg.vue'),
+              meta: {
+                title: "快速注册"
               }
             }, {
               path: '/shops/capitalRecharge',
