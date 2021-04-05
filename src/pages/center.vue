@@ -8,7 +8,7 @@
     <div class="shopBox flexCenter flexColumn bgf">
         <div class="tabBox">
             <div class="tabs flexCenter">
-                <span class="eachTab" v-for="(i,j) in tabs" :key="j">
+                <span class="eachTab" v-for="(i,j) in tabs" :key="j" @click="setDateType(i.key)">
                     {{i.text}}
                 </span>
             </div>
@@ -80,40 +80,50 @@ export default {
         return {
             tabs: [{
                     text: '今日',
-                    value: 0
+                    value: 0,
+                    key:'jr'
                 },
                 {
                     text: '本周',
-                    value: 0
+                    value: 0,
+                    key:'bz'
                 },
                 {
                     text: '本月',
-                    value: 0
+                    value: 0,
+                    key:'by'
                 }, {
                     text: '今年',
-                    value: 0
+                    value: 0,
+                    key:'jn'
                 }
             ],
             totalData: [{
                     text: '今日营收',
-                    value: 0
+                    value: 0,
+                    key:'ys'
                 },
                 {
                     text: '今日订单',
-                    value: 0
+                    value: 0,
+                    key:'dd'
                 },
                 {
                     text: '今日访客',
-                    value: 0
+                    value: 0,
+                    key:'fk'
                 }, {
                     text: '新增用户',
-                    value: 0
+                    value: 0,
+                    key:'xz'
                 }, {
                     text: '总营收额',
-                    value: 0
+                    value: 0,
+                    key:'ys'
                 }, {
                     text: '总用户量',
-                    value: 0
+                    value: 0,
+                    key:'zyh'
                 }
             ],
             user: {},
@@ -227,17 +237,33 @@ export default {
             },
             // 时间选择器  end
             orderData: {}, //订单量
-
+            type:'jr'//jr-今日,bz-本周,by-本月,jn-今年
         };
     },
     computed: {},
     watch: {},
     methods: {
-        // 获取统计数据 ??? 参数没给
+        // 获取统计数据
         getStaticFn(){
-            getStatic().then(res=>{
-
+            let json={
+                type:this.type 
+            }
+            getStatic(json).then(res=>{
+                if(res.code=='00'){
+                    this.totalData.forEach(i=>{
+                        for(let j in res.data){
+                            if(j==i.key){
+                                i.value=res.data[j]
+                            }
+                        }
+                    })
+                }
             })
+        },
+        setDateType(type){
+            console.log(type)
+            this.type=type;
+            this.getStaticFn()
         },
         // 时间改变
         dataTimeChange(val) {

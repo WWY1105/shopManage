@@ -45,7 +45,14 @@ export function changeShop(json){
         params:json
     })
 }
-
+// 创建小程序(微信接口)
+export function postFastregisterweapp(json){
+    return request({
+        url:"/fastregisterweapp",
+        method:'post',
+        params:json
+    })
+}
 // 删除分店
 export function deleteShopFn(id){
     return request({
@@ -58,10 +65,10 @@ export function deleteShopFn(id){
 }
 
 // 商家统计
-export function getStatic(){
+export function getStatic(json){
     return request({
-        url:"/statistic",
+        url:"/statistics",
         method:'get',
-        params:{}
+        params:json
     })
 }

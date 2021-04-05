@@ -2,22 +2,22 @@
 <template>
 <div class='msgPush bgf'>
     <div class="searchBox ">
-        <el-form label-position="top" :inline="true"  class="demo-form-inline">
+        <el-form label-position="top" :inline="true" class="demo-form-inline">
             <el-row :gutter="20" type="flex" justify="space-between" align="center">
                 <el-col :span="20">
                     <div class="grid-content bg-purple">
-                      <p class="dangerTips">请勿推送无意义的垃圾消息，否则有可能会被微信举报查封</p>  
+                        <p class="dangerTips">请勿推送无意义的垃圾消息，否则有可能会被微信举报查封</p>
                     </div>
                 </el-col>
 
-                <el-col :span="4" >
-                    <div class="flexEnd">
-                    <router-link :to="{name:'addGoods'}" class="grid-content bg-purple">
-                        <el-form-item>
-                            <el-button class="searchBtn">新增</el-button>
-                        </el-form-item>
-                    </router-link>
-                    </div>
+                <el-col :span="4">
+                    <el-form-item>
+                        <div class="flexEnd">
+                            <el-button class="searchBtn mr10">查看模板</el-button>
+                            <el-button class="searchBtn mr10">模板申报</el-button>
+                            <el-button class="searchBtn">发送短信+</el-button>
+                        </div>
+                    </el-form-item>
                 </el-col>
             </el-row>
         </el-form>
@@ -39,7 +39,7 @@
                             </el-form-item>
                         </div>
                     </el-col>
-                   
+
                     <el-col :span="5">
                         <div class="grid-content bg-purple">
                             <el-form-item label="推送方式">
@@ -69,7 +69,7 @@
                     </el-col>
                 </el-row>
                 <el-row :gutter="20" type="flex" justify="space-between" align="bottom">
-                         <el-col :span="9">
+                    <el-col :span="9">
                         <div class="grid-content bg-purple">
                             <el-form-item label="创建时间">
                                 <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss" v-model="json.time1" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
@@ -237,12 +237,20 @@ export default {
 
 <style lang="scss" scoped>
 //@import url(); 引入公共css类
-.msgPush{
-    padding:48px 24px;
-    .dangerTips{
-font-size: 14px;
-font-weight: 400;
-color: #FF3636;
+.msgPush {
+    padding: 48px 24px;
+
+    .dangerTips {
+        font-size: 14px;
+        font-weight: 400;
+        color: #FF3636;
     }
+}
+.mr10{
+    margin-right: 10px;
+}
+.searchBtn{
+padding:8px 0px;
+text-align: center;
 }
 </style>
