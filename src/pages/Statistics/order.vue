@@ -16,13 +16,17 @@
                         </div>
                         <p slot="reference" class="eachSearch">{{searchOptions[0].date.length>0?searchOptions[0].date[0]+'至'+searchOptions[0].date[1]:'所有日期'}}</p>
                     </el-popover>
-                    <el-popover placement="top-start" title="请选择订单类型" width="200" trigger="click" @hide="val=>orderTypeChange(val,0)">
+                    <el-popover placement="top-start" title="请选择订单类型" width="200" trigger="click" @hide="val=>orderTypeChange(val,'orderData')">
                         <div class="flexStart">
                             <el-checkbox-group v-model="checkList">
                                 <el-checkbox :label="i.text" :key="j" v-for="(i,j) in orderType" :value="i.value">{{i.text}}</el-checkbox>
                             </el-checkbox-group>
                         </div>
-                        <p slot="reference" class="eachSearch">所有订单??????????????</p>
+                        <div class="popBtns flexEnd">
+                            <div class="btn cancelBtn">取消</div>
+                            <div class="btn confirmBtn">确定</div>
+                        </div>
+                        <p slot="reference" class="eachSearch">所有订单</p>
                     </el-popover>
                     <el-popover placement="top-start" title="请选择商品类型" width="200" trigger="click">
                         <div class="flexStart">
@@ -61,7 +65,7 @@
                             </el-checkbox-group>
 
                         </div>
-                        <p slot="reference" class="eachSearch">所有订单???????</p>
+                        <p slot="reference" class="eachSearch">所有订单</p>
                     </el-popover>
                     <el-popover placement="top-start" title="请选择订单类型" width="200" trigger="click">
                         <div class="flexStart">
@@ -101,7 +105,7 @@
                             </el-checkbox-group>
 
                         </div>
-                        <p slot="reference" class="eachSearch">所有订单???????</p>
+                        <p slot="reference" class="eachSearch">所有订单</p>
                     </el-popover>
                     <el-popover placement="top-start" title="请选择订单类型" width="200" trigger="click">
                         <div class="flexStart">
@@ -140,7 +144,7 @@
                             </el-checkbox-group>
 
                         </div>
-                        <p slot="reference" class="eachSearch">所有订单???????</p>
+                        <p slot="reference" class="eachSearch">所有订单</p>
                     </el-popover>
                     <el-popover placement="top-start" title="请选择订单类型" width="200" trigger="click">
                         <div class="flexStart">
@@ -180,7 +184,7 @@
                             </el-checkbox-group>
 
                         </div>
-                        <p slot="reference" class="eachSearch">所有订单???????</p>
+                        <p slot="reference" class="eachSearch">所有订单</p>
                     </el-popover>
                     <el-popover placement="top-start" title="请选择订单类型" width="200" trigger="click">
                         <div class="flexStart">
@@ -217,7 +221,7 @@
                                 <el-checkbox :label="i.text" :key="j" v-for="(i,j) in orderType" :value="i.value">{{i.text}}</el-checkbox>
                             </el-checkbox-group>
                         </div>
-                        <p slot="reference" class="eachSearch">所有订单???????</p>
+                        <p slot="reference" class="eachSearch">所有订单</p>
                     </el-popover>
                     <el-popover placement="top-start" title="请选择订单类型" width="200" trigger="click">
                         <div class="flexStart">
@@ -414,13 +418,29 @@ export default {
             },
             // 时间选择器  end
             orderData: {}, //订单量
+            orderData_orderType:[],
+            orderData_date:'',
             returnCount: {}, //订单退货量
+            returnCount_orderType:[],
+            returnCount_date:'',
             orderPrice: {}, //订单金额
+            orderPrice_orderType:[],
+            orderPrice_date:'',
             returnPrice: {}, //订单退货金额
+            returnPrice_orderType:[],
+            returnPrice_date:'',
             price: {}, // 实收金额
+            price_orderType:[],
+            price_date:'',
             cancelOrderCount: {}, //订单取消量 
+            cancelOrderCount_orderType:[],
+            cancelOrderCount_date:'',
             expressPrice: {}, //运费成本 
+            expressPrice_orderType:[],
+            expressPrice_date:'',
             cancelOrderPrice: {}, //  订单取消金额 
+            cancelOrderPrice_orderType:[],
+            cancelOrderPrice_date:'',
 
             searchOptions: [{
                 title: '订单量',
@@ -456,8 +476,12 @@ export default {
     //方法集合
     methods: {
         // 订单类型的筛选
-        orderTypeChange(val,index){
-
+        orderTypeChange(val, key) {
+            console.log(this.checkList)
+            this[key+'_orderType']=val;
+            if(key=='orderData'){
+                this.getOrderNumFn()
+            }
         },
         // 日期的筛选
         dataTimeChange(val, title) {
@@ -502,10 +526,13 @@ export default {
         },
         // 获取订单量
         getOrderNumFn(date) {
-            let json = {}
+            let json = {
+                orderType: ''
+            }
             if (date) {
-                json.beginTime = date[0]
-                json.endTime = date[1]
+                this.orderData_date=date;
+                json.beginTime = this.orderData_date[0]
+                json.endTime = this.orderData_date[1]
             }
             getOrderNum(json).then(res => {
                 if (res.code == '00') {
@@ -516,7 +543,9 @@ export default {
         },
         // 订单退货量
         getReturnCountFn(date) {
-            let json = {}
+            let json = {
+                orderType: ''
+            }
             if (date) {
                 json.beginTime = date[0]
                 json.endTime = date[1]
@@ -530,7 +559,9 @@ export default {
         },
         // 订单金额
         getOrderPriceFn(date) {
-            let json = {}
+            let json = {
+                orderType: ''
+            }
             if (date) {
                 json.beginTime = date[0]
                 json.endTime = date[1]
@@ -544,7 +575,9 @@ export default {
         },
         //  订单退货金额
         getReturnPriceFn(date) {
-            let json = {}
+            let json = {
+                orderType: ''
+            }
             if (date) {
                 json.beginTime = date[0]
                 json.endTime = date[1]
@@ -559,7 +592,9 @@ export default {
 
         // 实收金额
         getPriceFn(date) {
-            let json = {}
+            let json = {
+                orderType: ''
+            }
             if (date) {
                 json.beginTime = date[0]
                 json.endTime = date[1]
@@ -573,7 +608,9 @@ export default {
         },
         // 订单取消量  
         getCancelOrderCountFn(date) {
-            let json = {}
+            let json = {
+                orderType: ''
+            }
             if (date) {
                 json.beginTime = date[0]
                 json.endTime = date[1]
@@ -587,7 +624,9 @@ export default {
         },
         // 运费成本 
         getExpressPriceFn(date) {
-            let json = {}
+            let json = {
+                orderType: ''
+            }
             if (date) {
                 json.beginTime = date[0]
                 json.endTime = date[1]
@@ -601,7 +640,9 @@ export default {
         },
         // 订单取消金额  
         getCancelOrderPriceFn(date) {
-            let json = {}
+            let json = {
+                orderType: ''
+            }
             if (date) {
                 json.beginTime = date[0]
                 json.endTime = date[1]
@@ -747,5 +788,30 @@ export default {
     .el-range-editor--mini.el-input__inner {
         width: 100%;
     }
+}
+
+.popBtns {
+    margin-top: 20px;
+
+    .btn {
+        height: 30px;
+        line-height: 30px;
+        width: 50px;
+        text-align: center;
+        border-radius: 5px;
+
+        &.cancelBtn {
+            color: #1489E2;
+        }
+
+        &.confirmBtn {
+            color: #fff;
+            background: #1489E2;
+        }
+    }
+}
+
+/deep/ .el-checkbox {
+    display: block;
 }
 </style>

@@ -39,8 +39,9 @@
                         </div>
                         <div class="content">
                             <img class="menberBg" :src="$imgurl+i.imgurl">
-                            <p class="name">{{i.denomination}}元</p>
-                            <p class="rule">￥{{i.price}}</p>
+                            <p class="name">{{i.name}}</p>
+                            <p class="rule">{{i.discount}}折</p>
+                            <p class="upgrade">升级条件：{{i.content}}</p>
                         </div>
 
                     </div>
@@ -62,7 +63,7 @@
     </div>
 
     <el-dialog :visible.sync="edtiMenberVisible" title="添加新的会员等级" width="887px">
-        <div class="editBox">
+        <div class="editBox menberDialog" >
             <el-form ref="form" :model="menberForm" label-width="120px" label-position="center">
                 <el-form-item label="会员卡名称">
                     <el-input v-model="menberForm.denomination"></el-input>
@@ -72,10 +73,10 @@
                         <el-select v-model="menberForm.price"></el-select>
                     </el-form-item>
                     <el-form-item label="满足金额￥">
-                        <el-select v-model="menberForm.minPrice"></el-select>
+                        <el-input v-model="menberForm.minPrice"></el-input>
                     </el-form-item>
                 </div>
-                   <div class="flexStart">
+                <div class="flexStart">
                     <el-form-item label="会员折扣">
                         <el-input v-model="menberForm.price"></el-input>
                     </el-form-item>
@@ -231,10 +232,10 @@ export default {
             }
 
         },
-          //    模块开关-----start
+        //    模块开关-----start
         saveSaleDataFn() {
             let that = this;
-            let json =  JSON.parse(JSON.stringify(this.saleData));
+            let json = JSON.parse(JSON.stringify(this.saleData));
             delete json.businessId;
             this.$store.dispatch('Setdistributions', json).then(result => {
                 if (result.code == '00') {
@@ -338,7 +339,11 @@ export default {
         }
     }
 }
-
+.menberDialog{
+    /deep/ .el-input, .el-select{
+        width: unset;
+    }
+}
 .menberListBox {
 
     margin-top: 20px;
@@ -432,14 +437,17 @@ export default {
     .el-input {
         width: 148px;
     }
-  /deep/ .el-select {
+
+    /deep/ .el-select {
         width: 148px;
     }
-.el-select {
+
+    .el-select {
         width: 148px;
     }
+
     /deep/ .el-form-item__label {
-        line-height:30px;
+        line-height: 30px;
     }
 
     .el-radio {

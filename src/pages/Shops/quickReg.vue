@@ -3,7 +3,7 @@
     <img src="../../assets/images/shops/zhuce.png" alt="" class="itemLogo1">
     <p class="itemTitle">快速注册小程序</p>
     <p class="desc">填写注册信息</p>
-    <el-form label-position="left" label-width="130px" ref="ruleForm" :model="formLabelAlign" :rules="rules">
+    <el-form label-position="left" label-width="140px" ref="ruleForm" :model="formLabelAlign" :rules="rules">
         <el-form-item label="法人姓名" prop="legal_persona_name">
             <el-input v-model="formLabelAlign.legal_persona_name " placeholder="输入营业执照上经营者"></el-input>
         </el-form-item>
@@ -182,5 +182,8 @@ export default {
     padding: 0;
     box-sizing: border-box;
     margin-top: 50px;
+}
+.el-input__suffix {
+    right: 20px;
 }
 </style>
