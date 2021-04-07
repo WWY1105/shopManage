@@ -15,7 +15,9 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="3" v-if="form.id">
-                    <el-form-item :label="'商品ID：'+form.id"></el-form-item>
+                    <el-form-item label="商品ID：">
+                        <el-input v-model="form.id"></el-input>
+                    </el-form-item>
                 </el-col>
             </el-row>
         </div>
@@ -42,7 +44,7 @@
             <div class="flexStart alignStart">
                 <div class="partTitle mainText mr24">上传主图</div>
                 <div class="content">
-                    <el-upload :on-remove="removeImgurl" :file-list="imgUrlfileList" :action="$uploadApi" :on-success="handleimgurlSuccess" list-type="picture-card">
+                    <el-upload :file-list="imgUrlfileList" :action="$uploadApi" :on-success="handleimgurlSuccess" list-type="picture-card">
                         <i slot="default" class="el-icon-plus"></i>
 
                     </el-upload>
@@ -58,8 +60,12 @@
                 <div class="partTitle mainText mr24">商品详情</div>
                 <div class="content textAreaContent">
                     <el-input type="textarea" :rows="20" v-model="form.content"></el-input>
-                    <el-upload :on-remove="removeImgurl2" :file-list="fileList" :action="$uploadApi" :on-success="handleAvatarSuccess" list-type="picture-card">
+                    <el-upload :file-list="fileList" :action="$uploadApi" :on-success="handleAvatarSuccess" list-type="picture-card">
                         <i slot="default" class="el-icon-plus"></i>
+                        <div slot="file" slot-scope="{file}">
+                            <img class="el-upload-list__item-thumbnail" :src="$imgurl+file.url" alt="">
+
+                        </div>
                     </el-upload>
                 </div>
             </div>
@@ -73,7 +79,7 @@
             <el-row :gutter="33">
                 <el-col :span="7">
                     <el-form-item label="配送方式">
-                        <el-select v-model="form.expType">
+                        <el-select v-model="form.expType ">
                             <el-option value="1" label="免运费"></el-option>
                             <el-option value="2" label="收费"></el-option>
                         </el-select>
@@ -92,7 +98,7 @@
         <div class="part guige">
             <div class="partTitle mainText">规格设定</div>
             <div class="content">
-                <el-form label-position="left" :model="form" label-width="110px" ref="form" v-for="(item,index) in form.specs" :key="index">
+                <el-form label-position="left" :model="form" label-width="110px" ref="form" v-for="(item,index) in form.specRequest.spec" :key="index">
                     <div class="flexStart">
                         <el-form-item :label="'规格'+(index+1)+'名称'">
                             <div class="flexStart">
@@ -103,9 +109,10 @@
                             <el-button class="searchBtn" @click="addGuiGeFn">添加规格</el-button>
                         </el-form-item>
                     </div>
+                    <!-- 小规格 -->
                     <div class="flexStart eachGuiGe">
                         <el-tag v-for="(i,j) in item.items" :key='j' closable :disable-transitions="false" @close="handleCloseGuiGe(index,j)">
-                            <el-input v-model="i.name" @change="val=>addGuiGeItems(val,index,j)"></el-input>
+                            <el-input v-model="item.items[j]" @change="val=>addGuiGeItems(val,index,j)"></el-input>
                         </el-tag>
                     </div>
                 </el-form>
@@ -116,9 +123,11 @@
                 <span>价格与库存</span>
                 <el-button class="searchBtn" @click="setPriceFn">设置价格与库存</el-button>
             </div>
-            <el-table :data="form.skus" style="width: 80%;background-color:#F8F8F8">
+            <el-table :data="specsList" style="width: 80%;background-color:#F8F8F8">
                 <el-table-column prop="itemNames" label="规格" width="400">
-
+                    <template slot-scope="scope">
+                        <span v-for="(i,j) in scope.row.item" :key="j">{{i}}<i v-if="j<scope.row.item.length-1">*</i></span>
+                    </template>
                 </el-table-column>
                 <el-table-column prop="price" label="商品定价（￥）" width="180">
                 </el-table-column>
@@ -171,10 +180,10 @@
                         </el-date-picker>
                     </el-form-item>
                     <el-form-item label="预售定金">
-                        <el-input type="number" v-model="form.preSalePrice" min="0"></el-input>
+                        <el-input type="number" v-model="form.preSalePrice"></el-input>
                     </el-form-item>
                     <el-form-item label="预售定金抵扣">
-                        <el-input type="number" v-model="form.preSaleCost" min="0"></el-input>
+                        <el-input type="number" v-model="form.preSaleCost"></el-input>
                     </el-form-item>
                 </el-form>
             </div>
@@ -184,10 +193,15 @@
                     <span>预售价格与库存</span>
                     <el-button class="searchBtn" @click.stop="yushouDialogVisible=true">设置价格与库存</el-button>
                 </div>
-                <el-table :data="form.skus" style="width: 80%;background-color:#F8F8F8">
+                <el-table :data="yushouSpecsList" style="width: 80%;background-color:#F8F8F8">
                     <el-table-column prop="itemNames" label="规格" width="200">
+                        <template slot-scope="scope">
+                            <span v-for="(i,j) in scope.row.item" :key="j">{{i}}
+                                <i v-if="j<scope.row.item.length-1">*</i>
+                            </span>
+                        </template>
                     </el-table-column>
-                    <el-table-column prop="price" label="原价（￥）" width="120">
+                    <el-table-column prop="price" label="原价（￥）" width="100">
                     </el-table-column>
                     <el-table-column label="预售价格（￥）" prop="marketingPrice" width="180"></el-table-column>
                     <el-table-column prop="stock" label="总库存">
@@ -203,18 +217,20 @@
 
     <!-- 设置原价和库存 -->
     <el-dialog class="yingxiaoDialog" :visible.sync="originDialogVisible" center title="编辑营销价格与库存" width="70%">
-        <el-table :data="form.skus" style="background-color:#F8F8F8">
+        <el-table :data="specsList" style="background-color:#F8F8F8">
             <el-table-column prop="itemNames" label="规格" width="200">
-
-            </el-table-column>
-            <el-table-column prop="price" label="商品售价（￥）" width="100">
                 <template slot-scope="scope">
-                    <el-input :value="scope.row.price" @input="val=>priceChange(val,scope.$index)" min="0"></el-input>
+                    <span v-for="(i,j) in scope.row.item" :key="j">{{i}}<i v-if="j<scope.row.item.length-1">*</i></span>
+                </template>
+            </el-table-column>
+            <el-table-column prop="price" label="商品售价（￥）" width="200">
+                <template slot-scope="scope">
+                    <el-input :value="scope.row.price" @input="val=>priceChange(val,scope.$index)"></el-input>
                 </template>
             </el-table-column>
             <el-table-column prop="stock" label="库存">
                 <template slot-scope="scope">
-                    <el-input :value="scope.row.stock" @input="val=>stockChange(val,scope.$index)" min="0" step="1"></el-input>
+                    <el-input :value="scope.row.stock" @input="val=>stockChange(val,scope.$index)"></el-input>
                 </template>
             </el-table-column>
         </el-table>
@@ -226,22 +242,24 @@
 
     <!-- 预售 -->
     <el-dialog class="yingxiaoDialog" :visible.sync="yushouDialogVisible" center title="编辑营销价格与库存" width="70%">
-        <el-table :data="form.skus" style="background-color:#F8F8F8">
+        <el-table :data="yushouSpecsList" style="background-color:#F8F8F8">
             <el-table-column prop="itemNames" label="规格" width="200">
-
+                <template slot-scope="scope">
+                    <span v-for="(i,j) in scope.row.item" :key="j">{{i}}<i v-if="j<scope.row.item.length-1">*</i></span>
+                </template>
             </el-table-column>
-            <el-table-column prop="price" label="原价（￥）" width="120">
+            <el-table-column prop="price" label="原价（￥）" width="100">
             </el-table-column>
             <el-table-column label="预售价格（￥）" width="180">
                 <template slot-scope="scope">
-                    <el-input :value="scope.row.marketingPrice" @input="val=>marketingPriceChange(val,scope.$index)" min="0"></el-input>
+                    <el-input :value="scope.row.marketingPrice" @input="val=>marketingPriceChange(val,scope.$index)"></el-input>
                 </template>
             </el-table-column>
             <el-table-column prop="stock" label="总库存">
             </el-table-column>
             <el-table-column prop="stock" label="预售库存">
                 <template slot-scope="scope">
-                    <el-input :value="scope.row.marketingStock" @input="val=>marketingStockChange(val,scope.$index)" min="0" step="1"></el-input>
+                    <el-input :value="scope.row.marketingStock" @input="val=>marketingStockChange(val,scope.$index)"></el-input>
                 </template>
             </el-table-column>
             <el-table-column label="启用">
@@ -304,6 +322,7 @@ export default {
             specsList: [],
             categoryList: [],
             categories2: [],
+            yushouSpecsList: [], //预售弹窗表格
             disbuteWayList: [{
                 img: yushou,
                 activeImg: yushou_active,
@@ -399,11 +418,12 @@ export default {
         },
         // 点击添加规格
         addGuiGeFn() {
+            console.log(this.form.specRequest)
             this.form.specRequest.spec.push({
                 name: '',
                 items: ['']
             })
-            //console.log(this.form.specRequest.spec)
+
         },
         // 添加小规格
         addGuiGeItems(val, index, j) {
@@ -446,7 +466,8 @@ export default {
                     arr.push(a);
                 })
                 let allArr = this.cartesianProductOf(...arr);
-                //console.log(allArr)
+                 console.log(' console.log(allArr)')
+                console.log(allArr)
                 allArr.map(i => {
                     let arr = []
                     let obj = {
@@ -456,9 +477,13 @@ export default {
                     }
                     specsList.push(obj)
                 })
+
                 this.originDialogVisible = true;
+
                 this.specsList = specsList;
                 this.form.specRequest.sku = specsList;
+                console.log('specsList')
+                console.log(specsList)
             }
 
         },
@@ -474,23 +499,22 @@ export default {
         // 保存数据
         saveDataFn() {
             let json = this.form;
-            // this.form.specRequest.spec.map(i => {
-            //     if (i.name) {
-            //         let obj = {
-            //             name: i.name,
-            //             items: []
-            //         }
-            //         i.items.map(j => {
-            //             if (j.trim()!='') {
-            //                 obj.items.push(j)
-            //             }
-            //         })
-            //         json.specRequest.spec.push(obj)
-            //     }
-            // })
+            this.form.specRequest.spec.map(i => {
+                if (i.name) {
+                    let obj = {
+                        name: i.name,
+                        items: []
+                    }
+                    i.items.map(j => {
+                        if (j.trim() != '') {
+                            obj.items.push(j)
+                        }
+                    })
+                    json.specRequest.spec.push(obj)
+                }
+            })
             console.log("提交数据")
             console.log(json);
-            // return;
             // return;
             if (!this.isEmpty(json.title, '商品标题')) {
                 return;
@@ -583,8 +607,9 @@ export default {
             let target = this.specsList[index];
             target.marketingStock = val;
             this.$set(this.specsList, index, target)
-            // //console.log(this.specsList)
+
         },
+        // 获取编辑数据
         getDataFn() {
             getData(this.$route.query.id).then(res => {
                 if (res.code == '00') {
@@ -626,45 +651,76 @@ export default {
                     } else {
                         this.fileList = []
                     }
-                    // specRequest
-                    // this.specsList = result.skus;
-                    // if (!result.specRequest) {
-                    //     result.specRequest = {
-                    //         sku: [],
-                    //         spec: []
-                    //     };
-                    //     result.sku.forEach(sku => {
-                    //         let skuObj = {
-                    //             id: sku.id,
-                    //             price: sku.price,
-                    //             marketingPrice: sku.marketingPrice,
-                    //             marketingStock: sku.marketingStock,
-                    //             stock: sku.stock,
-                    //             enabled: sku.enabled,
-                    //             items:sku.itemNames.split(',')
-                    //         }
-                    //         result.specRequest.sku.push(skuObj)
-                    //     })
-                    //      result.specs.forEach(specs => {
-                    //           let specsObj = {
-                    //               name:specs.name,
-                    //               id:specs.id
-                    //           }
-                    //      })
-                    // }
-                    // if (result.specs.length == 0) {
-                    //     result.specs.push({
-                    //         name: '',
-                    //         items: [{
-                    //             name: ''
-                    //         }]
-                    //     })
-                    // }
-                    // this.form = {
-                    //     ...result
-                    // };
-                    //console.log('获取数据')
-                    //console.log(this.form.specs)
+                    // skus
+                    if (!result.specRequest) {
+                        result.specRequest = {
+                            spec: [],
+                            sku: []
+                        }
+                        if (result.specs.length == 0) {
+                            result.specs.push({
+                                name: '',
+                                items: [{
+                                    name: ''
+                                }]
+                            })
+                        } else {
+                            result.specs.map(i => {
+                                let obj = {
+                                    name: i.name,
+                                    items: []
+                                }
+                                // i.items.map(j => {
+                                //     obj.items.push({
+                                //         name: j.name
+                                //     })
+                                // })
+                                i.items.map(j => {
+                                    obj.items.push(j.name)
+                                })
+                                result.specRequest.spec.push(obj)
+                            })
+                        }
+                        if (!result.skus.length) {
+                            result.skus = []
+                        } else {
+                            result.skus.map(i => {
+                                let obj = {
+                                    items: i.itemIds.split(','),
+                                    marketingPrice: i.marketingPrice,
+                                    marketingStock: i.marketingStock,
+                                    enabled: i.enabled,
+                                    price: i.price,
+                                    stock: i.stock,
+                                }
+                                let obj2 = {
+                                    item: i.itemNames.split(','),
+                                    price: i.price,
+                                    stock: i.stock,
+                                }
+                                let obj3 = {
+                                    item: i.itemNames.split(','),
+                                    price: i.price,
+                                    stock: i.stock,
+                                    marketingPrice: i.marketingPrice,
+                                    marketingStock: i.marketingStock,
+                                    enabled: i.enabled,
+                                }
+                                this.yushouSpecsList.push(obj3)
+                                this.specsList.push(obj2)
+                                result.specRequest.sku.push(obj)
+                            })
+
+                        }
+
+                    }
+                    this.form = {
+                        ...result
+                    };
+
+                    console.log('获取数据')
+                    console.log(this.form.specRequest)
+                    console.log(this.specsList)
                 }
             })
         }
@@ -792,7 +848,7 @@ export default {
     height: 60px;
     background: #00AEF1;
     border-radius: 30px;
-    margin-top: 200px;
+    margin-top: 300px;
     box-sizing: border-box;
     font-size: 20px;
 }
