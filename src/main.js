@@ -20,8 +20,9 @@ Vue.prototype.$downloadFileApi=process.env.BASE_API+'/api/business';
 
 
 // 样式--start
-import '@/assets/scss/index.scss'
 import '@/theme/index.css'
+import '@/assets/scss/index.scss'
+
 
 // 样式--end
 
