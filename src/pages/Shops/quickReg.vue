@@ -96,6 +96,9 @@ export default {
                                 duration: 3 * 1000,
                                 type: 'success'
                             })
+                            that.$router.push({
+                                path:'/shops/wxAcountSuccess'
+                            })
                         }
                     })
                 } else {
@@ -112,7 +115,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .quickReg {
     padding: 50px 0;
 
@@ -141,7 +144,7 @@ export default {
 }
 
 //min-height: 100%;
-.el-form-item__label {
+/deep/ .el-form-item__label {
     line-height: 40px;
     color: #545454;
     font-size: 14px;
@@ -163,7 +166,7 @@ export default {
     right: 100px;
 }
 
-.el-input__inner {
+/deep/ .el-input__inner {
     background-color: transparent !important;
     border: none !important;
     text-align: center;

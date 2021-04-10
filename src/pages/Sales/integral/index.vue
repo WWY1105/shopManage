@@ -188,7 +188,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .part1 {
     padding: 39px 67px;
     border: 1px solid #C7C7C7;

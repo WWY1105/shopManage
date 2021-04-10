@@ -123,6 +123,13 @@ export default new Router({
               meta: {
                 title: "快速注册"
               }
+            },{
+              path: '/shops/wxAcountSuccess',
+              name: 'wxAcountSuccess',
+              component: () => import('@/pages/Shops/wxAcountSuccess.vue'),
+              meta: {
+                title: "提交成功"
+              }
             }, {
               path: '/shops/capitalRecharge',
               name: 'capitalRecharge',
