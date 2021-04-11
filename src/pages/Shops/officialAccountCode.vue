@@ -2,7 +2,9 @@
 <div class="wxAcountSet flexCenter flexColumn bgf">
     <img src="../../assets/images/shops/renzheng.png" alt="" class="wxLogo">
     <p class="title">认证公众号注册</p>
-    <div class="qrcode" ref="qrCodeUrl"></div>
+    <div class="qrcode">
+        <img :src="imgFile" alt="">
+    </div>
 </div>
 </template>
 
@@ -12,19 +14,31 @@ import {
     getScanCode
 } from '@/api/shops/index'
 export default {
-    data() {},
+    data() {
+        return {
+            imgFile: ''
+        }
+    },
     methods: {
         getCodeFn() {
+            let that = this;
             getScanCode().then(res => {
-                var qrcode = new QRCode(this.$refs.qrCodeUrl, {
-                    text: res.data, // 需要转换为二维码的内容
-                    width: 250,
-                    height: 250,
-                    colorDark: '#000000',
-                    colorLight: '#ffffff',
-                    correctLevel: QRCode.CorrectLevel.H
-                })
+                that.imgFile = 'data:image/png;base64,'+res.data;
+                console.log(that.imgFile)
             })
+        },
+        //将base64转换为文件 data ---base64字符串 filename---生成文件的名字 ---- 传入的bsae64 去掉data:image/png;截取这个后面的
+        dataURLtoFile(data, filename) {
+            var bstr = atob(data),
+                n = bstr.length,
+                u8arr = new Uint8Array(n);
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            return new Blob([u8arr], {
+                type: "jpg/png"
+            });
+           
         }
     },
     created() {

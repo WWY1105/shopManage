@@ -27,7 +27,7 @@
             </p>
             <el-button class="searchBtn" @click="goWxSet">修改配置</el-button>
         </div>
-        <div class="eachSetting flexCenter flexColumn">
+        <!-- <div class="eachSetting flexCenter flexColumn">
             <img src="../../assets/images/shops/weixin.png" alt="">
             <p class="title">微信收款账户对接</p>
             <p class="tips">未配置</p>
@@ -38,7 +38,7 @@
             <p class="title">微信公众号对接</p>
             <p class="tips">未配置</p>
             <el-button class="searchBtn dangerBtn">配置???</el-button>
-        </div>
+        </div> -->
     </div>
    
 </div>
