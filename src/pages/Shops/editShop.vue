@@ -4,36 +4,40 @@
     <div class="content flexCenter flexColumn">
         <div class="logoBox flexCenter flexColumn">
             <img v-if="formLabelAlign.imgurl" :src="$imgurl+formLabelAlign.imgurl" class="logoImg" alt="">
-             <img v-else src="../../assets/images/header/user.png" class="logoImg" alt="">
+            <img v-else src="../../assets/images/header/user.png" class="logoImg" alt="">
             <el-upload class="upload-demo" :action="$uploadApi" :on-success="handleAvatarSuccess" :show-file-list="false">
                 <p class="editText flexCenter"><i class="el-icon-edit-outline"></i> 修改头像</p>
             </el-upload>
         </div>
         <div class="formBox ">
             <el-form label-position="left" label-width="120px" :model="formLabelAlign">
-                <el-form-item label="公司名称">
+                <el-form-item label="商户名称">
                     <el-input v-model="formLabelAlign.name"></el-input>
                 </el-form-item>
-                <el-form-item label="公司地址">
+                <el-form-item label="商户地址">
                     <div class="flexStart">
-                          <el-input v-model="formLabelAlign.address"></el-input>
-                          <img src="../../assets/images/shops/locateIcon.png" alt="" class="locateIocn">
+                        <el-input v-model="formLabelAlign.address"></el-input>
+                        <img src="../../assets/images/shops/locateIcon.png" alt="" class="locateIocn">
                     </div>
                 </el-form-item>
                 <el-form-item label="联系电话">
                     <el-input v-model="formLabelAlign.tel"></el-input>
                 </el-form-item>
+                <el-form-item label="营业时间">
+                    <el-time-picker type="datetimerange" range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间">
+                    </el-time-picker>
+                </el-form-item>
                 <el-form-item label="发票类型">
                     <el-select v-model="formLabelAlign.invoice">
-                        <el-option v-for="item in invoices"  :key="item.id" :label="item.name" :value="item.id">
+                        <el-option v-for="item in invoices" :key="item.id" :label="item.name" :value="item.id">
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="营业行业">
-                    <el-select v-model="formLabelAlign.typeId">
-                        <el-option v-for="item in typeList" :key="item.id" :label="item.name" :value="item.id">
-                        </el-option>
-                    </el-select>
+                <el-form-item label="营业类型">
+                    <div class="flexCenter radioBox">
+                        <el-radio v-model="radio" label="1">外卖</el-radio>
+                        <el-radio v-model="radio" label="2">自取</el-radio>
+                    </div>
                 </el-form-item>
             </el-form>
             <div class="btnBox flexCenter">
@@ -53,13 +57,15 @@ import {
     putInfo,
     getData
 } from '../../api/shops/index';
-import {invoicesList} from '../../utils/jsons'
+import {
+    invoicesList
+} from '../../utils/jsons'
 export default {
     components: {},
     data() {
         return {
             typeList: [], //营业行业列表
-             invoices: invoicesList,
+            invoices: invoicesList,
             formLabelAlign: {}
         };
     },
@@ -75,11 +81,11 @@ export default {
             })
         },
         handleAvatarSuccess(res, file) {
-            if(res.code=='00'){
+            if (res.code == '00') {
                 this.formLabelAlign.imgurl = res.data;
                 this.saveDataFn()
             }
-          
+
         },
         saveDataFn() {
             let that = this;
@@ -112,7 +118,7 @@ export default {
                         type: 'success'
                     })
                     that.getDataFn();
-                     that.$router.go(-1)
+                    that.$router.go(-1)
                 }
             })
         },
@@ -128,13 +134,13 @@ export default {
     },
     created() {
         this.getTypeFn();
-     
-        if(this.$route.query.child){
-            this.formLabelAlign=this.$route.query.child
-        }else{
+
+        if (this.$route.query.child) {
+            this.formLabelAlign = this.$route.query.child
+        } else {
             this.getDataFn()
         }
-        
+
     },
     mounted() {
 
@@ -171,8 +177,9 @@ export default {
         line-height: 40px;
 
     }
-    /deep/  .el-input__suffix{
-        right:100px;
+
+    /deep/ .el-input__suffix {
+        right: 100px;
     }
 
     /deep/ .el-input__inner {
@@ -181,7 +188,7 @@ export default {
         text-align: center;
         color: #000;
         font-size: 14px;
-        height:40px!important;
+        height: 40px !important;
         padding-right: 30px;
 
     }
@@ -195,6 +202,7 @@ export default {
     .logoBox {
         width: 378px;
         margin-left: -75px;
+
         .logoImg {
             width: 100px;
             height: 100px;
@@ -227,7 +235,16 @@ export default {
         font-size: 20px;
     }
 }
-.locateIocn{
+
+.locateIocn {
     margin-left: 30px;
+}
+.radioBox{
+    height: 40px;
+    padding:0 50px;
+    padding-right: 100px;
+    .el-radio{
+        margin:0;
+    }
 }
 </style>

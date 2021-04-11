@@ -9,11 +9,11 @@
                         <el-input v-model="form.title"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="5">
+                <!-- <el-col :span="5">
                     <el-form-item label="单位">
                         <el-input v-model="form.unit"></el-input>
                     </el-form-item>
-                </el-col>
+                </el-col> -->
                 <el-col :span="3" v-if="form.id">
                     <el-form-item label="商品ID：">
                         <el-input v-model="form.id"></el-input>
@@ -22,22 +22,57 @@
             </el-row>
         </div>
         <div class="part">
-            <div class="partTitle mainText mb20">商品类型</div>
+            <div class="partTitle mainText mb20">商品属性设置</div>
             <el-row :gutter="33">
-                <el-col :span="6">
-                    <el-form-item label="一级分类">
-                        <el-select v-model="form.categoryId" placeholder="一级分类" @change="categoriesChange">
-                            <el-option :label="item.name" :value="item.id" v-for="(item,index) in categoryList" :key="index"></el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="6">
-                    <el-form-item label="二级分类">
-                        <el-select v-model="form.categoryId2" placeholder="二级分类">
+                <el-form ref="form" label-position="left" label-width="100px">
+                    <el-col :span="5">
+                        <el-form-item label="选择分类">
+                            <el-select v-model="form.categoryId" placeholder="选择分类" @change="categoriesChange">
+                                <el-option :label="item.name" :value="item.id" v-for="(item,index) in categoryList" :key="index"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-radio v-model="radio" label="1">推荐到首页</el-radio>
+                        <!-- <el-form-item label="二级分类"> -->
+                        <!-- <el-select v-model="form.categoryId2" placeholder="二级分类">
                             <el-option v-for="(i,j) in categories2" :value="i.id" :key="j" :label="i.name"></el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
+                        </el-select> -->
+                        <!-- </el-form-item> -->
+                    </el-col>
+                </el-form>
+            </el-row>
+            <el-row :gutter="33">
+                <el-form ref="form" label-position="left" label-width="100px">
+                    <el-col :span="5">
+                        <el-form-item label="厨房部门">
+                            <el-select v-model="form.categoryId" placeholder="厨房部门" @change="categoriesChange">
+                                <el-option :label="item.name" :value="item.id" v-for="(item,index) in categoryList" :key="index"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="5">
+                        <el-form-item label="堂食必点">
+                            <el-select v-model="form.categoryId2" placeholder="堂食必点">
+                                <el-option v-for="(i,j) in categories2" :value="i.id" :key="j" :label="i.name"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="5">
+                        <el-form-item label="外卖必点">
+                            <el-select v-model="form.categoryId2" placeholder="外卖必点">
+                                <el-option v-for="(i,j) in categories2" :value="i.id" :key="j" :label="i.name"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="7">
+                        <el-form-item label="单点不配送（外卖）">
+                            <el-select v-model="form.categoryId2" placeholder="单点不配送（外卖）">
+                                <el-option v-for="(i,j) in categories2" :value="i.id" :key="j" :label="i.name"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                </el-form>
             </el-row>
         </div>
         <div class="part flexColumn pb20">
@@ -74,7 +109,7 @@
                     PNG</span>图片，<span class="mainText">500X500</span>像素大小，单张图片不得超过<span class="mainText">1</span>MB。
             </p>
         </div>
-        <div class="part ">
+        <!-- <div class="part ">
             <div class="partTitle mainText mb20">配送与物流</div>
             <el-row :gutter="33">
                 <el-col :span="7">
@@ -94,8 +129,8 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-        </div>
-        <div class="part guige">
+        </div> -->
+        <!-- <div class="part guige">
             <div class="partTitle mainText">规格设定</div>
             <div class="content">
                 <el-form label-position="left" :model="form" label-width="110px" ref="form" v-for="(item,index) in form.specRequest.spec" :key="index">
@@ -108,32 +143,42 @@
                         <el-form-item class="flexStart">
                             <el-button class="searchBtn" @click="addGuiGeFn">添加规格</el-button>
                         </el-form-item>
-                    </div>
-                    <!-- 小规格 -->
-                    <div class="flexStart eachGuiGe">
+                    </div> -->
+        <!-- 小规格 -->
+        <!-- <div class="flexStart eachGuiGe">
                         <el-tag v-for="(i,j) in item.items" :key='j' closable :disable-transitions="false" @close="handleCloseGuiGe(index,j)">
                             <el-input v-model="item.items[j]" @change="val=>addGuiGeItems(val,index,j)"></el-input>
                         </el-tag>
                     </div>
                 </el-form>
             </div>
-        </div>
+        </div> -->
         <div class="part price">
-            <div class="partTitle mainText flexSpace" style="width: 80%;">
-                <span>价格与库存</span>
-                <el-button class="searchBtn" @click="setPriceFn">设置价格与库存</el-button>
+            <div class="partTitle mainText " style="width: 80%;">
+                <span>售卖时间</span>
             </div>
-            <el-table :data="specsList" style="width: 80%;background-color:#F8F8F8">
-                <el-table-column prop="itemNames" label="规格" width="400">
-                    <template slot-scope="scope">
-                        <span v-for="(i,j) in scope.row.item" :key="j">{{i}}<i v-if="j<scope.row.item.length-1">*</i></span>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="price" label="商品定价（￥）" width="180">
-                </el-table-column>
-                <el-table-column prop="stock" label="库存数量">
-                </el-table-column>
-            </el-table>
+            <div class="content flexStart">
+                <el-row :gutter="33">
+                    <el-form ref="form" label-position="left" label-width="100px">
+                        <el-col :span="5">
+                            <!-- <el-form-item> -->
+                                <div class="flexStart radioBox">
+                                    <el-radio v-model="radio" label="1">按营业时间售卖</el-radio>
+                                </div>
+                            <!-- </el-form-item> -->
+                        </el-col>
+                        <el-col :span="15">
+                            <el-form-item>
+                                <div class="flexStart">
+                                    <el-radio v-model="radio" label="1">自定义时间段</el-radio>
+                                    <el-time-picker  type="datetimerange" range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间">
+                                    </el-time-picker>
+                                </div>
+                            </el-form-item>
+                        </el-col>
+                    </el-form>
+                </el-row>
+            </div>
         </div>
         <div class="part yingxiao">
             <div class="partTitle mainText">
@@ -188,7 +233,7 @@
                 </el-form>
             </div>
             <!-- v-if="form.sellType=='ys'" -->
-            <div class="part price">
+            <!-- <div class="part price">
                 <div class="partTitle mainText flexSpace" style="width: 80%;">
                     <span>预售价格与库存</span>
                     <el-button class="searchBtn" @click.stop="yushouDialogVisible=true">设置价格与库存</el-button>
@@ -208,7 +253,7 @@
                     </el-table-column>
                     <el-table-column label="预售库存" prop="marketingStock"> </el-table-column>
                 </el-table>
-            </div>
+            </div> -->
             <!-- 预售 end-->
         </div>
 
@@ -647,6 +692,9 @@ export default {
 
         &.price {
             padding-bottom: 38px;
+             .content {
+                padding: 56px 0 40px 0;
+             }
         }
 
         &.guige {
@@ -744,5 +792,8 @@ export default {
         margin-left: -150px;
         bottom: -80px;
     }
+}
+.radioBox{
+    height: 30px;
 }
 </style>

@@ -44,10 +44,18 @@
                         <el-form-item>
                             <div class="flexEnd">
                                 <el-upload class="upload-demo" ref="upload" :action="$downloadFileApi+'/order/import?access_token='+token" :show-file-list="false">
-                                    <el-button class="transBtn">导入表格</el-button>
+                                    <el-button class="transBtn">打印机对接</el-button>
                                 </el-upload>
                                 <el-button class="transBtn">
-                                    <a :href="$downloadFileApi+'/order/export?access_token='+token" target="_blank">导出表格</a>
+                                    <a :href="$downloadFileApi+'/order/export?access_token='+token" target="_blank">自动打印设置</a>
+                                </el-button>
+                            </div>
+                            <div class="flexEnd">
+                                <el-upload class="upload-demo" ref="upload" :action="$downloadFileApi+'/order/import?access_token='+token" :show-file-list="false">
+                                    <el-button class="transBtn">导入电子表格</el-button>
+                                </el-upload>
+                                <el-button class="transBtn">
+                                    <a :href="$downloadFileApi+'/order/export?access_token='+token" target="_blank">导出电子表格</a>
                                 </el-button>
                             </div>
                         </el-form-item>
@@ -61,12 +69,12 @@
                 <el-col :span="20">
                     <el-row :gutter="20" type="flex" justify="space-between" align="bottom">
                         <el-col :span="6">
-                            <el-form-item label="收件人姓名">
+                            <el-form-item label="配送人姓名">
                                 <el-input v-model="json.name"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
-                            <el-form-item label="收件人电话">
+                            <el-form-item label="配送人电话">
                                 <el-input v-model="json.mobild"></el-input>
                             </el-form-item>
                         </el-col>
@@ -83,13 +91,13 @@
                     </el-row>
                 </el-col>
                 <el-col :span="8">
-                      <div class="flexEnd">
-                    <el-form-item>
-                        <div class="flexEnd">
-                            <el-button class="searchBtn" type="primary" @click="getDataFn">查询</el-button>
-                        </div>
-                    </el-form-item>
-                      </div>
+                    <div class="flexEnd">
+                        <el-form-item>
+                            <div class="flexEnd">
+                                <el-button class="searchBtn" type="primary" @click="getDataFn">查询</el-button>
+                            </div>
+                        </el-form-item>
+                    </div>
                 </el-col>
             </el-row>
         </el-form>
@@ -125,7 +133,7 @@
                     <p class="seeMore" @click="val=>showDiscountFn(val,scope.row.id)">优惠明细</p>
                 </template>
             </el-table-column>
-            <el-table-column prop="detailAddress" label="收件地址">
+            <el-table-column prop="detailAddress" label="配送地址">
                 <template slot-scope="scope">
                     <p>{{scope.row.name}} {{scope.row.mobile}}</p>
                     <p>{{scope.row.detailAddress}}</p>
@@ -181,7 +189,7 @@
                 <div class="dialogTableBox">
                     <p class="tableTitle flexSpace">
                         <span>商品名称</span>
-                        <span>规格</span>
+                        <!-- <span>规格</span> -->
                         <span>数量</span>
                         <span>原价￥</span>
                         <span>优惠价￥</span>
@@ -190,7 +198,7 @@
                     <div class="tableData">
                         <p class="tableList flexSpace" :key="j" v-for="(i,j) in discountDetail.products">
                             <span>{{i.name}}</span>
-                            <span>{{i.itemText}}</span>
+                            <!-- <span>{{i.itemText}}</span> -->
                             <span>{{i.quantity}}</span>
                             <span>{{i.price}}</span>
                             <span>{{i.payPrice}}</span>
@@ -203,13 +211,13 @@
             </div>
             <div class="part2" v-if="discountDetail.preferential">
                 <p class="title">优惠明细：</p>
-                <p class="eachList flexSpace"><span class="label">定金</span> <span>{{discountDetail.preferential.preSalePrice||'无'}}</span> </p>
-                <p class="eachList flexSpace"><span class="label">满减优惠</span><span>{{discountDetail.preferential.fullForFree||'无'}}</span> </p>
-                <p class="eachList flexSpace"><span class="label">抵用券（优惠券/预售券）</span><span>{{discountDetail.preferential.coupon||'无'}}</span> </p>
+                <!-- <p class="eachList flexSpace"><span class="label">定金</span> <span>{{discountDetail.preferential.preSalePrice||'无'}}</span> </p> -->
+                 <p class="eachList flexSpace"><span class="label">满减优惠</span><span>{{discountDetail.preferential.fullForFree||'无'}}</span> </p>
+                <!-- <p class="eachList flexSpace"><span class="label">抵用券（优惠券/预售券）</span><span>{{discountDetail.preferential.coupon||'无'}}</span> </p>
                 <p class="eachList flexSpace"><span class="label">积分</span><span>{{discountDetail.preferential.jf||'无'}}</span> </p>
-                <p class="eachList flexSpace"><span class="label">会员卡</span><span>{{discountDetail.preferential.vip||'无'}}</span> </p>
+                <p class="eachList flexSpace"><span class="label">会员卡</span><span>{{discountDetail.preferential.vip||'无'}}</span> </p> -->
                 <p class="eachList flexSpace"><span class="label">星卡通</span><span>{{discountDetail.preferential.xkt||'无'}}</span> </p>
-                <p class="eachList flexSpace"><span class="label">储值卡（储值卡/礼品卡）</span><span>{{discountDetail.preferential.storedCard||'无'}}</span> </p>
+                <!-- <p class="eachList flexSpace"><span class="label">储值卡（储值卡/礼品卡）</span><span>{{discountDetail.preferential.storedCard||'无'}}</span> </p> -->
             </div>
             <div class="part3 flexEnd">
                 实收金额：<span class="num">
@@ -341,10 +349,10 @@ export default {
     computed: {},
     watch: {},
     methods: {
-             // 页码改变
-        pageChange(val){
+        // 页码改变
+        pageChange(val) {
             console.log(val)
-            this.json.pageNum=val;
+            this.json.pageNum = val;
             this.getDataFn()
         },
         // 获取优惠明细
@@ -487,7 +495,12 @@ export default {
         color: #FF2727;
     }
 }
-
+.transBtn {
+            margin-left: 45px;
+            width: 100px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
 .totalPanel {
     padding: 23px 36px;
     background-color: #fff;
@@ -497,9 +510,7 @@ export default {
         font-size: 20px;
         margin-bottom: 30px;
 
-        .transBtn {
-            margin-left: 45px;
-        }
+        
     }
 
     .eachTotalBox {
@@ -517,7 +528,7 @@ export default {
 
 .tableBox {
     background: #fff;
-   padding: 35px;
+    padding: 20px 35px;
     margin-top: 20px;
 
 }
@@ -563,8 +574,9 @@ export default {
             color: #666666;
             font-size: 12px;
             margin-bottom: 16px;
-            span{
-                width: 16%;
+
+            span {
+                width: 20%;
                 text-align: center;
             }
         }
@@ -577,8 +589,8 @@ export default {
                     line-height: 15px;
                     display: inline-block;
                     font-weight: bold;
-                    width: 16%;
-                   text-align: center;
+                    width: 20%;
+                    text-align: center;
                 }
             }
 

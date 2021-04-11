@@ -45,10 +45,10 @@
         <el-form label-position="top" :inline="true" :model="formInline" class="demo-form-inline">
             <div class="flexSpace alignEnd">
                 <div class="left">
-                    <el-form-item label="收件人姓名">
+                    <el-form-item label="配送人姓名">
                         <el-input v-model="formLabelAlign.name"></el-input>
                     </el-form-item>
-                    <el-form-item label="收件人电话">
+                    <el-form-item label="配送人电话">
                         <el-input v-model="formLabelAlign.tel"></el-input>
                     </el-form-item>
                     <el-form-item label="订单ID">
@@ -86,7 +86,7 @@
             </el-table-column>
             <el-table-column prop="address" label="实收金额">
             </el-table-column>
-            <el-table-column prop="address" label="收件地址">
+            <el-table-column prop="address" label="配送地址">
             </el-table-column>
             <el-table-column prop="address" label="物流">
             </el-table-column>

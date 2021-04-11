@@ -148,7 +148,13 @@
                     {{scope.row.categoryId2|categoryFilter}}
                 </template>
             </el-table-column>
-            <el-table-column align="center" prop="price" label="单价">
+            <el-table-column align="center" prop="price" label="在售摊位">
+                <template slot-scope="scope">
+                    <p> 1号摊位、2号摊位、8号摊位、10号
+                        摊位、15号摊位 <span class="editBtn" @click="showDetailModal=true">查看明细</span></p>
+                </template>
+            </el-table-column>
+            <el-table-column align="center" prop="price" label="均价">
                 <template slot-scope="scope">
                     <p class="eachItem" v-for="(i,j) in scope.row.skus" :key="j">{{i.price}}</p>
                 </template>
@@ -158,10 +164,10 @@
                     <p class="eachItem" v-for="(i,j) in scope.row.skus" :key="j">{{i.stock}}</p>
                 </template>
             </el-table-column>
-            <el-table-column align="center" prop="unit" label="单位">
-            </el-table-column>
-            <el-table-column align="center" prop="expPrice" label="运费">
-            </el-table-column>
+            <!-- <el-table-column align="center" prop="unit" label="单位">
+            </el-table-column> -->
+            <!-- <el-table-column align="center" prop="expPrice" label="运费">
+            </el-table-column> -->
             <el-table-column align="center" prop="address" label="营销">
                 <template slot-scope="scope">
                     <p>{{scope.row.sellType|sellTypeFilter}}</p>
@@ -244,6 +250,58 @@
 
     <!-- 删除的确认弹窗 -->
     <deleteDialog title="确定删除此商品?" :deleteVisible="deleteVisible" />
+
+    <!-- 摊位明细 -->
+    <el-dialog title="在售摊位明细" center :visible.sync="showDetailModal" class="showDetailModal" width="444px">
+        <div class="dialogContent">
+            <div class="subTitle flexSpace">
+                <p>摊位</p>
+                <p>售价</p>
+            </div>
+            <div class="listBox">
+                <div class="eachList flexSpace">
+                    <p>1号摊位</p>
+                    <p>￥15.50</p>
+                </div>
+                <div class="eachList flexSpace">
+                    <p>2号摊位</p>
+                    <p>￥15.50 </p>
+                </div>
+                <div class="eachList flexSpace">
+                    <p>3号摊位</p>
+                    <p>￥15.50 </p>
+                </div>
+                <div class="eachList flexSpace">
+                    <p>4号摊位</p>
+                    <p>￥15.50 </p>
+                </div>
+                <div class="eachList flexSpace">
+                    <p>5号摊位</p>
+                    <p>￥15.50 </p>
+                </div>
+                <div class="eachList flexSpace">
+                    <p>6号摊位</p>
+                    <p>￥15.50 </p>
+                </div>
+                <div class="eachList flexSpace">
+                    <p>7号摊位</p>
+                    <p>￥15.50 </p>
+                </div>
+                <div class="eachList flexSpace">
+                    <p>8号摊位</p>
+                    <p>￥15.50 </p>
+                </div>
+                <div class="eachList flexSpace">
+                    <p>9号摊位</p>
+                    <p>￥15.50 </p>
+                </div>
+                <div class="eachList flexSpace">
+                   <p>10号摊位</p>
+                    <p>￥15.50 </p>
+                </div>
+            </div>
+        </div>
+    </el-dialog>
 </div>
 </template>
 
@@ -270,6 +328,7 @@ export default {
     },
     data() {
         return {
+            showDetailModal: false,
             panelDatas: [{
                 name: '商品种类',
                 num: 0,
@@ -840,6 +899,25 @@ input:-ms-input-placeholder {
     .el-form-item {
         .categoryBtn {
             margin-right: 10px;
+        }
+    }
+}
+
+.showDetailModal {
+  /deep/  .el-dialog__body{
+        padding-top: 0!important;
+    }
+    .dialogContent {
+        color: #000;
+        font-size: 12px;
+        .subTitle{
+            padding:20px 0;
+            border-bottom: 1px solid #E5E5E5;
+        }
+        .eachList{
+            p{
+                line-height: 42px;
+            }
         }
     }
 }

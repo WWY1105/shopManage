@@ -63,12 +63,7 @@ export default new Router({
           meta: {
             title: "订单管理"
           }
-        },
-
-
-
-
-        {
+        }, {
           path: '/',
           name: 'Shops',
           component: () => import('@/pages/Shops/index'),
@@ -78,7 +73,7 @@ export default new Router({
               name: 'shopMain',
               component: () => import('@/pages/Shops/shopMain.vue'),
               meta: {
-                title: "店铺管理"
+                title: "菜场管理"
               }
             },
             {
@@ -93,7 +88,7 @@ export default new Router({
               name: 'addShop',
               component: () => import('@/pages/Shops/addShop.vue'),
               meta: {
-                title: "添加店铺"
+                title: "添加菜场"
               }
             }, {
               path: '/shops/acountSetting',
@@ -116,21 +111,21 @@ export default new Router({
               meta: {
                 title: "微信小程序对接配置"
               }
-            },{
+            }, {
               path: '/shops/quickReg',
               name: 'quickReg',
               component: () => import('@/pages/Shops/quickReg.vue'),
               meta: {
                 title: "快速注册"
               }
-            },{
+            }, {
               path: '/shops/officialAccountCode',
               name: 'officialAccountCode',
               component: () => import('@/pages/Shops/officialAccountCode.vue'),
               meta: {
                 title: "公众号授权"
               }
-            },{
+            }, {
               path: '/shops/wxAcountSuccess',
               name: 'wxAcountSuccess',
               component: () => import('@/pages/Shops/wxAcountSuccess.vue'),
@@ -361,6 +356,33 @@ export default new Router({
               component: () => import('@/pages/Setting/setPassword.vue'),
             }
           ]
+        }, {
+          path: '/',
+          name: 'Settlement',
+          component: () => import('@/pages/Settlement/index'),
+          children: [
+            {
+              path: '/settlement',
+              name: 'shopMain',
+              component: () => import('@/pages/Settlement/index.vue'),
+              meta: {
+                title: ""
+              }
+            }, {
+              path: '/settlement/main',
+              name: 'shopMain',
+              component: () => import('@/pages/Settlement/main.vue'),
+              meta: {
+                title: "结算管理"
+              }
+            }, {
+              path: '/settlement/record',
+              name: 'shopMain',
+              component: () => import('@/pages/Settlement/record.vue'),
+              meta: {
+                title: "结算纪录"
+              }
+            },]
         }, {
           path: '/',
           name: 'statistics',

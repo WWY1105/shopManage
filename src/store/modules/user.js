@@ -30,7 +30,7 @@ const user = {
   },
 
   actions: {
-     // 分店
+     // 摊位
      Branch({ commit }) {
       return new Promise((resolve, reject) => {
         branch({}).then(response => {

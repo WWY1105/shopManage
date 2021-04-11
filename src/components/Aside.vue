@@ -1,7 +1,7 @@
 <template>
 <div class="asliderBox">
     <div class="logo flexCenter">
-        <img src="../assets/images/logo.png" alt="">
+        <img src="../assets/images/login/mainLogo.png" alt="">
     </div>
     <el-menu router default-active="1" text-color="#ffffff" background-color="#235676" class="el-menu-vertical-demo">
         <template v-for="(item,index) in list">
@@ -15,7 +15,7 @@
             </el-menu-item>
             <el-submenu v-if="item.subs&&item.subs.length>0" :index="item.path+''" :key="index">
                 <template slot="title">
-                     <img :src="item.icon" alt="" class="icon">
+                    <img :src="item.icon" alt="" class="icon">
                     <span slot="title" style=" margin-left:10px;">{{item.title}}</span>
                 </template>
                 <el-menu-item v-for="(i,idx) in item.subs" :index="i.path+''" :key='idx'>{{i.title}}</el-menu-item>
@@ -44,83 +44,97 @@ export default {
     data() {
         return {
             handleOpen: false,
-            list: [{
-                title: '管理中心',
-                path: '/',
-                icon:guanli
-            }, {
-                title: '店铺管理',
-                path: '/shops',
-                icon:dianpu
-            }, {
-                title: '订单管理',
-                path: '/order',
-                icon:dingdan
-            }, {
-                title: '商品管理',
-                path: '/goods',
-                icon:shangpin
-            }, {
-                title: '客户管理',
-                path: '/customs',
-                icon:kehu
-            }, {
-                title: '直播管理',
-                path: '/live',
-                icon:zhibo
-            }, {
-                title: '营销中心',
-                path: '/sales',
-                icon:yingxiao
-            }, {
-                title: '评价管理',
-                path: '/comment',
-                icon:pingjia
-            }, {
-                title: '极星联盟',
-                path: '/union',
-                icon:jixing
-                // subs: [{
-                //     title: '联盟介绍',
-                //     path: '/union/introduce',
-                // }, {
-                //     title: '星秒订单',
-                //     path: '/union/order',
-                // }, {
-                //     title: '星秒商品',
-                //     path: '/union/goods',
-                // }]
-            }, {
-                title: '数据统计',
-                path: '/statistics',
-                icon:shuju,
-                subs: [{
-                    title: '订单统计',
-                    path: '/statistics/order',
+            list: [
+                //     {
+                //     title: '管理中心',
+                //     path: '/',
+                //     icon:guanli
+                // }, 
+                {
+                    title: '管理中心',
+                    path: '/shops',
+                    icon: dianpu
                 }, {
-                    title: '商品统计',
-                    path: '/statistics/goods',
+                    title: '菜场管理',
+                    path: '/settlement',
+                    icon: shuju,
+                    subs: [{
+                        title: '结算管理',
+                        path: '/settlement/main',
+                    }, {
+                        title: '结算纪录',
+                        path: '/settlement/record',
+                    }]
                 }, {
-                    title: '客户统计',
-                    path: '/statistics/custom',
-                }]
-            }, {
-                title: '客户建议',
-                path: '/advice',
-                icon:jianyi
-            }, {
-                title: '我要反馈',
-                path: '/feedback',
-                icon:fankui
-            }, {
-                title: '极星课堂',
-                path: '/class',
-                icon:jixing
-            }, {
-                title: '安全设置',
-                path: '/setting',
-                icon:anquan
-            }]
+                    title: '订单管理',
+                    path: '/order',
+                    icon: dingdan
+                }, {
+                    title: '商品管理',
+                    path: '/goods',
+                    icon: shangpin
+                }, {
+                    title: '客户管理',
+                    path: '/customs',
+                    icon: kehu
+                }, {
+                    title: '直播管理',
+                    path: '/live',
+                    icon: zhibo
+                }, {
+                    title: '营销中心',
+                    path: '/sales',
+                    icon: yingxiao
+                }, {
+                    title: '评价管理',
+                    path: '/comment',
+                    icon: pingjia
+                }, {
+                    title: '极星联盟',
+                    path: '/union',
+                    icon: jixing
+                    // subs: [{
+                    //     title: '联盟介绍',
+                    //     path: '/union/introduce',
+                    // }, {
+                    //     title: '星秒订单',
+                    //     path: '/union/order',
+                    // }, {
+                    //     title: '星秒商品',
+                    //     path: '/union/goods',
+                    // }]
+                }, {
+                    title: '数据统计',
+                    path: '/statistics',
+                    icon: shuju,
+                    subs: [{
+                        title: '订单统计',
+                        path: '/statistics/order',
+                    }, {
+                        title: '商品统计',
+                        path: '/statistics/goods',
+                    }, {
+                        title: '客户统计',
+                        path: '/statistics/custom',
+                    }]
+                }, {
+                    title: '客户建议',
+                    path: '/advice',
+                    icon: jianyi
+                }, {
+                    title: '我要反馈',
+                    path: '/feedback',
+                    icon: fankui
+                }, {
+                    title: '极星课堂',
+                    path: '/class',
+                    icon: jixing
+                }, {
+                    title: '安全设置',
+                    path: '/setting',
+                    icon: anquan
+                }
+            ]
         }
     }
 }
@@ -129,12 +143,19 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style lang="scss" scoped>
-::-webkit-scrollbar{
-    display:none;
+::-webkit-scrollbar {
+    display: none;
 }
-.asliderBox{
-    max-height:100vh;overflow-y:scroll;position:fixed;left: 0;top:0;width: 150px;
+
+.asliderBox {
+    max-height: 100vh;
+    overflow-y: scroll;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 150px;
 }
+
 .el-submenu {
     /deep/ .el-menu {
         background-color: #0C2332 !important;
@@ -149,27 +170,30 @@ export default {
     }
 }
 
- /deep/  .el-menu {
+/deep/ .el-menu {
 
     border: none;
 
-   /deep/ .menuContent {
+    /deep/ .menuContent {
         // border-bottom: 1px solid #1A3F56;
         height: 75px;
         line-height: 75px;
         width: 100%;
         text-align: center;
-        .icon{
+
+        .icon {
             width: 30px;
             height: 30px;
         }
-      
+
     }
-    .el-submenu__title{
-        padding-left:13px!important;
+
+    .el-submenu__title {
+        padding-left: 13px !important;
     }
+
     .el-menu-item {
-        padding-left:5px!important;
+        padding-left: 5px !important;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -187,7 +211,7 @@ export default {
     }
 
     /deep/ .el-submenu__title {
-        padding-left:5px !important;
+        padding-left: 5px !important;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -198,21 +222,27 @@ export default {
             background-color: #00B0F0 !important;
             color: #fff;
         }
-        .icon{
+
+        .icon {
             width: 30px;
             height: 30px;
         }
-        .el-submenu__icon-arrow{
-            right: 10px;
-        }
+
+      
     }
 }
-
+/deep/   .el-submenu__icon-arrow {
+            right: 10px;
+        }
+/deep/ .el-submenu__title{
+    font-size: 14px;
+}
 .logo {
-    height: 100px;
+    height: 86px;
     line-height: 100px;
-    img{
-        width: 120px;
+
+    img {
+        width:63px;
     }
 }
 </style>

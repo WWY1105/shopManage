@@ -43,7 +43,7 @@ import kanjia from  "../../assets/images/sales/kanjia.png"
 import mianfei_active from "../../assets/images/sales/mianfei_active.png"
 import mianfei from "../../assets/images/sales/mianfei.png"
 
-import peisong_active from "../../assets/images/sales/peisong_active.png"
+import peisong_active from "../../assets/images/sales/peisongIcon.png"
 import peisong from "../../assets/images/sales/peisong.png"
 import youhuiquan_active from "../../assets/images/sales/youhuiquan_active.png"
 import youhuiquan from "../../assets/images/sales/youhuiquan.png"
@@ -94,14 +94,16 @@ export default {
                     path:'/sales/seckill',
                     attr:'ms',
                     active:false
-                },{
-                    text:'同行优惠',
-                    icon:tongxing,
-                    iconActive:tongxing_active,
-                    path:'/sales/togetherDiscount',
-                    attr:'txyh',
-                    active:false
-                }, 
+                }
+                // ,{
+                //     text:'同行优惠',
+                //     icon:tongxing,
+                //     iconActive:tongxing_active,
+                //     path:'/sales/togetherDiscount',
+                //     attr:'txyh',
+                //     active:false
+                // }
+                , 
                  {
                     text:'砍价',
                     icon:kanjia,

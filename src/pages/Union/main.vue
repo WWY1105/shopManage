@@ -28,7 +28,7 @@
             <div class="title">星卡</div>
             <div class="desc">
                 拥有星卡的用户可能不是您的用户
-                <br>但如果您的店铺可以使用星卡
+                <br>但如果您的菜场可以使用星卡
                 <br>他就会成为您的新客户
             </div>
             <div class="tips xingkatongTips"></div>

@@ -15,7 +15,7 @@
                 <el-dropdown-item>
                     <div class="instructions">
                         <p>
-                            在本页您可以设置管理店铺信息、为软件或分店续费，以及管理分店信息；
+                            在本页您可以设置管理菜场信息、为软件或摊位续费，以及管理摊位信息；
                         </p>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
                             sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -46,7 +46,7 @@
             <div class="userBox">
                 <el-dropdown-menu slot="dropdown" class="userDroupDown">
                     <el-dropdown-item :command="i.id" v-for="(i,j) in branch" :key="j">{{i.name}}</el-dropdown-item>
-                    <!-- <el-dropdown-item>分店分店</el-dropdown-item> -->
+                    <!-- <el-dropdown-item>摊位摊位</el-dropdown-item> -->
                     <el-dropdown-item class="noBorder">
                         <p class="logoutText" @click="LogOut">退出登陆</p>
                     </el-dropdown-item>

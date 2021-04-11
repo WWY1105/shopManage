@@ -39,7 +39,7 @@
     </div>
     <p class="partTitle">邀请奖励</p>
     <div class="content bgf">
-        <p class="rule">规则说明：您店铺的用户，邀请新的用户登录您的小程序并绑定账号，那么被邀请新用户今后在您的店铺消费金额的一定比例金额，将作为奖励金发放给邀请人</p>
+        <p class="rule">规则说明：您菜场的用户，邀请新的用户登录您的小程序并绑定账号，那么被邀请新用户今后在您的菜场消费金额的一定比例金额，将作为奖励金发放给邀请人</p>
         <el-form label-position="top" :inline="true" class="demo-form-inline">
             <el-row :gutter="40" type="flex" justify="space-between" align="bottom">
                 <el-col :span="5">

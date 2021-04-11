@@ -9,7 +9,7 @@ export function putInfo(json){
 }
 
 
-// 添加分店
+// 添加摊位
 export function saveInfo(json){
     return request({
         url:"/info",
@@ -46,7 +46,7 @@ export function getData(json){
     })
 }
 
-// 切换分店
+// 切换摊位
 export function changeShop(json){
     return request({
         url:"/branch/token",
@@ -62,7 +62,7 @@ export function postFastregisterweapp(json){
         params:json
     })
 }
-// 删除分店
+// 删除摊位
 export function deleteShopFn(id){
     return request({
         url:"/branch",
