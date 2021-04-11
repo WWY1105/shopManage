@@ -28,6 +28,15 @@ export function getType(json){
     })
 }
 
+// 获取公众号码
+
+export function getScanCode(json){
+    return request({
+        url:"/auth-url",
+        method:'get',
+        params:json
+    })
+}
 
 export function getData(json){
     return request({

@@ -11,7 +11,7 @@
                 生活服务等100多个类目
                 自动开通微信认证（免费）</p>
         </div>
-        <div class="item  flexCenter flexColumn ">
+        <div class="item  flexCenter flexColumn " @click="toScan">
             <img src="../../assets/images/shops/renzheng.png" alt="" class="itemLogo2">
             <p class="itemTitle">认证公众号注册</p>
             <p class="desc">适用于拥有认证公众号的商户，扫码
@@ -29,6 +29,11 @@ export default {
        toQuickReg(){
            this.$router.push({
                path:'/shops/quickReg'
+           })
+       },
+       toScan(){
+           this.$router.push({
+               path:'/shops/officialAccountCode'
            })
        }
    }

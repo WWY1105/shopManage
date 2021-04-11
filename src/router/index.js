@@ -124,6 +124,13 @@ export default new Router({
                 title: "快速注册"
               }
             },{
+              path: '/shops/officialAccountCode',
+              name: 'officialAccountCode',
+              component: () => import('@/pages/Shops/officialAccountCode.vue'),
+              meta: {
+                title: "公众号授权"
+              }
+            },{
               path: '/shops/wxAcountSuccess',
               name: 'wxAcountSuccess',
               component: () => import('@/pages/Shops/wxAcountSuccess.vue'),
