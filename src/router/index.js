@@ -18,52 +18,9 @@ export default new Router({
       path: '/',
       name: 'Index',
       component: () => import('@/pages/Index'),
-      redirect: '/center',
+      redirect: '/shops',
       children: [
         {
-          path: '/',
-          name: 'Center',
-          component: () => import('@/pages/center'),
-          meta: {
-            title: "管理中心"
-          }
-        }, {
-          path: '/sysMsg',
-          name: 'SysMsg',
-          component: () => import('@/pages/SysMsg/sysMsg.vue'),
-          meta: {
-            title: "系统消息"
-          }
-        }, {
-          path: '/advice',
-          name: 'Advice',
-          component: Advice,
-          meta: {
-            title: "客户建议"
-          }
-        }, {
-          path: '/contact',
-          name: 'contact',
-          component: () => import('@/pages/Contact/contact.vue'),
-          meta: {
-            title: ""
-          }
-        }, {
-          path: '/class',
-          name: 'class',
-          component: Class,
-          meta: {
-            title: "极星课堂"
-          }
-        },
-        {
-          path: 'order',
-          name: 'Order',
-          component: () => import('@/pages/Order/index'),
-          meta: {
-            title: "订单管理"
-          }
-        }, {
           path: '/',
           name: 'Shops',
           component: () => import('@/pages/Shops/index'),
@@ -142,7 +99,53 @@ export default new Router({
             }
 
           ]
+        }, 
+        // {
+        //   path: '/',
+        //   name: 'Center',
+        //   component: () => import('@/pages/center'),
+        //   meta: {
+        //     title: "管理中心"
+        //   }
+        // },
+         {
+          path: '/sysMsg',
+          name: 'SysMsg',
+          component: () => import('@/pages/SysMsg/sysMsg.vue'),
+          meta: {
+            title: "系统消息"
+          }
         }, {
+          path: '/advice',
+          name: 'Advice',
+          component: Advice,
+          meta: {
+            title: "客户建议"
+          }
+        }, {
+          path: '/contact',
+          name: 'contact',
+          component: () => import('@/pages/Contact/contact.vue'),
+          meta: {
+            title: ""
+          }
+        }, {
+          path: '/class',
+          name: 'class',
+          component: Class,
+          meta: {
+            title: "极星课堂"
+          }
+        },
+        {
+          path: 'order',
+          name: 'Order',
+          component: () => import('@/pages/Order/index'),
+          meta: {
+            title: "订单管理"
+          }
+        }, 
+      {
           path: '/',
           name: 'Goods',
           component: Goods,

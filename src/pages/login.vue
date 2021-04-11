@@ -56,7 +56,7 @@ export default {
                     if (response && response.access_token) {
                         that.$store.dispatch('Getdistributions').then(result => {
                             that.$router.push({
-                                path: '/'
+                                path: '/shops'
                             })
                         })
 
