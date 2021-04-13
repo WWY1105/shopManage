@@ -42,7 +42,7 @@
                     </el-col>
                 </el-form>
             </el-row>
-            <el-row :gutter="33">
+            <!-- <el-row :gutter="33">
                 <el-form ref="form" label-position="left" label-width="100px">
                     <el-col :span="5">
                         <el-form-item label="厨房部门">
@@ -73,7 +73,7 @@
                         </el-form-item>
                     </el-col>
                 </el-form>
-            </el-row>
+            </el-row> -->
         </div>
         <div class="part flexColumn pb20">
             <div class="flexStart alignStart">

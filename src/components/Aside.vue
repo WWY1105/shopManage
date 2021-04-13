@@ -1,7 +1,7 @@
 <template>
 <div class="asliderBox">
     <div class="logo flexCenter">
-        <img src="../assets/images/login/mainLogo.png" alt="">
+        <img src="../assets/images/login/logo_03.png" alt="">
     </div>
     <el-menu router default-active="1" text-color="#ffffff" background-color="#235676" class="el-menu-vertical-demo">
         <template v-for="(item,index) in list">
@@ -39,26 +39,29 @@ import shangpin from '../assets/images/slide/shangpin.png';
 import shuju from '../assets/images/slide/shuju.png';
 import zhibo from '../assets/images/slide/zhibo.png';
 import yingxiao from '../assets/images/slide/yingxiao.png';
+import caishichang from '../assets/images/slide/caishichang.png';
 export default {
     name: 'Aside',
     data() {
         return {
             handleOpen: false,
             list: [
-                //     {
-                //     title: '管理中心',
-                //     path: '/',
-                //     icon:guanli
-                // }, 
-                {
+                    {
                     title: '管理中心',
-                    path: '/shops',
-                    icon: dianpu
-                }, {
+                    path: '/',
+                    icon:guanli
+                }, 
+              {
                     title: '菜场管理',
                     path: '/settlement',
-                    icon: shuju,
+                    icon: caishichang,
                     subs: [{
+                        title: '菜场设置',
+                        path: '/shops',
+                    }, {
+                        title: '摊位管理',
+                        path: '/settlement/booth',
+                    },{
                         title: '结算管理',
                         path: '/settlement/main',
                     }, {
@@ -78,32 +81,6 @@ export default {
                     path: '/customs',
                     icon: kehu
                 }, {
-                    title: '直播管理',
-                    path: '/live',
-                    icon: zhibo
-                }, {
-                    title: '营销中心',
-                    path: '/sales',
-                    icon: yingxiao
-                }, {
-                    title: '评价管理',
-                    path: '/comment',
-                    icon: pingjia
-                }, {
-                    title: '极星联盟',
-                    path: '/union',
-                    icon: jixing
-                    // subs: [{
-                    //     title: '联盟介绍',
-                    //     path: '/union/introduce',
-                    // }, {
-                    //     title: '星秒订单',
-                    //     path: '/union/order',
-                    // }, {
-                    //     title: '星秒商品',
-                    //     path: '/union/goods',
-                    // }]
-                }, {
                     title: '数据统计',
                     path: '/statistics',
                     icon: shuju,
@@ -118,6 +95,18 @@ export default {
                         path: '/statistics/custom',
                     }]
                 }, {
+                    title: '营销中心',
+                    path: '/sales',
+                    icon: yingxiao
+                }, {
+                    title: '评价管理',
+                    path: '/comment',
+                    icon: pingjia
+                },  {
+                    title: '直播管理',
+                    path: '/live',
+                    icon: zhibo
+                },{
                     title: '客户建议',
                     path: '/advice',
                     icon: jianyi
@@ -125,6 +114,20 @@ export default {
                     title: '我要反馈',
                     path: '/feedback',
                     icon: fankui
+                }, {
+                    title: '极星联盟',
+                    path: '/union',
+                    icon: jixing
+                    // subs: [{
+                    //     title: '联盟介绍',
+                    //     path: '/union/introduce',
+                    // }, {
+                    //     title: '星秒订单',
+                    //     path: '/union/order',
+                    // }, {
+                    //     title: '星秒商品',
+                    //     path: '/union/goods',
+                    // }]
                 }, {
                     title: '极星课堂',
                     path: '/class',

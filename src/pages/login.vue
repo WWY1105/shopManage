@@ -2,7 +2,7 @@
 <template>
 <div class='login flexStart flexColumn'>
     <div class="content flexCenter flexColumn">
-        <img src="../assets/images/logo.png" alt="" class="mainLogo">
+        <img src="../assets/images/login/logo_03.png" alt="" class="mainLogo">
         <el-form>
             <div class="flexStart flexColumn">
                 <el-form-item>
@@ -96,7 +96,7 @@ export default {
         width: 254px;
 
         .mainLogo {
-            width: 300px;
+            width: 200px;
             margin-bottom: 68px;
         }
 

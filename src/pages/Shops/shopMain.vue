@@ -23,7 +23,7 @@
                     <!-- <el-button class="transBtn" @click="toSetting">账户设置</el-button> -->
                 </div>
             </div>
-            <div class="flexCenter flexColumn topItem">
+            <!-- <div class="flexCenter flexColumn topItem">
                 <img src="../../assets/images/sales/peisongIcon.png" class="logo" alt="">
                 <p class="shopName">外卖配送对接</p>
                 <div class="otherText">
@@ -37,7 +37,7 @@
                         </router-link>
                     </el-button>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 
@@ -52,20 +52,23 @@
             </div>
         </div>
         <div class="eachInfo flexCenter">
-            <img src="../../assets/images/shops/zijin.png" class="icon" alt="">
-            <p class="title">资金账户</p>
-            <p class="desc">￥{{shopInfo.balance}}</p>
+            <img src="../../assets/images/shops/duanxin.png" class="icon" alt="">
+            <p class="title">短信条数</p>
+            <p class="desc">剩余3102条</p>
             <div class="buttons flexCenter">
                 <el-button class="searchBtn" @click="goCapitalRecharge">充值 </el-button>
-                <el-button class="transBtn">资金明细</el-button>
+                <!-- <el-button class="transBtn">资金明细</el-button> -->
             </div>
         </div>
+
         <div class="eachInfo flexCenter">
-            <img src="../../assets/images/shops/edu.png" class="icon" alt="">
-            <p class="title">摊位额度</p>
-            <p class="desc">{{shopInfo.branchCount}}</p>
+            <img src="../../assets/images/sales/peisongIcon.png" class="icon" alt="">
+            <p class="title">外卖配送对接</p>
+            <p class="desc">达达配送</p>
             <div class="buttons flexCenter">
-                <el-button class="searchBtn" @click="showTipsDialog=true">扩充</el-button>
+                <router-link :to="{path:'/sales/distribute'}">
+                    <el-button class="searchBtn" @click="goCapitalRecharge">配置 </el-button>
+                </router-link>
             </div>
         </div>
         <div class="eachInfo flexCenter">
@@ -330,7 +333,6 @@ export default {
             color: #525252;
             margin-bottom: 10px;
             min-height: 104px;
-         
 
             p {
                 margin-bottom: 10px;
@@ -447,8 +449,8 @@ export default {
                 font-family: Microsoft YaHei;
                 font-weight: 400;
                 color: #525252;
-                   width: 100%;
-            text-align: left;
+                width: 100%;
+                text-align: left;
                 margin-bottom: 30px;
 
                 p {

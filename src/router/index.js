@@ -18,8 +18,53 @@ export default new Router({
       path: '/',
       name: 'Index',
       component: () => import('@/pages/Index'),
-      redirect: '/shops',
+      redirect: '/center',
       children: [
+        {
+          path: '/',
+          name: 'Center',
+          component: () => import('@/pages/center'),
+          meta: {
+            title: "管理中心"
+          }
+        },
+         {
+          path: '/sysMsg',
+          name: 'SysMsg',
+          component: () => import('@/pages/SysMsg/sysMsg.vue'),
+          meta: {
+            title: "系统消息"
+          }
+        }, {
+          path: '/advice',
+          name: 'Advice',
+          component: Advice,
+          meta: {
+            title: "客户建议"
+          }
+        }, {
+          path: '/contact',
+          name: 'contact',
+          component: () => import('@/pages/Contact/contact.vue'),
+          meta: {
+            title: ""
+          }
+        }, {
+          path: '/class',
+          name: 'class',
+          component: Class,
+          meta: {
+            title: "极星课堂"
+          }
+        },
+        {
+          path: 'order',
+          name: 'Order',
+          component: () => import('@/pages/Order/index'),
+          meta: {
+            title: "订单管理"
+          }
+        }, 
         {
           path: '/',
           name: 'Shops',
@@ -99,53 +144,7 @@ export default new Router({
             }
 
           ]
-        }, 
-        // {
-        //   path: '/',
-        //   name: 'Center',
-        //   component: () => import('@/pages/center'),
-        //   meta: {
-        //     title: "管理中心"
-        //   }
-        // },
-         {
-          path: '/sysMsg',
-          name: 'SysMsg',
-          component: () => import('@/pages/SysMsg/sysMsg.vue'),
-          meta: {
-            title: "系统消息"
-          }
         }, {
-          path: '/advice',
-          name: 'Advice',
-          component: Advice,
-          meta: {
-            title: "客户建议"
-          }
-        }, {
-          path: '/contact',
-          name: 'contact',
-          component: () => import('@/pages/Contact/contact.vue'),
-          meta: {
-            title: ""
-          }
-        }, {
-          path: '/class',
-          name: 'class',
-          component: Class,
-          meta: {
-            title: "极星课堂"
-          }
-        },
-        {
-          path: 'order',
-          name: 'Order',
-          component: () => import('@/pages/Order/index'),
-          meta: {
-            title: "订单管理"
-          }
-        }, 
-      {
           path: '/',
           name: 'Goods',
           component: Goods,
@@ -366,10 +365,24 @@ export default new Router({
           children: [
             {
               path: '/settlement',
-              name: 'shopMain',
+              name: 'settlement',
               component: () => import('@/pages/Settlement/index.vue'),
               meta: {
                 title: ""
+              }
+            },  {
+              path: '/shops',
+              name: 'shopMain',
+              component: () => import('@/pages/Shops/shopMain.vue'),
+              meta: {
+                title: "菜场管理"
+              }
+            },{
+              path: '/settlement/booth',
+              name: 'settlementBooth',
+              component: () => import('@/pages/Settlement/booth.vue'),
+              meta: {
+                title: "摊位管理"
               }
             }, {
               path: '/settlement/main',
