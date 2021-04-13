@@ -38,6 +38,11 @@
                         </el-select>
                     </el-form-item>
                 </el-col>
+                <el-col :span="6">
+                    <div class="flexCenter radioBox">
+                        <el-checkbox v-model="form.sy" label="1">推荐到首页</el-checkbox>
+                    </div>
+                </el-col>
             </el-row>
         </div>
         <div class="part flexColumn pb20">
@@ -744,5 +749,8 @@ export default {
         margin-left: -150px;
         bottom: -80px;
     }
+}
+.radioBox{
+    height: 30px;
 }
 </style>

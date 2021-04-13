@@ -670,11 +670,6 @@ export default {
                                     name: i.name,
                                     items: []
                                 }
-                                // i.items.map(j => {
-                                //     obj.items.push({
-                                //         name: j.name
-                                //     })
-                                // })
                                 i.items.map(j => {
                                     obj.items.push(j.name)
                                 })
@@ -719,6 +714,7 @@ export default {
                     };
 
                     console.log('获取数据')
+                    console.log(this.form)
                     console.log(this.form.specRequest)
                     console.log(this.specsList)
                 }

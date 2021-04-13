@@ -207,7 +207,7 @@
                         <span class="categoryLabel">分类</span>
                         <div class="tags">
                             <el-tag closable @close="deleteCategoryParent(item.id,index)">
-                                <el-input autofocus v-model="item.name" placeholder="请输父类名称" class="addCategory parentCategory" @change="val=>parentCategoryChange(val,index)">
+                                <el-input autofocus v-model="item.name" placeholder="请输父类名称" placeholder-class="placeholderClass" class="addCategory parentCategory" @change="val=>parentCategoryChange(val,index)">
                                 </el-input>
                             </el-tag>
 
@@ -790,6 +790,10 @@ input:-ms-input-placeholder {
         background-color: #fff !important;
         border-color: #D4D4D4 !important;
         color: #000 !important;
+
+        &::placeholder {
+            color: #fff;
+        }
     }
 
     &.parentCategory {
