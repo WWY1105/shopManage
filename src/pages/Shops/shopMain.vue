@@ -41,15 +41,7 @@
                 <el-button class="transBtn">资金明细</el-button>
             </div>
         </div>
-        <div class="eachInfo flexCenter">
-            <img src="../../assets/images/shops/edu.png" class="icon" alt="">
-            <p class="title">分店额度</p>
-            <p class="desc">{{shopInfo.branchCount}}</p>
-            <div class="buttons flexCenter">
-                <el-button class="searchBtn" @click="showTipsDialog=true">扩充</el-button>
-            </div>
-        </div>
-        <div class="eachInfo flexCenter">
+           <div class="eachInfo flexCenter">
             <img src="../../assets/images/sales/peisongIcon.png" class="icon" alt="">
             <p class="title">外卖配送对接</p>
             <p class="desc">达达配送</p>
@@ -59,6 +51,15 @@
                 </router-link>
             </div>
         </div>
+        <div class="eachInfo flexCenter">
+            <img src="../../assets/images/shops/edu.png" class="icon" alt="">
+            <p class="title">分店额度</p>
+            <p class="desc">{{shopInfo.branchCount}}</p>
+            <div class="buttons flexCenter">
+                <el-button class="searchBtn" @click="showTipsDialog=true">扩充</el-button>
+            </div>
+        </div>
+     
         <div class="eachInfo flexCenter">
             <img src="../../assets/images/shops/erweima.png" class="icon" alt="">
             <p class="title">店铺二维码</p>
