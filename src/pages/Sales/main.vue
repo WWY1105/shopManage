@@ -8,7 +8,7 @@
         <div class="content">
             <div  class="gridBox">
                 <div :span="6" v-for="(item,index) in saleList" :key="index">
-                    <router-link :to="{path:item.path}" tag="div" class="flexCenter flexColumn eachItem">
+                    <router-link :to="{path:item.path}" tag="div" class="flexCenter flexColumn eachItem" v-if="item">
                         <div class="imgBox">
                             <div class="shadow"></div>
                             <img :src="item.iconActive" alt="" v-if="saleData[item.attr]">
@@ -72,56 +72,13 @@ export default {
     components: {},
     data() {
         return {
-            saleList:[
+              saleList:[
                 {
-                    text:'预售',
-                    icon:yushou,
-                    iconActive:yushou_active,
-                    path:'/sales/preSale',
-                    attr:'ys',
-                    active:false
-                },{
-                    text:'拼团',
-                    icon:pintuan,
-                    iconActive:pintuan_active,
-                    path:'/sales/makeGroup',
-                    attr:'pt',
-                    active:false
-                },{
-                    text:'限时秒杀',
-                    icon:miaosha,
-                    iconActive:miaosha_active,
-                    path:'/sales/seckill',
-                    attr:'ms',
-                    active:false
-                },{
-                    text:'同行优惠',
-                    icon:tongxing,
-                    iconActive:tongxing_active,
-                    path:'/sales/togetherDiscount',
-                    attr:'txyh',
-                    active:false
-                }, 
-                 {
-                    text:'砍价',
-                    icon:kanjia,
-                    iconActive:kanjia_active,
-                    path:'/sales/bargaining',
-                    attr:'kj',
-                    active:false
-                },{
-                    text:'免费拿',
-                    icon:mianfei,
-                    iconActive:mianfei_active,
-                    path:'/sales/free',
-                    attr:'mfn',
-                    active:false
-                },{
-                    text:'配送',
-                    icon:peisong,
-                    iconActive:peisong_active,
-                    path:'/sales/distribute',
-                    attr:'ps',
+                    text:'优惠券',
+                    icon:youhuiquan,
+                    iconActive:youhuiquan_active,
+                    path:'/sales/coupon',
+                    attr:'yhq',
                     active:false
                 },{
                     text:'满减优惠',
@@ -131,11 +88,11 @@ export default {
                     attr:'mjyh',
                     active:false
                 },{
-                    text:'优惠券',
-                    icon:youhuiquan,
-                    iconActive:youhuiquan_active,
-                    path:'/sales/coupon',
-                    attr:'yhq',
+                    text:'限时秒杀',
+                    icon:miaosha,
+                    iconActive:miaosha_active,
+                    path:'/sales/seckill',
+                    attr:'ms',
                     active:false
                 },{
                     text:'积分',
@@ -145,11 +102,32 @@ export default {
                     attr:'jf',
                     active:false
                 },{
-                    text:'返利',
-                    icon:fanli,
-                    iconActive:fanli_active,
-                    path:'/sales/rebate',
-                    attr:'fl',
+                    text:'抽奖',
+                    icon:choujiang,
+                    iconActive:choujiang_active,
+                    path:'/sales/lottery',
+                    attr:'cj',
+                    active:false
+                },{
+                    text:'拼团',
+                    icon:pintuan,
+                    iconActive:pintuan_active,
+                    path:'/sales/makeGroup',
+                    attr:'pt',
+                    active:false
+                }, {
+                    text:'砍价',
+                    icon:kanjia,
+                    iconActive:kanjia_active,
+                    path:'/sales/bargaining',
+                    attr:'kj',
+                    active:false
+                }, {
+                    text:'免费拿',
+                    icon:mianfei,
+                    iconActive:mianfei_active,
+                    path:'/sales/free',
+                    attr:'mfn',
                     active:false
                 },{
                     text:'会员',
@@ -158,8 +136,7 @@ export default {
                     path:'/sales/member',
                     attr:'hy',
                     active:false
-                },
-                {
+                },{
                     text:'储值卡',
                     icon:chuzhika,
                     iconActive:chuzhika_active,
@@ -167,25 +144,18 @@ export default {
                     attr:'czk',
                     active:false
                 },{
+                    text:'返利',
+                    icon:fanli,
+                    iconActive:fanli_active,
+                    path:'/sales/rebate',
+                    attr:'fl',
+                    active:false
+                }, {
                     text:'分销',
                     icon:fenxiao,
                     iconActive:fenxiao_active,
                     path:'/sales/distribution',
                     attr:'fx',
-                    active:false
-                },{
-                    text:'抽奖',
-                    icon:choujiang,
-                    iconActive:choujiang_active,
-                    path:'/sales/lottery',
-                    attr:'cj',
-                    active:false
-                },{
-                    text:'消息推送',
-                    icon:xiaoxi,
-                    iconActive:xiaoxi_active,
-                    path:'/sales/messagePush',
-                    attr:'xxts',
                     active:false
                 },{
                     text:'短信群发',
@@ -194,15 +164,45 @@ export default {
                     path:'/sales/shortMessage',
                     attr:'dxqf',
                     active:false
+                },{
+                    text:'消息推送',
+                    icon:xiaoxi,
+                    iconActive:xiaoxi_active,
+                    path:'/sales/messagePush',
+                    attr:'xxts',
+                    active:false
                 },
-            ]
+                {
+                    text:'预售',
+                    icon:yushou,
+                    iconActive:yushou_active,
+                    path:'/sales/preSale',
+                    attr:'ys',
+                    active:false
+                },
+                {
+                    text:'同行优惠',
+                    icon:tongxing,
+                    iconActive:tongxing_active,
+                    path:'/sales/togetherDiscount',
+                    attr:'txyh',
+                    active:false
+                }
+            //    {
+            //         text:'配送',
+            //         icon:peisong,
+            //         iconActive:peisong_active,
+            //         path:'/sales/distribute',
+            //         attr:'ps',
+            //         active:false
+            //     },
+               
+            ],
+            saleData:{}
         };
     },
     computed:mapState({
-        saleData(state){
-           return state.distribution.distributions
-        }
-        
+       
     }),
     watch: {
 
@@ -225,20 +225,20 @@ export default {
                 }
             })
         },
-        // getState() {
-        //     if (!this.$store.state.distribution.distributions) {
-        //         this.$store.dispatch('Getdistributions').then(result => {
-        //             this.saleData = result;
-        //         })
-        //     } else {
-        //         this.saleData = this.$store.state.distribution.distributions;
-        //     }
-        // },
+        getState() {
+            // if (!this.$store.state.distribution.distributions) {
+                this.$store.dispatch('Getdistributions').then(result => {
+                    this.saleData = result;
+                })
+            // } else {
+            //     this.saleData = this.$store.state.distribution.distributions;
+            // }
+        },
         //    模块开关----end
     },
 
     created() {
-        // this.getState()
+        this.getState()
     },
     mounted() {
 
