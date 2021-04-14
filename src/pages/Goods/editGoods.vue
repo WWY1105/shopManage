@@ -107,7 +107,7 @@
                     <div class="flexStart">
                         <el-form-item :label="'规格'+(index+1)+'名称'">
                             <div class="flexStart">
-                                <el-input type="text" v-model="item.name" @change="setPriceFn"></el-input>
+                                <el-input type="text" v-model="item.name" @change="setPriceFn(false)"></el-input>
                             </div>
                         </el-form-item>
                         <el-form-item class="flexStart">
@@ -498,6 +498,7 @@ export default {
                     specsList.push(obj)
                 })
                 // 是否弹窗设置
+                console.log('是否弹窗设置',show)
                 if(show){
                       this.originDialogVisible = true;
                 }
