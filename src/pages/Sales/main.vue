@@ -172,22 +172,22 @@ export default {
                     attr:'xxts',
                     active:false
                 },
-                // {
-                //     text:'预售',
-                //     icon:yushou,
-                //     iconActive:yushou_active,
-                //     path:'/sales/preSale',
-                //     attr:'ys',
-                //     active:false
-                // },
-                // ,{
-                //     text:'同行优惠',
-                //     icon:tongxing,
-                //     iconActive:tongxing_active,
-                //     path:'/sales/togetherDiscount',
-                //     attr:'txyh',
-                //     active:false
-                // }
+                {
+                    text:'预售',
+                    icon:yushou,
+                    iconActive:yushou_active,
+                    path:'/sales/preSale',
+                    attr:'ys',
+                    active:false
+                },
+                ,{
+                    text:'同行优惠',
+                    icon:tongxing,
+                    iconActive:tongxing_active,
+                    path:'/sales/togetherDiscount',
+                    attr:'txyh',
+                    active:false
+                }
             //    {
             //         text:'配送',
             //         icon:peisong,
