@@ -12,14 +12,14 @@
             <p>发票类型：{{shopInfo.invoice==1?'不开发票':shopInfo.invoice==2?'普票':shopInfo.invoice==3?'专票与普票':''}}</p>
         </div>
         <div class="flexCenter">
-        <el-button class="transBtn flexCenter xiugaiBtn">
-            <router-link :to="{name:'editShop'}">
-                <img src="../../assets/images/shops/editIcon.png" class="editIcon" alt="">
-                <span> 修改</span>
-            </router-link>
-        </el-button>
-        <el-button class="transBtn" @click="toSetting">账户设置</el-button>
-    </div>
+            <el-button class="transBtn flexCenter xiugaiBtn">
+                <router-link :to="{name:'editShop'}">
+                    <img src="../../assets/images/shops/editIcon.png" class="editIcon" alt="">
+                    <span> 修改</span>
+                </router-link>
+            </el-button>
+            <el-button class="transBtn" @click="toSetting">账户设置</el-button>
+        </div>
     </div>
 
     <div class="shopPartInfo bgf flexSpace">
@@ -47,6 +47,16 @@
             <p class="desc">{{shopInfo.branchCount}}</p>
             <div class="buttons flexCenter">
                 <el-button class="searchBtn" @click="showTipsDialog=true">扩充</el-button>
+            </div>
+        </div>
+        <div class="eachInfo flexCenter">
+            <img src="../../assets/images/sales/peisongIcon.png" class="icon" alt="">
+            <p class="title">外卖配送对接</p>
+            <p class="desc">达达配送</p>
+            <div class="buttons flexCenter">
+                <router-link :to="{path:'/sales/distribute'}">
+                    <el-button class="searchBtn" @click="goCapitalRecharge">配置 </el-button>
+                </router-link>
             </div>
         </div>
         <div class="eachInfo flexCenter">
@@ -79,13 +89,13 @@
                 <p>发票类型：{{i.invoice|invoicesFilter}}</p>
             </div>
             <div class="btnBox flexSpace">
-                      <router-link :to="{name:'editShop',query:{child:i}}">
+                <router-link :to="{name:'editShop',query:{child:i}}">
                     <el-button class="transBtn flexCenter">
                         <img src="../../assets/images/shops/editIcon.png" class="editIcon" alt="">
                         <span> 修改</span>
                     </el-button>
                 </router-link>
-                <el-button class="transBtn deleteBtn flexCenter" @click="deleteShop(i.id)" >
+                <el-button class="transBtn deleteBtn flexCenter" @click="deleteShop(i.id)">
                     <i class="el-icon-delete"></i>
                     <span>删除</span>
                 </el-button>
@@ -105,8 +115,7 @@
         </span>
     </el-dialog>
 
-
-       <!-- 删除的提示框 -->
+    <!-- 删除的提示框 -->
     <el-dialog title="提示" center :visible.sync="deleteShopVisible" width="30%">
         <span class="flexCenter">是否删除此店铺</span>
         <span slot="footer" class="dialog-footer">
@@ -122,7 +131,8 @@ import {
     branch
 } from '../../api/login'
 import {
-    putInfo,deleteShopFn
+    putInfo,
+    deleteShopFn
 } from '../../api/shops/index';
 import {
     invoicesList
@@ -132,12 +142,12 @@ export default {
     components: {},
     data() {
         return {
-            deleteShopVisible:false,
+            deleteShopVisible: false,
             showTipsDialog: false,
             brand: [],
             shopInfo: {},
             value: true,
-            deleteTarget:''
+            deleteTarget: ''
         };
     },
     filters: {
@@ -158,12 +168,12 @@ export default {
     computed: {},
     watch: {},
     methods: {
-        goCapitalRecharge(){
+        goCapitalRecharge() {
             this.$router.push({
-                path:' /shops/capitalRecharge'
+                path: ' /shops/capitalRecharge'
             })
         },
-       
+
         getBranch() {
             branch().then(res => {
                 if (res.code == '00') {
@@ -200,12 +210,12 @@ export default {
             })
         },
         // 是否删除
-        deleteShop(id){
-            this.deleteTarget=id;
-            this.deleteShopVisible=true;
+        deleteShop(id) {
+            this.deleteTarget = id;
+            this.deleteShopVisible = true;
         },
-        confirmDelete(){
-             let that = this;
+        confirmDelete() {
+            let that = this;
             deleteShopFn(this.deleteTarget).then(res => {
                 if (res.code == '00') {
                     that.$message({
@@ -214,7 +224,7 @@ export default {
                         duration: 3 * 1000,
                         type: 'success'
                     })
-                    this.deleteShopVisible=false;
+                    this.deleteShopVisible = false;
                     that.getBranch()
                 }
             })
@@ -227,18 +237,32 @@ export default {
         console.log('created')
     },
     mounted() {
-              console.log('mounted')
+        console.log('mounted')
     },
     beforeCreate() {
-         console.log('beforeCreate')
+        console.log('beforeCreate')
     }, //生命周期 - 创建之前
-    beforeMount() {   console.log('beforeMount')}, //生命周期 - 挂载之前
-    beforeUpdate() { console.log('beforeUpdate')}, //生命周期 - 更新之前
-    updated() {console.log('updated')}, //生命周期 - 更新之后
-    beforeDestroy() {console.log('beforeDestroy')}, //生命周期 - 销毁之前
-    destroyed() {console.log('destroyed')}, //生命周期 - 销毁完成
-    activated() {console.log('activated')}, //如果页面有keep-alive缓存功能，这个函数会触发
-    deactivated(){console.log('deactivated')}
+    beforeMount() {
+        console.log('beforeMount')
+    }, //生命周期 - 挂载之前
+    beforeUpdate() {
+        console.log('beforeUpdate')
+    }, //生命周期 - 更新之前
+    updated() {
+        console.log('updated')
+    }, //生命周期 - 更新之后
+    beforeDestroy() {
+        console.log('beforeDestroy')
+    }, //生命周期 - 销毁之前
+    destroyed() {
+        console.log('destroyed')
+    }, //生命周期 - 销毁完成
+    activated() {
+        console.log('activated')
+    }, //如果页面有keep-alive缓存功能，这个函数会触发
+    deactivated() {
+        console.log('deactivated')
+    }
 }
 </script>
 
@@ -306,7 +330,7 @@ export default {
         .eachInfo {
             flex-direction: column;
             // border-right: 1px solid #B9B9B9;
-            width: 25%;
+            width: 20%;
 
             &:last-child {
                 border: none;
