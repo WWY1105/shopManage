@@ -38,6 +38,11 @@
                         </el-select>
                     </el-form-item>
                 </el-col>
+                <el-col :span="3">
+                    <div class="flexCenter radioBox">
+                        <el-checkbox v-model="form.sy" label="1">推荐到首页</el-checkbox>
+                    </div>
+                </el-col>
             </el-row>
         </div>
         <div class="part flexColumn pb20">
@@ -102,7 +107,7 @@
                     <div class="flexStart">
                         <el-form-item :label="'规格'+(index+1)+'名称'">
                             <div class="flexStart">
-                                <el-input type="text" v-model="item.name"></el-input>
+                                <el-input type="text" v-model="item.name" @change="setPriceFn"></el-input>
                             </div>
                         </el-form-item>
                         <el-form-item class="flexStart">
@@ -121,9 +126,9 @@
         <div class="part price">
             <div class="partTitle mainText flexSpace" style="width: 80%;">
                 <span>价格与库存</span>
-                <el-button class="searchBtn" @click="setPriceFn">设置价格与库存</el-button>
+                <el-button class="searchBtn" @click="setPriceFn(true)">设置价格与库存</el-button>
             </div>
-            <el-table :data="specsList" style="width: 80%;background-color:#F8F8F8">
+            <el-table :data="yushouSpecsList" style="width: 80%;background-color:#F8F8F8">
                 <el-table-column prop="itemNames" label="规格" width="400">
                     <template slot-scope="scope">
                         <span v-for="(i,j) in scope.row.item" :key="j">{{i}}<i v-if="j<scope.row.item.length-1">*</i></span>
@@ -217,7 +222,7 @@
 
     <!-- 设置原价和库存 -->
     <el-dialog class="yingxiaoDialog" :visible.sync="originDialogVisible" center title="编辑营销价格与库存" width="70%">
-        <el-table :data="specsList" style="background-color:#F8F8F8">
+        <el-table :data="yushouSpecsList" style="background-color:#F8F8F8">
             <el-table-column prop="itemNames" label="规格" width="200">
                 <template slot-scope="scope">
                     <span v-for="(i,j) in scope.row.item" :key="j">{{i}}<i v-if="j<scope.row.item.length-1">*</i></span>
@@ -293,7 +298,8 @@ import {
 import {
     putData,
     getData
-} from '../../api/goods/editGoods'
+} from '../../api/goods/editGoods';
+
 export default {
     components: {},
     data() {
@@ -360,7 +366,7 @@ export default {
 
     },
     watch: {
-
+       
     },
     methods: {
         // sku组合方法
@@ -409,8 +415,12 @@ export default {
         // 上传成功
         handleAvatarSuccess(response) {
             let arr = this.fileList;
-            arr.push(response.data)
-            this.form.contentImgurl = arr.join(',');
+            arr.push({
+                url: response.data
+            });
+            console.log(arr)
+            this.fileList=arr;
+           this.form.contentImgurl += (response.data+',');
 
         },
         handleimgurlSuccess(response) {
@@ -422,7 +432,8 @@ export default {
             this.form.specRequest.spec.push({
                 name: '',
                 items: ['']
-            })
+            });
+            this.setPriceFn()
 
         },
         // 添加小规格
@@ -437,15 +448,24 @@ export default {
                     type: 'error'
                 })
             }
+             this.setPriceFn()
             //console.log(this.form.specRequest.spec)
         },
         // 删除某个规格
         handleCloseGuiGe(index, i) {
-            //console.log('删除某个规格')
-            this.form.specs[index].items.splice(i, 1);
+            // console.log('删除某个规格'+index)
+            // console.log(i)
+            // console.log(this.form.specRequest.spec[index].items);
+            // let form=this.form;
+            this.form.specRequest.spec[index].items.splice(i, 1);
+            // 如果没有子规格，就删除整个父规格
+            if (this.form.specRequest.spec.length > 1 && (this.form.specRequest.spec[index].items.length == 0 || this.form.specRequest.spec[index].items[0] == '')) {
+                this.form.specRequest.spec.splice(index, 1)
+            }
+             this.setPriceFn()
         },
         // 点击设置价格与库存
-        setPriceFn() {
+        setPriceFn(show) {
             let specsList = [];
             let arr = [];
             if (!this.form.specRequest.spec) {
@@ -466,24 +486,27 @@ export default {
                     arr.push(a);
                 })
                 let allArr = this.cartesianProductOf(...arr);
-                 console.log(' console.log(allArr)')
+                console.log(' console.log(allArr)')
                 console.log(allArr)
                 allArr.map(i => {
                     let arr = []
                     let obj = {
                         item: i,
-                        price: '',
-                        stock: ''
+                        price: 1,
+                        stock: 1
                     }
                     specsList.push(obj)
                 })
+                // 是否弹窗设置
+                if(show){
+                      this.originDialogVisible = true;
+                }
+              
 
-                this.originDialogVisible = true;
-
-                this.specsList = specsList;
+                this.yushouSpecsList = specsList;
                 this.form.specRequest.sku = specsList;
-                console.log('specsList')
-                console.log(specsList)
+
+                console.log(this.form.specRequest.spec)
             }
 
         },
@@ -498,7 +521,24 @@ export default {
         },
         // 保存数据
         saveDataFn() {
-            let json = this.form;
+            let json = {
+                categoryId: this.form.categoryId,
+                categoryId2: this.form.categoryId2,
+                content: this.form.content,
+                contentImgurl: this.form.contentImgurl,
+                expType: this.form.expType,
+                imgurl: this.form.imgurl,
+                sellType: this.form.sellType,
+                sy: this.form.sy,
+                title: this.form.title,
+                unit: this.form.unit,
+                id: this.form.id,
+                specRequest:this.form.specRequest
+            };
+
+             if(json.contentImgurl.lastIndexOf(',')==json.contentImgurl.length-1){
+                json.contentImgurl=json.contentImgurl.substr(0,json.contentImgurl.length-1)
+            }
             this.form.specRequest.spec.map(i => {
                 if (i.name) {
                     let obj = {
@@ -561,52 +601,52 @@ export default {
         // 营销是否启用
         enabledChange(val, index) {
             //console.log(val)
-            let target = this.specsList[index];
+            let target = this.yushouSpecsList[index];
             target.enabled = val;
-            this.$set(this.specsList, index, target)
+            this.$set(this.yushouSpecsList, index, target)
         },
         // 输入价格
         priceChange(val, index) {
-            if (!this.specsList) {
+            if (!this.yushouSpecsList) {
                 this.setPriceFn();
                 return;
             }
-            let target = this.specsList[index];
+            let target = this.yushouSpecsList[index];
             target.price = val;
-            this.$set(this.specsList, index, target)
-            // //console.log(this.specsList)
+            this.$set(this.yushouSpecsList, index, target)
+
         },
         //输入库存
         stockChange(val, index) {
-            if (!this.specsList) {
+            if (!this.yushouSpecsList) {
                 this.setPriceFn();
                 return;
             }
-            let target = this.specsList[index];
+            let target = this.yushouSpecsList[index];
             target.stock = val;
-            this.$set(this.specsList, index, target)
-            // //console.log(this.specsList)
+            this.$set(this.yushouSpecsList, index, target)
+
         },
         // 输入营销价格
         marketingPriceChange(val, index) {
-            if (!this.specsList) {
+            if (!this.yushouSpecsList) {
                 this.setPriceFn();
                 return;
             }
-            let target = this.specsList[index];
+            let target = this.yushouSpecsList[index];
             target.marketingPrice = val;
-            this.$set(this.specsList, index, target)
-            //console.log(this.specsList)
+            this.$set(this.yushouSpecsList, index, target)
+
         },
         //输入营销库存
         marketingStockChange(val, index) {
-            if (!this.specsList) {
+            if (!this.yushouSpecsList) {
                 this.setPriceFn();
                 return;
             }
-            let target = this.specsList[index];
+            let target = this.yushouSpecsList[index];
             target.marketingStock = val;
-            this.$set(this.specsList, index, target)
+            this.$set(this.yushouSpecsList, index, target)
 
         },
         // 获取编辑数据
@@ -715,16 +755,16 @@ export default {
 
                     console.log('获取数据')
                     console.log(this.form)
-                    console.log(this.form.specRequest)
-                    console.log(this.specsList)
+
                 }
             })
         }
 
     },
     created() {
-        this.getDataFn()
         this.getCategoryFn()
+        this.getDataFn()
+
     },
     mounted() {
 
@@ -879,5 +919,9 @@ export default {
         margin-left: -150px;
         bottom: -80px;
     }
+}
+
+.radioBox {
+    height: 30px;
 }
 </style>

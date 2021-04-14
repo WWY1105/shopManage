@@ -38,7 +38,7 @@
                         </el-select>
                     </el-form-item>
                 </el-col>
-                <el-col :span="6">
+                <el-col :span="3">
                     <div class="flexCenter radioBox">
                         <el-checkbox v-model="form.sy" label="1">推荐到首页</el-checkbox>
                     </div>
@@ -107,7 +107,7 @@
                     <div class="flexStart">
                         <el-form-item :label="'规格'+(index+1)+'名称'">
                             <div class="flexStart">
-                                <el-input type="text" v-model="item.name"></el-input>
+                                <el-input type="text" v-model="item.name" @change="setPriceFn"></el-input>
                             </div>
                         </el-form-item>
                         <el-form-item class="flexStart">
@@ -126,7 +126,7 @@
         <div class="part price">
             <div class="partTitle mainText flexSpace" style="width: 80%;">
                 <span>价格与库存</span>
-                <el-button class="searchBtn" @click="setPriceFn">设置价格与库存</el-button>
+                <el-button class="searchBtn" @click="setPriceFn(true)">设置价格与库存</el-button>
             </div>
             <el-table :data="specsList" style="width: 80%;background-color:#F8F8F8">
                 <el-table-column prop="itemNames" label="规格" width="400">
@@ -409,7 +409,8 @@ export default {
                 url: response.data
             });
             console.log(arr)
-            this.form.contentImgurl = arr.join(',');
+            this.fileList = arr;
+            this.form.contentImgurl += (response.data + ',');
         },
         handleimgurlSuccess(response) {
             this.form.imgurl += response.data;
@@ -422,6 +423,7 @@ export default {
             })
             console.log('点击添加规格')
             console.log(this.form.specRequest.spec)
+            this.setPriceFn()
         },
         // 添加小规格
         addGuiGeItems(val, index, j) {
@@ -438,13 +440,15 @@ export default {
             }
             console.log('添加小规格')
             console.log(this.form.specRequest.spec)
+            this.setPriceFn()
         },
         // 删除某个规格
         handleCloseGuiGe(index, i) {
             this.form.specRequest.spec[index].items.splice(i, 1);
+            this.setPriceFn()
         },
         // 点击设置价格与库存
-        setPriceFn() {
+        setPriceFn(show) {
             let specsList = [];
             let arr = [];
             if (!this.form.specRequest.spec) {
@@ -476,7 +480,10 @@ export default {
                     }
                     specsList.push(obj)
                 })
-                this.originDialogVisible = true;
+                if (show) {
+                    this.originDialogVisible = true;
+                }
+
                 this.specsList = specsList;
                 this.form.specRequest.sku = specsList;
             }
@@ -503,29 +510,26 @@ export default {
         saveDataFn() {
             let json = this.form;
             console.log("提交数据")
-            console.log(this.form.specRequest.spec);
+            console.log(json.contentImgurl.lastIndexOf(','));
+            console.log(json.contentImgurl.length)
 
-            // let spec = JSON.parse(JSON.stringify(this.form.specRequest.spec));
-            // spec.forEach(i => {
-            //     if (i.name) {
-            //         console.log(i)
-            //         let obj = {
-            //             name: i.name,
-            //             items: i.items
-            //         }
-            //         // i.items.forEach(j => {
-            //         //     if (j.trim()!='') {
-            //         //         obj.items.push(j)
-            //         //     }
-            //         // })
-            //         // let specStr=i.items.join(',');
-            //         // obj.items.push()
-            //         json.specRequest.spec.push(obj)
-            //     }
-            // })
+            if (json.contentImgurl.lastIndexOf(',') == json.contentImgurl.length - 1) {
+                json.contentImgurl = json.contentImgurl.substr(0, json.contentImgurl.length - 1)
+            }
             console.log('json');
             console.log(json);
-            // return;
+            if (!this.isEmpty(json.title, '商品标题')) {
+                return;
+            }
+            if (!this.isEmpty(json.imgurl, '商品主图')) {
+                return;
+            }
+            if (!this.isEmpty(json.unit, '单位')) {
+                return;
+            }
+            if (!this.isEmpty(json.sellType, '营销方式')) {
+                return;
+            }
             saveData(json).then(res => {
                 if (res.code == '00') {
                     this.$message({
@@ -539,6 +543,20 @@ export default {
                     })
                 }
             })
+        },
+        isEmpty(val, name) {
+            if (!val) {
+                this.$message({
+                    showClose: true,
+                    message: '请输入' + name,
+                    duration: 3 * 1000,
+                    type: 'error'
+                })
+                return false;
+            } else {
+                return true;
+            }
+
         },
         // 营销是否启用
         enabledChange(val, index) {
@@ -750,7 +768,8 @@ export default {
         bottom: -80px;
     }
 }
-.radioBox{
+
+.radioBox {
     height: 30px;
 }
 </style>
