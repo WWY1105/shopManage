@@ -51,9 +51,9 @@
                                 </el-button>
                             </div>
                             <div class="flexEnd">
-                                <el-upload class="upload-demo" ref="upload" :action="$downloadFileApi+'/order/import?access_token='+token" :show-file-list="false">
+                                <!-- <el-upload class="upload-demo" ref="upload" :action="$downloadFileApi+'/order/import?access_token='+token" :show-file-list="false">
                                     <el-button class="transBtn noMargin">导入电子表格</el-button>
-                                </el-upload>
+                                </el-upload> -->
                                 <el-button class="transBtn noMargin">
                                     <a :href="$downloadFileApi+'/order/export?access_token='+token" target="_blank">导出电子表格</a>
                                 </el-button>
@@ -497,7 +497,7 @@ export default {
 }
 .transBtn {
             margin-left: 45px;
-            width: 100px;
+            width: 110px;
             box-sizing: border-box;
             margin-bottom: 10px;
             &.noMargin{
