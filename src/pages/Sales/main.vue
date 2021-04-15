@@ -8,7 +8,7 @@
         <div class="content">
             <div  class="gridBox">
                 <div :span="6" v-for="(item,index) in saleList" :key="index">
-                    <router-link :to="{path:item.path}" tag="div" class="flexCenter flexColumn eachItem">
+                    <router-link :to="{path:item.path}" tag="div" class="flexCenter flexColumn eachItem" v-if="item">
                         <div class="imgBox">
                             <div class="shadow"></div>
                             <img :src="item.iconActive" alt="" v-if="saleData[item.attr]">
@@ -72,7 +72,7 @@ export default {
     components: {},
     data() {
         return {
-            saleList:[
+              saleList:[
                 {
                     text:'优惠券',
                     icon:youhuiquan,
@@ -197,14 +197,12 @@ export default {
             //         active:false
             //     },
                
-            ]
+            ],
+            saleData:{}
         };
     },
     computed:mapState({
-        saleData(state){
-           return state.distribution.distributions
-        }
-        
+       
     }),
     watch: {
 
@@ -228,13 +226,13 @@ export default {
             })
         },
         getState() {
-            if (!this.$store.state.distribution.distributions) {
+            // if (!this.$store.state.distribution.distributions) {
                 this.$store.dispatch('Getdistributions').then(result => {
                     this.saleData = result;
                 })
-            } else {
-                this.saleData = this.$store.state.distribution.distributions;
-            }
+            // } else {
+            //     this.saleData = this.$store.state.distribution.distributions;
+            // }
         },
         //    模块开关----end
     },

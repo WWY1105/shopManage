@@ -60,7 +60,6 @@
                 <!-- <el-button class="transBtn">资金明细</el-button> -->
             </div>
         </div>
-
         <div class="eachInfo flexCenter">
             <img src="../../assets/images/sales/peisongIcon.png" class="icon" alt="">
             <p class="title">外卖配送对接</p>
@@ -71,6 +70,7 @@
                 </router-link>
             </div>
         </div>
+     
         <div class="eachInfo flexCenter">
             <img src="../../assets/images/shops/erweima.png" class="icon" alt="">
             <p class="title">菜场二维码</p>
@@ -347,7 +347,7 @@ export default {
         .eachInfo {
             flex-direction: column;
             // border-right: 1px solid #B9B9B9;
-            width: 25%;
+            width: 20%;
 
             &:last-child {
                 border: none;

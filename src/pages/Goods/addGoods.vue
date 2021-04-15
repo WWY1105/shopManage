@@ -74,7 +74,6 @@
                     PNG</span>图片，<span class="mainText">500X500</span>像素大小，单张图片不得超过<span class="mainText">1</span>MB。
             </p>
         </div>
-
         <div class="part price">
             <div class="partTitle mainText " style="width: 80%;">
                 <span>售卖时间</span>
