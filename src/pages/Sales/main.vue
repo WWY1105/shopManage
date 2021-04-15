@@ -143,21 +143,24 @@ export default {
                     path:'/sales/store',
                     attr:'czk',
                     active:false
-                },{
-                    text:'返利',
-                    icon:fanli,
-                    iconActive:fanli_active,
-                    path:'/sales/rebate',
-                    attr:'fl',
-                    active:false
-                }, {
-                    text:'分销',
-                    icon:fenxiao,
-                    iconActive:fenxiao_active,
-                    path:'/sales/distribution',
-                    attr:'fx',
-                    active:false
-                },{
+                },
+                // {
+                //     text:'返利',
+                //     icon:fanli,
+                //     iconActive:fanli_active,
+                //     path:'/sales/rebate',
+                //     attr:'fl',
+                //     active:false
+                // }, 
+                // {
+                //     text:'分销',
+                //     icon:fenxiao,
+                //     iconActive:fenxiao_active,
+                //     path:'/sales/distribution',
+                //     attr:'fx',
+                //     active:false
+                // },
+                {
                     text:'短信群发',
                     icon:duanxin,
                     iconActive:duanxin_active,
@@ -180,22 +183,15 @@ export default {
                     attr:'ys',
                     active:false
                 },
-                ,{
-                    text:'同行优惠',
-                    icon:tongxing,
-                    iconActive:tongxing_active,
-                    path:'/sales/togetherDiscount',
-                    attr:'txyh',
-                    active:false
-                }
-            //    {
-            //         text:'配送',
-            //         icon:peisong,
-            //         iconActive:peisong_active,
-            //         path:'/sales/distribute',
-            //         attr:'ps',
-            //         active:false
-            //     },
+                // ,{
+                //     text:'同行优惠',
+                //     icon:tongxing,
+                //     iconActive:tongxing_active,
+                //     path:'/sales/togetherDiscount',
+                //     attr:'txyh',
+                //     active:false
+                // }
+           
                
             ],
             saleData:{}

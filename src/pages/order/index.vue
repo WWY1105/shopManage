@@ -46,15 +46,15 @@
                                 <el-upload class="upload-demo" ref="upload" :action="$downloadFileApi+'/order/import?access_token='+token" :show-file-list="false">
                                     <el-button class="transBtn">打印机对接</el-button>
                                 </el-upload>
-                                <el-button class="transBtn">
+                                <el-button class="transBtn ">
                                     <a :href="$downloadFileApi+'/order/export?access_token='+token" target="_blank">自动打印设置</a>
                                 </el-button>
                             </div>
                             <div class="flexEnd">
                                 <el-upload class="upload-demo" ref="upload" :action="$downloadFileApi+'/order/import?access_token='+token" :show-file-list="false">
-                                    <el-button class="transBtn">导入电子表格</el-button>
+                                    <el-button class="transBtn noMargin">导入电子表格</el-button>
                                 </el-upload>
-                                <el-button class="transBtn">
+                                <el-button class="transBtn noMargin">
                                     <a :href="$downloadFileApi+'/order/export?access_token='+token" target="_blank">导出电子表格</a>
                                 </el-button>
                             </div>
@@ -500,6 +500,9 @@ export default {
             width: 100px;
             box-sizing: border-box;
             margin-bottom: 10px;
+            &.noMargin{
+                margin-bottom:0;
+            }
         }
 .totalPanel {
     padding: 23px 36px;
