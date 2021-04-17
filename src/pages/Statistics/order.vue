@@ -698,7 +698,8 @@ export default {
                 },
                 legend: {
                     data: legendData,
-                    top: 0
+                    top: 0,
+                     show: false,
                 },
                 toolbox: {
                     show: false,
