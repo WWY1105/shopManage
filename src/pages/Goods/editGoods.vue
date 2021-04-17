@@ -388,6 +388,8 @@ export default {
 
         // 一级分类改变获取二级分类
         categoriesChange(e) {
+            console.log('一级分类改变获取二级分类'+e);
+            this.form.categoryId2='';
             let id = e;
             this.categoryList.map(i => {
                 if (i.id == id) {
@@ -678,19 +680,21 @@ export default {
                     }
                     // 商品详情图
                     if (result.contentImgurl) {
-                        result.contentImgurl = result.contentImgurl.endsWith(',') ? result.contentImgurl.substr(0, result.contentImgurl.length - 1) : result.contentImgurl;
-                        let arr = result.contentImgurl.split(',');
-                        arr.map(i => {
-                            let obj = {
-                                name: '',
-                                url: ''
-                            };
-                            obj.url = this.$imgurl + i;
-                            this.fileList.push(obj)
-                        })
+                          let arr = [];
+                        let obj = {
+                            name: '',
+                            url: ''
+                        };
+                        obj.url =  result.imgurl;
+                        arr.push(obj)
+                        this.fileList = arr;
 
                     } else {
                         this.fileList = []
+                    }
+                    // 商品分类
+                    if(result.categoryId){
+                        this.categoriesChange(result.categoryId)
                     }
                     // skus
                     if (!result.specRequest) {
