@@ -44,9 +44,9 @@
                         <el-form-item>
                             <div class="flexEnd">
                                 <el-upload class="upload-demo" ref="upload" :action="$downloadFileApi+'/order/import?access_token='+token" :show-file-list="false">
-                                    <el-button class="transBtn">打印机对接</el-button>
+                                    <el-button class="transBtn ">打印机对接</el-button>
                                 </el-upload>
-                                <el-button class="transBtn ">
+                                <el-button class="transBtn noMarginLeft">
                                     <a :href="$downloadFileApi+'/order/export?access_token='+token" target="_blank">自动打印设置</a>
                                 </el-button>
                             </div>
@@ -54,6 +54,7 @@
                                 <!-- <el-upload class="upload-demo" ref="upload" :action="$downloadFileApi+'/order/import?access_token='+token" :show-file-list="false">
                                     <el-button class="transBtn noMargin">导入电子表格</el-button>
                                 </el-upload> -->
+                                <el-button class="searchBtn topSearch" type="primary" @click="getDataFn">查询</el-button>
                                 <el-button class="transBtn noMargin">
                                     <a :href="$downloadFileApi+'/order/export?access_token='+token" target="_blank">导出电子表格</a>
                                 </el-button>
@@ -90,7 +91,7 @@
                         </el-col>
                     </el-row>
                 </el-col>
-                <el-col :span="8">
+                <!-- <el-col :span="8">
                     <div class="flexEnd">
                         <el-form-item>
                             <div class="flexEnd">
@@ -98,7 +99,7 @@
                             </div>
                         </el-form-item>
                     </div>
-                </el-col>
+                </el-col> -->
             </el-row>
         </el-form>
 
@@ -212,7 +213,7 @@
             <div class="part2" v-if="discountDetail.preferential">
                 <p class="title">优惠明细：</p>
                 <!-- <p class="eachList flexSpace"><span class="label">定金</span> <span>{{discountDetail.preferential.preSalePrice||'无'}}</span> </p> -->
-                 <p class="eachList flexSpace"><span class="label">满减优惠</span><span>{{discountDetail.preferential.fullForFree||'无'}}</span> </p>
+                <p class="eachList flexSpace"><span class="label">满减优惠</span><span>{{discountDetail.preferential.fullForFree||'无'}}</span> </p>
                 <!-- <p class="eachList flexSpace"><span class="label">抵用券（优惠券/预售券）</span><span>{{discountDetail.preferential.coupon||'无'}}</span> </p>
                 <p class="eachList flexSpace"><span class="label">积分</span><span>{{discountDetail.preferential.jf||'无'}}</span> </p>
                 <p class="eachList flexSpace"><span class="label">会员卡</span><span>{{discountDetail.preferential.vip||'无'}}</span> </p> -->
@@ -495,15 +496,25 @@ export default {
         color: #FF2727;
     }
 }
+
 .transBtn {
-            margin-left: 45px;
-            width: 110px;
-            box-sizing: border-box;
-            margin-bottom: 10px;
-            &.noMargin{
-                margin-bottom:0;
-            }
-        }
+    margin-left: 45px;
+    width: 110px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+
+    &.noMargin {
+        margin-bottom: 0;
+    }
+}
+.noMarginLeft{
+    margin-left: 0;
+}
+.topSearch{
+      width: 110px;
+    box-sizing: border-box;
+}
+
 .totalPanel {
     padding: 23px 36px;
     background-color: #fff;
@@ -513,7 +524,6 @@ export default {
         font-size: 20px;
         margin-bottom: 30px;
 
-        
     }
 
     .eachTotalBox {

@@ -3,7 +3,7 @@
     <div class="logo flexCenter">
         <img src="../assets/images/login/logo_03.png" alt="">
     </div>
-    <el-menu router default-active="1" text-color="#ffffff" background-color="#235676" class="el-menu-vertical-demo">
+    <el-menu unique-opened router default-active="1" text-color="#ffffff" background-color="#235676" class="el-menu-vertical-demo">
         <template v-for="(item,index) in list">
             <el-menu-item :index="item.path+''" v-if="!item.subs" :key="index">
                 <template slot="title">
