@@ -527,9 +527,7 @@ export default {
             if (!this.isEmpty(json.unit, '单位')) {
                 return;
             }
-            if (!this.isEmpty(json.sellType, '营销方式')) {
-                return;
-            }
+         
             saveData(json).then(res => {
                 if (res.code == '00') {
                     this.$message({

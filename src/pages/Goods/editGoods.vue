@@ -568,9 +568,6 @@ export default {
             if (!this.isEmpty(json.unit, '单位')) {
                 return;
             }
-            if (!this.isEmpty(json.sellType, '营销方式')) {
-                return;
-            }
 
             putData(json, this.form.id).then(res => {
                 if (res.code == '00') {
