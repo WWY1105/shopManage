@@ -15,7 +15,7 @@
             </el-menu-item>
             <el-submenu v-if="item.subs&&item.subs.length>0" :index="item.path+''" :key="index">
                 <template slot="title">
-                     <img :src="item.icon" alt="" class="icon">
+                    <img :src="item.icon" alt="" class="icon">
                     <span slot="title" style=" margin-left:10px;">{{item.title}}</span>
                 </template>
                 <el-menu-item v-for="(i,idx) in item.subs" :index="i.path+''" :key='idx'>{{i.title}}</el-menu-item>
@@ -47,39 +47,49 @@ export default {
             list: [{
                 title: '管理中心',
                 path: '/',
-                icon:guanli
+                icon: guanli
             }, {
                 title: '店铺管理',
-                path: '/shops',
-                icon:dianpu
+                path: '',
+                icon: dianpu,
+                subs: [{
+                    title: '店铺设置',
+                    path: '/shops',
+                }, {
+                    title: '分店管理',
+                    path: '/shops/branch',
+                }, {
+                    title: '轮播图管理',
+                    path: '/shops/banner',
+                }]
             }, {
                 title: '订单管理',
                 path: '/order',
-                icon:dingdan
+                icon: dingdan
             }, {
                 title: '商品管理',
                 path: '/goods',
-                icon:shangpin
+                icon: shangpin
             }, {
                 title: '客户管理',
                 path: '/customs',
-                icon:kehu
+                icon: kehu
             }, {
                 title: '直播管理',
                 path: '/live',
-                icon:zhibo
+                icon: zhibo
             }, {
                 title: '营销中心',
                 path: '/sales',
-                icon:yingxiao
+                icon: yingxiao
             }, {
                 title: '评价管理',
                 path: '/comment',
-                icon:pingjia
+                icon: pingjia
             }, {
                 title: '极星联盟',
                 path: '/union',
-                icon:jixing
+                icon: jixing
                 // subs: [{
                 //     title: '联盟介绍',
                 //     path: '/union/introduce',
@@ -93,7 +103,7 @@ export default {
             }, {
                 title: '数据统计',
                 path: '/statistics',
-                icon:shuju,
+                icon: shuju,
                 subs: [{
                     title: '订单统计',
                     path: '/statistics/order',
@@ -107,19 +117,19 @@ export default {
             }, {
                 title: '客户建议',
                 path: '/advice',
-                icon:jianyi
+                icon: jianyi
             }, {
                 title: '我要反馈',
                 path: '/feedback',
-                icon:fankui
+                icon: fankui
             }, {
                 title: '极星课堂',
                 path: '/class',
-                icon:jixing
+                icon: jixing
             }, {
                 title: '安全设置',
                 path: '/setting',
-                icon:anquan
+                icon: anquan
             }]
         }
     }
@@ -129,12 +139,19 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style lang="scss" scoped>
-::-webkit-scrollbar{
-    display:none;
+::-webkit-scrollbar {
+    display: none;
 }
-.asliderBox{
-    max-height:100vh;overflow-y:scroll;position:fixed;left: 0;top:0;width: 150px;
+
+.asliderBox {
+    max-height: 100vh;
+    overflow-y: scroll;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 150px;
 }
+
 .el-submenu {
     /deep/ .el-menu {
         background-color: #0C2332 !important;
@@ -149,27 +166,30 @@ export default {
     }
 }
 
- /deep/  .el-menu {
+/deep/ .el-menu {
 
     border: none;
 
-   /deep/ .menuContent {
+    /deep/ .menuContent {
         // border-bottom: 1px solid #1A3F56;
         height: 75px;
         line-height: 75px;
         width: 100%;
         text-align: center;
-        .icon{
+
+        .icon {
             width: 30px;
             height: 30px;
         }
-      
+
     }
-    .el-submenu__title{
-        padding-left:13px!important;
+
+    .el-submenu__title {
+        padding-left: 13px !important;
     }
+
     .el-menu-item {
-        padding-left:5px!important;
+        padding-left: 5px !important;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -187,7 +207,7 @@ export default {
     }
 
     /deep/ .el-submenu__title {
-        padding-left:5px !important;
+        padding-left: 5px !important;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -198,11 +218,13 @@ export default {
             background-color: #00B0F0 !important;
             color: #fff;
         }
-        .icon{
+
+        .icon {
             width: 30px;
             height: 30px;
         }
-        .el-submenu__icon-arrow{
+
+        .el-submenu__icon-arrow {
             right: 10px;
         }
     }
@@ -211,7 +233,8 @@ export default {
 .logo {
     height: 100px;
     line-height: 100px;
-    img{
+
+    img {
         width: 120px;
     }
 }

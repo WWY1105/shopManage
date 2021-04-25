@@ -1,83 +1,127 @@
 import request from '@/utils/request'
 
-export function putInfo(json){
+export function putInfo(json) {
     return request({
-        url:"/info",
-        method:'put',
-        params:json
+        url: "/info",
+        method: 'put',
+        params: json
     })
 }
 
 
 // 添加分店
-export function saveInfo(json){
+export function saveInfo(json) {
     return request({
-        url:"/info",
-        method:'post',
-        params:json
+        url: "/info",
+        method: 'post',
+        params: json
     })
 }
 
 
 // 获取营业行业
-export function getType(json){
+export function getType(json) {
     return request({
-        url:"/type",
-        method:'get',
-        params:json
+        url: "/type",
+        method: 'get',
+        params: json
     })
 }
 
 // 获取公众号码
 
-export function getScanCode(json){
+export function getScanCode(json) {
     return request({
-        url:"/auth-url",
-        method:'get',
-        params:json
+        url: "/auth-url",
+        method: 'get',
+        params: json
     })
 }
 
-export function getData(json){
+export function getData(json) {
     return request({
-        url:"/info",
-        method:'get',
-        params:json
+        url: "/info",
+        method: 'get',
+        params: json
     })
 }
 
 // 切换分店
-export function changeShop(json){
+export function changeShop(json) {
     return request({
-        url:"/branch/token",
-        method:'post',
-        params:json
+        url: "/branch/token",
+        method: 'post',
+        params: json
     })
 }
 // 创建小程序(微信接口)
-export function postFastregisterweapp(json){
+export function postFastregisterweapp(json) {
     return request({
-        url:"/fastregisterweapp",
-        method:'post',
-        params:json
+        url: "/fastregisterweapp",
+        method: 'post',
+        params: json
     })
 }
 // 删除分店
-export function deleteShopFn(id){
+export function deleteShopFn(id) {
     return request({
-        url:"/branch",
-        method:'delete',
-        params:{
-            businessId:id
+        url: "/branch",
+        method: 'delete',
+        params: {
+            businessId: id
         }
     })
 }
 
 // 商家统计
-export function getStatic(json){
+export function getStatic(json) {
     return request({
-        url:"/statistics",
-        method:'get',
-        params:json
+        url: "/statistics",
+        method: 'get',
+        params: json
     })
 }
+
+// 获取banner
+export function getBanner(json) {
+    return request({
+        url: "/banner",
+        method: 'get',
+        params: json
+    })
+}
+
+// upOrDown 排序？？？
+
+
+// 删除banner
+
+export function deleteBanner(id) {
+    return request({
+        url: "/banner/" + id,
+        method: 'delete',
+        params: {}
+    })
+}
+
+
+// saveBannerFn
+export function saveBanner(json) {
+    return request({
+        url: "/banner",
+        method: 'post',
+        params: json
+    })
+}
+
+
+export function putBanner(id,json) {
+    return request({
+        url: "/banner/"+id,
+        method: 'put',
+        params: json
+    })
+}
+
+
+

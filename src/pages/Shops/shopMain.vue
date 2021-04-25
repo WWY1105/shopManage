@@ -41,7 +41,7 @@
                 <el-button class="transBtn">资金明细</el-button>
             </div>
         </div>
-           <div class="eachInfo flexCenter">
+        <div class="eachInfo flexCenter">
             <img src="../../assets/images/sales/peisongIcon.png" class="icon" alt="">
             <p class="title">外卖配送对接</p>
             <p class="desc">达达配送</p>
@@ -59,7 +59,7 @@
                 <el-button class="searchBtn" @click="showTipsDialog=true">扩充</el-button>
             </div>
         </div>
-     
+
         <div class="eachInfo flexCenter">
             <img src="../../assets/images/shops/erweima.png" class="icon" alt="">
             <p class="title">店铺二维码</p>
@@ -68,43 +68,6 @@
                 <el-button class="searchBtn">查看</el-button>
             </div>
         </div>
-    </div>
-
-    <!-- 分店管理 -->
-    <h1 class="branchShopTitle">分店管理：</h1>
-    <div class="branchShopBox bgf flexStart">
-        <div class="eachSetting flexCenter" v-for="(i,j) in brand" :key="j">
-            <div class="logoBox flexCenter">
-                <img v-if="i.imgurl" :src="$imgurl+i.imgurl" class="logo" alt="">
-                <img v-else src="../../assets/images/header/user.png" class="logo" alt="">
-                <div class="switchBox">
-                    <el-switch size="large" @change="val=>enabledChange(val,j)" v-model="i.used" active-color="#00B0F0" inactive-color="#aaaaaa">
-                    </el-switch>
-                </div>
-            </div>
-            <p class="shopName">{{i.name}}[徐汇店]</p>
-            <div class="otherText">
-                <p>公司名称：{{i.username}}</p>
-                <p>公司地址：{{i.address}}</p>
-                <p>联系电话：{{i.mobile}}</p>
-                <p>发票类型：{{i.invoice|invoicesFilter}}</p>
-            </div>
-            <div class="btnBox flexSpace">
-                <router-link :to="{name:'editShop',query:{child:i}}">
-                    <el-button class="transBtn flexCenter">
-                        <img src="../../assets/images/shops/editIcon.png" class="editIcon" alt="">
-                        <span> 修改</span>
-                    </el-button>
-                </router-link>
-                <el-button class="transBtn deleteBtn flexCenter" @click="deleteShop(i.id)">
-                    <i class="el-icon-delete"></i>
-                    <span>删除</span>
-                </el-button>
-            </div>
-        </div>
-        <router-link class="addShop flexCenter flexColumn" :to="{path:'/shops/addShop'}">
-            <i class="el-icon-plus"></i>
-        </router-link>
     </div>
 
     <!-- 弹窗 -->
@@ -116,25 +79,10 @@
         </span>
     </el-dialog>
 
-    <!-- 删除的提示框 -->
-    <el-dialog title="提示" center :visible.sync="deleteShopVisible" width="30%">
-        <span class="flexCenter">是否删除此店铺</span>
-        <span slot="footer" class="dialog-footer">
-            <el-button @click="deleteShopVisible = false">取 消</el-button>
-            <el-button type="primary" @click="confirmDelete">确 定</el-button>
-        </span>
-    </el-dialog>
 </div>
 </template>
 
 <script>
-import {
-    branch
-} from '../../api/login'
-import {
-    putInfo,
-    deleteShopFn
-} from '../../api/shops/index';
 import {
     invoicesList
 } from '../../utils/jsons';
@@ -153,8 +101,6 @@ export default {
     },
     filters: {
         invoicesFilter(val) {
-            ////console.log('发票'+val)
-            ////console.log(invoicesList)
             let name;
             val = val.trim()
             invoicesList.map(i => {
@@ -174,14 +120,6 @@ export default {
                 path: ' /shops/capitalRecharge'
             })
         },
-
-        getBranch() {
-            branch().then(res => {
-                if (res.code == '00') {
-                    this.brand = res.data;
-                }
-            })
-        },
         getShopInfo() {
             this.$store.dispatch('GetInfo').then((res) => {
                 const data = res.data;
@@ -194,42 +132,7 @@ export default {
                 path: '/shops/acountSetting'
             })
         },
-        // 是否可用
-        enabledChange(val, index) {
-            let item = this.brand[index];
-            let that = this;
-            putInfo(item).then(res => {
-                if (res.code == '00') {
-                    that.$message({
-                        showClose: true,
-                        message: '设置成功',
-                        duration: 3 * 1000,
-                        type: 'success'
-                    })
-                    that.getBranch()
-                }
-            })
-        },
-        // 是否删除
-        deleteShop(id) {
-            this.deleteTarget = id;
-            this.deleteShopVisible = true;
-        },
-        confirmDelete() {
-            let that = this;
-            deleteShopFn(this.deleteTarget).then(res => {
-                if (res.code == '00') {
-                    that.$message({
-                        showClose: true,
-                        message: '删除成功',
-                        duration: 3 * 1000,
-                        type: 'success'
-                    })
-                    this.deleteShopVisible = false;
-                    that.getBranch()
-                }
-            })
-        }
+
     },
     created() {
         let that = this;

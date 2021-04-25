@@ -80,6 +80,20 @@ export default new Router({
               meta: {
                 title: "店铺管理"
               }
+            }, {
+              path: '/shops/branch',
+              name: 'branch',
+              component: () => import('@/pages/Shops/branch.vue'),
+              meta: {
+                title: "分店管理"
+              }
+            }, {
+              path: '/shops/banner',
+              name: 'banner',
+              component: () => import('@/pages/Shops/banner.vue'),
+              meta: {
+                title: "轮播图管理"
+              }
             },
             {
               path: '/shops/editShop',
