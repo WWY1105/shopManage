@@ -140,13 +140,6 @@
 
 <script>
 import {
-    branch
-} from '../../api/login'
-import {
-    putInfo,
-    deleteShopFn
-} from '../../api/shops/index';
-import {
     invoicesList
 } from '../../utils/jsons';
 
@@ -164,8 +157,6 @@ export default {
     },
     filters: {
         invoicesFilter(val) {
-            ////console.log('发票'+val)
-            ////console.log(invoicesList)
             let name;
             val = val.trim()
             invoicesList.map(i => {
@@ -185,14 +176,6 @@ export default {
                 path: ' /shops/capitalRecharge'
             })
         },
-
-        getBranch() {
-            branch().then(res => {
-                if (res.code == '00') {
-                    this.brand = res.data;
-                }
-            })
-        },
         getShopInfo() {
             this.$store.dispatch('GetInfo').then((res) => {
                 const data = res.data;
@@ -205,42 +188,7 @@ export default {
                 path: '/shops/acountSetting'
             })
         },
-        // 是否可用
-        enabledChange(val, index) {
-            let item = this.brand[index];
-            let that = this;
-            putInfo(item).then(res => {
-                if (res.code == '00') {
-                    that.$message({
-                        showClose: true,
-                        message: '设置成功',
-                        duration: 3 * 1000,
-                        type: 'success'
-                    })
-                    that.getBranch()
-                }
-            })
-        },
-        // 是否删除
-        deleteShop(id) {
-            this.deleteTarget = id;
-            this.deleteShopVisible = true;
-        },
-        confirmDelete() {
-            let that = this;
-            deleteShopFn(this.deleteTarget).then(res => {
-                if (res.code == '00') {
-                    that.$message({
-                        showClose: true,
-                        message: '删除成功',
-                        duration: 3 * 1000,
-                        type: 'success'
-                    })
-                    this.deleteShopVisible = false;
-                    that.getBranch()
-                }
-            })
-        }
+
     },
     created() {
         let that = this;

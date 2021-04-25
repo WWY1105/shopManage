@@ -45,13 +45,12 @@ export default {
     data() {
         return {
             handleOpen: false,
-            list: [
-                    {
+            list: [{
                     title: '管理中心',
                     path: '/',
-                    icon:guanli
-                }, 
-              {
+                    icon: guanli
+                },
+                {
                     title: '菜场管理',
                     path: '/settlement',
                     icon: caishichang,
@@ -61,7 +60,7 @@ export default {
                     }, {
                         title: '摊位管理',
                         path: '/settlement/booth',
-                    },{
+                    }, {
                         title: '结算管理',
                         path: '/settlement/main',
                     }, {
@@ -102,11 +101,11 @@ export default {
                     title: '评价管理',
                     path: '/comment',
                     icon: pingjia
-                },  {
+                }, {
                     title: '直播管理',
                     path: '/live',
                     icon: zhibo
-                },{
+                }, {
                     title: '客户建议',
                     path: '/advice',
                     icon: jianyi
@@ -231,21 +230,22 @@ export default {
             height: 30px;
         }
 
-      
-    }
-}
-/deep/   .el-submenu__icon-arrow {
+        .el-submenu__icon-arrow {
             right: 10px;
         }
-/deep/ .el-submenu__title{
-    font-size: 14px;
-}
-.logo {
-    height: 86px;
-    line-height: 100px;
 
-    img {
-        width:63px;
+        /deep/ .el-submenu__title {
+            font-size: 14px;
+        }
+
+        .logo {
+            height: 86px;
+            line-height: 100px;
+
+            img {
+                width: 120px;
+            }
+        }
     }
 }
 </style>

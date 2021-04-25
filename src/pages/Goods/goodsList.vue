@@ -458,7 +458,6 @@ export default {
         showDeleteDialog(val, id) {
             this.deleteVisible = true;
             this.targetId = id;
-            ////console.log(val)
         },
         confirmDelete() {
             let that = this;

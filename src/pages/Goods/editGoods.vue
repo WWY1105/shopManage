@@ -530,7 +530,17 @@ export default {
             console.log('json');
             console.log(json);
             // return;
-            saveData(json).then(res => {
+            if (!this.isEmpty(json.title, '商品标题')) {
+                return;
+            }
+            if (!this.isEmpty(json.imgurl, '商品主图')) {
+                return;
+            }
+            if (!this.isEmpty(json.unit, '单位')) {
+                return;
+            }
+
+            putData(json, this.form.id).then(res => {
                 if (res.code == '00') {
                     this.$message({
                         showClose: true,
