@@ -8,7 +8,7 @@
                 <p class="title">软件风格选择</p>
                 <p class="tips">软件类型：标准风格与功能</p>
                 <div class="themeColor flexStart">
-                    <p class="flexStart"> 主题色：<span class="pageStyle" :style="{'background':userInfo.pageStyle}"></span></p>
+                    <p class="flexStart"> 主题色：<span class="themeColor" :style="{'background':userInfo.themeColor}"></span></p>
                     <span class="color"></span>
                 </div>
                 <router-link :to="{path:'/shops/setStyle'}">
@@ -153,7 +153,7 @@ export default {
             font-weight: 400;
             color: #000000;
             line-height: 66px;
-            .pageStyle{
+            .themeColor{
                 width:30px;
                 height: 30px;
                 display: inline-block;

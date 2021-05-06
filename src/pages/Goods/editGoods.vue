@@ -49,7 +49,7 @@
             <div class="flexStart alignStart">
                 <div class="partTitle mainText mr24">上传主图</div>
                 <div class="content">
-                    <el-upload :file-list="imgUrlfileList" :action="$uploadApi" :on-success="handleimgurlSuccess" list-type="picture-card">
+                    <el-upload :limit="limit" :file-list="imgUrlfileList" :on-remove="handleImgurlRemove" :action="$uploadApi" :on-success="handleimgurlSuccess" list-type="picture-card">
                         <i slot="default" class="el-icon-plus"></i>
 
                     </el-upload>
@@ -65,12 +65,11 @@
                 <div class="partTitle mainText mr24">商品详情</div>
                 <div class="content textAreaContent">
                     <el-input type="textarea" :rows="20" v-model="form.content"></el-input>
-                    <el-upload :file-list="fileList" :action="$uploadApi" :on-success="handleAvatarSuccess" list-type="picture-card">
+                    <el-upload :limit="contentImgLimit" :file-list="fileList" :action="$uploadApi" :on-success="handleAvatarSuccess" list-type="picture-card" :on-remove="handleContentImgurlRemove">
                         <i slot="default" class="el-icon-plus"></i>
-                        <div slot="file" slot-scope="{file}">
+                        <!-- <div slot="file" slot-scope="{file}">
                             <img class="el-upload-list__item-thumbnail" :src="$imgurl+file.url" alt="">
-
-                        </div>
+                        </div> -->
                     </el-upload>
                 </div>
             </div>
@@ -218,7 +217,7 @@
         </div>
 
     </el-form>
-    <el-button class="searchBtn finalSubmit" @click="saveDataFn">提交保存</el-button>
+    <el-button class="searchBtn finalSubmit" @click="saveDataFn">确定发布</el-button>
 
     <!-- 设置原价和库存 -->
     <el-dialog class="yingxiaoDialog" :visible.sync="originDialogVisible" center title="编辑营销价格与库存" width="70%">
@@ -228,7 +227,7 @@
                     <span v-for="(i,j) in scope.row.item" :key="j">{{i}}<i v-if="j<scope.row.item.length-1">*</i></span>
                 </template>
             </el-table-column>
-            <el-table-column prop="price" label="商品售价（￥）" width="200">
+            <el-table-column prop="price" label="商品售价（￥）" width="400">
                 <template slot-scope="scope">
                     <el-input :value="scope.row.price" @input="val=>priceChange(val,scope.$index)"></el-input>
                 </template>
@@ -306,7 +305,8 @@ export default {
         return {
             originDialogVisible: false, //原价和库存
             yushouDialogVisible: false,
-
+            limit: 1,
+            contentImgLimit: 10,
             addGuiGeVal: '', //新添加规格名字
             imgUrlfileList: [],
             fileList: [],
@@ -366,9 +366,22 @@ export default {
 
     },
     watch: {
-       
+
     },
     methods: {
+        // 删除主图
+        handleImgurlRemove(file, fileList) {
+            console.log(this.imgUrlfileList)
+            console.log(file);
+            console.log(fileList)
+            this.imgUrlfileList = fileList;
+        },
+        // 删除内容图
+        handleContentImgurlRemove(file, fileList) {
+            console.log(this.fileList)
+            console.log(file);
+            console.log(fileList)
+        },
         // sku组合方法
         cartesianProductOf() {
             return Array.prototype.reduce.call(arguments, function (a, b) {
@@ -388,8 +401,8 @@ export default {
 
         // 一级分类改变获取二级分类
         categoriesChange(e) {
-            console.log('一级分类改变获取二级分类'+e);
-            this.form.categoryId2='';
+            console.log('一级分类改变获取二级分类' + e);
+            this.form.categoryId2 = '';
             let id = e;
             this.categoryList.map(i => {
                 if (i.id == id) {
@@ -416,17 +429,26 @@ export default {
 
         // 上传成功
         handleAvatarSuccess(response) {
-            let arr = this.fileList;
+          
+             let arr = this.fileList;
             arr.push({
-                url: response.data
+                url: this.$imgurl+response.data
             });
             console.log(arr)
-            this.fileList=arr;
-           this.form.contentImgurl += (response.data+',');
+            this.fileList = arr;
+            if (this.form.contentImgurl) {
+                this.form.contentImgurl += (',' + response.data);
+            } else {
+                this.form.contentImgurl += (response.data);
+            }
 
         },
         handleimgurlSuccess(response) {
-            this.form.imgurl = response.data;
+            if (this.form.imgurl) {
+                this.form.imgurl += (',' + response.data);
+            } else {
+                this.form.imgurl += (response.data);
+            }
         },
         // 点击添加规格
         addGuiGeFn() {
@@ -440,31 +462,51 @@ export default {
         },
         // 添加小规格
         addGuiGeItems(val, index, j) {
-            if (this.form.specRequest.spec[index].name.trim() != '' && this.form.specRequest.spec[index].items[j].trim() != '') {
-                this.form.specRequest.spec[index].items.push('')
-            } else {
-                this.$message({
-                    showClose: true,
-                    message: '请输入规格名称',
-                    duration: 3 * 1000,
-                    type: 'error'
-                })
+            console.log(j) // 当前编辑的子规格
+            // console.log(this.form.specRequest.spec[index].items);
+            // console.log('大规格名称' + this.form.specRequest.spec[index].name);
+            // console.log('小鬼哥们')
+            console.log(this.form.specRequest.spec[index].items);
+
+            if (this.form.specRequest.spec[index].name.trim() != "") { // 如果有大分类名称
+                if (this.form.specRequest.spec[index].items.length > 0) {
+
+                    // 如果最后一个子规格中有内容，推入一个空的子规格
+                    let last = this.form.specRequest.spec[index].items[this.form.specRequest.spec[index].items.length - 1];
+                    if (last && last.trim() != '') {
+                        this.form.specRequest.spec[index].items.push('')
+                    }
+
+                    // 如果删掉子规格中的内容,并且这个子规格不是最后一个，就删掉此子规格
+                    if (this.form.specRequest.spec[index].items[j].trim() == '' && j != this.form.specRequest.spec[index].items.length - 1) {
+                        this.form.specRequest.spec[index].items.splice(j, 1)
+                    }
+
+                }
+
             }
-             this.setPriceFn()
+
+            this.setPriceFn()
             //console.log(this.form.specRequest.spec)
         },
         // 删除某个规格
         handleCloseGuiGe(index, i) {
-            // console.log('删除某个规格'+index)
-            // console.log(i)
-            // console.log(this.form.specRequest.spec[index].items);
+            console.log('删除某个规格' + index)
+            console.log(i)
+            console.log(this.form.specRequest.spec.length > 1);
+            console.log(this.form.specRequest.spec[index].items.length == 0)
+            console.log(this.form.specRequest.spec[index].items[0] == '')
+            console.log('=================')
             // let form=this.form;
-            this.form.specRequest.spec[index].items.splice(i, 1);
+            // this.form.specRequest.spec[index].items.splice(i, 1);
+            if (i != this.form.specRequest.spec[index].items.length - 1) {
+                this.form.specRequest.spec[index].items.splice(i, 1)
+            }
             // 如果没有子规格，就删除整个父规格
             if (this.form.specRequest.spec.length > 1 && (this.form.specRequest.spec[index].items.length == 0 || this.form.specRequest.spec[index].items[0] == '')) {
                 this.form.specRequest.spec.splice(index, 1)
             }
-             this.setPriceFn()
+            this.setPriceFn()
         },
         // 点击设置价格与库存
         setPriceFn(show) {
@@ -500,11 +542,10 @@ export default {
                     specsList.push(obj)
                 })
                 // 是否弹窗设置
-                console.log('是否弹窗设置',show)
-                if(show){
-                      this.originDialogVisible = true;
+                console.log('是否弹窗设置', show)
+                if (show) {
+                    this.originDialogVisible = true;
                 }
-              
 
                 this.yushouSpecsList = specsList;
                 this.form.specRequest.sku = specsList;
@@ -528,7 +569,7 @@ export default {
                 categoryId: this.form.categoryId,
                 categoryId2: this.form.categoryId2,
                 content: this.form.content,
-                contentImgurl: this.form.contentImgurl,
+                contentImgurl: '',
                 expType: this.form.expType,
                 imgurl: this.form.imgurl,
                 sellType: this.form.sellType,
@@ -536,12 +577,23 @@ export default {
                 title: this.form.title,
                 unit: this.form.unit,
                 id: this.form.id,
-                specRequest:this.form.specRequest
+                specRequest: {
+                    sku: this.form.specRequest.sku,
+                    spec: []
+                }
             };
-
-             if(json.contentImgurl.lastIndexOf(',')==json.contentImgurl.length-1){
-                json.contentImgurl=json.contentImgurl.substr(0,json.contentImgurl.length-1)
+            this.fileList.map(i => {
+                if (i.url.indexOf('com/') > 0) {
+                    let url = i.url.split('com/')[1] + ','
+                    json.contentImgurl += url;
+                }
+            })
+            // console.log(json.contentImgurl)
+            if (json.contentImgurl.lastIndexOf(',') == json.contentImgurl.length - 1) {
+                json.contentImgurl = json.contentImgurl.substr(0, json.contentImgurl.length - 1)
             }
+            console.log(this.form.specRequest);
+            // return;
             this.form.specRequest.spec.map(i => {
                 if (i.name) {
                     let obj = {
@@ -665,32 +717,50 @@ export default {
 
                     // 主图
                     if (result.imgurl) {
+                        let imgurlArr = [];
                         let arr = [];
-                        let obj = {
-                            name: '',
-                            url: ''
-                        };
-                        obj.url = this.$imgurl + result.imgurl;
-                        arr.push(obj)
+                        if (result.imgurl.indexOf(',') > 0) {
+                            imgurlArr = result.imgurl.split(',');
+                            imgurlArr.forEach(i => {
+                                let obj = {
+                                    name: '',
+                                    url: this.$imgurl + i
+                                };
+                                arr.push(obj)
+                            })
+                        } else {
+                            arr.push({
+                                name: '',
+                                url: result.imgurl
+                            })
+                        }
+
                         this.imgUrlfileList = arr;
-                        // //console.log(this.imgUrlfileList)
+                        console.log(arr)
                     }
                     // 商品详情图
                     if (result.contentImgurl) {
-                          let arr = [];
-                        let obj = {
-                            name: '',
-                            url: ''
-                        };
-                        obj.url =  result.imgurl;
-                        arr.push(obj)
+                        let urlArr = result.contentImgurl.split(',');
+                        console.log(urlArr)
+                        let arr = [];
+                        urlArr.map(i => {
+                            let obj = {
+                                name: '',
+                                url: this.$imgurl + i
+                            };
+                            arr.push(obj)
+                        })
+
                         this.fileList = arr;
 
                     } else {
                         this.fileList = []
                     }
+                    console.log('fileList')
+                    console.log(this.fileList)
+
                     // 商品分类
-                    if(result.categoryId){
+                    if (result.categoryId) {
                         this.categoriesChange(result.categoryId)
                     }
                     // skus
@@ -710,10 +780,13 @@ export default {
                             result.specs.map(i => {
                                 let obj = {
                                     name: i.name,
-                                    items: []
+                                    items: ['']
                                 }
                                 i.items.map(j => {
-                                    obj.items.push(j.name)
+                                    if (j.name) {
+                                        obj.items.unshift(j.name)
+                                    }
+
                                 })
                                 result.specRequest.spec.push(obj)
                             })
@@ -723,7 +796,7 @@ export default {
                         } else {
                             result.skus.map(i => {
                                 let obj = {
-                                    items: i.itemIds.split(','),
+                                    item: i.itemNames.split(','),
                                     marketingPrice: i.marketingPrice,
                                     marketingStock: i.marketingStock,
                                     enabled: i.enabled,
@@ -882,11 +955,11 @@ export default {
 }
 
 /deep/.finalSubmit {
-    width: 354px;
-    height: 60px;
+    width: 154px;
+    height: 50px;
     background: #00AEF1;
     border-radius: 30px;
-    margin-top: 300px;
+    margin-top: 150px;
     box-sizing: border-box;
     font-size: 20px;
 }

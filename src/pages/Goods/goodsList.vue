@@ -84,7 +84,7 @@
                         <div class="grid-content bg-purple">
                             <el-form-item label="一级分类">
                                 <el-select v-model="json.categoryId" placeholder="一级分类" @change="categoriesChange">
-                                    <el-option :label="item.name" :value="item.id" v-for="(item,index) in searchCategoryList" :key="index"></el-option>
+                                    <el-option v-if="item&&item.name" :label="item.name" :value="item.id" v-for="(item,index) in searchCategoryList" :key="index"></el-option>
                                 </el-select>
                             </el-form-item>
                         </div>
@@ -92,7 +92,7 @@
                     <el-col :span="3">
                         <div class="grid-content bg-purple">
                             <el-form-item label="二级分类">
-                                <el-select v-model="json.categoryId2" placeholder="二级分类">
+                                <el-select v-model="json.categoryId2" placeholder="二级分类" @change="categories2Change">
                                     <el-option v-for="(i,j) in categories2" :value="i.id" :key="j" :label="i.name"></el-option>
                                 </el-select>
                             </el-form-item>
@@ -129,9 +129,11 @@
         <el-table stripe :data="tableData" border style="width: 100%" fit>
             <el-table-column align="center" prop="id" label="ID">
             </el-table-column>
-            <el-table-column align="center" prop="name" label="主图" width="120">
+            <el-table-column align="center" prop="" label="主图" width="120">
                 <template slot-scope="scope">
-                    <img :src="$imgurl+scope.row.imgurl" alt="" class="mainPic">
+                    <div v-for="(i,j) in scope.row.imgurlArr" :key="j">
+                        <img :src="$imgurl+i" alt="" class="mainPic">
+                    </div>
                 </template>
             </el-table-column>
             <el-table-column align="center" prop="title" label="商品名称">
@@ -423,14 +425,34 @@ export default {
             this.searchCategoryList.map(i => {
                 if (i.id == id) {
                     this.categories2 = i.categories;
+                    if (i.categories.length > 0) {
+                        this.json.categoryId2 = i.categories[0].id;
+                    }
                 }
             })
+        },
+        categories2Change(e) {
+            console.log(typeof e);
+            console.log(this.categories2);
+            this.json.categoryId2 = e;
         },
         // 表格列表
         getList() {
             list(this.json).then((res) => {
                 ////console.log(res)
                 if (res.code == '00') {
+                    res.data.forEach(i => {
+                        if (i.imgurl) {
+                            if (i.imgurl.indexOf(',') > 0) {
+                                i.imgurlArr = i.imgurl.split(',');
+                            } else {
+                                i.imgurlArr = [];
+                                i.imgurlArr.push(i.imgurl)
+                            }
+                        }
+                    })
+
+                    // console.log(res.data)
                     this.tableData = res.data;
                     this.pageData = res.page;
                 }

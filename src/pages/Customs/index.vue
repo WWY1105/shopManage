@@ -97,8 +97,8 @@
         <el-table stripe :data="tableData" border style="width: 100%">
             <el-table-column prop="id" label="客户ID">
             </el-table-column>
-            <el-table-column prop="imgurl" label="头像">
-            </el-table-column>
+            <!-- <el-table-column prop="imgurl" label="头像">
+            </el-table-column> -->
             <el-table-column prop="nickname" label="昵称"></el-table-column>
             <el-table-column prop="mobile" label="手机号"></el-table-column>
             <el-table-column prop="inviterId" label="邀请人ID"> </el-table-column>

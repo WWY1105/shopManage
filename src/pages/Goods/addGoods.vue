@@ -107,7 +107,7 @@
                     <div class="flexStart">
                         <el-form-item :label="'规格'+(index+1)+'名称'">
                             <div class="flexStart">
-                                <el-input type="text" v-model="item.name"  @change="setPriceFn(false)"></el-input>
+                                <el-input type="text" v-model="item.name" @change="setPriceFn(false)"></el-input>
                             </div>
                         </el-form-item>
                         <el-form-item class="flexStart">
@@ -193,7 +193,7 @@
                 </el-form>
             </div>
             <!-- v-if="form.sellType=='ys'" -->
-            <div class="part price">
+            <div class="part price" v-if="form.sellType">
                 <div class="partTitle mainText flexSpace" style="width: 80%;">
                     <span>预售价格与库存</span>
                     <el-button class="searchBtn" @click.stop="yushouDialogVisible=true">设置价格与库存</el-button>
@@ -218,7 +218,7 @@
         </div>
 
     </el-form>
-    <el-button class="searchBtn finalSubmit" @click="saveDataFn">提交保存</el-button>
+    <el-button class="searchBtn finalSubmit" @click="saveDataFn">确定发布</el-button>
 
     <!-- 设置原价和库存 -->
     <el-dialog class="yingxiaoDialog" :visible.sync="originDialogVisible" center title="编辑营销价格与库存" width="70%">
@@ -389,6 +389,9 @@ export default {
             let id = e;
             this.categoryList.map(i => {
                 if (i.id == id) {
+                    if (i.categories.length > 0) {
+                        this.form.categoryId2 = i.categories[0].id;
+                    }
                     this.categories2 = i.categories;
                 }
             })
@@ -410,10 +413,20 @@ export default {
             });
             console.log(arr)
             this.fileList = arr;
-            this.form.contentImgurl += (response.data + ',');
+            if (this.form.contentImgurl) {
+                this.form.contentImgurl += (',' + response.data);
+            } else {
+                this.form.contentImgurl += (response.data);
+            }
+
         },
         handleimgurlSuccess(response) {
-            this.form.imgurl += response.data;
+            if (this.form.imgurl) {
+                this.form.imgurl += (',' + response.data);
+            } else {
+                this.form.imgurl += (response.data);
+            }
+
         },
         // 点击添加规格
         addGuiGeFn() {
@@ -427,20 +440,32 @@ export default {
         },
         // 添加小规格
         addGuiGeItems(val, index, j) {
-            console.log(val, index, j)
-            if (this.form.specRequest.spec[index].name.trim() != '' && this.form.specRequest.spec[index].items[j].trim() != '') {
-                this.form.specRequest.spec[index].items.push('')
-            } else {
-                this.$message({
-                    showClose: true,
-                    message: '请输入规格名称',
-                    duration: 3 * 1000,
-                    type: 'error'
-                })
+            console.log(j) // 当前编辑的子规格
+            // console.log(this.form.specRequest.spec[index].items);
+            // console.log('大规格名称' + this.form.specRequest.spec[index].name);
+            // console.log('小鬼哥们')
+            console.log(this.form.specRequest.spec[index].items);
+
+            if (this.form.specRequest.spec[index].name.trim() != "") { // 如果有大分类名称
+                if (this.form.specRequest.spec[index].items.length > 0) {
+
+                    // 如果最后一个子规格中有内容，推入一个空的子规格
+                    let last = this.form.specRequest.spec[index].items[this.form.specRequest.spec[index].items.length - 1];
+                    if (last && last.trim() != '') {
+                        this.form.specRequest.spec[index].items.push('')
+                    }
+
+                    // 如果删掉子规格中的内容,并且这个子规格不是最后一个，就删掉此子规格
+                    if (this.form.specRequest.spec[index].items[j].trim() == '' && j != this.form.specRequest.spec[index].items.length - 1) {
+                        this.form.specRequest.spec[index].items.splice(j, 1)
+                    }
+
+                }
+
             }
-            console.log('添加小规格')
-            console.log(this.form.specRequest.spec)
+
             this.setPriceFn()
+            //console.log(this.form.specRequest.spec)
         },
         // 删除某个规格
         handleCloseGuiGe(index, i) {
@@ -508,14 +533,47 @@ export default {
         },
         // 保存数据
         saveDataFn() {
-            let json = this.form;
+            let json = {
+                categoryId: this.form.categoryId,
+                categoryId2: this.form.categoryId2,
+                content: this.form.content,
+                contentImgurl: this.form.contentImgurl,
+                expType: this.form.expType,
+                imgurl: this.form.imgurl,
+                sellType: this.form.sellType,
+                sy: this.form.sy,
+                title: this.form.title,
+                unit: this.form.unit,
+                specRequest: {
+                    sku: this.form.specRequest.sku,
+                    spec: []
+                }
+            };
             console.log("提交数据")
-            console.log(json.contentImgurl.lastIndexOf(','));
-            console.log(json.contentImgurl.length)
+            // console.log(json.contentImgurl.lastIndexOf(','));
+            // console.log(json.contentImgurl.length)
+            console.log( this.form.specRequest.spec.length)
+           
+            // if (json.contentImgurl.lastIndexOf(',') == json.contentImgurl.length - 1) {
+            //     json.contentImgurl = json.contentImgurl.substr(0, json.contentImgurl.length - 1)
+            // }
+            this.form.specRequest.spec.forEach(i => {
+                console.log(i.name);
 
-            if (json.contentImgurl.lastIndexOf(',') == json.contentImgurl.length - 1) {
-                json.contentImgurl = json.contentImgurl.substr(0, json.contentImgurl.length - 1)
-            }
+                if (i.name) {
+                    let obj = {
+                        name: i.name,
+                        items: []
+                    }
+                    i.items.forEach(j => {
+                        console.log(j)
+                        if (j.trim() != '') {
+                            obj.items.push(j)
+                        }
+                    })
+                    json.specRequest.spec.push(obj)
+                }
+            })
             console.log('json');
             console.log(json);
             if (!this.isEmpty(json.title, '商品标题')) {
@@ -527,7 +585,9 @@ export default {
             if (!this.isEmpty(json.unit, '单位')) {
                 return;
             }
-         
+
+            console.log(json)
+            //  return;
             saveData(json).then(res => {
                 if (res.code == '00') {
                     this.$message({
@@ -726,11 +786,11 @@ export default {
 }
 
 /deep/.finalSubmit {
-    width: 354px;
-    height: 60px;
+    width: 154px;
+    height: 50px;
     background: #00AEF1;
     border-radius: 30px;
-    margin-top: 300px;
+    margin-top: 150px;
     box-sizing: border-box;
     font-size: 20px;
 }

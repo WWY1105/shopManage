@@ -4,8 +4,8 @@
     <p class="tips">选择风格颜色</p>
     <el-row :gutter="20" type="flex" justify="top" class="content flexSpace">
         <el-col :span="12" class="imgBox flexCenter">
-            <img :src="mainImg" alt="" :style="'background:'+formLabelAlign.pageStyle">
-            <img :src="detailImg" alt="" :style="'background:'+formLabelAlign.pageStyle">
+            <img :src="mainImg" alt="" :style="'background:'+formLabelAlign.themeColor">
+            <img :src="detailImg" alt="" :style="'background:'+formLabelAlign.themeColor">
             <p class="imgTips"></p>
         </el-col>
         <el-col :span="12" class="colorBox ">
@@ -22,7 +22,7 @@
             <p class="tips inputIips">自定义色值</p>
             <div class="flexStart ">
                 <div class="inputBox">
-                    <el-input @input="colorInput" placeholder="以#号开头" :value="formLabelAlign.pageStyle"></el-input>
+                    <el-input @input="colorInput" placeholder="以#号开头" :value="formLabelAlign.themeColor"></el-input>
                 </div>
                 <span class="colorTips">请填写6位色值</span>
             </div>
@@ -109,7 +109,7 @@ export default {
                 this.colorList.map(i => {
                     i.selected = false;
                 })
-                this.$set(this.formLabelAlign,'pageStyle',e)
+                this.$set(this.formLabelAlign,'themeColor',e)
             }
             // //console.log(this.formLabelAlign)
         },
@@ -118,7 +118,7 @@ export default {
                 i.selected = false;
             })
             this.colorList[j].selected = true;
-            this.formLabelAlign.pageStyle = this.colorList[j].color;
+            this.formLabelAlign.themeColor = this.colorList[j].color;
             this.selectedColor = this.colorList[j].color;
         },
         saveDataFn() {
@@ -128,11 +128,11 @@ export default {
 
             this.colorList.map(i => {
                 if (i.selected) {
-                    this.formLabelAlign.pageStyle = i.color;
+                    this.formLabelAlign.themeColor = i.color;
                 }
             })
-            if (this.formLabelAlign.pageStyle) {
-                if (this.formLabelAlign.pageStyle.length != 7) {
+            if (this.formLabelAlign.themeColor) {
+                if (this.formLabelAlign.themeColor.length != 7) {
                     that.$message({
                         showClose: true,
                         message: '请输入正确色号',
@@ -141,11 +141,11 @@ export default {
                     })
                     return;
                 } else {
-                    json.pageStyle = this.formLabelAlign.pageStyle.startsWith('#') ? this.formLabelAlign.pageStyle : '#' + this.formLabelAlign.pageStyle;
+                    json.themeColor = this.formLabelAlign.themeColor.startsWith('#') ? this.formLabelAlign.themeColor : '#' + this.formLabelAlign.themeColor;
                 }
 
             } else if (selectColor) {
-                json.pageStyle = selectColor
+                json.themeColor = selectColor
             } else {
                 that.$message({
                     showClose: true,
