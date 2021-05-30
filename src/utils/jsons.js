@@ -2,7 +2,7 @@
 // 订单类型
 let orderTypeOptions=[{
     text: '普通',
-    value: 'no'
+    value: 'nor'
 }, {
     text: '预售',
     value: 'ys'
@@ -22,6 +22,7 @@ let orderTypeOptions=[{
     text: '星秒',
     value: 'xm'
 }];
+
 // 订单状态
 let orderStatusOptions=[
     {

@@ -83,13 +83,13 @@
                     </el-row>
                 </el-col>
                 <el-col :span="8">
-                      <div class="flexEnd">
-                    <el-form-item>
-                        <div class="flexEnd">
-                            <el-button class="searchBtn" type="primary" @click="getDataFn">查询</el-button>
-                        </div>
-                    </el-form-item>
-                      </div>
+                    <div class="flexEnd">
+                        <el-form-item>
+                            <div class="flexEnd">
+                                <el-button class="searchBtn" type="primary" @click="getDataFn">查询</el-button>
+                            </div>
+                        </el-form-item>
+                    </div>
                 </el-col>
             </el-row>
         </el-form>
@@ -115,10 +115,22 @@
                 </template>
             </el-table-column>
             <el-table-column prop="sellType" label="订单类型">
+                <template slot-scope="scope">
+                    <!-- <el-select v-model="scope.row.sellType" placeholder="订单类型" class="showSelect" disabled>
+                        <el-option :label="i.text" :value="i.value" v-for="(i,j) in orderTypeList" :key="j"></el-option>
+                    </el-select> -->
+                    {{orderTypeObj[scope.row.sellType]}}
+                </template>
             </el-table-column>
             <el-table-column prop="status" label="订单状态">
+                <template slot-scope="scope">
+                    <!-- <el-select v-model="scope.row.status" placeholder="订单状态" class="showSelect" disabled>
+                        <el-option :label="i.text" :value="i.value" v-for="(i,j) in statusList" :key="j"></el-option>
+                    </el-select> -->
+                    {{statusObj[scope.row.status]}}
+                </template>
             </el-table-column>
-            <el-table-column prop="totalPrice" label="订单金额">
+            <el-table-column prop="totalPrice" label="订单金额" width="50">
             </el-table-column>
             <el-table-column prop="payPrice" label="实收金额">
                 <template slot-scope="scope">
@@ -332,19 +344,20 @@ export default {
             // 1-创建,待支付,2-已支付,待发货,3-已支付,待成团,4-已成团-待发货,5-团失败,6-已发货,待确认收货,
             // 7-确认收货,待评价,8-已评价已完成,9-申请售后,10-售后同意,11-售后拒绝,12-已失效
             statusList: orderStatusOptions,
-
+            statusObj:{},
             // nor-普通,ys-预售,pt-拼团,ms-秒杀,kj-砍价,mfn-免费拿,xm-星秒
             orderTypeList: orderTypeOptions,
+            orderTypeObj:{},
             discountDetail: {} //优惠明细
         };
     },
     computed: {},
     watch: {},
     methods: {
-             // 页码改变
-        pageChange(val){
+        // 页码改变
+        pageChange(val) {
             console.log(val)
-            this.json.pageNum=val;
+            this.json.pageNum = val;
             this.getDataFn()
         },
         // 获取优惠明细
@@ -448,10 +461,16 @@ export default {
     created() {
         this.getDataFn();
         this.getLogisticsFn();
-        this.getStatisticsFn()
+        this.getStatisticsFn();
+
     },
     mounted() {
-
+        this.statusList.map(i=>{
+            this.statusObj[i.value]=i.text;
+        })
+        this.orderTypeList.map(i=>{
+            this.orderTypeObj[i.value]=i.text;
+        })
     },
     beforeCreate() {}, //生命周期 - 创建之前
     beforeMount() {}, //生命周期 - 挂载之前
@@ -517,7 +536,7 @@ export default {
 
 .tableBox {
     background: #fff;
-   padding: 35px;
+    padding: 35px;
     margin-top: 20px;
 
 }
@@ -563,7 +582,8 @@ export default {
             color: #666666;
             font-size: 12px;
             margin-bottom: 16px;
-            span{
+
+            span {
                 width: 16%;
                 text-align: center;
             }
@@ -578,7 +598,7 @@ export default {
                     display: inline-block;
                     font-weight: bold;
                     width: 16%;
-                   text-align: center;
+                    text-align: center;
                 }
             }
 
@@ -680,4 +700,7 @@ export default {
         }
     }
 }
+
+
+
 </style>

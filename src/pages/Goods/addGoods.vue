@@ -49,7 +49,7 @@
             <div class="flexStart alignStart">
                 <div class="partTitle mainText mr24">上传主图</div>
                 <div class="content">
-                    <el-upload :file-list="imgUrlfileList" :action="$uploadApi" :on-success="handleimgurlSuccess" list-type="picture-card">
+                    <el-upload :file-list="imgUrlfileList" :action="$uploadApi" :on-success="handleimgurlSuccess" list-type="picture-card" :on-remove="handleImgurlRemove">
                         <i slot="default" class="el-icon-plus"></i>
 
                     </el-upload>
@@ -65,12 +65,12 @@
                 <div class="partTitle mainText mr24">商品详情</div>
                 <div class="content textAreaContent">
                     <el-input type="textarea" :rows="20" v-model="form.content"></el-input>
-                    <el-upload :file-list="fileList" :action="$uploadApi" :on-success="handleAvatarSuccess" list-type="picture-card">
+                    <el-upload :file-list="fileList" :action="$uploadApi" :on-success="handleAvatarSuccess" list-type="picture-card" :on-remove="handleContentImgurlRemove">
                         <i slot="default" class="el-icon-plus"></i>
-                        <div slot="file" slot-scope="{file}">
+                        <!-- <div slot="file" slot-scope="{file}">
                             <img class="el-upload-list__item-thumbnail" :src="$imgurl+file.url" alt="">
 
-                        </div>
+                        </div> -->
                     </el-upload>
                 </div>
             </div>
@@ -110,15 +110,16 @@
                                 <el-input type="text" v-model="item.name" @change="setPriceFn(false)"></el-input>
                             </div>
                         </el-form-item>
-                        <el-form-item class="flexStart">
+                        <!-- <el-form-item class="flexStart">
                             <el-button class="searchBtn" @click="addGuiGeFn">添加规格</el-button>
-                        </el-form-item>
+                        </el-form-item> -->
                     </div>
                     <!-- 小规格 -->
                     <div class="flexStart eachGuiGe">
                         <el-tag v-for="(i,j) in item.items" :key='j' closable :disable-transitions="false" @close="handleCloseGuiGe(index,j)">
-                            <el-input v-model="item.items[j]" @change="val=>addGuiGeItems(val,index,j)"></el-input>
+                            <el-input v-model="item.items[j]"></el-input>
                         </el-tag>
+                        <el-button class="searchBtn addGuige" @click="val=>addGuiGeItems(val,index)">添加规格</el-button>
                     </div>
                 </el-form>
             </div>
@@ -195,7 +196,7 @@
             <!-- v-if="form.sellType=='ys'" -->
             <div class="part price" v-if="form.sellType">
                 <div class="partTitle mainText flexSpace" style="width: 80%;">
-                    <span>预售价格与库存</span>
+                    <span>{{activeWayText}}价格与库存</span>
                     <el-button class="searchBtn" @click.stop="yushouDialogVisible=true">设置价格与库存</el-button>
                 </div>
                 <el-table :data="yushouSpecsList" style="width: 80%;background-color:#F8F8F8">
@@ -208,10 +209,10 @@
                     </el-table-column>
                     <el-table-column prop="price" label="原价（￥）" width="100">
                     </el-table-column>
-                    <el-table-column label="预售价格（￥）" prop="marketingPrice" width="180"></el-table-column>
+                    <el-table-column :label="activeWayText+'价格（￥）'" prop="marketingPrice" width="180"></el-table-column>
                     <el-table-column prop="stock" label="总库存">
                     </el-table-column>
-                    <el-table-column label="预售库存" prop="marketingStock"> </el-table-column>
+                    <el-table-column :label="activeWayText+'库存'" prop="marketingStock"> </el-table-column>
                 </el-table>
             </div>
             <!-- 预售 end-->
@@ -228,7 +229,7 @@
                     <span v-for="(i,j) in scope.row.item" :key="j">{{i}}<i v-if="j<scope.row.item.length-1">*</i></span>
                 </template>
             </el-table-column>
-            <el-table-column prop="price" label="商品售价（￥）" width="100">
+            <el-table-column prop="price" label="商品售价（￥）" width="200">
                 <template slot-scope="scope">
                     <el-input :value="scope.row.price" @input="val=>priceChange(val,scope.$index)"></el-input>
                 </template>
@@ -255,14 +256,14 @@
             </el-table-column>
             <el-table-column prop="price" label="原价（￥）" width="100">
             </el-table-column>
-            <el-table-column label="预售价格（￥）" width="180">
+            <el-table-column :label="activeWayText+'价格（￥）'" width="180">
                 <template slot-scope="scope">
                     <el-input :value="scope.row.marketingPrice" @input="val=>marketingPriceChange(val,scope.$index)"></el-input>
                 </template>
             </el-table-column>
             <el-table-column prop="stock" label="总库存">
             </el-table-column>
-            <el-table-column prop="stock" label="预售库存">
+            <el-table-column prop="stock" :label="activeWayText+'库存'">
                 <template slot-scope="scope">
                     <el-input :value="scope.row.marketingStock" @input="val=>marketingStockChange(val,scope.$index)"></el-input>
                 </template>
@@ -319,12 +320,16 @@ export default {
                     spec: [{
                         name: '',
                         items: ['']
+                    },{
+                        name: '',
+                        items: ['']
                     }],
                     sku: []
                 }
             },
             specsList: [],
             yushouSpecsList: [], //预售弹窗表格
+              activeWayText: '', // 营销表格文字
             categoryList: [],
             categories2: [],
             disbuteWayList: [{
@@ -403,16 +408,16 @@ export default {
                 }
             })
         },
-        // 上传成功
+        // 上传商品详情图成功
         handleAvatarSuccess(response) {
             console.log('上传成功')
             console.log(response)
-            let arr = this.fileList;
-            arr.push({
-                url: response.data
-            });
-            console.log(arr)
-            this.fileList = arr;
+            // let arr = this.fileList;
+            // arr.push({
+            //     url: response.data
+            // });
+            // console.log(arr)
+            // this.fileList = arr;
             if (this.form.contentImgurl) {
                 this.form.contentImgurl += (',' + response.data);
             } else {
@@ -420,7 +425,10 @@ export default {
             }
 
         },
+        // 上传主图成功
         handleimgurlSuccess(response) {
+            console.log(response)
+            console.log(this.imgUrlfileList)
             if (this.form.imgurl) {
                 this.form.imgurl += (',' + response.data);
             } else {
@@ -440,10 +448,8 @@ export default {
         },
         // 添加小规格
         addGuiGeItems(val, index, j) {
-            console.log(j) // 当前编辑的子规格
-            // console.log(this.form.specRequest.spec[index].items);
-            // console.log('大规格名称' + this.form.specRequest.spec[index].name);
-            // console.log('小鬼哥们')
+            // console.log(j) // 当前编辑的子规格
+
             console.log(this.form.specRequest.spec[index].items);
 
             if (this.form.specRequest.spec[index].name.trim() != "") { // 如果有大分类名称
@@ -455,11 +461,6 @@ export default {
                         this.form.specRequest.spec[index].items.push('')
                     }
 
-                    // 如果删掉子规格中的内容,并且这个子规格不是最后一个，就删掉此子规格
-                    if (this.form.specRequest.spec[index].items[j].trim() == '' && j != this.form.specRequest.spec[index].items.length - 1) {
-                        this.form.specRequest.spec[index].items.splice(j, 1)
-                    }
-
                 }
 
             }
@@ -468,8 +469,13 @@ export default {
             //console.log(this.form.specRequest.spec)
         },
         // 删除某个规格
-        handleCloseGuiGe(index, i) {
-            this.form.specRequest.spec[index].items.splice(i, 1);
+        handleCloseGuiGe(index, j) {
+            console.log(index,j,this.form.specRequest.spec[index].items.length)
+            // 如果删掉子规格中的内容,并且这个子规格不是最后一个，就删掉此子规格
+            if (this.form.specRequest.spec[index].items[j].trim() != '' && this.form.specRequest.spec[index].items.length >1) {
+                this.form.specRequest.spec[index].items.splice(j, 1)
+            }
+            // this.form.specRequest.spec[index].items.splice(j, 1);
             this.setPriceFn()
         },
         // 点击设置价格与库存
@@ -521,6 +527,7 @@ export default {
             });
             this.disbuteWayList[index].active = true;
             this.form.sellType = this.disbuteWayList[index].val;
+             this.activeWayText = this.disbuteWayList[index].name;
 
             // 预售
             this.yushouSpecsList = this.form.specRequest.sku;
@@ -537,9 +544,9 @@ export default {
                 categoryId: this.form.categoryId,
                 categoryId2: this.form.categoryId2,
                 content: this.form.content,
-                contentImgurl: this.form.contentImgurl,
+                contentImgurl: '', // 内容图
                 expType: this.form.expType,
-                imgurl: this.form.imgurl,
+                imgurl: '',
                 sellType: this.form.sellType,
                 sy: this.form.sy,
                 title: this.form.title,
@@ -549,11 +556,39 @@ export default {
                     spec: []
                 }
             };
+            this.fileList.map(i => {
+                // if (i.response.data.indexOf('com/') > 0) {
+                //     let url = i.response.data.split('com/')[1] + ','
+                //     json.contentImgurl += url;
+                // }else{
+                //      json.contentImgurl += i.response.data;
+                // }
+                if (json.contentImgurl) {
+                    json.contentImgurl += (',' + i.response.data);
+                } else {
+                    json.contentImgurl += (i.response.data);
+                }
+            })
+            this.imgUrlfileList.map(i => {
+                // if (i.response.data.indexOf('com/') > 0) {
+                //     let url = i.response.data.split('com/')[1] + ','
+                //     json.imgurl += url;
+                // }else{
+                //     json.imgurl += i.response.data;
+                // }
+                if (json.imgurl) {
+                    json.imgurl += (',' + i.response.data);
+                } else {
+                    json.imgurl += (i.response.data);
+                }
+            })
+
+            // fileList 内容图
             console.log("提交数据")
             // console.log(json.contentImgurl.lastIndexOf(','));
             // console.log(json.contentImgurl.length)
-            console.log( this.form.specRequest.spec.length)
-           
+            console.log(this.form.specRequest.spec.length)
+
             // if (json.contentImgurl.lastIndexOf(',') == json.contentImgurl.length - 1) {
             //     json.contentImgurl = json.contentImgurl.substr(0, json.contentImgurl.length - 1)
             // }
@@ -587,7 +622,7 @@ export default {
             }
 
             console.log(json)
-            //  return;
+            // return;
             saveData(json).then(res => {
                 if (res.code == '00') {
                     this.$message({
@@ -666,7 +701,22 @@ export default {
             target.marketingStock = val;
             this.$set(this.yushouSpecsList, index, target)
             //console.log(this.yushouSpecsList)
-        }
+        },
+        // 删除主图
+        handleImgurlRemove(file, fileList) {
+            console.log(this.imgUrlfileList)
+            console.log('主图')
+            console.log(file);
+            console.log(fileList)
+            this.imgUrlfileList = fileList;
+        },
+        // 删除内容图
+        handleContentImgurlRemove(file, fileList) {
+            // console.log(this.fileList)
+            console.log(file);
+            console.log(fileList)
+            this.fileList = fileList;
+        },
 
     },
     created() {
@@ -687,6 +737,10 @@ export default {
 
 <style lang="scss" scoped>
 //@import url(); 引入公共css类
+.addGuige {
+    margin-bottom: 20px;
+}
+
 .editGoods {
     padding: 0 30px;
     padding-bottom: 100px;
@@ -786,8 +840,8 @@ export default {
 }
 
 /deep/.finalSubmit {
-    width: 154px;
-    height: 50px;
+    width: 130px;
+    height: 40px;
     background: #00AEF1;
     border-radius: 30px;
     margin-top: 150px;

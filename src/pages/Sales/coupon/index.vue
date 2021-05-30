@@ -457,6 +457,7 @@ export default {
         },
         showAddCoupon() {
             this.addCouponVisible = true;
+            this.newCoupon={};
             goodCategory({}).then(res => {
                 if (res.code == '00') {
                     this.categories = res.data;

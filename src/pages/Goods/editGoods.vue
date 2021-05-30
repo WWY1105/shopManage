@@ -106,18 +106,20 @@
                     <div class="flexStart">
                         <el-form-item :label="'规格'+(index+1)+'名称'">
                             <div class="flexStart">
-                                <el-input type="text" v-model="item.name" @change="setPriceFn(false)"></el-input>
+                                <el-input type="text" v-model="item.name"></el-input>
                             </div>
                         </el-form-item>
+                        <!-- @change="setPriceFn(false)" -->
                         <el-form-item class="flexStart">
-                            <el-button class="searchBtn" @click="addGuiGeFn">添加规格</el-button>
+                            <!-- <el-button class="searchBtn" @click="addGuiGeFn">添加规格</el-button> -->
                         </el-form-item>
                     </div>
                     <!-- 小规格 -->
                     <div class="flexStart eachGuiGe">
                         <el-tag v-for="(i,j) in item.items" :key='j' closable :disable-transitions="false" @close="handleCloseGuiGe(index,j)">
-                            <el-input v-model="item.items[j]" @change="val=>addGuiGeItems(val,index,j)"></el-input>
+                            <el-input v-model="item.items[j]"></el-input>
                         </el-tag>
+                        <el-button class="searchBtn addGuige" @click="val=>addGuiGeItems(val,index)">添加规格</el-button>
                     </div>
                 </el-form>
             </div>
@@ -207,10 +209,10 @@
                     </el-table-column>
                     <el-table-column prop="price" label="原价（￥）" width="100">
                     </el-table-column>
-                    <el-table-column label="预售价格（￥）" prop="marketingPrice" width="180"></el-table-column>
+                    <el-table-column :label="activeWayText+'价格（￥）'" prop="marketingPrice" width="180"></el-table-column>
                     <el-table-column prop="stock" label="总库存">
                     </el-table-column>
-                    <el-table-column label="预售库存" prop="marketingStock"> </el-table-column>
+                    <el-table-column :label="activeWayText+'库存'" prop="marketingStock"> </el-table-column>
                 </el-table>
             </div>
             <!-- 预售 end-->
@@ -254,14 +256,14 @@
             </el-table-column>
             <el-table-column prop="price" label="原价（￥）" width="100">
             </el-table-column>
-            <el-table-column label="预售价格（￥）" width="180">
+            <el-table-column :label="activeWayText+'价格（￥）'" width="180">
                 <template slot-scope="scope">
                     <el-input :value="scope.row.marketingPrice" @input="val=>marketingPriceChange(val,scope.$index)"></el-input>
                 </template>
             </el-table-column>
             <el-table-column prop="stock" label="总库存">
             </el-table-column>
-            <el-table-column prop="stock" label="预售库存">
+            <el-table-column prop="stock" :label="activeWayText+'库存'">
                 <template slot-scope="scope">
                     <el-input :value="scope.row.marketingStock" @input="val=>marketingStockChange(val,scope.$index)"></el-input>
                 </template>
@@ -329,6 +331,7 @@ export default {
             categoryList: [],
             categories2: [],
             yushouSpecsList: [], //预售弹窗表格
+            activeWayText: '', // 营销表格文字
             disbuteWayList: [{
                 img: yushou,
                 activeImg: yushou_active,
@@ -378,9 +381,11 @@ export default {
         },
         // 删除内容图
         handleContentImgurlRemove(file, fileList) {
+            console.log(' 删除内容图')
             console.log(this.fileList)
             console.log(file);
             console.log(fileList)
+            this.fileList = fileList;
         },
         // sku组合方法
         cartesianProductOf() {
@@ -429,10 +434,10 @@ export default {
 
         // 上传成功
         handleAvatarSuccess(response) {
-          
-             let arr = this.fileList;
+            console.log('上传详情图成功')
+            let arr = this.fileList;
             arr.push({
-                url: this.$imgurl+response.data
+                url: this.$imgurl + response.data
             });
             console.log(arr)
             this.fileList = arr;
@@ -444,6 +449,15 @@ export default {
 
         },
         handleimgurlSuccess(response) {
+            console.log('上传主图成功')
+            console.log(response)
+            console.log(this.imgUrlfileList)
+            let arr = this.imgUrlfileList;
+            arr.push({
+                url: this.$imgurl + response.data
+            });
+            console.log(arr)
+            this.imgUrlfileList = arr;
             if (this.form.imgurl) {
                 this.form.imgurl += (',' + response.data);
             } else {
@@ -478,9 +492,9 @@ export default {
                     }
 
                     // 如果删掉子规格中的内容,并且这个子规格不是最后一个，就删掉此子规格
-                    if (this.form.specRequest.spec[index].items[j].trim() == '' && j != this.form.specRequest.spec[index].items.length - 1) {
-                        this.form.specRequest.spec[index].items.splice(j, 1)
-                    }
+                    // if (this.form.specRequest.spec[index].items[j].trim() == '' && j != this.form.specRequest.spec[index].items.length - 1) {
+                    //     this.form.specRequest.spec[index].items.splice(j, 1)
+                    // }
 
                 }
 
@@ -490,22 +504,15 @@ export default {
             //console.log(this.form.specRequest.spec)
         },
         // 删除某个规格
-        handleCloseGuiGe(index, i) {
-            console.log('删除某个规格' + index)
-            console.log(i)
-            console.log(this.form.specRequest.spec.length > 1);
-            console.log(this.form.specRequest.spec[index].items.length == 0)
-            console.log(this.form.specRequest.spec[index].items[0] == '')
-            console.log('=================')
-            // let form=this.form;
-            // this.form.specRequest.spec[index].items.splice(i, 1);
-            if (i != this.form.specRequest.spec[index].items.length - 1) {
-                this.form.specRequest.spec[index].items.splice(i, 1)
+        // 删除某个规格
+        handleCloseGuiGe(index, j) {
+            console.log(index,j,this.form.specRequest.spec[index].items.length);
+            console.log(this.form.specRequest.spec[index].items[j])
+            // 如果删掉子规格中的内容,并且这个子规格不是最后一个，就删掉此子规格
+            if (this.form.specRequest.spec[index].items[j].trim() != '' && this.form.specRequest.spec[index].items.length>1) {
+                this.form.specRequest.spec[index].items.splice(j, 1)
             }
-            // 如果没有子规格，就删除整个父规格
-            if (this.form.specRequest.spec.length > 1 && (this.form.specRequest.spec[index].items.length == 0 || this.form.specRequest.spec[index].items[0] == '')) {
-                this.form.specRequest.spec.splice(index, 1)
-            }
+            // this.form.specRequest.spec[index].items.splice(j, 1);
             this.setPriceFn()
         },
         // 点击设置价格与库存
@@ -561,7 +568,7 @@ export default {
             });
             this.disbuteWayList[index].active = true;
             this.form.sellType = this.disbuteWayList[index].val;
-
+            this.activeWayText = this.disbuteWayList[index].name;
         },
         // 保存数据
         saveDataFn() {
@@ -711,6 +718,7 @@ export default {
                         this.disbuteWayList.map(i => {
                             if (i.val == result.sellType) {
                                 i.active = true;
+                                this.activeWayText = i.name;
                             }
                         })
                     }
@@ -731,7 +739,7 @@ export default {
                         } else {
                             arr.push({
                                 name: '',
-                                url: result.imgurl
+                                url: this.$imgurl + result.imgurl
                             })
                         }
 
@@ -770,26 +778,38 @@ export default {
                             sku: []
                         }
                         if (result.specs.length == 0) {
-                            result.specs.push({
+                            let arr = [{
                                 name: '',
-                                items: [{
-                                    name: ''
-                                }]
-                            })
+                                items: []
+                            }, {
+                                name: '',
+                                items: []
+                            }]
+                            result.specs = arr;
                         } else {
-                            result.specs.map(i => {
-                                let obj = {
-                                    name: i.name,
-                                    items: ['']
-                                }
-                                i.items.map(j => {
-                                    if (j.name) {
-                                        obj.items.unshift(j.name)
-                                    }
 
-                                })
-                                result.specRequest.spec.push(obj)
+                            result.specs.map((i, index) => {
+                                if (index <= 1) {
+                                    let obj = {
+                                        name: i.name,
+                                        items: []
+                                    }
+                                    i.items.map(j => {
+                                        if (j.name) {
+                                            obj.items.unshift(j.name)
+                                        }
+
+                                    })
+                                    result.specRequest.spec.push(obj)
+                                }
                             })
+
+                            if (result.specRequest.spec.length == 1) {
+                                result.specRequest.spec.push({
+                                    name: '',
+                                    items: []
+                                })
+                            }
                         }
                         if (!result.skus.length) {
                             result.skus = []
@@ -856,6 +876,10 @@ export default {
 
 <style lang="scss" scoped>
 //@import url(); 引入公共css类
+.addGuige {
+    margin-bottom: 20px;
+}
+
 .editGoods {
     padding: 0 30px;
     padding-bottom: 100px;
@@ -955,8 +979,8 @@ export default {
 }
 
 /deep/.finalSubmit {
-    width: 154px;
-    height: 50px;
+    width: 130px;
+    height: 40px;
     background: #00AEF1;
     border-radius: 30px;
     margin-top: 150px;
