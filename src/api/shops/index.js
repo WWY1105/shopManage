@@ -114,7 +114,7 @@ export function saveBanner(json) {
     })
 }
 
-
+// 修改banner
 export function putBanner(id,json) {
     return request({
         url: "/banner/"+id,
@@ -124,4 +124,46 @@ export function putBanner(id,json) {
 }
 
 
+// 获取厨房部门列表
+export function kitchenList(json) {
+    return request({
+        url: "/kitchen",
+        method: 'get',
+        params: json
+    })
+}
+// 添加厨房部门信息
 
+export function kitchenAdd(json) {
+    return request({
+        url: "/kitchen",
+        method: 'post',
+        params: json
+    })
+}
+// 根据厨房部门ID获取厨房部门详情
+export function kitchenId(id,json) {
+    return request({
+        url: `/kitchen/${id}`,
+        method: 'get',
+        params: json
+    })
+}
+// 更新厨房部门信息
+export function putKitchen(id,json) {
+    return request({
+        url: "/kitchen/"+id,
+        method: 'put',
+        params: json
+    })
+}
+
+// 根据厨房部门ID删除厨房部门数据
+export function deleteKitchen(id,json) {
+    return request({
+        url: "/kitchen/"+id,
+        method: 'delete',
+        params: json
+    })
+}
+// 分页获取厨房部门数据(分页)

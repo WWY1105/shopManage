@@ -88,6 +88,21 @@ export default new Router({
                 title: "分店管理"
               }
             }, {
+              path: '/shops/kitchen',
+              name: 'kitchen',
+              component: () => import('@/pages/Shops/kitchen.vue'),
+              meta: {
+                title: "厨房管理"
+              }
+            }, {
+              path: '/shops/chair',
+              name: 'chair',
+              component: () => import('@/pages/Shops/chair.vue'),
+              meta: {
+                title: "桌型管理"
+              }
+            },
+            {
               path: '/shops/banner',
               name: 'banner',
               component: () => import('@/pages/Shops/banner.vue'),
@@ -130,21 +145,21 @@ export default new Router({
               meta: {
                 title: "微信小程序对接配置"
               }
-            },{
+            }, {
               path: '/shops/quickReg',
               name: 'quickReg',
               component: () => import('@/pages/Shops/quickReg.vue'),
               meta: {
                 title: "快速注册"
               }
-            },{
+            }, {
               path: '/shops/officialAccountCode',
               name: 'officialAccountCode',
               component: () => import('@/pages/Shops/officialAccountCode.vue'),
               meta: {
                 title: "公众号授权"
               }
-            },{
+            }, {
               path: '/shops/wxAcountSuccess',
               name: 'wxAcountSuccess',
               component: () => import('@/pages/Shops/wxAcountSuccess.vue'),

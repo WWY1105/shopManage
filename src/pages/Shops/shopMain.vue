@@ -1,25 +1,71 @@
 <!--  -->
 <template>
 <div class='shops'>
-    <div class="mainShopInfo flexCenter bgf">
-        <img v-if="shopInfo.imgurl" :src="$imgurl+shopInfo.imgurl" class="logo" alt="">
-        <img v-else src="../../assets/images/header/user.png" class="logo" alt="">
-        <p class="shopName">{{shopInfo.name}}</p>
-        <div class="otherText">
-            <p>公司名称：{{shopInfo.name}}</p>
-            <p>公司地址：{{shopInfo.address}}</p>
-            <p>联系电话：{{shopInfo.tel}}</p>
-            <p>发票类型：{{shopInfo.invoice==1?'不开发票':shopInfo.invoice==2?'普票':shopInfo.invoice==3?'专票与普票':''}}</p>
+    <div class="mainShopInfo flexSpace bgf">
+        <div class="eachInfo flexCenter flexColumn">
+            <img v-if="shopInfo.imgurl" :src="$imgurl+shopInfo.imgurl" class="logo" alt="">
+            <img v-else src="../../assets/images/header/user.png" class="logo" alt="">
+            <p class="shopName">{{shopInfo.name}}</p>
+            <div class="otherText">
+                <p>公司名称：{{shopInfo.name}}</p>
+                <p>公司地址：{{shopInfo.address}}</p>
+                <p>联系电话：{{shopInfo.tel}}</p>
+                <p>发票类型：{{shopInfo.invoice==1?'不开发票':shopInfo.invoice==2?'普票':shopInfo.invoice==3?'专票与普票':''}}</p>
+            </div>
+            <div class="flexCenter">
+                <el-button class="transBtn flexCenter xiugaiBtn">
+                    <router-link :to="{name:'editShop'}">
+                        <img src="../../assets/images/shops/editIcon.png" class="editIcon" alt="">
+                        <span> 修改</span>
+                    </router-link>
+                </el-button>
+                <el-button class="transBtn" @click="toSetting">账户设置</el-button>
+            </div>
         </div>
-        <div class="flexCenter">
-            <el-button class="transBtn flexCenter xiugaiBtn">
-                <router-link :to="{name:'editShop'}">
-                    <img src="../../assets/images/shops/editIcon.png" class="editIcon" alt="">
-                    <span> 修改</span>
+        <div class="eachInfo flexColumn flexCenter">
+            <img v-if="shopInfo.imgurl" :src="$imgurl+shopInfo.imgurl" class="logo" alt="">
+            <img v-else src="../../assets/images/header/user.png" class="logo" alt="">
+            <p class="shopName">厨房管理</p>
+            <div class="otherText">
+                <p>5个部门</p>
+            </div>
+            <div class="flexCenter">
+                <el-button class="transBtn flexCenter xiugaiBtn">
+                    <router-link :to="{name:'kitchen'}">
+                        <img src="../../assets/images/shops/editIcon.png" class="editIcon" alt="">
+                        <span> 修改</span>
+                    </router-link>
+                </el-button>
+            </div>
+        </div>
+        <div class="eachInfo flexColumn flexCenter">
+            <img v-if="shopInfo.imgurl" :src="$imgurl+shopInfo.imgurl" class="logo" alt="">
+            <img v-else src="../../assets/images/header/user.png" class="logo" alt="">
+            <p class="shopName">店铺桌型管理</p>
+            <div class="otherText">
+                <p>4种桌型</p>
+                <p>共56桌</p>
+            </div>
+            <div class="flexCenter">
+                <el-button class="transBtn flexCenter xiugaiBtn">
+                    <router-link :to="{name:'chair'}">
+                        <img src="../../assets/images/shops/editIcon.png" class="editIcon" alt="">
+                        <span> 修改</span>
+                    </router-link>
+                </el-button>
+            </div>
+        </div>
+        <div class="eachInfo flexCenter flexColumn">
+            <img src="../../assets/images/sales/peisongIcon.png" class="logo" alt="">
+            <p class="shopName">外卖配送对接</p>
+            <div class="otherText"> <p class="desc">达达配送</p></div>
+            <div class="buttons flexCenter">
+                <router-link :to="{path:'/sales/distribute'}">
+                    <el-button class="searchBtn" @click="goCapitalRecharge">配置 </el-button>
                 </router-link>
-            </el-button>
-            <el-button class="transBtn" @click="toSetting">账户设置</el-button>
+            </div>
         </div>
+
     </div>
 
     <div class="shopPartInfo bgf flexSpace">
@@ -41,16 +87,7 @@
                 <el-button class="transBtn">资金明细</el-button>
             </div>
         </div>
-        <div class="eachInfo flexCenter">
-            <img src="../../assets/images/sales/peisongIcon.png" class="icon" alt="">
-            <p class="title">外卖配送对接</p>
-            <p class="desc">达达配送</p>
-            <div class="buttons flexCenter">
-                <router-link :to="{path:'/sales/distribute'}">
-                    <el-button class="searchBtn" @click="goCapitalRecharge">配置 </el-button>
-                </router-link>
-            </div>
-        </div>
+       
         <div class="eachInfo flexCenter">
             <img src="../../assets/images/shops/edu.png" class="icon" alt="">
             <p class="title">分店额度</p>
@@ -195,7 +232,7 @@ export default {
 
     //min-height: 100%;
     .mainShopInfo {
-        flex-direction: column;
+        // flex-direction: column;
         padding: 42px 0 88px 0;
 
         .logo {
@@ -212,6 +249,9 @@ export default {
             color: #00B0F0;
             margin-bottom: 18px;
         }
+        .eachInfo{
+            width: 25%;
+        }
 
         .otherText {
             text-align: center;
@@ -220,6 +260,7 @@ export default {
             font-weight: 400;
             color: #525252;
             margin-bottom: 10px;
+            min-height: 105px;
 
             p {
                 margin-bottom: 10px;
@@ -234,7 +275,7 @@ export default {
         .eachInfo {
             flex-direction: column;
             // border-right: 1px solid #B9B9B9;
-            width: 20%;
+            width: 25%;
 
             &:last-child {
                 border: none;
